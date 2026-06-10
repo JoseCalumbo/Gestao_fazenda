@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class ConfiguracaoController extends Controller
+{
+    // mark: Configurações
+    public function index()
+    {
+        $query = User::query();
+
+        $users = User::orderBy('name')->get();
+
+        return view('configuracoes.configuracoes', compact('users'));
+    }
+
+    public function store(Request $request)
+    {
+        dd($request->all());
+    }
+}
