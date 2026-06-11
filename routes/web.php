@@ -18,15 +18,16 @@ Route::get('/dashboard', [AuthController::class, 'dashboard'])->middleware('auth
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
+// Rota para obter os dados logados
+Route::get('/api/auth-user', [AuthController::class, 'getAuthUser']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])
         ->name('configuracoes');
 
-    // Route::post('/configuracoes/utilizadores', [ConfiguracaoController::class, 'store'])
-    //     ->name('configuracoes.utilizadores.store');
-
 });
 
+// user 
 Route::middleware('auth')->group(function () {
 
     Route::post('/users', [UserController::class, 'store'])
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
+// cooperativa
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/cooperativas', [CooperativaController::class, 'index'])

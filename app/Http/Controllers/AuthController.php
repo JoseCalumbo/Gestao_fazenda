@@ -23,6 +23,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credenciais)) {
 
+            $user = Auth::user();
+            $user->update(['ultimo_acesso' => now()]);
+
             $request->session()->regenerate();
 
             return response()->json([
@@ -41,6 +44,35 @@ class AuthController extends Controller
     public function dashboard()
     {
         return view('dashboard.dashboard');
+    }
+
+    /**
+     * API - Obtem os dados do utilizador logado 
+     */
+    public function getAuthUser()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            return response()->json([
+                'success' => true,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'nivel' => $user->nivel,
+                    'estado' => $user->estado,
+                    'telefone' => $user->telefone,
+                    'foto_url' => $user->foto_url,
+                    'iniciais' => $user->iniciais,
+                ],
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Sem utilizador autenticado',
+        ], 401);
     }
 
     public function logout(Request $request)

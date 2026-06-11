@@ -39,4 +39,32 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Acessor para obter URL da foto do utilizador
+     */
+    public function getFotoUrlAttribute()
+    {
+        if (!empty($this->foto) && file_exists(public_path('uploads/users/' . $this->foto))) {
+            return asset('uploads/users/' . $this->foto);
+        }
+        return asset('uploads/users/default-user.png');
+    }
+
+    /**
+     * Acessor para obter iniciais do nome
+     */
+    public function getIniciaisAttribute()
+    {
+        return strtoupper(substr($this->name, 0, 1));
+    }
+
+    /**
+     * Atualizar último acesso quando faz login
+     */
+    public static function boot()
+    {
+        parent::boot();
+    }
+
 }

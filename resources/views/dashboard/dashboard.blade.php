@@ -8,16 +8,18 @@
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+  {{-- <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"> --}}
 
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-icons.min.css') }}">
+  {{-- <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-icons.min.css') }}"> --}}
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap"
     rel="stylesheet" />
+    
   <link rel="stylesheet" href="{{ asset('assets/fonts/font-primary.css') }}">
+
   <!-- ApexCharts -->
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script src="{{ asset('assets/js/apexcharts.js') }}" defer></script>
@@ -1144,21 +1146,22 @@
       </button>
 
       <div class="dropdown d-none d-sm-flex">
-        <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" aria-expanded="false" role="button">
-          <div class="t-avatar"><i class="bi bi-person-fill"></i></div>
-          <span>Admin</span>
+        <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
+          <div class="t-avatar">
+              <img id="dropdownAvatarLarge" 
+               src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}" 
+               alt="Foto-perfil"  width="20" class="avatar-md">
+          </div>
+          
+          <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
           <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
         </div>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-          <li><span class="dropdown-header"><i class="bi bi-person-circle me-1"></i> Admin SIAG</span></li>
+          <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li>
-            <a class="dropdown-item" href="#">
-              <i class="bi bi-person-gear"></i> Minha Conta
-            </a>
-          </li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
           <li>
             <a class="dropdown-item" href="#" id="themeToggle">
               <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
@@ -1172,14 +1175,13 @@
             <div class="dropdown-item item-logout p-0">
               <form method="POST" action="/logout">
                 @csrf
-                <button type="submit">
-                  <i class="bi bi-box-arrow-right"></i> Sair
-                </button>
+                <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
               </form>
             </div>
           </li>
         </ul>
       </div>
+
     </div>
   </header>
 
@@ -1453,7 +1455,7 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+  {{-- <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script> --}}
 
   <script>
     /* ── Sidebar toggle (3 states: full → icons-only → hidden → full) ── */

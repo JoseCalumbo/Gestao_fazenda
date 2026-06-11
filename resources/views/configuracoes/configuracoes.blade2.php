@@ -1025,7 +1025,7 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: var(--accent);
+      background: #aaaaaa27;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -2475,6 +2475,13 @@
           <!-- /TAB SEGURANÇA -->
 
 
+
+
+
+
+
+
+
           <!-- ════════════════════════════
              TAB 4 — UTILIZADORES
         ════════════════════════════ -->
@@ -2519,6 +2526,7 @@
               </div>
               <!-- Table -->
               <div style="overflow-x:auto;">
+
                 <table class="users-table">
                   <thead>
                     <tr>
@@ -2535,13 +2543,18 @@
 
                     @foreach($users as $user)
 
-                      <tr data-nivel="{{ strtolower($user->nivel) }}" data-estado="{{ strtolower($user->estado) }}">
+                      <tr id="user-row-{{ $user->id }}" data-nivel="{{ strtolower($user->nivel) }}"
+                        data-estado="{{ strtolower($user->estado) }}">
                         <td>
                           <div class="user-cell">
 
                             <img class="user-avatar-sm"
-                              src="{{ !empty($user->foto) ? asset('storage/app/users/' . $user->foto) : asset('storage/app/public/user.png') }}"
-                              alt="Foto" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+                              src="{{ !empty($user->foto) ? asset('uploads/users/' . $user->foto) : asset('uploads/users/default-user.png') }}"
+                              alt="Foto" style="width:40px;height:40px;border-radius:50%;object-fit:cover;"
+                              onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+
+                            <div class="user-avatar-sm" style="display:none;">{{ strtoupper(substr($user->name, 0, 1)) }}
+                            </div>
                             <div>
                               <div style="font-weight:600;">{{ $user->name }}</div>
                               <div style="font-size:11px;color:var(--text-light);">Criado em
@@ -2557,14 +2570,12 @@
                         <td style="text-align:center;">
                           <div style="display:flex;gap:6px;justify-content:center;">
 
-                            <button class="topbar-icon-btn" title="Editar" data-id="${user.id}"
-                              style="width:30px;height:30px;font-size:14px;"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="topbar-icon-btn btn-editar-user" title="Editar" data-id="{{$user->id}}">
+                              <i class="bi bi-pencil-fill"></i>
+                            </button>
 
-                            <button class="topbar-icon-btn" title="Redefinir senha"
-                              style="width:30px;height:30px;font-size:14px;background:#FFF8E1;color:#F57F17;"><i
-                                class="bi bi-key-fill"></i></button>
-
-                            <button class="topbar-icon-btn btn-delete-user" title="Apagar utilizador" data-id="{{$user->id}}"
+                            <button class="topbar-icon-btn btn-delete-user" title="Apagar utilizador"
+                              data-id="{{$user->id}}"
                               style="width:30px;height:30px;font-size:14px;background:#FFEBEE;color:#C62828;"><i
                                 class="bi bi-person-x-fill"></i>
                             </button>
@@ -2582,21 +2593,30 @@
               <!-- Pagination -->
               <div
                 style="padding:14px 24px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;">
-                <span style="font-size:12.5px;color:var(--text-light);">Mostrando 5 de 12 utilizadores</span>
-                <div style="display:flex;gap:6px;">
-                  <button class="btn-outline-green" style="padding:6px 12px;font-size:12px;"><i
-                      class="bi bi-chevron-left"></i></button>
-                  <button class="btn-green" style="padding:6px 12px;font-size:12px;">1</button>
-                  <button class="btn-outline-green" style="padding:6px 12px;font-size:12px;">2</button>
-                  <button class="btn-outline-green" style="padding:6px 12px;font-size:12px;">3</button>
-                  <button class="btn-outline-green" style="padding:6px 12px;font-size:12px;"><i
-                      class="bi bi-chevron-right"></i></button>
+
+                <span id="pagination-info" style="font-size:12.5px;color:var(--text-light);"> Mostrando 0 de 0
+                  utilizadores </span>
+
+                <!-- Pagination -->
+                <div
+                  style="padding:14px 24px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;">
+
+                  <!-- Botões de Navegação -->
+                  <div style="display:flex;gap:6px;" id="pagination-buttons">
+                    <!-- Será preenchido dinamicamente -->
+                  </div>
+
                 </div>
+
               </div>
             </div>
           </div>
 
           <!-- /TAB UTILIZADORES -->
+
+
+
+
 
 
           <!-- ════════════════════════════
@@ -3074,6 +3094,13 @@
     </div>
   </div>
 
+
+
+
+
+
+
+
   <!-- ══════════════════════════════════════
        MODAL — NOVO / EDITAR UTILIZADOR
   ══════════════════════════════════════ -->
@@ -3148,8 +3175,7 @@
                 <div class="row g-3">
                   <div class="col-12">
                     <label class="cfg-label" for="userName">Nome Completo *</label>
-                    <input class="cfg-input" type="text" id="userName" name="name"
-                      placeholder="Ex: João Manuel Ferreira" required>
+                    <input class="cfg-input" type="text" id="userName" name="name" placeholder="" required>
                   </div>
                   <div class="col-12 col-md-6">
                     <label class="cfg-label" for="userEmail">E-mail *</label>
@@ -3158,8 +3184,7 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <label class="cfg-label" for="userTelefone">Telefone</label>
-                    <input class="cfg-input" type="tel" id="userTelefone" name="telefone"
-                      placeholder="+244 9XX XXX XXX">
+                    <input class="cfg-input" type="tel" id="userTelefone" name="telefone" placeholder="">
                   </div>
                 </div>
               </div>
@@ -3299,10 +3324,12 @@
               <button type="button" class="btn-outline-green" data-bs-dismiss="modal">
                 <i class="bi bi-x-lg"></i> Cancelar
               </button>
+
               <button type="button" class="btn-green" id="btnGuardarUser">
                 <i class="bi bi-check2-circle"></i>
                 <span id="btnGuardarUserLabel">Registar Utilizador</span>
               </button>
+
             </div>
           </div>
         </div>
@@ -3554,9 +3581,19 @@
       });
     });
 
+
+
     /* ══════════════════════════════════════
        MODAL — NOVO UTILIZADOR
     ══════════════════════════════════════ */
+
+    document.getElementById('btnNovoUser').addEventListener('click', () => {
+
+      modoUser = 'create';
+      document.getElementById('formNovoUser').reset();
+      document.getElementById('modalNovoUserLabel').textContent = 'Novo Utilizador';
+      document.getElementById('btnGuardarUserLabel').textContent = 'Registar Utilizador';
+    });
 
     // Tabs do modal
     document.querySelectorAll('.modal-user-tab-btn').forEach(btn => {
@@ -3570,24 +3607,33 @@
       });
     });
 
+    let modoUser = 'create';
+
     // Reset modal ao abrir
     document.getElementById('modalNovoUser').addEventListener('show.bs.modal', () => {
-      document.getElementById('formNovoUser').reset();
-      document.getElementById('userId').value = '';
-      document.getElementById('modalNovoUserLabel').textContent = 'Novo Utilizador';
 
-      document.getElementById('btnGuardarUserLabel').textContent = 'Registar Utilizador';
 
-      document.getElementById('pwdFill').style.width = '0%';
-      document.getElementById('pwdLabel').textContent = 'Introduza a senha';
-      document.getElementById('pwdLabel').style.color = 'var(--text-light)';
-      document.getElementById('pwdMatchMsg').textContent = '';
-      document.getElementById('userCreatedAt').textContent = '— (novo registo)';
-      document.getElementById('userUpdatedAt').textContent = '— (novo registo)';
-      // Reset foto zone
-      const fotoZone = document.getElementById('fotoZone');
-      fotoZone.innerHTML = '<i class="bi bi-person-circle"></i><span>Carregar foto</span>';
-      fotoZone.style.background = '';
+      if (modoUser === 'create') {
+
+        document.getElementById('formNovoUser').reset();
+
+        document.getElementById('userId').value = '';
+        document.getElementById('modalNovoUserLabel').textContent = 'Novo Utilizador';
+
+        document.getElementById('btnGuardarUserLabel').textContent = 'Registar Utilizador';
+
+        document.getElementById('pwdFill').style.width = '0%';
+        document.getElementById('pwdLabel').textContent = 'Introduza a senha';
+        document.getElementById('pwdLabel').style.color = 'var(--text-light)';
+        document.getElementById('pwdMatchMsg').textContent = '';
+        document.getElementById('userCreatedAt').textContent = '— (novo registo)';
+        document.getElementById('userUpdatedAt').textContent = '— (novo registo)';
+        // Reset foto zone
+        const fotoZone = document.getElementById('fotoZone');
+        fotoZone.innerHTML = '<i class="bi bi-person-circle"></i><span>Carregar foto</span>';
+
+        fotoZone.style.background = '';
+      }
       // Volta sempre ao primeiro tab
       document.querySelectorAll('.modal-user-tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.modal-user-tab-panel').forEach(p => p.classList.remove('active'));
@@ -3666,14 +3712,18 @@
       reader.readAsDataURL(file);
     });
 
-    // Guardar utilizador
+
+
+    // Guardar utilizador e Actualizar
     document.getElementById('btnGuardarUser').addEventListener('click', () => {
+
       const nome = document.getElementById('userName').value.trim();
       const email = document.getElementById('userEmail').value.trim();
       const pwd = document.getElementById('userPassword').value;
       const pwdC = document.getElementById('userPasswordConfirm').value;
       const nivel = document.getElementById('userNivel').value;
       const estado = document.getElementById('userEstado').value;
+      const userId = document.getElementById('userId').value;
 
       // Validação
       if (!nome || !email) {
@@ -3681,16 +3731,21 @@
         showToast('Campos obrigatórios em falta', 'Preencha o Nome e E-mail.', 'danger');
         return;
       }
-      if (!pwd) {
+
+      // Só obriga senha quando for novo utilizador
+      if (modoUser === 'create' && !pwd) {
         document.querySelector('.modal-user-tab-btn[data-user-tab="acesso"]').click();
         showToast('Senha obrigatória', 'Defina uma senha para o utilizador.', 'danger');
         return;
       }
-      if (pwd !== pwdC) {
+
+      // Só valida se alguma senha foi introduzida
+      if (pwd && pwd !== pwdC) {
         document.querySelector('.modal-user-tab-btn[data-user-tab="acesso"]').click();
         showToast('Senhas não coincidem', 'As senhas introduzidas são diferentes.', 'danger');
         return;
       }
+
       if (!nivel) {
         document.querySelector('.modal-user-tab-btn[data-user-tab="perfil"]').click();
         showToast('Nível obrigatório', 'Seleccione o nível de acesso do utilizador.', 'danger');
@@ -3699,35 +3754,91 @@
 
       const btn = document.getElementById('btnGuardarUser');
       const orig = btn.innerHTML;
+
       btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
       btn.disabled = true;
 
-      // AQUI É O NOVO FETCH
       const formData = new FormData(document.getElementById('formNovoUser'));
 
       formData.append('name', nome);
       formData.append('email', email);
-      formData.append('password', pwd);
       formData.append('telefone', document.getElementById('userTelefone').value.trim());
       formData.append('nivel', nivel);
       formData.append('estado', estado);
 
-      fetch('/users', {
-        method: 'POST',
+      // Só envia senha se existir
+      if (pwd) {
+        formData.append('password', pwd);
+      }
+
+      let url = '/users';
+      let method = 'POST';
+
+      // EDITAR--------------------------------------------------------------------------------------------------------------------------------------------------------
+      if (modoUser === 'edit') {
+
+        url = `/users/${userId}`;
+
+        // Laravel aceita PUT via _method
+        formData.append('_method', 'PUT');
+
+      }
+
+      fetch(url, {
+        method: method,
         headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'X-CSRF-TOKEN': document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute('content'),
           'Accept': 'application/json',
         },
         body: formData
       })
         .then(res => res.json())
         .then(data => {
+
           btn.innerHTML = orig;
           btn.disabled = false;
 
           if (data.success) {
 
-            adicionarLinhaTabela(data.user);
+            // Novo utilizador
+            if (modoUser === 'create') {
+
+              adicionarLinhaTabela(data.user);
+
+              showToast(
+                'Utilizador criado',
+                'Registado com sucesso.'
+              );
+
+            } else {
+
+              showToast(
+                'Utilizador actualizado',
+                'Dados actualizados com sucesso.'
+              );
+
+              // alterar a linha sem carregar
+              const linha = document.getElementById(
+                `user-row-${data.user.id}`
+              );
+
+              if (linha) {
+
+                linha.children[1].textContent = data.user.email;
+                linha.children[2].textContent = data.user.nivel;
+                linha.children[3].textContent = data.user.estado;
+
+                const nomeDiv =
+                  linha.querySelector('.user-cell div div');
+
+                if (nomeDiv) {
+                  nomeDiv.textContent = data.user.name;
+                }
+              }
+
+            }
 
             bootstrap.Modal.getInstance(
               document.getElementById('modalNovoUser')
@@ -3735,18 +3846,31 @@
 
             document.getElementById('formNovoUser').reset();
 
+          } else {
+
             showToast(
-              'Utilizador criado',
-              'Registado com sucesso.'
+              'Erro',
+              data.message || 'Não foi possível guardar o utilizador.',
+              'danger'
             );
+
           }
 
         })
         .catch(() => {
+
           btn.innerHTML = orig;
           btn.disabled = false;
-          showToast('Erro de ligação', '');
+
+          showToast(
+            'Erro de ligação',
+            'Não foi possível comunicar com o servidor.',
+            'danger'
+          );
+
         });
+
+
 
     });
 
@@ -3766,10 +3890,10 @@
       tr.innerHTML = `
         <td>
             <div class="user-cell">
-
                 <img class="user-avatar-sm"
-                     src="/storage/app/public/user.png"
-                     style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+                  src="{{ !empty($user->foto) ? asset('uploads/users/' . $user->foto) : asset('uploads/users/default-user.png') }}"
+                  alt="Foto" style="width:40px;height:40px;border-radius:50%;object-fit:cover;"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
 
                 <div>
                     <div style="font-weight:600;">${user.name}</div>
@@ -3788,9 +3912,17 @@
 
         <td style="text-align:center;">
             <div style="display:flex;gap:6px;justify-content:center;">
-                <button class="topbar-icon-btn"><i class="bi bi-pencil-fill"></i></button>
-                <button class="topbar-icon-btn"><i class="bi bi-key-fill"></i></button>
-                <button class="topbar-icon-btn"><i class="bi bi-person-x-fill"></i></button>
+
+              <button class="topbar-icon-btn btn-editar-user" title="Editar" data-id="{{$user->id}}">
+                 <i class="bi bi-pencil-fill"></i>
+              </button>
+                           
+              <button class="topbar-icon-btn btn-delete-user" title="Apagar utilizador"
+                 data-id="{{$user->id}}"
+                 style="width:30px;height:30px;font-size:14px;background:#FFEBEE;color:#C62828;"><i
+                 class="bi bi-person-x-fill"></i>
+             </button>
+
             </div>
         </td>
     `;
@@ -3821,35 +3953,411 @@
       rows.forEach(row => tbody.appendChild(row));
     }
 
-    // Delete o usuario
-    document.querySelectorAll('.btn-delete-user').forEach(btn => {
-      btn.addEventListener('click', function () {
+    // // Delete o usuario
+    // document.querySelectorAll('.btn-delete-user').forEach(btn => {
+    //   btn.addEventListener('click', function () {
 
-        const id = this.dataset.id;
+    //     const id = this.dataset.id;
 
-        if (!confirm('Tens a certeza que queres eliminar este utilizador?')) return;
+    //     if (!confirm('Tens a certeza que queres eliminar este utilizador?')) return;
 
-        fetch(`/users/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Accept': 'application/json'
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (data.success) {
-              this.closest('tr').remove(); // remove linha da tabela
-            } else {
-              alert(data.message);
-            }
-          })
-          .catch(err => console.error(err));
-      });
-    });
+    //     fetch(`/users/${id}`, {
+    //       method: 'DELETE',
+    //       headers: {
+    //         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    //         'Accept': 'application/json'
+    //       }
+    //     })
+    //       .then(res => res.json())
+    //       .then(data => {
+    //         if (data.success) {
+    //           this.closest('tr').remove(); // remove linha da tabela
+    //         } else {
+    //           alert(data.message);
+    //         }
+    //       })
+    //       .catch(err => console.error(err));
+    //   });
+    // });
 
+    // Força de senha — modal reset
+    function avaliarSenhaReset(val) {
+      const fill = document.getElementById('resetPwdFill');
+      const label = document.getElementById('resetPwdLabel');
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+      const configs = [
+        { w: '0%', color: 'var(--border)', text: 'Introduza a nova senha' },
+        { w: '25%', color: '#C62828', text: 'Fraca' },
+        { w: '50%', color: '#F57F17', text: 'Razoável' },
+        { w: '75%', color: '#1565C0', text: 'Boa' },
+        { w: '100%', color: '#2E7D32', text: 'Forte' },
+      ];
+      const c = configs[score] || configs[0];
+      fill.style.width = c.w; fill.style.background = c.color;
+      label.textContent = c.text; label.style.color = c.color;
+      verificarSenhaReset();
+    }
+
+    function verificarSenhaReset() {
+      const pwd = document.getElementById('novaSenha').value;
+      const conf = document.getElementById('novaSenhaConfirm').value;
+      const msg = document.getElementById('resetMatchMsg');
+      if (!conf) { msg.textContent = ''; return; }
+      if (pwd === conf) { msg.textContent = '✓ As senhas coincidem'; msg.style.color = '#2E7D32'; }
+      else { msg.textContent = '✗ As senhas não coincidem'; msg.style.color = '#C62828'; }
+    }
+
+    function togglePwdReset(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      input.type = input.type === 'password' ? 'text' : 'password';
+      icon.className = input.type === 'password' ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill';
+    }
+
+
+    // //Serve para alterar os dados do user
+    // document.querySelectorAll('.btn-editar-user').forEach(btn => {
+
+    //   btn.addEventListener('click', function () {
+
+    //     const id = this.dataset.id;
+
+    //     fetch(`/users/${id}`)
+    //       .then(r => r.json())
+    //       .then(user => {
+
+    //         modoUser = 'edit';
+
+    //         if (modoUser === 'edit') {
+
+    //           document.getElementById('modalNovoUserLabel').textContent =
+    //             'Editar Utilizador';
+
+    //           document.getElementById('btnGuardarUserLabel').textContent =
+    //             'Actualizar Utilizador';
+    //         }
+
+    //         document.getElementById('userId').value = user.id;
+    //         // document.getElementById('previewFoto').src =  '/uploads/users/' + user.foto;
+    //         document.getElementById('userName').value = user.name;
+    //         document.getElementById('userEmail').value = user.email;
+    //         document.getElementById('userTelefone').value = user.telefone ?? '';
+    //         document.getElementById('userNivel').value = user.nivel;
+    //         document.getElementById('userEstado').value = user.estado;
+
+    //         document.getElementById('userPassword').value = '';
+    //         document.getElementById('userPasswordConfirm').value = '';
+
+
+    //         const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modalNovoUser'));
+
+    //         modal.show();
+
+    //       });
+
+    //   });
+
+    // });
+
+    console.log("Caregado com sucesso")
 
   </script>
+
+  <script>
+
+    class PaginationManager {
+      constructor(containerId = 'pagination-buttons', infoId = 'pagination-info', tbodyId = 'tabela-utilizadores') {
+        this.container = document.getElementById(containerId);
+        this.infoElement = document.getElementById(infoId);
+        this.tbody = document.getElementById(tbodyId);
+        this.currentPage = 1;
+        this.lastPage = 1;
+        this.total = 0;
+        this.from = 0;
+        this.to = 0;
+      }
+
+      // Buscar dados e atualizar paginação
+      async loadPage(page = 1) {
+        try {
+          const response = await fetch(`/users?page=${page}`, {
+            headers: {
+              'Accept': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          });
+
+          const data = await response.json();
+
+          // Armazenar informações de paginação
+          this.currentPage = data.current_page;
+          this.lastPage = data.last_page;
+          this.total = data.total;
+          this.from = data.from;
+          this.to = data.to;
+
+          // Renderizar usuários na tabela
+          this.renderUsers(data.data);
+
+          // Atualizar UI de paginação
+          this.renderPagination();
+          this.updateInfo();
+
+          // Scroll suave para a tabela
+          document.querySelector('.users-table').scrollIntoView({ behavior: 'smooth' });
+
+        } catch (error) {
+          console.error('Erro ao carregar página:', error);
+        }
+      }
+
+      // Renderizar usuários na tabela (mantendo sua estrutura HTML)
+      renderUsers(users) {
+        if (!this.tbody) return;
+
+        this.tbody.innerHTML = users.map(user => `
+      <tr id="user-row-${user.id}" data-nivel="${user.nivel.toLowerCase()}" data-estado="${user.estado.toLowerCase()}">
+        <td>
+          <div class="user-cell">
+            <img class="user-avatar-sm"
+              src="${user.foto ? '/uploads/users/' + user.foto : '/uploads/users/default-user.png'}"
+              alt="Foto" 
+              style="width:40px;height:40px;border-radius:50%;object-fit:cover;"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+            
+            <div class="user-avatar-sm" style="display:none;">
+              ${user.name.charAt(0).toUpperCase()}
+            </div>
+            
+            <div>
+              <div style="font-weight:600;">${user.name}</div>
+              <div style="font-size:11px;color:var(--text-light);">
+                Criado em ${this.formatDatePT(user.created_at, 'abr Y')}
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>${user.email}</td>
+        <td>${user.nivel}</td>
+        <td>${user.estado}</td>
+        <td>${user.ultimo_acesso ? this.formatDatePT(user.ultimo_acesso) : 'Nunca'}</td>
+        <td style="text-align:center;">
+          <div style="display:flex;gap:6px;justify-content:center;">
+            <button class="topbar-icon-btn btn-editar-user" title="Editar" data-id="${user.id}">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button class="topbar-icon-btn btn-delete-user" title="Apagar utilizador"
+              data-id="${user.id}"
+              style="width:30px;height:30px;font-size:14px;background:#FFEBEE;color:#C62828;">
+              <i class="bi bi-person-x-fill"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+        // Re-anexar event listeners aos botões de ação
+        this.attachEventListeners();
+      }
+
+      // Anexar event listeners aos botões (editar e deletar)
+      attachEventListeners() {
+        this.attachDeleteListeners();
+        this.attachEditListeners();
+      }
+
+      // ============= DELETE USER =============
+      attachDeleteListeners() {
+        document.querySelectorAll('.btn-delete-user').forEach(btn => {
+          btn.addEventListener('click', function () {
+
+            const id = this.dataset.id;
+
+            if (!confirm('Tens a certeza que queres eliminar este utilizador?')) return;
+
+            fetch(`/users/${id}`, {
+              method: 'DELETE',
+              headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json'
+              }
+            })
+              .then(res => res.json())
+              .then(data => {
+                if (data.success) {
+                  // Remove a linha da tabela
+                  document.getElementById(`user-row-${id}`).remove();
+
+                  // Recarrega a página se ficou vazia
+                  setTimeout(() => {
+                    window.paginationManager.loadPage(window.paginationManager.currentPage);
+                  }, 300);
+
+                } else {
+                  alert(data.message);
+                }
+              })
+              .catch(err => console.error(err));
+          });
+        });
+      }
+
+      // ============= EDIT USER =============
+      attachEditListeners() {
+        document.querySelectorAll('.btn-editar-user').forEach(btn => {
+
+          btn.addEventListener('click', function () {
+
+            const id = this.dataset.id;
+
+            fetch(`/users/${id}`)
+              .then(r => r.json())
+              .then(user => {
+
+                modoUser = 'edit';
+
+                if (modoUser === 'edit') {
+
+                  document.getElementById('modalNovoUserLabel').textContent =
+                    'Editar Utilizador';
+
+                  document.getElementById('btnGuardarUserLabel').textContent =
+                    'Actualizar Utilizador';
+                }
+
+                // Preenche os campos do formulário
+                document.getElementById('userId').value = user.id;
+                document.getElementById('userName').value = user.name;
+                document.getElementById('userEmail').value = user.email;
+                document.getElementById('userTelefone').value = user.telefone ?? '';
+                document.getElementById('userNivel').value = user.nivel;
+                document.getElementById('userEstado').value = user.estado;
+
+                // Limpa os campos de password
+                document.getElementById('userPassword').value = '';
+                document.getElementById('userPasswordConfirm').value = '';
+
+                // Abre o modal
+                const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modalNovoUser'));
+                modal.show();
+
+              })
+              .catch(err => console.error('Erro ao carregar utilizador:', err));
+
+          });
+
+        });
+      }
+
+      // Atualizar texto de informações
+      updateInfo() {
+        const text = this.total > 0
+          ? `Mostrando ${this.from} a ${this.to} de ${this.total} utilizadores`
+          : 'Nenhum utilizador encontrado';
+
+        this.infoElement.textContent = text;
+      }
+
+      // Renderizar botões de paginação
+      renderPagination() {
+        this.container.innerHTML = '';
+
+        // Botão Anterior
+        const prevBtn = this.createButton(
+          '<i class="bi bi-chevron-left"></i>',
+          'btn-outline-green',
+          () => this.loadPage(this.currentPage - 1),
+          this.currentPage === 1
+        );
+        this.container.appendChild(prevBtn);
+
+        // Números de página
+        const pagesRange = this.getPagesToShow();
+        pagesRange.forEach(pageNum => {
+          const isActive = pageNum === this.currentPage;
+          const btn = this.createButton(
+            pageNum.toString(),
+            isActive ? 'btn-green' : 'btn-outline-green',
+            () => this.loadPage(pageNum),
+            false
+          );
+          this.container.appendChild(btn);
+        });
+
+        // Botão Próximo
+        const nextBtn = this.createButton(
+          '<i class="bi bi-chevron-right"></i>',
+          'btn-outline-green',
+          () => this.loadPage(this.currentPage + 1),
+          this.currentPage === this.lastPage
+        );
+        this.container.appendChild(nextBtn);
+      }
+
+      // Criar botão com evento
+      createButton(text, className, onClick, disabled = false) {
+        const btn = document.createElement('button');
+        btn.innerHTML = text;
+        btn.className = className;
+        btn.style.cssText = 'padding:6px 12px;font-size:12px;';
+        btn.disabled = disabled;
+        btn.onclick = (e) => {
+          e.preventDefault();
+          if (!disabled) onClick();
+        };
+        return btn;
+      }
+
+      // Determinar quais páginas mostrar (máx 5)
+      getPagesToShow() {
+        const pages = [];
+        const maxPagesToShow = 5;
+        let startPage = Math.max(1, this.currentPage - 2);
+        let endPage = Math.min(this.lastPage, startPage + maxPagesToShow - 1);
+
+        if (endPage - startPage < maxPagesToShow - 1) {
+          startPage = Math.max(1, endPage - maxPagesToShow + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          pages.push(i);
+        }
+
+        return pages;
+      }
+
+      // Função para formatar datas em Português
+      formatDatePT(dateString, format = 'completo') {
+        const date = new Date(dateString);
+
+        const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+        const dia = String(date.getDate()).padStart(2, '0');
+        const mes = meses[date.getMonth()];
+        const ano = date.getFullYear();
+        const hora = String(date.getHours()).padStart(2, '0');
+        const minuto = String(date.getMinutes()).padStart(2, '0');
+
+        if (format === 'abr Y') {
+          return `${mes} ${ano}`;
+        }
+
+        // Formato completo: dd/MMM/Y, HH:mm
+        return `${dia}/${mes}/${ano}, ${hora}:${minuto}`;
+      }
+    }
+
+    // Inicializar quando o DOM estiver pronto
+    document.addEventListener('DOMContentLoaded', () => {
+      window.paginationManager = new PaginationManager();
+      window.paginationManager.loadPage(1); // Carregar primeira página
+    });
+  </script>
+
 
 </body>
 

@@ -1818,14 +1818,20 @@
       <button class="topbar-icon-btn" title="Mensagens">
         <i class="bi bi-chat-dots-fill"></i>
       </button>
+
       <div class="dropdown d-none d-sm-flex">
         <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
-          <div class="t-avatar"><i class="bi bi-person-fill"></i></div>
-          <span>Admin</span>
+          <div class="t-avatar">
+            <img id="dropdownAvatarLarge"
+              src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
+              alt="Foto-perfil" width="20" class="avatar-md">
+          </div>
+
+          <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
           <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
         </div>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-          <li><span class="dropdown-header"><i class="bi bi-person-circle me-1"></i> Admin SIAG</span></li>
+          <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -1849,6 +1855,7 @@
           </li>
         </ul>
       </div>
+
     </div>
   </header>
 
@@ -2482,7 +2489,7 @@
 
 
 
-          <!-- ════════════════════════════
+          <!-- ═══════════════════════=====================================================================═════
              TAB 4 — UTILIZADORES
         ════════════════════════════ -->
           <div class="settings-panel" id="tab-utilizadores">
@@ -2593,17 +2600,21 @@
               <!-- Pagination -->
               <div
                 style="padding:14px 24px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;">
-                <span style="font-size:12.5px;color:var(--text-light);">Mostrando 5 de 12 utilizadores</span>
 
-                <div id="pagination" style="display:flex;gap:6px;">
-                  <button class="btn-outline-green" style="padding:6px 12px;font-size:12px;"><i
-                      class="bi bi-chevron-left"></i></button>
-                  <button class="btn-green" style="padding:6px 12px;font-size:12px;">1</button>
-                  <button class="btn-outline-green" style="padding:6px 12px;font-size:12px;">2</button>
-                  <button class="btn-outline-green" style="padding:6px 12px;font-size:12px;">3</button>
-                  <button class="btn-outline-green" style="padding:6px 12px;font-size:12px;"><i
-                      class="bi bi-chevron-right"></i></button>
+                <span id="pagination-info" style="font-size:12.5px;color:var(--text-light);"> Mostrando 0 de 0
+                  utilizadores </span>
+
+                <!-- Pagination -->
+                <div
+                  style="padding:14px 24px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;">
+
+                  <!-- Botões de Navegação -->
+                  <div style="display:flex;gap:6px;" id="pagination-buttons">
+                    <!-- Será preenchido dinamicamente -->
+                  </div>
+
                 </div>
+
               </div>
             </div>
           </div>
@@ -3949,33 +3960,6 @@
       rows.forEach(row => tbody.appendChild(row));
     }
 
-    // Delete o usuario
-    document.querySelectorAll('.btn-delete-user').forEach(btn => {
-      btn.addEventListener('click', function () {
-
-        const id = this.dataset.id;
-
-        if (!confirm('Tens a certeza que queres eliminar este utilizador?')) return;
-
-        fetch(`/users/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Accept': 'application/json'
-          }
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (data.success) {
-              this.closest('tr').remove(); // remove linha da tabela
-            } else {
-              alert(data.message);
-            }
-          })
-          .catch(err => console.error(err));
-      });
-    });
-
     // Força de senha — modal reset
     function avaliarSenhaReset(val) {
       const fill = document.getElementById('resetPwdFill');
@@ -4014,53 +3998,299 @@
       icon.className = input.type === 'password' ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill';
     }
 
+    console.log("Caregado com sucesso")
 
-    //Serve para alterar os dados do user
-    document.querySelectorAll('.btn-editar-user').forEach(btn => {
+  </script>
 
-      btn.addEventListener('click', function () {
+  <script>
 
-        const id = this.dataset.id;
+    class PaginationManager {
+      constructor(containerId = 'pagination-buttons', infoId = 'pagination-info', tbodyId = 'tabela-utilizadores') {
+        this.container = document.getElementById(containerId);
+        this.infoElement = document.getElementById(infoId);
+        this.tbody = document.getElementById(tbodyId);
+        this.currentPage = 1;
+        this.lastPage = 1;
+        this.total = 0;
+        this.from = 0;
+        this.to = 0;
+      }
 
-        fetch(`/users/${id}`)
-          .then(r => r.json())
-          .then(user => {
-
-            modoUser = 'edit';
-
-            if (modoUser === 'edit') {
-
-              document.getElementById('modalNovoUserLabel').textContent =
-                'Editar Utilizador';
-
-              document.getElementById('btnGuardarUserLabel').textContent =
-                'Actualizar Utilizador';
+      // Buscar dados e atualizar paginação
+      async loadPage(page = 1) {
+        try {
+          const response = await fetch(`/users?page=${page}`, {
+            headers: {
+              'Accept': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
             }
+          });
 
-            document.getElementById('userId').value = user.id;
-            // document.getElementById('previewFoto').src =  '/uploads/users/' + user.foto;
-            document.getElementById('userName').value = user.name;
-            document.getElementById('userEmail').value = user.email;
-            document.getElementById('userTelefone').value = user.telefone ?? '';
-            document.getElementById('userNivel').value = user.nivel;
-            document.getElementById('userEstado').value = user.estado;
+          const data = await response.json();
 
-            document.getElementById('userPassword').value = '';
-            document.getElementById('userPasswordConfirm').value = '';
+          // Armazenar informações de paginação
+          this.currentPage = data.current_page;
+          this.lastPage = data.last_page;
+          this.total = data.total;
+          this.from = data.from;
+          this.to = data.to;
 
+          // Renderizar usuários na tabela
+          this.renderUsers(data.data);
 
-            const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modalNovoUser'));
+          // Atualizar UI de paginação
+          this.renderPagination();
+          this.updateInfo();
 
-            modal.show();
+          // Scroll suave para a tabela
+          document.querySelector('.users-table').scrollIntoView({ behavior: 'smooth' });
+
+        } catch (error) {
+          console.error('Erro ao carregar página:', error);
+        }
+      }
+
+      // Renderizar usuários na tabela (mantendo sua estrutura HTML)
+      renderUsers(users) {
+        if (!this.tbody) return;
+
+        this.tbody.innerHTML = users.map(user => `
+      <tr id="user-row-${user.id}" data-nivel="${user.nivel.toLowerCase()}" data-estado="${user.estado.toLowerCase()}">
+        <td>
+          <div class="user-cell">
+            <img class="user-avatar-sm"
+              src="${user.foto ? '/uploads/users/' + user.foto : '/uploads/users/default-user.png'}"
+              alt="Foto" 
+              style="width:40px;height:40px;border-radius:50%;object-fit:cover;"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+            
+            <div class="user-avatar-sm" style="display:none;">
+              ${user.name.charAt(0).toUpperCase()}
+            </div>
+            
+            <div>
+              <div style="font-weight:600;">${user.name}</div>
+              <div style="font-size:11px;color:var(--text-light);">
+                Criado em ${this.formatDatePT(user.created_at, 'abr Y')}
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>${user.email}</td>
+        <td>${user.nivel}</td>
+        <td>${user.estado}</td>
+        <td>${user.ultimo_acesso ? this.formatDatePT(user.ultimo_acesso) : 'Nunca'}</td>
+        <td style="text-align:center;">
+          <div style="display:flex;gap:6px;justify-content:center;">
+            <button class="topbar-icon-btn btn-editar-user" title="Editar" data-id="${user.id}">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button class="topbar-icon-btn btn-delete-user" title="Apagar utilizador"
+              data-id="${user.id}"
+              style="width:30px;height:30px;font-size:14px;background:#FFEBEE;color:#C62828;">
+              <i class="bi bi-person-x-fill"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+
+        // Re-anexar event listeners aos botões de ação
+        this.attachEventListeners();
+      }
+
+      // Anexar event listeners aos botões (editar e deletar)
+      attachEventListeners() {
+        this.attachDeleteListeners();
+        this.attachEditListeners();
+      }
+
+      // ============= DELETE USER =============
+      attachDeleteListeners() {
+        document.querySelectorAll('.btn-delete-user').forEach(btn => {
+          btn.addEventListener('click', function () {
+
+            const id = this.dataset.id;
+
+            if (!confirm('Tens a certeza que queres eliminar este utilizador?')) return;
+
+            fetch(`/users/${id}`, {
+              method: 'DELETE',
+              headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json'
+              }
+            })
+              .then(res => res.json())
+              .then(data => {
+                if (data.success) {
+                  // Remove a linha da tabela
+                  document.getElementById(`user-row-${id}`).remove();
+
+                  // Recarrega a página se ficou vazia
+                  setTimeout(() => {
+                    window.paginationManager.loadPage(window.paginationManager.currentPage);
+                  }, 300);
+
+                } else {
+                  alert(data.message);
+                }
+              })
+              .catch(err => console.error(err));
+          });
+        });
+      }
+
+      // ============= EDIT USER =============
+      attachEditListeners() {
+        document.querySelectorAll('.btn-editar-user').forEach(btn => {
+
+          btn.addEventListener('click', function () {
+
+            const id = this.dataset.id;
+
+            fetch(`/users/${id}`)
+              .then(r => r.json())
+              .then(user => {
+
+                modoUser = 'edit';
+
+                if (modoUser === 'edit') {
+
+                  document.getElementById('modalNovoUserLabel').textContent =
+                    'Editar Utilizador';
+
+                  document.getElementById('btnGuardarUserLabel').textContent =
+                    'Actualizar Utilizador';
+                }
+
+                // Preenche os campos do formulário
+                document.getElementById('userId').value = user.id;
+                document.getElementById('userName').value = user.name;
+                document.getElementById('userEmail').value = user.email;
+                document.getElementById('userTelefone').value = user.telefone ?? '';
+                document.getElementById('userNivel').value = user.nivel;
+                document.getElementById('userEstado').value = user.estado;
+
+                // Limpa os campos de password
+                document.getElementById('userPassword').value = '';
+                document.getElementById('userPasswordConfirm').value = '';
+
+                // Abre o modal
+                const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modalNovoUser'));
+                modal.show();
+
+              })
+              .catch(err => console.error('Erro ao carregar utilizador:', err));
 
           });
 
-      });
+        });
+      }
 
+      // Atualizar texto de informações
+      updateInfo() {
+        const text = this.total > 0
+          ? `Mostrando ${this.from} a ${this.to} de ${this.total} utilizadores`
+          : 'Nenhum utilizador encontrado';
+
+        this.infoElement.textContent = text;
+      }
+
+      // Renderizar botões de paginação
+      renderPagination() {
+        this.container.innerHTML = '';
+
+        // Botão Anterior
+        const prevBtn = this.createButton(
+          '<i class="bi bi-chevron-left"></i>',
+          'btn-outline-green',
+          () => this.loadPage(this.currentPage - 1),
+          this.currentPage === 1
+        );
+        this.container.appendChild(prevBtn);
+
+        // Números de página
+        const pagesRange = this.getPagesToShow();
+        pagesRange.forEach(pageNum => {
+          const isActive = pageNum === this.currentPage;
+          const btn = this.createButton(
+            pageNum.toString(),
+            isActive ? 'btn-green' : 'btn-outline-green',
+            () => this.loadPage(pageNum),
+            false
+          );
+          this.container.appendChild(btn);
+        });
+
+        // Botão Próximo
+        const nextBtn = this.createButton(
+          '<i class="bi bi-chevron-right"></i>',
+          'btn-outline-green',
+          () => this.loadPage(this.currentPage + 1),
+          this.currentPage === this.lastPage
+        );
+        this.container.appendChild(nextBtn);
+      }
+
+      // Criar botão com evento
+      createButton(text, className, onClick, disabled = false) {
+        const btn = document.createElement('button');
+        btn.innerHTML = text;
+        btn.className = className;
+        btn.style.cssText = 'padding:6px 12px;font-size:12px;';
+        btn.disabled = disabled;
+        btn.onclick = (e) => {
+          e.preventDefault();
+          if (!disabled) onClick();
+        };
+        return btn;
+      }
+
+      // Determinar quais páginas mostrar (máx 5)
+      getPagesToShow() {
+        const pages = [];
+        const maxPagesToShow = 5;
+        let startPage = Math.max(1, this.currentPage - 2);
+        let endPage = Math.min(this.lastPage, startPage + maxPagesToShow - 1);
+
+        if (endPage - startPage < maxPagesToShow - 1) {
+          startPage = Math.max(1, endPage - maxPagesToShow + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          pages.push(i);
+        }
+
+        return pages;
+      }
+
+      // Função para formatar datas em Português
+      formatDatePT(dateString, format = 'completo') {
+        const date = new Date(dateString);
+
+        const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+        const dia = String(date.getDate()).padStart(2, '0');
+        const mes = meses[date.getMonth()];
+        const ano = date.getFullYear();
+        const hora = String(date.getHours()).padStart(2, '0');
+        const minuto = String(date.getMinutes()).padStart(2, '0');
+
+        if (format === 'abr Y') {
+          return `${mes} ${ano}`;
+        }
+
+        // Formato completo: dd/MMM/Y, HH:mm
+        return `${dia}/${mes}/${ano}, ${hora}:${minuto}`;
+      }
+    }
+
+    // Inicializar quando o DOM estiver pronto
+    document.addEventListener('DOMContentLoaded', () => {
+      window.paginationManager = new PaginationManager();
+      window.paginationManager.loadPage(1); // Carregar primeira página
     });
-
-    console.log("Caregado com sucesso")
-
   </script>
 
 

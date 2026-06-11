@@ -8,31 +8,33 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    // public function index()
+    // {
+    //     $users = User::orderBy('name')
+    //         ->paginate(10);
+
+    //     return response()->json($users);
+    // }
+
     public function index()
     {
-        $users = User::orderBy('name')
-            ->paginate(10);
+        $users = User::orderBy('name')->paginate(3);
 
-        return response()->json($users);
+        // Se for requisição AJAX, retorna JSON com informações de paginação
+        if (request()->expectsJson()) {
+            return response()->json([
+                'data' => $users->items(),
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'per_page' => $users->perPage(),
+                'total' => $users->total(),
+                'from' => $users->firstItem(),
+                'to' => $users->lastItem(),
+            ]);
+        }
+
+        return view('users.index', compact('users'));
     }
-
-    // public function store(Request $request)
-    // {
-    //     $user = User::create([
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'password' => $request->password,
-    //         'telefone' => $request->telefone,
-    //         'nivel' => $request->nivel,
-    //         'estado' => $request->estado,
-    //     ]);
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'user' => $user,
-    //     ]);
-
-    // }
 
     public function store(Request $request)
     {
@@ -112,7 +114,7 @@ class UserController extends Controller
 
         return response()->json([
             'success' => true,
-            'user' => $user
+            'user' => $user,
         ]);
     }
 }

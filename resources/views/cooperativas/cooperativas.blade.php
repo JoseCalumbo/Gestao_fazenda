@@ -782,33 +782,44 @@
     <button class="topbar-icon-btn" title="Mensagens">
       <i class="bi bi-chat-dots-fill"></i>
     </button>
-    <div class="dropdown d-none d-sm-flex">
-      <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
-        <div class="t-avatar"><i class="bi bi-person-fill"></i></div>
-        <span>Admin</span>
-        <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
-      </div>
-      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-        <li><span class="dropdown-header"><i class="bi bi-person-circle me-1"></i> Admin SIAG</span></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
-        <li>
-          <a class="dropdown-item" href="#" id="themeToggle">
-            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
-            <span id="themeLabel">Modo Escuro</span>
-          </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-          <div class="dropdown-item item-logout p-0">
-            <form method="POST" action="/logout">
-              @csrf
-              <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
-            </form>
+
+       <div class="dropdown d-none d-sm-flex">
+        <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
+          <div class="t-avatar">
+            <img id="dropdownAvatarLarge"
+              src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
+              alt="Foto-perfil" width="20" class="avatar-md">
           </div>
-        </li>
-      </ul>
-    </div>
+
+          <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
+          <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
+          <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
+          <li>
+            <a class="dropdown-item" href="#" id="themeToggle">
+              <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+              <span id="themeLabel">Modo Escuro</span>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <div class="dropdown-item item-logout p-0">
+              <form method="POST" action="/logout">
+                @csrf
+                <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
+              </form>
+            </div>
+          </li>
+        </ul>
+      </div>
+
   </div>
 </header>
 
