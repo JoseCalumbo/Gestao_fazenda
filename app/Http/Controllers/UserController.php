@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('name')->paginate(3);
+        $users = User::orderBy('name')->paginate(5);
 
         // Se for requisição AJAX, retorna JSON com informações de paginação
         if (request()->expectsJson()) {

@@ -1750,8 +1750,8 @@
       <div class="nav-section-title">Principal</div>
       <a href="/dashboard" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span
           class="nav-label">Dashboard</span></a>
-      <a href="{{route('cooperativas')}}" class="nav-item-link" data-label="Cooperativa"><i
-          class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
+      <a href="{{route('cooperativas')}}" class="nav-item-link" data-label="Cooperativa"><i class="bi bi-building"></i><span
+          class="nav-label">Cooperativa</span></a>
       <a href="{{route('configuracoes')}}" class="nav-item-link" data-label="Cooperados"><i
           class="bi bi-people-fill"></i><span class="nav-label">Cooperados</span></a>
 
@@ -2666,18 +2666,12 @@
                           <span style="font-size:10px;font-weight:400;color:var(--text-light);">Agrícola</span>
                         </div>
                       </th>
-                      <th>
-                        <div class="perm-role-header">
-                          <span class="perm-role-badge" style="background:#E8F5E9;color:#2E7D32;">Agricultor</span>
-                          <span style="font-size:10px;font-weight:400;color:var(--text-light);">Próprio</span>
-                        </div>
-                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     <!-- Dashboard -->
                     <tr style="background:var(--page-bg);">
-                      <td colspan="5"
+                      <td colspan="4"
                         style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);padding:8px 16px;">
                         Dashboard</td>
                     </tr>
@@ -2686,11 +2680,10 @@
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
-                      <td><input type="checkbox" class="perm-check"></td>
                     </tr>
                     <!-- Cooperados -->
                     <tr style="background:var(--page-bg);">
-                      <td colspan="5"
+                      <td colspan="4"
                         style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);padding:8px 16px;">
                         Cooperados</td>
                     </tr>
@@ -2699,13 +2692,11 @@
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
-                      <td><input type="checkbox" class="perm-check"></td>
                     </tr>
                     <tr>
                       <td>Criar / Editar cooperado</td>
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
-                      <td><input type="checkbox" class="perm-check"></td>
                       <td><input type="checkbox" class="perm-check"></td>
                     </tr>
                     <tr>
@@ -2713,11 +2704,10 @@
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check"></td>
                       <td><input type="checkbox" class="perm-check"></td>
-                      <td><input type="checkbox" class="perm-check"></td>
                     </tr>
                     <!-- Financeiro -->
                     <tr style="background:var(--page-bg);">
-                      <td colspan="5"
+                      <td colspan="4"
                         style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);padding:8px 16px;">
                         Financeiro</td>
                     </tr>
@@ -2726,25 +2716,22 @@
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
                       <td><input type="checkbox" class="perm-check"></td>
-                      <td><input type="checkbox" class="perm-check" checked></td>
                     </tr>
                     <tr>
                       <td>Registar pagamentos</td>
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
                       <td><input type="checkbox" class="perm-check"></td>
-                      <td><input type="checkbox" class="perm-check" checked></td>
                     </tr>
                     <tr>
                       <td>Exportar relatórios financeiros</td>
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
                       <td><input type="checkbox" class="perm-check"></td>
-                      <td><input type="checkbox" class="perm-check"></td>
                     </tr>
                     <!-- Agrícola -->
                     <tr style="background:var(--page-bg);">
-                      <td colspan="5"
+                      <td colspan="4"
                         style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);padding:8px 16px;">
                         Agrícola</td>
                     </tr>
@@ -2753,12 +2740,10 @@
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
-                      <td><input type="checkbox" class="perm-check" checked></td>
                     </tr>
                     <tr>
                       <td>Controlo de insumos</td>
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
-                      <td><input type="checkbox" class="perm-check" checked></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
                     </tr>
@@ -2767,11 +2752,10 @@
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
-                      <td><input type="checkbox" class="perm-check" checked></td>
                     </tr>
-                    <!-- Sistema -->
+                    <!-- Configurações -->
                     <tr style="background:var(--page-bg);">
-                      <td colspan="5"
+                      <td colspan="4"
                         style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);padding:8px 16px;">
                         Sistema</td>
                     </tr>
@@ -2780,12 +2764,10 @@
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check"></td>
                       <td><input type="checkbox" class="perm-check"></td>
-                      <td><input type="checkbox" class="perm-check"></td>
                     </tr>
                     <tr>
                       <td>Gerir utilizadores</td>
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
-                      <td><input type="checkbox" class="perm-check"></td>
                       <td><input type="checkbox" class="perm-check"></td>
                       <td><input type="checkbox" class="perm-check"></td>
                     </tr>
@@ -2793,7 +2775,6 @@
                       <td>Ver logs de auditoria</td>
                       <td><input type="checkbox" class="perm-check" checked disabled></td>
                       <td><input type="checkbox" class="perm-check" checked></td>
-                      <td><input type="checkbox" class="perm-check"></td>
                       <td><input type="checkbox" class="perm-check"></td>
                     </tr>
                   </tbody>
@@ -2919,116 +2900,138 @@
               </div>
             </div>
 
-            <!-- Ano Agrícola -->
+            <!-- Cooperativas Registadas — resumo -->
             <div class="cfg-card anim anim-d2">
               <div class="cfg-card-header">
                 <div class="cfg-card-header-left">
-                  <div class="cfg-card-icon green"><i class="bi bi-calendar2-range-fill"></i></div>
+                  <div class="cfg-card-icon blue"><i class="bi bi-buildings-fill"></i></div>
                   <div>
-                    <div class="cfg-card-title">Ano Agrícola</div>
-                    <div class="cfg-card-sub">Registo e controlo dos anos de actividade agrícola do sistema</div>
+                    <div class="cfg-card-title">Cooperativas Registadas</div>
+                    <div class="cfg-card-sub">Visão geral das cooperativas geridas pelo SIAG — gestão completa em <a
+                        href="#" style="color:var(--primary);font-weight:600;text-decoration:none;">Menu →
+                        Cooperativa</a></div>
                   </div>
                 </div>
-                <button class="btn-green" id="btnIniciarAno" data-bs-toggle="modal" data-bs-target="#modalAnoAgricola">
-                  <i class="bi bi-plus-circle-fill"></i> Registar Ano Agrícola
-                </button>
+                <a href="#" class="btn-green" style="text-decoration:none;">
+                  <i class="bi bi-arrow-right-circle-fill"></i> Gerir Cooperativas
+                </a>
               </div>
 
-              <!-- Tabela de anos anteriores -->
+              <!-- Stats rápidas -->
+              <div style="display:flex;gap:0;border-bottom:1px solid var(--border);">
+                <div style="flex:1;padding:16px 22px;text-align:center;border-right:1px solid var(--border);">
+                  <div style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;color:var(--primary);">3
+                  </div>
+                  <div style="font-size:11.5px;color:var(--text-light);margin-top:2px;">Total Registadas</div>
+                </div>
+                <div style="flex:1;padding:16px 22px;text-align:center;border-right:1px solid var(--border);">
+                  <div style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;color:#2E7D32;">3</div>
+                  <div style="font-size:11.5px;color:var(--text-light);margin-top:2px;">Activas</div>
+                </div>
+                <div style="flex:1;padding:16px 22px;text-align:center;border-right:1px solid var(--border);">
+                  <div style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;color:var(--text-dark);">
+                    1.024</div>
+                  <div style="font-size:11.5px;color:var(--text-light);margin-top:2px;">Cooperados Totais</div>
+                </div>
+                <div style="flex:1;padding:16px 22px;text-align:center;">
+                  <div style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;color:#F57F17;">2</div>
+                  <div style="font-size:11.5px;color:var(--text-light);margin-top:2px;">Em Safra Activa</div>
+                </div>
+              </div>
+
+              <!-- Lista resumida -->
               <div style="overflow-x:auto;">
-                <table class="users-table" id="tabelaAnosAgricolas">
+                <table class="users-table">
                   <thead>
                     <tr>
-                      <th>Nome / Período</th>
-                      <th>Data Início</th>
-                      <th>Data Fim</th>
+                      <th>Cooperativa</th>
+                      <th>Município</th>
+                      <th>Cooperados</th>
+                      <th>Safra Activa</th>
                       <th>Estado</th>
-                      <th>Registado em</th>
-                      <th style="text-align:center;">Acções</th>
+                      <th style="text-align:center;">Acesso Rápido</th>
                     </tr>
                   </thead>
                   <tbody>
-
-                    @foreach($anos as $ano)
-
-                      <tr id="ano-row-{{ $ano->id }}">
-
-                        <td>
-                          <div style="font-weight:600;">
-                            {{ $ano->nome }}
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <div class="user-avatar-sm" style="background:#1B5E20;border-radius:10px;font-size:11px;">CAV
                           </div>
-
-                          <div style="font-size:11px;color:var(--text-light);">
-                            ID #{{ $ano->id }}
+                          <div>
+                            <div style="font-weight:600;">Coop. Agrícola de Viana</div>
+                            <div style="font-size:11px;color:var(--text-light);">NIF 5401234567</div>
                           </div>
-                        </td>
-
-                        <td>
-                          {{ \Carbon\Carbon::parse($ano->data_inicio)->format('d/m/Y') }}
-                        </td>
-
-                        <td>
-                          {{ \Carbon\Carbon::parse($ano->data_fim)->format('d/m/Y') }}
-                        </td>
-
-                        <td>
-
-                          @if($ano->estado == 'em_producao')
-
-                            <span
-                              style="font-size:11px;font-weight:600;background:#E8F5E9;color:#2E7D32;padding:3px 10px;border-radius:20px;">
-                              Em Produção
-                            </span>
-
-                          @elseif($ano->estado == 'iniciado')
-
-                            <span
-                              style="font-size:11px;font-weight:600;background:#FFF8E1;color:#F57F17;padding:3px 10px;border-radius:20px;">
-                              Iniciado
-                            </span>
-
-                          @else
-
-                            <span
-                              style="font-size:11px;font-weight:600;background:#F5F5F5;color:#757575;padding:3px 10px;border-radius:20px;">
-                              Finalizado
-                            </span>
-
-                          @endif
-
-                        </td>
-
-                        <td>
-                          {{ $ano->created_at->format('d M Y') }}
-                        </td>
-
-                        <td style="text-align:center;">
-
-                          <div style="display:flex;gap:6px;justify-content:center;">
-
-                            <button class="topbar-icon-btn btn-editar-ano" data-id="{{ $ano->id }}"
-                              data-nome="{{ $ano->nome }}" data-inicio="{{ $ano->data_inicio }}"
-                              data-fim="{{ $ano->data_fim }}" data-estado="{{ $ano->estado }}">
-                              <i class="bi bi-pencil-fill"></i>
-                            </button>
-
-                            <button class="topbar-icon-btn btn-eliminar-ano" data-id="{{ $ano->id }}">
-                              <i class="bi bi-trash-fill"></i>
-                            </button>
-
+                        </div>
+                      </td>
+                      <td>Viana, Luanda</td>
+                      <td><strong>348</strong> cooperados</td>
+                      <td><span
+                          style="font-size:12px;background:var(--accent-lt);color:var(--primary);padding:3px 9px;border-radius:20px;font-weight:600;">2024/25</span>
+                      </td>
+                      <td><span class="badge-status activo">Activa</span></td>
+                      <td style="text-align:center;">
+                        <a href="#" class="topbar-icon-btn" title="Ver detalhes"
+                          style="width:30px;height:30px;font-size:14px;display:inline-flex;text-decoration:none;">
+                          <i class="bi bi-eye-fill"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <div class="user-avatar-sm" style="background:#1565C0;border-radius:10px;font-size:11px;">CKI
                           </div>
-
-                        </td>
-
-                      </tr>
-
-                    @endforeach
-
+                          <div>
+                            <div style="font-weight:600;">Coop. Kilamba Kiaxi</div>
+                            <div style="font-size:11px;color:var(--text-light);">NIF 5409876543</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>Kilamba Kiaxi, Luanda</td>
+                      <td><strong>412</strong> cooperados</td>
+                      <td><span
+                          style="font-size:12px;background:var(--accent-lt);color:var(--primary);padding:3px 9px;border-radius:20px;font-weight:600;">2024/25</span>
+                      </td>
+                      <td><span class="badge-status activo">Activa</span></td>
+                      <td style="text-align:center;">
+                        <a href="#" class="topbar-icon-btn" title="Ver detalhes"
+                          style="width:30px;height:30px;font-size:14px;display:inline-flex;text-decoration:none;">
+                          <i class="bi bi-eye-fill"></i>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <div class="user-avatar-sm" style="background:#6A1B9A;border-radius:10px;font-size:11px;">CCA
+                          </div>
+                          <div>
+                            <div style="font-weight:600;">Coop. Cazenga Agrícola</div>
+                            <div style="font-size:11px;color:var(--text-light);">NIF 5407654321</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>Cazenga, Luanda</td>
+                      <td><strong>264</strong> cooperados</td>
+                      <td><span
+                          style="font-size:12px;background:#FFF8E1;color:#F57F17;padding:3px 9px;border-radius:20px;font-weight:600;">Planeada</span>
+                      </td>
+                      <td><span class="badge-status activo">Activa</span></td>
+                      <td style="text-align:center;">
+                        <a href="#" class="topbar-icon-btn" title="Ver detalhes"
+                          style="width:30px;height:30px;font-size:14px;display:inline-flex;text-decoration:none;">
+                          <i class="bi bi-eye-fill"></i>
+                        </a>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
               <div style="padding:12px 22px;border-top:1px solid var(--border);">
-                {{-- paginação --}}
+                <p style="font-size:12px;color:var(--text-light);"><i class="bi bi-info-circle me-1"></i>Para criar,
+                  editar ou arquivar cooperativas, aceda ao módulo completo em <a href="#"
+                    style="color:var(--primary);font-weight:600;">Menu → Cooperativa</a>.</p>
               </div>
             </div>
 
@@ -3303,6 +3306,11 @@
                         id="userUpdatedAt">— (novo registo)</div>
                     </div>
                   </div>
+                </div>
+                <div style="margin-top:12px;font-size:12px;color:var(--text-light);">
+                  <i class="bi bi-info-circle me-1"></i>
+                  Os campos <code>id</code>, <code>remember_token</code>, <code>created_at</code> e
+                  <code>updated_at</code> são gerados automaticamente pelo Laravel.
                 </div>
               </div>
 
@@ -3994,8 +4002,6 @@
 
   </script>
 
-
-
   <script>
 
     class PaginationManager {
@@ -4287,347 +4293,6 @@
     });
   </script>
 
-  <!-- ══════════════════════════════════════
-       MODAL — REGISTAR / EDITAR ANO AGRÍCOLA
-  ══════════════════════════════════════ -->
-  <div class="modal fade" id="modalAnoAgricola" tabindex="-1" aria-labelledby="modalAnoLabel" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered" style="max-width:520px;">
-      <div class="modal-content"
-        style="border:none;border-radius:18px;box-shadow:0 24px 64px rgba(0,0,0,.15);overflow:hidden;display:flex;flex-direction:column;">
-
-        <!-- Header -->
-        <div class="modal-header"
-          style="padding:11px 20px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--sidebar-bg) 0%,var(--primary) 100%);flex-shrink:0;">
-          <div style="display:flex;align-items:center;gap:14px;flex:1;">
-            <div
-              style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;">
-              <i class="bi bi-calendar2-range-fill" id="modalAnoIcon"></i>
-            </div>
-            <div>
-              <div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#fff;" id="modalAnoLabel">
-                Registar Ano Agrícola</div>
-            </div>
-          </div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"
-            style="filter:brightness(0) invert(1);opacity:.8;"></button>
-        </div>
-
-        <!-- Body -->
-        <div class="modal-body" style="padding:24px;background:var(--page-bg);overflow-y:auto;">
-          <form id="formAnoAgricola" novalidate>
-            @csrf
-            <input type="hidden" id="anoId" name="id" value="">
-
-            <div class="mf-card"
-              style="background:var(--card-bg);border-radius:14px;border:1px solid var(--border);padding:20px 22px;margin-bottom:16px;">
-              <div
-                style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
-                <i class="bi bi-calendar-event-fill" style="font-size:13px;color:var(--primary);"></i> Dados do Ano
-                Agrícola
-              </div>
-              <div class="row g-3">
-                <div class="col-12">
-                  <label class="cfg-label" for="anoNome">Nome do Ano Agrícola *</label>
-                  <input class="cfg-input" type="text" id="anoNome" name="nome" placeholder="Ex: Ano Agrícola 2025/2026"
-                    required>
-                  <div class="cfg-helper">Designação que identifica este período no sistema</div>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label" for="anoInicio">Data de Início *</label>
-                  <input class="cfg-input" type="date" id="anoInicio" name="data_inicio" required>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label" for="anoFim">Data de Fim *</label>
-                  <input class="cfg-input" type="date" id="anoFim" name="data_fim" required>
-                </div>
-                <div class="col-12">
-                  <label class="cfg-label" for="anoEstado">Estado *</label>
-                  <select class="cfg-select" id="anoEstado" name="estado" required>
-                    <option value="">Seleccione o estado…</option>
-                    <option value="iniciado">Iniciado</option>
-                    <option value="em_producao">Em Produção</option>
-                    <option value="finalizado">Finalizado</option>
-                  </select>
-                  <div class="cfg-helper">Só pode existir um ano <strong>Em Produção</strong> de cada vez</div>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-
-        <!-- Footer -->
-        <div class="modal-footer"
-          style="padding:14px 20px;border-top:1px solid var(--border);background:#fff;flex-shrink:0;">
-          <div
-            style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
-            <div style="font-size:12px;color:var(--text-light);">
-              <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
-            </div>
-            <div style="display:flex;gap:10px;">
-              <button type="button" class="btn-outline-green" data-bs-dismiss="modal">
-                <i class="bi bi-x-lg"></i> Cancelar
-              </button>
-              <button type="button" class="btn-green" id="btnGuardarAno">
-                <i class="bi bi-check2-circle"></i>
-                <span id="btnGuardarAnoLabel">Registar Ano</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <!-- /MODAL ANO AGRÍCOLA -->
-  <script>
-
-  /* ══════════════════════════════════════
-     FUNÇÃO UTILITÁRIA — Formatar datas
-  ══════════════════════════════════════ */
-  function formatDateDisplay(dateStr) {
-    if (!dateStr) return '';
-    dateStr = String(dateStr).trim();
-    const iso = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
-    if (iso) return `${iso[3]}/${iso[2]}/${iso[1]}`;
-    const dmy = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
-    if (dmy) return `${dmy[1]}/${dmy[2]}/${dmy[3]}`;
-    const d = new Date(dateStr);
-    if (!isNaN(d)) {
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const year = d.getFullYear();
-      return `${day}/${month}/${year}`;
-    }
-    return dateStr;
-  }
-
-  function normalizeToISO(dateStr) {
-    if (!dateStr) return '';
-    dateStr = String(dateStr).trim();
-    // Se já está em YYYY-MM-DD
-    if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
-      return dateStr.substring(0, 10);
-    }
-    // Se é ISO com hora (YYYY-MM-DDTHH:mm:ss)
-    const isoMatch = dateStr.match(/^(\d{4}-\d{2}-\d{2})/);
-    if (isoMatch) return isoMatch[1];
-    // Se é DD/MM/YYYY
-    const dmy = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
-    if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`;
-    return '';
-  }
-
-  function parseDateForInput(dateStr) {
-    return normalizeToISO(dateStr);
-  }
-
-  /* ══════════════════════════════════════
-     ANO AGRÍCOLA — reset modal ao abrir (novo)
-  ══════════════════════════════════════ */
-  document.getElementById('modalAnoAgricola').addEventListener('show.bs.modal', function (e) {
-    if (e.relatedTarget && e.relatedTarget.id === 'btnIniciarAno') {
-      document.getElementById('formAnoAgricola').reset();
-      document.getElementById('anoId').value = '';
-      document.getElementById('modalAnoLabel').textContent = 'Registar Ano Agrícola';
-      document.getElementById('btnGuardarAnoLabel').textContent = 'Registar Ano';
-    }
-  });
-
-  /* ══════════════════════════════════════
-     ANO AGRÍCOLA — botão editar
-  ══════════════════════════════════════ */
-  document.addEventListener('click', function (e) {
-    const btn = e.target.closest('.btn-editar-ano');
-    if (!btn) return;
-
-    const anoInicio = parseDateForInput(btn.dataset.inicio || '');
-    const anoFim = parseDateForInput(btn.dataset.fim || '');
-
-    document.getElementById('anoId').value = btn.dataset.id || '';
-    document.getElementById('anoNome').value = btn.dataset.nome || '';
-    document.getElementById('anoInicio').value = anoInicio;
-    document.getElementById('anoFim').value = anoFim;
-    document.getElementById('anoEstado').value = btn.dataset.estado || '';
-    document.getElementById('modalAnoLabel').textContent = 'Editar Ano Agrícola';
-    document.getElementById('btnGuardarAnoLabel').textContent = 'Guardar Alterações';
-
-    new bootstrap.Modal(document.getElementById('modalAnoAgricola')).show();
-  });
-
-  /* ══════════════════════════════════════
-     ANO AGRÍCOLA — guardar (criar / editar)
-  ══════════════════════════════════════ */
-  document.getElementById('btnGuardarAno').addEventListener('click', () => {
-    const id = document.getElementById('anoId').value;
-    const nome = document.getElementById('anoNome').value.trim();
-    const inicio = document.getElementById('anoInicio').value;
-    const fim = document.getElementById('anoFim').value;
-    const estado = document.getElementById('anoEstado').value;
-
-    if (!nome || !inicio || !fim || !estado) {
-      showToast('Campos obrigatórios em falta', 'Preencha todos os campos marcados com *.');
-      return;
-    }
-    if (fim < inicio) {
-      showToast('Datas inválidas', 'A data de fim não pode ser anterior à data de início.');
-      return;
-    }
-
-    const btn = document.getElementById('btnGuardarAno');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
-    btn.disabled = true;
-
-    const url = id ? `/ano_agricola/${id}` : '/ano_agricola';
-    const method = id ? 'PUT' : 'POST';
-
-    fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({ nome, data_inicio: inicio, data_fim: fim, estado })
-    })
-      .then(r => r.json())
-      .then(data => {
-        btn.innerHTML = orig;
-        btn.disabled = false;
-
-        if (data.success) {
-
-          bootstrap.Modal.getInstance(
-            document.getElementById('modalAnoAgricola')
-          ).hide();
-
-          const ano = data.data;
-
-          // Normaliza as datas do servidor para ISO (YYYY-MM-DD)
-          const dataInicioISO = normalizeToISO(ano.data_inicio);
-          const dataFimISO = normalizeToISO(ano.data_fim);
-
-          let estadoHtml = '';
-
-          if (ano.estado === 'em_producao') {
-            estadoHtml = `
-            <span style="font-size:11px;font-weight:600;background:#E8F5E9;color:#2E7D32;padding:3px 10px;border-radius:20px;">
-                Em Produção
-            </span>
-            `;
-          } else if (ano.estado === 'iniciado') {
-            estadoHtml = `
-            <span style="font-size:11px;font-weight:600;background:#FFF8E1;color:#F57F17;padding:3px 10px;border-radius:20px;">
-                Iniciado
-            </span>
-            `;
-          } else {
-            estadoHtml = `
-            <span style="font-size:11px;font-weight:600;background:#F5F5F5;color:#757575;padding:3px 10px;border-radius:20px;">
-                Finalizado
-            </span>
-            `;
-          }
-
-          const linha = `
-          <tr id="ano-row-${ano.id}">
-              <td>
-                <div style="font-weight:600;">
-                    ${ano.nome}
-                </div>
-                <div style="font-size:11px;color:var(--text-light);">
-                    ID #${ano.id}
-                </div>
-              </td>
-              <td>${formatDateDisplay(ano.data_inicio)}</td>
-              <td>${formatDateDisplay(ano.data_fim)}</td>
-              <td>${estadoHtml}</td>
-              <td>${new Date().toLocaleDateString('pt-PT')}</td>
-              <td style="text-align:center;">
-                <div style="display:flex;gap:6px;justify-content:center;">
-                  <button
-                      class="topbar-icon-btn btn-editar-ano"
-                      data-id="${ano.id}"
-                      data-nome="${ano.nome}"
-                      data-inicio="${dataInicioISO}"
-                      data-fim="${dataFimISO}"
-                      data-estado="${ano.estado}">
-                      <i class="bi bi-pencil-fill"></i>
-                  </button>
-                  <button
-                      class="topbar-icon-btn btn-eliminar-ano"
-                      data-id="${ano.id}">
-                      <i class="bi bi-trash-fill"></i>
-                  </button>
-                </div>
-              </td>
-          </tr>
-          `;
-
-          const tbody = document.querySelector('#tabelaAnosAgricolas tbody');
-          const existingRow = document.getElementById(`ano-row-${ano.id}`);
-
-          if (existingRow) {
-            // Edição: substitui a linha existente
-            existingRow.outerHTML = linha;
-          } else {
-            // Novo: insere no início da tabela
-            tbody.insertAdjacentHTML('afterbegin', linha);
-          }
-
-          showToast(
-            id
-              ? 'Ano Agrícola actualizado'
-              : 'Ano Agrícola registado',
-            nome + (
-              id
-                ? ' foi actualizado com sucesso.'
-                : ' foi adicionado ao sistema.'
-            )
-          );
-        } else {
-          showToast('Erro ao guardar', data.message || 'Verifique os dados e tente novamente.');
-        }
-      })
-      .catch(() => { 
-        btn.innerHTML = orig; 
-        btn.disabled = false; 
-        showToast('Erro de ligação', 'Verifique a sua conexão.'); 
-      });
-  });
-
-  /* ══════════════════════════════════════
-     ANO AGRÍCOLA — eliminar
-  ══════════════════════════════════════ */
-  document.addEventListener('click', function (e) {
-    const btn = e.target.closest('.btn-eliminar-ano');
-    if (!btn) return;
-
-    const id = btn.dataset.id;
-    if (!confirm('Tem a certeza que deseja eliminar este Ano Agrícola? Esta acção é irreversível.')) return;
-
-    fetch(`/ano_agricola/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        'Accept': 'application/json'
-      }
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          btn.closest('tr').remove();
-          showToast('Ano Agrícola eliminado', 'O registo foi removido do sistema.');
-        } else {
-          showToast('Erro', data.message || 'Não foi possível eliminar.');
-        }
-      })
-      .catch(() => showToast('Erro de ligação', 'Verifique a sua conexão.'));
-  });
-</script>
-
- 
 
 </body>
 

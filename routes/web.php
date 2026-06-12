@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnoAgricolaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfiguracaoController;
 use App\Http\Controllers\CooperativaController;
@@ -27,7 +28,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
-// user 
+// user
 Route::middleware('auth')->group(function () {
 
     Route::post('/users', [UserController::class, 'store'])
@@ -45,6 +46,20 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update'])
         ->name('users.update');
 
+});
+
+// Ano Agricola
+Route::middleware('auth')->group(function () {
+
+    Route::get( '/ano_agricola',  [AnoAgricolaController::class, 'index'])->name('ano.index');
+
+    Route::post( '/ano_agricola',   [AnoAgricolaController::class, 'store']  )->name('ano.store');
+
+    Route::get(  '/ano_agricola/{id}', [AnoAgricolaController::class, 'show'] )->name('ano.show');
+
+    Route::put( '/ano_agricola/{id}', [AnoAgricolaController::class, 'update'] )->name('ano.update');
+
+    Route::delete(  '/ano_agricola/{id}',  [AnoAgricolaController::class, 'destroy'] )->name('ano.destroy');
 });
 
 // cooperativa

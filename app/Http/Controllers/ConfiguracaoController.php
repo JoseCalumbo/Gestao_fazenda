@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnoAgricola;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,12 @@ class ConfiguracaoController extends Controller
 
         $users = User::orderBy('name')->get();
 
-        return view('configuracoes.configuracoes', compact('users'));
+        $anos = AnoAgricola::orderBy('data_inicio', 'desc')->get();
+
+        return view(
+            'configuracoes.configuracoes',
+            compact('users', 'anos')
+        );
     }
 
     public function store(Request $request)
