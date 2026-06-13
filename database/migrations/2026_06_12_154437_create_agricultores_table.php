@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('nif')->nullable();
             $table->string('estado_civil')->nullable();
 
+
             // Fotografia
             $table->string('foto')->nullable();
 

@@ -201,6 +201,7 @@
       overflow: hidden;
     }
     .topbar-user .t-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-md { width: 30px !important; height: 30px; object-fit: cover; border-radius: 50%; }
     .topbar-user .t-avatar i { color: #fff; font-size: 14px; }
     .topbar-user span { font-size: 13px; font-weight: 500; color: var(--primary); }
 
@@ -437,10 +438,14 @@
     .modal-coop { max-width: 780px; }
     .modal-coop .modal-content { height: 620px; display: flex; flex-direction: column; }
     .modal-coop .modal-body { flex: 1; overflow: hidden; padding: 0; background: var(--page-bg); }
-    .modal-tab-panel { height: 100%; overflow-y: auto; padding: 22px; display: none; }
+    .modal-tab-panel { height: 100%; overflow-y: auto; padding: 22px; display: none; scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.15) transparent; }
     .modal-tab-panel.active { display: block; }
-    .modal-tab-panel::-webkit-scrollbar { width: 4px; }
-    .modal-tab-panel::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 4px; }
+    .modal-tab-panel::-webkit-scrollbar { width: 5px; }
+    .modal-tab-panel::-webkit-scrollbar-track { background: transparent; }
+    .modal-tab-panel::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 10px; }
+    .modal-tab-panel::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,.22); }
+    body.dark-mode .modal-tab-panel { scrollbar-color: rgba(255,255,255,.15) transparent; }
+    body.dark-mode .modal-tab-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); }
 
     .modal-content {
       border: none; border-radius: 18px;
@@ -644,7 +649,7 @@
   <div class="sidebar-nav">
     <div class="nav-section-title">Principal</div>
     <a href="{{ route('dashboard') }}" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
-    <a href="{{ route('agricultores.index') }}" class="nav-item-link" data-label="Cooperativa"><i class="bi bi-buildings-fill"></i><span class="nav-label">Cooperativa</span></a>
+    <a href="#" class="nav-item-link" data-label="Cooperativa"><i class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
     <a href="{{ route('agricultores.index') }}" class="nav-item-link active" data-label="Agricultores"><i class="bi bi-person-badge-fill"></i><span class="nav-label">Agricultores</span></a>
 
     <div class="nav-section-title">Agrícola</div>
@@ -709,18 +714,19 @@
     <div class="dropdown d-none d-sm-flex">
       <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
         <div class="t-avatar">
-          @if(!empty(Auth::user()->foto))
-            <img src="{{ asset('storage/users/' . Auth::user()->foto) }}" alt="Foto" onerror="this.onerror=null;this.parentElement.innerHTML='{{ substr(Auth::user()->name,0,1) }}';this.parentElement.style.color='#fff';this.parentElement.style.fontWeight='700';this.parentElement.style.fontSize='13px';">
-          @else
-            <span style="color:#fff;font-weight:700;font-size:13px;">{{ substr(Auth::user()->name,0,1) }}</span>
-          @endif
+          <img id="dropdownAvatarLarge"
+            src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
+            alt="Foto-perfil" width="20" class="avatar-md">
         </div>
-        <span>{{ explode(' ', Auth::user()->name)[0] }}</span>
+
+        <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
         <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
       </div>
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-        <li><span class="dropdown-header"><i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}</span></li>
-        <li><hr class="dropdown-divider"></li>
+        <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
         <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
         <li>
           <a class="dropdown-item" href="#" id="themeToggle">
@@ -728,7 +734,9 @@
             <span id="themeLabel">Modo Escuro</span>
           </a>
         </li>
-        <li><hr class="dropdown-divider"></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
         <li>
           <div class="dropdown-item item-logout p-0">
             <form method="POST" action="/logout">
@@ -778,7 +786,7 @@
       </div>
       <div class="col-6 col-xl-3">
         <div class="stat-card">
-          <div class="stat-icon blue"><i class="bi bi-buildings-fill"></i></div>
+          <div class="stat-icon blue"><i class="bi bi-building"></i></div>
           <div class="stat-info">
             <div class="s-label">Associados a Cooperativa</div>
             <div class="s-value">3</div>
@@ -894,7 +902,7 @@
                     data-bi="004512378LA041" data-nif="" data-estadocivil="casado"
                     data-tel="+244 923 111 222" data-tel2="" data-email="joao.ferreira@email.ao"
                     data-endereco="Bairro Viana, Rua 5, Luanda" data-cooperativa="Coop. Agrícola de Viana"
-                    data-cargo="agricultor" data-associacao="2019-03-10" data-estado="activo">
+                    data-cargo="agricultor" data-associacao="2019-03-10" data-coopestado="activo" data-estado="activo">
                     <i class="bi bi-pencil-fill"></i>
                   </button>
                   <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="1" data-nome="João Manuel Ferreira"><i class="bi bi-trash-fill"></i></button>
@@ -929,7 +937,7 @@
                     data-bi="006234890LA042" data-nif="" data-estadocivil="casada"
                     data-tel="+244 912 333 444" data-tel2="" data-email="maria.silva@email.ao"
                     data-endereco="Bairro Kicolo, Viana, Luanda" data-cooperativa="Coop. Agrícola de Viana"
-                    data-cargo="dirigente" data-associacao="2018-06-22" data-estado="activo">
+                    data-cargo="dirigente" data-associacao="2018-06-22" data-coopestado="activo" data-estado="activo">
                     <i class="bi bi-pencil-fill"></i>
                   </button>
                   <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="2" data-nome="Maria das Dores Silva"><i class="bi bi-trash-fill"></i></button>
@@ -964,7 +972,7 @@
                     data-bi="009871230LA043" data-nif="" data-estadocivil="solteiro"
                     data-tel="+244 935 555 666" data-tel2="" data-email="antonio.costa@email.ao"
                     data-endereco="Bairro Kilamba, Kilamba Kiaxi, Luanda" data-cooperativa="Coop. Kilamba Kiaxi"
-                    data-cargo="socio" data-associacao="2021-02-14" data-estado="activo">
+                    data-cargo="socio" data-associacao="2021-02-14" data-coopestado="activo" data-estado="activo">
                     <i class="bi bi-pencil-fill"></i>
                   </button>
                   <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="3" data-nome="António Lopes Costa"><i class="bi bi-trash-fill"></i></button>
@@ -1064,7 +1072,7 @@
           <i class="bi bi-geo-alt-fill"></i> Contactos & Endereço
         </button>
         <button class="modal-tab-btn" data-modal-tab="cooperativa">
-          <i class="bi bi-buildings-fill"></i> Cooperativa
+          <i class="bi bi-building"></i> Cooperativa
         </button>
       </div>
 
@@ -1192,7 +1200,7 @@
             </div>
             <div class="modal-form-card">
               <div class="modal-section-title">
-                <i class="bi bi-buildings-fill"></i> Associação Cooperativa
+                <i class="bi bi-building"></i> Associação Cooperativa
               </div>
               <div class="row g-3">
                 <div class="col-12 col-md-6">
@@ -1217,6 +1225,14 @@
                 <div class="col-12 col-md-3 ag-coop-field" style="display:none;">
                   <label class="cfg-label" for="agAssociacao">Data de Associação</label>
                   <input class="cfg-input" type="date" id="agAssociacao" name="data_associacao">
+                </div>
+                <div class="col-12 col-md-4 ag-coop-field" style="display:none;">
+                  <label class="cfg-label" for="agCoopEstado">Estado da Associação</label>
+                  <select class="cfg-select" id="agCoopEstado" name="cooperativa_estado">
+                    <option value="activo">Activo</option>
+                    <option value="desativado">Desativado</option>
+                  </select>
+                  <div class="cfg-helper">Estado do vínculo do agricultor com a cooperativa</div>
                 </div>
               </div>
             </div>
@@ -1479,6 +1495,7 @@ document.addEventListener('click', function (e) {
   document.getElementById('agCooperativa').value    = btn.dataset.cooperativa || '';
   document.getElementById('agCargo').value          = btn.dataset.cargo || 'agricultor';
   document.getElementById('agAssociacao').value     = parseDateForInput(btn.dataset.associacao || '');
+  document.getElementById('agCoopEstado').value     = btn.dataset.coopestado || 'activo';
 
   document.getElementById('modalAgricultorLabel').textContent = 'Editar Agricultor';
   document.getElementById('btnGuardarAgLabel').textContent = 'Guardar Alterações';
@@ -1526,6 +1543,7 @@ document.getElementById('btnGuardarAg').addEventListener('click', () => {
   const cooperativa = document.getElementById('agCooperativa').value;
   const cargo     = document.getElementById('agCargo').value;
   const associacao= document.getElementById('agAssociacao').value;
+  const coopEstado= document.getElementById('agCoopEstado').value;
 
   if (!nome || !sexo || !nascimento || !bi) {
     switchModalTab('pessoais');
@@ -1556,7 +1574,7 @@ document.getElementById('btnGuardarAg').addEventListener('click', () => {
     body: JSON.stringify({
       nome, sexo, data_nascimento: nascimento, bi, nif, estado_civil: estadoCivil, estado,
       telefone, telefone_alt: telefoneAlt, email, endereco,
-      cooperativa, cargo, data_associacao: associacao
+      cooperativa, cargo, data_associacao: associacao, cooperativa_estado: coopEstado
     })
   })
   .then(r => r.json())
@@ -1613,7 +1631,7 @@ document.getElementById('btnGuardarAg').addEventListener('click', () => {
                 data-bi="${bi}" data-nif="${nif}" data-estadocivil="${estadoCivil}"
                 data-tel="${telefone}" data-tel2="${telefoneAlt}" data-email="${email}"
                 data-endereco="${endereco}" data-cooperativa="${cooperativa}"
-                data-cargo="${cargo}" data-associacao="${associacao}" data-estado="${estado}">
+                data-cargo="${cargo}" data-associacao="${associacao}" data-coopestado="${coopEstado}" data-estado="${estado}">
                 <i class="bi bi-pencil-fill"></i>
               </button>
               <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="${ag.id}" data-nome="${nome}"><i class="bi bi-trash-fill"></i></button>

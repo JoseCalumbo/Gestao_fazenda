@@ -1061,7 +1061,7 @@
         <i class="bi bi-map-fill"></i>
         <span class="nav-label">Talhões</span>
       </a>
-      <a href="#" class="nav-item-link" data-label="Insumos">
+      <a href="{{route('insumos.index')}}" class="nav-item-link" data-label="Insumos">
         <i class="bi bi-box-seam-fill"></i>
         <span class="nav-label">Insumos</span>
       </a>

@@ -6,6 +6,7 @@ use App\Http\Controllers\ConfiguracaoController;
 use App\Http\Controllers\CooperativaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AgricultoresController;
+use App\Http\Controllers\InsumosController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -77,6 +78,25 @@ Route::middleware('auth')->group(function () {
     Route::put('/agricultores/{id}',[AgricultoresController::class,'update'])->name('agricultores.update');
 
     Route::delete('/agricultores/{id}',[AgricultoresController::class,'destroy'])->name('agricultores.destroy');
+});
+
+// Insumos
+Route::middleware('auth')->group(function () {
+
+    Route::get('/insumos', [InsumosController::class, 'index'])
+        ->name('insumos.index');
+
+    Route::post('/insumos', [InsumosController::class, 'store'])
+        ->name('insumos.store');
+
+    Route::get('/insumos/{id}', [InsumosController::class, 'show'])
+        ->name('insumos.show');
+
+    Route::put('/insumos/{id}', [InsumosController::class, 'update'])
+        ->name('insumos.update');
+
+    Route::delete('/insumos/{id}', [InsumosController::class, 'destroy'])
+        ->name('insumos.destroy');
 });
 
 // cooperativa

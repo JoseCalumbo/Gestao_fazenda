@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,35 +8,42 @@
   <title>SIAG – Agricultores</title>
 
   <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap"
+    rel="stylesheet" />
 
   <style>
     :root {
-      --sidebar-bg:       #1B5E20;
-      --sidebar-hover:    #2E7D32;
-      --sidebar-active:   #2E7D32;
-      --accent:           #66BB6A;
-      --accent-lt:        #E8F5E9;
-      --primary:          #2E7D32;
-      --text-dark:        #1C2B1E;
-      --text-mid:         #4A6350;
-      --text-light:       #8FA894;
-      --border:           rgba(0,0,0,.07);
-      --card-bg:          #ffffff;
-      --page-bg:          #F4F6F4;
-      --sidebar-w:        240px;
-      --sidebar-w-icons:  68px;
-      --topbar-h:         64px;
-      --danger:           #C62828;
-      --warning:          #F57F17;
-      --info:             #1565C0;
+      --sidebar-bg: #1B5E20;
+      --sidebar-hover: #2E7D32;
+      --sidebar-active: #2E7D32;
+      --accent: #66BB6A;
+      --accent-lt: #E8F5E9;
+      --primary: #2E7D32;
+      --text-dark: #1C2B1E;
+      --text-mid: #4A6350;
+      --text-light: #8FA894;
+      --border: rgba(0, 0, 0, .07);
+      --card-bg: #ffffff;
+      --page-bg: #F4F6F4;
+      --sidebar-w: 240px;
+      --sidebar-w-icons: 68px;
+      --topbar-h: 64px;
+      --danger: #C62828;
+      --warning: #F57F17;
+      --info: #1565C0;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: 'DM Sans', sans-serif;
@@ -50,7 +58,8 @@
     ═══════════════════════════════════════════ */
     #sidebar {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: var(--sidebar-w);
       height: 100vh;
       background: var(--sidebar-bg);
@@ -60,111 +69,287 @@
       z-index: 1000;
       overflow: hidden;
     }
-    body.icons-only  #sidebar { width: var(--sidebar-w-icons); }
-    body.sidebar-hidden #sidebar { width: 0; }
+
+    body.icons-only #sidebar {
+      width: var(--sidebar-w-icons);
+    }
+
+    body.sidebar-hidden #sidebar {
+      width: 0;
+    }
 
     .sidebar-logo {
       display: flex;
       align-items: center;
       gap: 12px;
       padding: 14px 15px;
-      border-bottom: 1px solid rgba(255,255,255,.1);
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
       white-space: nowrap;
       min-height: var(--topbar-h);
       overflow: hidden;
     }
-    body.icons-only .sidebar-logo { justify-content: center; padding: 14px 0; }
-    body.icons-only .sidebar-logo .logo-text-wrap { opacity: 0; pointer-events: none; width: 0; overflow: hidden; }
 
-    .sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; overflow-x: hidden; }
-    .sidebar-nav::-webkit-scrollbar { width: 4px; }
-    .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,.18); border-radius: 10px; }
-    .sidebar-nav { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.18) transparent; }
+    body.icons-only .sidebar-logo {
+      justify-content: center;
+      padding: 14px 0;
+    }
+
+    body.icons-only .sidebar-logo .logo-text-wrap {
+      opacity: 0;
+      pointer-events: none;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 12px 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .sidebar-nav::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sidebar-nav::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .18);
+      border-radius: 10px;
+    }
+
+    .sidebar-nav {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, .18) transparent;
+    }
 
     .nav-section-title {
-      font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
-      text-transform: uppercase; color: rgba(255,255,255,.4);
-      padding: 18px 20px 6px; white-space: nowrap; transition: opacity .2s;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .4);
+      padding: 18px 20px 6px;
+      white-space: nowrap;
+      transition: opacity .2s;
     }
-    body.icons-only .nav-section-title { opacity: 0; height: 0; padding: 0; overflow: hidden; }
+
+    body.icons-only .nav-section-title {
+      opacity: 0;
+      height: 0;
+      padding: 0;
+      overflow: hidden;
+    }
 
     .nav-item-link {
-      display: flex; align-items: center; gap: 12px;
-      padding: 11px 18px; color: rgba(255,255,255,.75);
-      text-decoration: none; border-radius: 10px; margin: 2px 8px;
-      transition: background .2s, color .15s; white-space: nowrap; position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 18px;
+      color: rgba(255, 255, 255, .75);
+      text-decoration: none;
+      border-radius: 10px;
+      margin: 2px 8px;
+      transition: background .2s, color .15s;
+      white-space: nowrap;
+      position: relative;
     }
-    .nav-item-link i { font-size: 18px; flex-shrink: 0; width: 22px; text-align: center; }
-    .nav-item-link .nav-label { font-size: 14px; font-weight: 500; opacity: 1; transition: opacity .2s; }
-    body.icons-only .nav-item-link .nav-label { opacity: 0; pointer-events: none; width: 0; overflow: hidden; }
-    body.icons-only .nav-item-link { justify-content: center; padding: 11px 0; margin: 2px 6px; }
-    .nav-item-link:hover { background: rgba(255,255,255,.1); color: #fff; }
+
+    .nav-item-link i {
+      font-size: 18px;
+      flex-shrink: 0;
+      width: 22px;
+      text-align: center;
+    }
+
+    .nav-item-link .nav-label {
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 1;
+      transition: opacity .2s;
+    }
+
+    body.icons-only .nav-item-link .nav-label {
+      opacity: 0;
+      pointer-events: none;
+      width: 0;
+      overflow: hidden;
+    }
+
+    body.icons-only .nav-item-link {
+      justify-content: center;
+      padding: 11px 0;
+      margin: 2px 6px;
+    }
+
+    .nav-item-link:hover {
+      background: rgba(255, 255, 255, .1);
+      color: #fff;
+    }
+
     .nav-item-link.active {
-      background: var(--accent); color: #fff;
-      box-shadow: 0 4px 14px rgba(102,187,106,.35);
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(102, 187, 106, .35);
     }
 
     .sidebar-tooltip .tooltip-inner {
-      background: #0f3d14; color: #fff; font-size: 12.5px; font-weight: 500;
-      padding: 5px 12px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,.3);
+      background: #0f3d14;
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 8px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
     }
-    .sidebar-tooltip.bs-tooltip-end .tooltip-arrow::before { border-right-color: #0f3d14; }
+
+    .sidebar-tooltip.bs-tooltip-end .tooltip-arrow::before {
+      border-right-color: #0f3d14;
+    }
 
     .sidebar-user {
-      padding: 14px 10px; border-top: 1px solid rgba(255,255,255,.1);
-      display: flex; align-items: center; gap: 10px;
-      cursor: pointer; transition: background .2s;
-      border-radius: 10px; margin: 4px 6px; white-space: nowrap;
+      padding: 14px 10px;
+      border-top: 1px solid rgba(255, 255, 255, .1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background .2s;
+      border-radius: 10px;
+      margin: 4px 6px;
+      white-space: nowrap;
     }
-    .sidebar-user:hover { background: rgba(255,255,255,.08); }
+
+    .sidebar-user:hover {
+      background: rgba(255, 255, 255, .08);
+    }
+
     .sidebar-user .avatar {
-      width: 34px; height: 34px; background: var(--accent);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
       overflow: hidden;
     }
-    .sidebar-user .avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .sidebar-user .avatar i { color: #fff; font-size: 16px; }
-    .sidebar-user .user-info { opacity: 1; transition: opacity .2s; }
-    .sidebar-user .user-info .u-name { font-size: 13px; font-weight: 600; color: #fff; }
-    .sidebar-user .user-info .u-role { font-size: 11px; color: rgba(255,255,255,.5); }
-    body.icons-only .sidebar-user .user-info { opacity: 0; pointer-events: none; }
+
+    .sidebar-user .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sidebar-user .avatar i {
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .sidebar-user .user-info {
+      opacity: 1;
+      transition: opacity .2s;
+    }
+
+    .sidebar-user .user-info .u-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .sidebar-user .user-info .u-role {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .5);
+    }
+
+    body.icons-only .sidebar-user .user-info {
+      opacity: 0;
+      pointer-events: none;
+    }
 
     /* ═══════════════════════════════════════════
        TOPBAR
     ═══════════════════════════════════════════ */
     #topbar {
-      position: fixed; top: 0; left: var(--sidebar-w); right: 0;
-      height: var(--topbar-h); background: #fff;
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-w);
+      right: 0;
+      height: var(--topbar-h);
+      background: #fff;
       border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; padding: 0 28px; gap: 16px;
-      z-index: 900; transition: left .3s ease;
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 16px;
+      z-index: 900;
+      transition: left .3s ease;
     }
-    body.icons-only  #topbar { left: var(--sidebar-w-icons); }
-    body.sidebar-hidden #topbar { left: 0; }
+
+    body.icons-only #topbar {
+      left: var(--sidebar-w-icons);
+    }
+
+    body.sidebar-hidden #topbar {
+      left: 0;
+    }
 
     .topbar-toggle {
-      background: none; border: none; font-size: 20px; color: var(--text-mid);
-      cursor: pointer; padding: 6px; border-radius: 8px; transition: background .2s, color .2s;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: var(--text-mid);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 8px;
+      transition: background .2s, color .2s;
     }
-    .topbar-toggle:hover { background: var(--accent-lt); color: var(--primary); }
+
+    .topbar-toggle:hover {
+      background: var(--accent-lt);
+      color: var(--primary);
+    }
 
     .topbar-title {
-      font-family: 'Sora', sans-serif; font-size: 16px;
-      font-weight: 600; color: var(--text-dark);
+      font-family: 'Sora', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-dark);
     }
 
-    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .topbar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
     .topbar-icon-btn {
-      width: 38px; height: 38px; border: none; background: var(--accent-lt);
-      border-radius: 10px; display: flex; align-items: center; justify-content: center;
-      color: var(--primary); font-size: 17px; cursor: pointer;
-      transition: background .2s, color .2s; position: relative;
+      width: 38px;
+      height: 38px;
+      border: none;
+      background: var(--accent-lt);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 17px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      position: relative;
     }
-    .topbar-icon-btn:hover { background: var(--primary); color: #fff; }
+
+    .topbar-icon-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
 
     /* Ícones Bootstrap — cor verde primária por defeito */
-    .bi { color: var(--primary); }
+    .bi {
+      color: var(--primary);
+    }
+
     .nav-item-link .bi,
     .sidebar-logo .bi,
     .sidebar-user .bi,
@@ -175,1419 +360,2220 @@
     .action-btn.edit:hover .bi,
     .action-btn.print:hover .bi,
     .action-btn.delete:hover .bi,
-    .action-btn.view:hover .bi { color: inherit; }
+    .action-btn.view:hover .bi {
+      color: inherit;
+    }
+
     .topbar-title .bi,
     .table-card-header .bi,
     .cfg-card-title .bi,
-    .modal-section-title .bi { color: var(--primary); }
+    .modal-section-title .bi {
+      color: var(--primary);
+    }
+
     .badge-status .bi,
     .badge-cargo .bi,
-    .stat-badge .bi { color: inherit; }
-    .search-wrap .bi { color: var(--text-light); }
+    .stat-badge .bi {
+      color: inherit;
+    }
+
+    .search-wrap .bi {
+      color: var(--text-light);
+    }
 
     .notif-badge {
-      position: absolute; top: 6px; right: 6px; width: 8px; height: 8px;
-      background: #E53935; border-radius: 50%; border: 2px solid #fff;
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      background: #E53935;
+      border-radius: 50%;
+      border: 2px solid #fff;
     }
 
     .topbar-user {
-      display: flex; align-items: center; gap: 8px; padding: 6px 12px;
-      background: var(--accent-lt); border-radius: 30px; cursor: pointer; transition: background .2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: var(--accent-lt);
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background .2s;
     }
-    .topbar-user:hover { background: #C8E6C9; }
+
+    .topbar-user:hover {
+      background: #C8E6C9;
+    }
+
     .topbar-user .t-avatar {
-      width: 30px; height: 30px; background: var(--primary);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      width: 30px;
+      height: 30px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
     }
-    .topbar-user .t-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .topbar-user .t-avatar i { color: #fff; font-size: 14px; }
-    .topbar-user span { font-size: 13px; font-weight: 500; color: var(--primary); }
+
+    .topbar-user .t-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-md {
+      width: 30px !important;
+      height: 30px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .topbar-user .t-avatar i {
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .topbar-user span {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--primary);
+    }
 
     .dropdown-menu-user {
-      min-width: 200px; border: 1px solid var(--border); border-radius: 14px;
-      box-shadow: 0 12px 36px rgba(0,0,0,.12); padding: 6px; margin-top: 8px !important;
+      min-width: 200px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, .12);
+      padding: 6px;
+      margin-top: 8px !important;
     }
+
     .dropdown-menu-user .dropdown-header {
-      font-size: 11px; font-weight: 600; letter-spacing: .8px;
-      text-transform: uppercase; color: var(--text-light); padding: 6px 12px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--text-light);
+      padding: 6px 12px 4px;
     }
+
     .dropdown-menu-user .dropdown-item {
-      font-size: 13.5px; color: var(--text-mid); border-radius: 8px;
-      padding: 9px 12px; display: flex; align-items: center; gap: 9px; transition: background .15s, color .15s;
+      font-size: 13.5px;
+      color: var(--text-mid);
+      border-radius: 8px;
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      transition: background .15s, color .15s;
     }
-    .dropdown-menu-user .dropdown-item i { font-size: 15px; color: var(--text-light); }
-    .dropdown-menu-user .dropdown-item:hover { background: var(--accent-lt); color: var(--primary); }
-    .dropdown-menu-user .dropdown-item:hover i { color: var(--primary); }
-    .dropdown-menu-user .dropdown-divider { margin: 4px 6px; border-color: var(--border); }
-    .dropdown-menu-user .item-logout { color: #C62828; }
-    .dropdown-menu-user .item-logout i { color: #C62828; }
-    .dropdown-menu-user .item-logout:hover { background: #FFEBEE; color: #C62828; }
-    .dropdown-menu-user form { margin: 0; }
+
+    .dropdown-menu-user .dropdown-item i {
+      font-size: 15px;
+      color: var(--text-light);
+    }
+
+    .dropdown-menu-user .dropdown-item:hover {
+      background: var(--accent-lt);
+      color: var(--primary);
+    }
+
+    .dropdown-menu-user .dropdown-item:hover i {
+      color: var(--primary);
+    }
+
+    .dropdown-menu-user .dropdown-divider {
+      margin: 4px 6px;
+      border-color: var(--border);
+    }
+
+    .dropdown-menu-user .item-logout {
+      color: #C62828;
+    }
+
+    .dropdown-menu-user .item-logout i {
+      color: #C62828;
+    }
+
+    .dropdown-menu-user .item-logout:hover {
+      background: #FFEBEE;
+      color: #C62828;
+    }
+
+    .dropdown-menu-user form {
+      margin: 0;
+    }
+
     .dropdown-menu-user form button {
-      background: none; border: none; font-size: 13.5px; color: #C62828;
-      border-radius: 8px; padding: 9px 12px; width: 100%; text-align: left;
-      display: flex; align-items: center; gap: 9px; cursor: pointer; transition: background .15s;
+      background: none;
+      border: none;
+      font-size: 13.5px;
+      color: #C62828;
+      border-radius: 8px;
+      padding: 9px 12px;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+      transition: background .15s;
     }
-    .dropdown-menu-user form button:hover { background: #FFEBEE; }
-    .dropdown-menu-user form button i { font-size: 15px; color: #C62828; }
+
+    .dropdown-menu-user form button:hover {
+      background: #FFEBEE;
+    }
+
+    .dropdown-menu-user form button i {
+      font-size: 15px;
+      color: #C62828;
+    }
 
     /* ═══════════════════════════════════════════
        MAIN CONTENT
     ═══════════════════════════════════════════ */
     #main {
-      margin-left: var(--sidebar-w); padding-top: var(--topbar-h);
-      transition: margin-left .3s ease; min-height: 100vh;
+      margin-left: var(--sidebar-w);
+      padding-top: var(--topbar-h);
+      transition: margin-left .3s ease;
+      min-height: 100vh;
     }
-    body.icons-only  #main { margin-left: var(--sidebar-w-icons); }
-    body.sidebar-hidden #main { margin-left: 0; }
 
-    .content-inner { padding: 28px; }
+    body.icons-only #main {
+      margin-left: var(--sidebar-w-icons);
+    }
+
+    body.sidebar-hidden #main {
+      margin-left: 0;
+    }
+
+    .content-inner {
+      padding: 28px;
+    }
 
     /* ═══════════════════════════════════════════
        PAGE HEADER
     ═══════════════════════════════════════════ */
     .page-header {
-      display: flex; align-items: flex-start; justify-content: space-between;
-      margin-bottom: 28px; flex-wrap: wrap; gap: 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
+
     .page-header h1 {
-      font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 700;
-      color: var(--text-dark); margin-bottom: 3px;
+      font-family: 'Sora', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 3px;
     }
-    .page-header p { font-size: 13.5px; color: var(--text-light); }
+
+    .page-header p {
+      font-size: 13.5px;
+      color: var(--text-light);
+    }
 
     .btn-green {
-      background: var(--primary); color: #fff; border: none; border-radius: 10px;
-      padding: 9px 18px; font-size: 13.5px; font-weight: 600;
-      display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
-      transition: background .2s, transform .1s; text-decoration: none;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 18px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      text-decoration: none;
     }
-    .btn-green:hover { background: var(--accent); color: #fff; }
-    .btn-green:active { transform: scale(.97); }
+
+    .btn-green:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-green:active {
+      transform: scale(.97);
+    }
 
     .btn-outline-green {
-      background: transparent; color: var(--primary); border: 1.5px solid var(--primary);
-      border-radius: 10px; padding: 8px 16px; font-size: 13.5px; font-weight: 600;
-      display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
-      transition: background .2s, color .2s; text-decoration: none;
+      background: transparent;
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      text-decoration: none;
     }
-    .btn-outline-green:hover { background: var(--accent-lt); color: var(--primary); }
+
+    .btn-outline-green:hover {
+      background: var(--accent-lt);
+      color: var(--primary);
+    }
 
     /* ═══════════════════════════════════════════
        STAT CARDS
     ═══════════════════════════════════════════ */
     .stat-card {
-      background: var(--card-bg); border-radius: 16px; padding: 22px 20px;
-      border: 1px solid var(--border); display: flex; align-items: center; gap: 16px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 22px 20px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
       transition: box-shadow .2s, transform .2s;
     }
-    .stat-card:hover { box-shadow: 0 8px 28px rgba(46,125,50,.1); transform: translateY(-2px); }
+
+    .stat-card:hover {
+      box-shadow: 0 8px 28px rgba(46, 125, 50, .1);
+      transform: translateY(-2px);
+    }
 
     .stat-icon {
-      width: 52px; height: 52px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 22px;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 22px;
     }
-    .stat-icon.green  { background: var(--accent-lt); color: var(--primary); }
-    .stat-icon.blue   { background: #E3F2FD; color: #1565C0; }
-    .stat-icon.amber  { background: #FFF8E1; color: #F57F17; }
-    .stat-icon.purple { background: #EDE7F6; color: #6A1B9A; }
 
-    .stat-info .s-label { font-size: 12.5px; color: var(--text-light); margin-bottom: 4px; }
+    .stat-icon.green {
+      background: var(--accent-lt);
+      color: var(--primary);
+    }
+
+    .stat-icon.blue {
+      background: #E3F2FD;
+      color: #1565C0;
+    }
+
+    .stat-icon.amber {
+      background: #FFF8E1;
+      color: #F57F17;
+    }
+
+    .stat-icon.purple {
+      background: #EDE7F6;
+      color: #6A1B9A;
+    }
+
+    .stat-info .s-label {
+      font-size: 12.5px;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
     .stat-info .s-value {
-      font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 700;
-      color: var(--text-dark); line-height: 1; margin-bottom: 5px;
+      font-family: 'Sora', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1;
+      margin-bottom: 5px;
     }
+
     .stat-badge {
-      font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 30px;
-      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
     }
-    .stat-badge.up   { background: #E8F5E9; color: #2E7D32; }
-    .stat-badge.info { background: #E3F2FD; color: #1565C0; }
+
+    .stat-badge.up {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+
+    .stat-badge.info {
+      background: #E3F2FD;
+      color: #1565C0;
+    }
 
     /* ═══════════════════════════════════════════
        TABLE CARD
     ═══════════════════════════════════════════ */
     .table-card {
-      background: var(--card-bg); border-radius: 16px;
-      border: 1px solid var(--border); overflow: hidden;
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
     }
+
     .table-card-header {
-      padding: 18px 24px; display: flex; align-items: center;
-      justify-content: space-between; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 12px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
     }
+
     .table-card-header h5 {
-      font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 600; color: var(--text-dark);
+      font-family: 'Sora', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dark);
     }
 
     /* Search bar */
     .search-filter-bar {
-      padding: 14px 24px; border-bottom: 1px solid var(--border);
-      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
     }
-    .search-wrap { flex: 1; min-width: 220px; position: relative; }
+
+    .search-wrap {
+      flex: 1;
+      min-width: 220px;
+      position: relative;
+    }
+
     .search-wrap i {
-      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
-      color: var(--text-light); font-size: 14px; pointer-events: none;
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 14px;
+      pointer-events: none;
     }
+
     .search-input {
-      width: 100%; border: 1.5px solid var(--border); border-radius: 10px;
-      padding: 10px 14px 10px 36px; font-size: 13.5px; color: var(--text-dark);
-      background: #FAFAF9; outline: none; font-family: 'DM Sans', sans-serif;
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px 10px 36px;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      background: #FAFAF9;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
       transition: border-color .2s, box-shadow .2s;
     }
-    .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(46,125,50,.1); background: #fff; }
-    .search-input::placeholder { color: #C3B8B4; }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
+      background: #fff;
+    }
+
+    .search-input::placeholder {
+      color: #C3B8B4;
+    }
 
     .filter-select {
-      border: 1.5px solid var(--border); border-radius: 10px;
-      padding: 10px 32px 10px 14px; font-size: 13.5px; color: var(--text-dark);
-      background: #FAFAF9; appearance: none; cursor: pointer; outline: none;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 32px 10px 14px;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      background: #FAFAF9;
+      appearance: none;
+      cursor: pointer;
+      outline: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238FA894' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 12px center;
-      transition: border-color .2s; min-width: 150px;
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      transition: border-color .2s;
+      min-width: 150px;
     }
-    .filter-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(46,125,50,.1); }
+
+    .filter-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
+    }
 
     /* Agricultores Table */
-    .ag-table { width: 100%; border-collapse: collapse; }
+    .ag-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
     .ag-table th {
-      font-size: 11px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: .8px; color: var(--text-light); padding: 12px 20px;
-      background: #FAFBFA; border-bottom: 1px solid var(--border); text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--text-light);
+      padding: 12px 20px;
+      background: #FAFBFA;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
       white-space: nowrap;
     }
+
     .ag-table td {
-      font-size: 13.5px; color: var(--text-dark); padding: 14px 20px;
-      border-bottom: 1px solid var(--border); vertical-align: middle;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
     }
-    .ag-table tr:last-child td { border-bottom: none; }
-    .ag-table tbody tr:hover td { background: #F8FBF8; }
+
+    .ag-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .ag-table tbody tr:hover td {
+      background: #F8FBF8;
+    }
 
     /* Avatar circular do agricultor */
     .person-avatar {
-      width: 40px; height: 40px; border-radius: 50%;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 800; color: #fff; flex-shrink: 0;
-      letter-spacing: -.5px; overflow: hidden;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+      letter-spacing: -.5px;
+      overflow: hidden;
     }
-    .person-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .ag-cell { display: flex; align-items: center; gap: 12px; }
-    .ag-cell .ag-name { font-weight: 600; font-size: 14px; }
-    .ag-cell .ag-bi  { font-size: 11.5px; color: var(--text-light); margin-top: 1px; }
+
+    .person-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .ag-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ag-cell .ag-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .ag-cell .ag-bi {
+      font-size: 11.5px;
+      color: var(--text-light);
+      margin-top: 1px;
+    }
 
     /* Badges — texto neutro, sem fundo/borda */
-    .badge-status, .badge-cargo {
-      font-size: 12px; font-weight: 500; padding: 0; background: none; border-radius: 0;
-      display: inline-flex; align-items: center; gap: 4px;
+    .badge-status,
+    .badge-cargo {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 0;
+      background: none;
+      border-radius: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
-    .badge-status.activo   { color: #2E7D32; }
-    .badge-status.inactivo { color: #C62828; }
-    .badge-status.pendente { color: #F57F17; }
-    .badge-status .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
-    .badge-status.activo .dot   { background: #2E7D32; }
-    .badge-status.inactivo .dot { background: #C62828; }
-    .badge-status.pendente .dot { background: #F57F17; }
-    .badge-cargo { color: var(--text-mid); }
 
-    .text-muted-coop { color: var(--text-light); font-size: 12.5px; }
+    .badge-status.activo {
+      color: #2E7D32;
+    }
+
+    .badge-status.inactivo {
+      color: #C62828;
+    }
+
+    .badge-status.pendente {
+      color: #F57F17;
+    }
+
+    .badge-status .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .badge-status.activo .dot {
+      background: #2E7D32;
+    }
+
+    .badge-status.inactivo .dot {
+      background: #C62828;
+    }
+
+    .badge-status.pendente .dot {
+      background: #F57F17;
+    }
+
+    .badge-cargo {
+      color: var(--text-mid);
+    }
+
+    .text-muted-coop {
+      color: var(--text-light);
+      font-size: 12.5px;
+    }
 
     /* Action buttons in table */
     .action-btn {
-      width: 32px; height: 32px; border: none; border-radius: 9px;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 14px; cursor: pointer; transition: background .15s, color .15s;
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background .15s, color .15s;
       text-decoration: none;
     }
-    .action-btn.edit    { background: var(--accent-lt); color: var(--primary); }
-    .action-btn.edit:hover    { background: var(--primary); color: #fff; }
-    .action-btn.delete  { background: #FFEBEE; color: #C62828; }
-    .action-btn.delete:hover  { background: #C62828; color: #fff; }
-    .action-btn.view    { background: #EDE7F6; color: #6A1B9A; }
-    .action-btn.view:hover    { background: #6A1B9A; color: #fff; }
+
+    .action-btn.edit {
+      background: var(--accent-lt);
+      color: var(--primary);
+    }
+
+    .action-btn.edit:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .action-btn.delete {
+      background: #FFEBEE;
+      color: #C62828;
+    }
+
+    .action-btn.delete:hover {
+      background: #C62828;
+      color: #fff;
+    }
+
+    .action-btn.view {
+      background: #EDE7F6;
+      color: #6A1B9A;
+    }
+
+    .action-btn.view:hover {
+      background: #6A1B9A;
+      color: #fff;
+    }
 
     /* Pagination */
     .table-footer {
-      padding: 14px 24px; display: flex; align-items: center;
-      justify-content: space-between; border-top: 1px solid var(--border);
-      flex-wrap: wrap; gap: 10px;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    .table-footer span { font-size: 12.5px; color: var(--text-light); }
-    .pagination-btns { display: flex; gap: 6px; }
+
+    .table-footer span {
+      font-size: 12.5px;
+      color: var(--text-light);
+    }
+
+    .pagination-btns {
+      display: flex;
+      gap: 6px;
+    }
+
     .page-btn {
-      min-width: 34px; height: 34px; padding: 0 10px; border: 1.5px solid var(--border);
-      border-radius: 9px; background: #fff; font-size: 13px; color: var(--text-mid);
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: all .15s; font-family: 'DM Sans', sans-serif;
+      min-width: 34px;
+      height: 34px;
+      padding: 0 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      background: #fff;
+      font-size: 13px;
+      color: var(--text-mid);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .15s;
+      font-family: 'DM Sans', sans-serif;
     }
-    .page-btn:hover { border-color: var(--primary); color: var(--primary); }
-    .page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .page-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .page-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
 
     /* ═══════════════════════════════════════════
        EMPTY STATE
     ═══════════════════════════════════════════ */
-    .empty-state { text-align: center; padding: 60px 20px; }
-    .empty-state i { font-size: 52px; color: var(--accent); opacity: .5; display: block; margin-bottom: 16px; }
-    .empty-state h6 { font-family: 'Sora', sans-serif; font-size: 16px; color: var(--text-dark); margin-bottom: 6px; }
-    .empty-state p { font-size: 13px; color: var(--text-light); }
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-state i {
+      font-size: 52px;
+      color: var(--accent);
+      opacity: .5;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .empty-state h6 {
+      font-family: 'Sora', sans-serif;
+      font-size: 16px;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
 
     /* ═══════════════════════════════════════════
        MODAL
     ═══════════════════════════════════════════ */
-    .modal-coop { max-width: 780px; }
-    .modal-coop .modal-content { height: 620px; display: flex; flex-direction: column; }
-    .modal-coop .modal-body { flex: 1; overflow: hidden; padding: 0; background: var(--page-bg); }
-    .modal-tab-panel { height: 100%; overflow-y: auto; padding: 22px; display: none; }
-    .modal-tab-panel.active { display: block; }
-    .modal-tab-panel::-webkit-scrollbar { width: 4px; }
-    .modal-tab-panel::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 4px; }
+    .modal-coop {
+      max-width: 780px;
+    }
+
+    .modal-coop .modal-content {
+      height: 620px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* O scroll está apenas no modal-body — as tabs não têm scroll próprio */
+    .modal-coop .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0;
+      background: var(--page-bg);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, .15) transparent;
+    }
+
+    .modal-coop .modal-body::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .modal-coop .modal-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .modal-coop .modal-body::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, .12);
+      border-radius: 10px;
+    }
+
+    .modal-coop .modal-body::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, .22);
+    }
+
+    body.dark-mode .modal-coop .modal-body {
+      scrollbar-color: rgba(255, 255, 255, .15) transparent;
+    }
+
+    body.dark-mode .modal-coop .modal-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .15);
+    }
+
+    /* Tabs: sem altura fixa, sem scroll próprio */
+    .modal-tab-panel {
+      display: none;
+      padding: 22px;
+    }
+
+    .modal-tab-panel.active {
+      display: block;
+    }
 
     .modal-content {
-      border: none; border-radius: 18px;
-      box-shadow: 0 24px 64px rgba(0,0,0,.15);
+      border: none;
+      border-radius: 18px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .15);
       overflow: hidden;
     }
+
     .modal-header {
-      padding: 11px 20px; border-bottom: 1px solid var(--border);
+      padding: 11px 20px;
+      border-bottom: 1px solid var(--border);
       background: linear-gradient(135deg, var(--sidebar-bg) 0%, var(--primary) 100%);
       flex-shrink: 0;
     }
-    .modal-header .modal-title { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; color: #fff; }
-    .modal-header .btn-close { filter: brightness(0) invert(1); opacity: .8; }
-    .modal-header .btn-close:hover { opacity: 1; }
-    .modal-header-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center;
-      font-size: 17px; color: #fff; flex-shrink: 0;
+
+    .modal-header .modal-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
     }
-    .modal-body { background: var(--page-bg); }
-    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); background: #fff; flex-shrink: 0; }
+
+    .modal-header .btn-close {
+      filter: brightness(0) invert(1);
+      opacity: .8;
+    }
+
+    .modal-header .btn-close:hover {
+      opacity: 1;
+    }
+
+    .modal-header-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .modal-body {
+      background: var(--page-bg);
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      background: #fff;
+      flex-shrink: 0;
+    }
 
     .modal-section-title {
-      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--text-light); margin-bottom: 14px; padding-bottom: 8px;
-      border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .modal-section-title i { font-size: 13px; color: var(--primary); }
+
+    .modal-section-title i {
+      font-size: 13px;
+      color: var(--primary);
+    }
 
     .modal-form-card {
-      background: var(--card-bg); border-radius: 14px;
-      border: 1px solid var(--border); padding: 20px 22px; margin-bottom: 16px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 20px 22px;
+      margin-bottom: 16px;
     }
 
-    .cfg-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-mid); margin-bottom: 5px; letter-spacing: .2px; }
+    .cfg-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-bottom: 5px;
+      letter-spacing: .2px;
+    }
+
     .cfg-input {
-      width: 100%; border: 1.5px solid var(--border); border-radius: 10px;
-      padding: 10px 13px; font-size: 13.5px; color: var(--text-dark);
-      background: #FAFAF9; font-family: 'DM Sans', sans-serif; outline: none;
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 13px;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      background: #FAFAF9;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
       transition: border-color .2s, box-shadow .2s;
     }
-    .cfg-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(46,125,50,.1); background: #fff; }
-    .cfg-input::placeholder { color: #C3B8B4; }
-    .cfg-input[readonly] { background: #F5F5F5; color: var(--text-light); cursor: not-allowed; }
+
+    .cfg-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
+      background: #fff;
+    }
+
+    .cfg-input::placeholder {
+      color: #C3B8B4;
+    }
+
+    .cfg-input[readonly] {
+      background: #F5F5F5;
+      color: var(--text-light);
+      cursor: not-allowed;
+    }
 
     .cfg-select {
-      width: 100%; border: 1.5px solid var(--border); border-radius: 10px;
-      padding: 10px 32px 10px 13px; font-size: 13.5px; color: var(--text-dark);
-      background: #FAFAF9; appearance: none; cursor: pointer; outline: none;
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 32px 10px 13px;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      background: #FAFAF9;
+      appearance: none;
+      cursor: pointer;
+      outline: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238FA894' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 12px center;
-      transition: border-color .2s; font-family: 'DM Sans', sans-serif;
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      transition: border-color .2s;
+      font-family: 'DM Sans', sans-serif;
     }
-    .cfg-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(46,125,50,.1); }
+
+    .cfg-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
+    }
 
     .cfg-textarea {
-      width: 100%; border: 1.5px solid var(--border); border-radius: 10px;
-      padding: 10px 13px; font-size: 13.5px; color: var(--text-dark);
-      background: #FAFAF9; resize: vertical; min-height: 80px; outline: none;
-      font-family: 'DM Sans', sans-serif; transition: border-color .2s;
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 13px;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      background: #FAFAF9;
+      resize: vertical;
+      min-height: 80px;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color .2s;
     }
-    .cfg-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(46,125,50,.1); }
-    .cfg-helper { font-size: 11.5px; color: var(--text-light); margin-top: 4px; }
+
+    .cfg-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
+    }
+
+    .cfg-helper {
+      font-size: 11.5px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
 
     /* ── MODAL TABS ─── */
     .modal-tabs {
-      display: flex; gap: 0; border-bottom: 2px solid var(--border);
-      background: var(--page-bg); padding: 0 24px; overflow-x: auto;
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--border);
+      background: var(--page-bg);
+      padding: 0 24px;
+      overflow-x: auto;
     }
-    .modal-tabs::-webkit-scrollbar { height: 0; }
+
+    .modal-tabs::-webkit-scrollbar {
+      height: 0;
+    }
+
     .modal-tab-btn {
-      display: flex; align-items: center; gap: 8px;
-      padding: 14px 18px; font-size: 13px; font-weight: 500;
-      color: var(--text-mid); background: none; border: none;
-      border-bottom: 2px solid transparent; margin-bottom: -2px;
-      cursor: pointer; transition: color .15s, border-color .15s; white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-mid);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      transition: color .15s, border-color .15s;
+      white-space: nowrap;
     }
-    .modal-tab-btn .bi { color: var(--text-light); transition: color .15s; font-size: 15px; }
-    .modal-tab-btn:hover { color: var(--primary); }
-    .modal-tab-btn:hover .bi { color: var(--primary); }
-    .modal-tab-btn.active { color: var(--primary); font-weight: 600; border-bottom-color: var(--primary); }
-    .modal-tab-btn.active .bi { color: var(--primary); }
+
+    .modal-tab-btn .bi {
+      color: var(--text-light);
+      transition: color .15s;
+      font-size: 15px;
+    }
+
+    .modal-tab-btn:hover {
+      color: var(--primary);
+    }
+
+    .modal-tab-btn:hover .bi {
+      color: var(--primary);
+    }
+
+    .modal-tab-btn.active {
+      color: var(--primary);
+      font-weight: 600;
+      border-bottom-color: var(--primary);
+    }
+
+    .modal-tab-btn.active .bi {
+      color: var(--primary);
+    }
 
     /* Foto upload */
     .foto-upload-zone {
-      width: 100px; height: 100px; border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
       border: 2px dashed var(--border);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      cursor: pointer; transition: border-color .2s, background .2s;
-      font-size: 11px; color: var(--text-light);
-      text-align: center; gap: 4px; flex-shrink: 0; overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      font-size: 11px;
+      color: var(--text-light);
+      text-align: center;
+      gap: 4px;
+      flex-shrink: 0;
+      overflow: hidden;
     }
-    .foto-upload-zone:hover { border-color: var(--primary); background: var(--accent-lt); }
-    .foto-upload-zone i { font-size: 24px; color: var(--text-light); }
+
+    .foto-upload-zone:hover {
+      border-color: var(--primary);
+      background: var(--accent-lt);
+    }
+
+    .foto-upload-zone i {
+      font-size: 24px;
+      color: var(--text-light);
+    }
 
     /* Aviso info */
     .info-alert {
-      background:#FFF8E1; border:1px solid #FFE082; border-radius:12px;
-      padding:14px 18px; margin-bottom:16px; display:flex; gap:12px; align-items:flex-start;
+      background: #FFF8E1;
+      border: 1px solid #FFE082;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
     }
-    .info-alert i { color:#F57F17; font-size:18px; flex-shrink:0; margin-top:1px; }
-    .info-alert .ia-title { font-size:13.5px; font-weight:600; color:#7f5000; }
-    .info-alert .ia-sub { font-size:12.5px; color:#9a6000; margin-top:2px; }
+
+    .info-alert i {
+      color: #F57F17;
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .info-alert .ia-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #7f5000;
+    }
+
+    .info-alert .ia-sub {
+      font-size: 12.5px;
+      color: #9a6000;
+      margin-top: 2px;
+    }
 
     /* Toast */
     .save-toast {
-      position: fixed; bottom: 28px; right: 28px; z-index: 9999;
-      background: #fff; border: 1px solid var(--border); border-radius: 14px;
-      padding: 14px 20px; box-shadow: 0 12px 36px rgba(0,0,0,.12);
-      display: flex; align-items: center; gap: 12px;
-      transform: translateY(80px); opacity: 0; transition: all .35s cubic-bezier(.34,1.56,.64,1);
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 20px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, .12);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all .35s cubic-bezier(.34, 1.56, .64, 1);
       pointer-events: none;
     }
-    .save-toast.show { transform: translateY(0); opacity: 1; pointer-events: all; }
-    .save-toast .toast-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-    .save-toast .toast-icon.success { background: #E8F5E9; color: #2E7D32; }
-    .save-toast .toast-icon.danger  { background: #FFEBEE; color: #C62828; }
-    .save-toast .toast-text .t-title { font-size: 13.5px; font-weight: 600; color: var(--text-dark); }
-    .save-toast .toast-text .t-sub   { font-size: 12px; color: var(--text-light); }
+
+    .save-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .save-toast .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .save-toast .toast-icon.success {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+
+    .save-toast .toast-icon.danger {
+      background: #FFEBEE;
+      color: #C62828;
+    }
+
+    .save-toast .toast-text .t-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .save-toast .toast-text .t-sub {
+      font-size: 12px;
+      color: var(--text-light);
+    }
 
     /* Animations */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-    .anim { animation: fadeUp .4s ease both; }
-    .anim-d1 { animation-delay: .05s; }
-    .anim-d2 { animation-delay: .10s; }
-    .anim-d3 { animation-delay: .15s; }
-    .anim-d4 { animation-delay: .20s; }
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .anim {
+      animation: fadeUp .4s ease both;
+    }
+
+    .anim-d1 {
+      animation-delay: .05s;
+    }
+
+    .anim-d2 {
+      animation-delay: .10s;
+    }
+
+    .anim-d3 {
+      animation-delay: .15s;
+    }
+
+    .anim-d4 {
+      animation-delay: .20s;
+    }
 
     /* Dark mode */
     body.dark-mode {
-      --card-bg: #1e2a20; --page-bg: #141d15; --text-dark: #e8f0e9;
-      --text-mid: #9ab89e; --text-light: #6a8a6e; --border: rgba(255,255,255,.07);
+      --card-bg: #1e2a20;
+      --page-bg: #141d15;
+      --text-dark: #e8f0e9;
+      --text-mid: #9ab89e;
+      --text-light: #6a8a6e;
+      --border: rgba(255, 255, 255, .07);
     }
-    body.dark-mode #topbar { background: #1e2a20; border-color: rgba(255,255,255,.06); }
-    body.dark-mode .topbar-title { color: #e8f0e9; }
-    body.dark-mode .topbar-user  { background: rgba(102,187,106,.15); }
-    body.dark-mode .topbar-user span { color: #66BB6A; }
-    body.dark-mode .topbar-icon-btn { background: rgba(102,187,106,.12); }
-    body.dark-mode .ag-table th { background: #172518; }
-    body.dark-mode .ag-table tbody tr:hover td { background: #1a2a1c; }
+
+    body.dark-mode #topbar {
+      background: #1e2a20;
+      border-color: rgba(255, 255, 255, .06);
+    }
+
+    body.dark-mode .topbar-title {
+      color: #e8f0e9;
+    }
+
+    body.dark-mode .topbar-user {
+      background: rgba(102, 187, 106, .15);
+    }
+
+    body.dark-mode .topbar-user span {
+      color: #66BB6A;
+    }
+
+    body.dark-mode .topbar-icon-btn {
+      background: rgba(102, 187, 106, .12);
+    }
+
+    body.dark-mode .ag-table th {
+      background: #172518;
+    }
+
+    body.dark-mode .ag-table tbody tr:hover td {
+      background: #1a2a1c;
+    }
+
     body.dark-mode .search-input,
     body.dark-mode .filter-select,
     body.dark-mode .cfg-input,
     body.dark-mode .cfg-select,
-    body.dark-mode .cfg-textarea { background: #172518; color: #e8f0e9; border-color: rgba(255,255,255,.1); }
-    body.dark-mode .modal-body { background: #1a2a1c; }
-    body.dark-mode .modal-form-card { background: #1e2a20; border-color: rgba(255,255,255,.07); }
-    body.dark-mode .modal-footer { background: #1e2a20; border-color: rgba(255,255,255,.07); }
+    body.dark-mode .cfg-textarea {
+      background: #172518;
+      color: #e8f0e9;
+      border-color: rgba(255, 255, 255, .1);
+    }
+
+    body.dark-mode .modal-body {
+      background: #1a2a1c;
+    }
+
+    body.dark-mode .modal-form-card {
+      background: #1e2a20;
+      border-color: rgba(255, 255, 255, .07);
+    }
+
+    body.dark-mode .modal-footer {
+      background: #1e2a20;
+      border-color: rgba(255, 255, 255, .07);
+    }
 
     /* Responsive */
     @media (max-width: 768px) {
-      :root { --sidebar-w: 240px; }
-      body:not(.sidebar-hidden) #sidebar { box-shadow: 4px 0 20px rgba(0,0,0,.2); }
-      body.default #sidebar { width: 0; }
-      body.default #main    { margin-left: 0; }
-      body.default #topbar  { left: 0; }
-      .content-inner { padding: 16px; }
+      :root {
+        --sidebar-w: 240px;
+      }
+
+      body:not(.sidebar-hidden) #sidebar {
+        box-shadow: 4px 0 20px rgba(0, 0, 0, .2);
+      }
+
+      body.default #sidebar {
+        width: 0;
+      }
+
+      body.default #main {
+        margin-left: 0;
+      }
+
+      body.default #topbar {
+        left: 0;
+      }
+
+      .content-inner {
+        padding: 16px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════════════
      SIDEBAR
 ══════════════════════════════════════ -->
-<nav id="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-svg-wrap">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" width="38" height="38" style="flex-shrink:0;">
-        <circle cx="170" cy="170" r="145" fill="#66BB6A"/>
-        <g fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
-          <circle cx="118" cy="188" r="48" fill="none" stroke-width="6" />
-          <circle cx="118" cy="188" r="35" fill="none" stroke-width="4.5" />
-          <circle cx="118" cy="188" r="16" fill="#ffffff" />
-          <path d="M 118 135 L 118 144 M 118 232 L 118 241 M 65 188 L 74 188 M 162 188 L 171 188 M 81 151 L 88 157 M 155 219 L 162 225 M 81 225 L 88 219 M 155 151 L 162 157" stroke-width="6" />
-          <path d="M 68 185 C 68 140, 108 120, 160 128 C 171 132, 174 144, 174 151" fill="none" stroke-width="6" />
-          <circle cx="231" cy="204" r="26" fill="none" stroke-width="5" />
-          <circle cx="231" cy="204" r="10" fill="#ffffff" />
-          <path d="M 231 174 L 231 180 M 231 228 L 231 234 M 201 204 L 207 204 M 255 204 L 261 204 M 210 183 L 214 187 M 248 221 L 252 225 M 210 225 L 214 221 M 248 183 L 252 187" stroke-width="4" />
-          <path d="M 117 125 L 117 105 C 117 102, 120 99, 125 99 L 176 99 C 181 99, 184 102, 185 107 L 202 157 L 176 157" fill="none" stroke-width="6" />
-          <path d="M 144 99 L 144 128 L 187 128" fill="none" stroke-width="4" />
-          <path d="M 176 99 L 188 128" fill="none" stroke-width="4" />
-          <path d="M 174 151 L 246 156 C 252 156, 254 159, 254 165 L 254 197 L 202 197 Z" fill="#ffffff" />
-          <rect x="168" y="173" width="18" height="9" fill="none" stroke-width="4.5" />
-          <rect x="168" y="185" width="18" height="7" fill="none" stroke-width="4.5" />
-          <path d="M 223 156 L 223 125 C 223 119, 219 117, 219 113 L 220 107" fill="none" stroke-width="4.5" />
-          <ellipse cx="239" cy="171" rx="6" ry="4" fill="#66BB6A" stroke="none" />
-          <line x1="212" y1="170" x2="212" y2="188" stroke="#66BB6A" stroke-width="4" />
-          <line x1="220" y1="170" x2="220" y2="188" stroke="#66BB6A" stroke-width="4" />
-          <line x1="228" y1="170" x2="228" y2="188" stroke="#66BB6A" stroke-width="4" />
-        </g>
-      </svg>
+  <nav id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-svg-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" width="38" height="38" style="flex-shrink:0;">
+          <circle cx="170" cy="170" r="145" fill="#66BB6A" />
+          <g fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+            <circle cx="118" cy="188" r="48" fill="none" stroke-width="6" />
+            <circle cx="118" cy="188" r="35" fill="none" stroke-width="4.5" />
+            <circle cx="118" cy="188" r="16" fill="#ffffff" />
+            <path
+              d="M 118 135 L 118 144 M 118 232 L 118 241 M 65 188 L 74 188 M 162 188 L 171 188 M 81 151 L 88 157 M 155 219 L 162 225 M 81 225 L 88 219 M 155 151 L 162 157"
+              stroke-width="6" />
+            <path d="M 68 185 C 68 140, 108 120, 160 128 C 171 132, 174 144, 174 151" fill="none" stroke-width="6" />
+            <circle cx="231" cy="204" r="26" fill="none" stroke-width="5" />
+            <circle cx="231" cy="204" r="10" fill="#ffffff" />
+            <path
+              d="M 231 174 L 231 180 M 231 228 L 231 234 M 201 204 L 207 204 M 255 204 L 261 204 M 210 183 L 214 187 M 248 221 L 252 225 M 210 225 L 214 221 M 248 183 L 252 187"
+              stroke-width="4" />
+            <path
+              d="M 117 125 L 117 105 C 117 102, 120 99, 125 99 L 176 99 C 181 99, 184 102, 185 107 L 202 157 L 176 157"
+              fill="none" stroke-width="6" />
+            <path d="M 144 99 L 144 128 L 187 128" fill="none" stroke-width="4" />
+            <path d="M 176 99 L 188 128" fill="none" stroke-width="4" />
+            <path d="M 174 151 L 246 156 C 252 156, 254 159, 254 165 L 254 197 L 202 197 Z" fill="#ffffff" />
+            <rect x="168" y="173" width="18" height="9" fill="none" stroke-width="4.5" />
+            <rect x="168" y="185" width="18" height="7" fill="none" stroke-width="4.5" />
+            <path d="M 223 156 L 223 125 C 223 119, 219 117, 219 113 L 220 107" fill="none" stroke-width="4.5" />
+            <ellipse cx="239" cy="171" rx="6" ry="4" fill="#66BB6A" stroke="none" />
+            <line x1="212" y1="170" x2="212" y2="188" stroke="#66BB6A" stroke-width="4" />
+            <line x1="220" y1="170" x2="220" y2="188" stroke="#66BB6A" stroke-width="4" />
+            <line x1="228" y1="170" x2="228" y2="188" stroke="#66BB6A" stroke-width="4" />
+          </g>
+        </svg>
+      </div>
+      <div class="logo-text-wrap" style="opacity:1;transition:opacity .2s;white-space:nowrap;">
+        <div
+          style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.1;">
+          SIAG</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.5px;">Agrícola Cooperativas</div>
+      </div>
     </div>
-    <div class="logo-text-wrap" style="opacity:1;transition:opacity .2s;white-space:nowrap;">
-      <div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.1;">SIAG</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.5px;">Agrícola Cooperativas</div>
+
+    <div class="sidebar-nav">
+      <div class="nav-section-title">Principal</div>
+      <a href="{{ route('dashboard') }}" class="nav-item-link" data-label="Dashboard"><i
+          class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
+      <a href="{{route('cooperativas')}}" class="nav-item-link" data-label="Cooperativa"><i
+          class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
+      <a href="{{ route('agricultores.index') }}" class="nav-item-link active" data-label="Agricultores"><i
+          class="bi bi-person-badge-fill"></i><span class="nav-label">Agricultores</span></a>
+
+      <div class="nav-section-title">Agrícola</div>
+      <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
+          class="nav-label">Safras</span></a>
+      <a href="#" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
+          class="nav-label">Talhões</span></a>
+      <a href="#" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
+          class="nav-label">Insumos</span></a>
+
+      <div class="nav-section-title">Financeiro</div>
+      <a href="#" class="nav-item-link" data-label="Contas a Pagar"><i class="bi bi-arrow-down-circle-fill"></i><span
+          class="nav-label">Contas a Pagar</span></a>
+      <a href="#" class="nav-item-link" data-label="Contas a Receber"><i class="bi bi-arrow-up-circle-fill"></i><span
+          class="nav-label">Contas a Receber</span></a>
+      <a href="#" class="nav-item-link" data-label="Fluxo de Caixa"><i class="bi bi-cash-stack"></i><span
+          class="nav-label">Fluxo de Caixa</span></a>
+
+      <div class="nav-section-title">Comercial</div>
+      <a href="#" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
+          class="nav-label">Vendas</span></a>
+      <a href="#" class="nav-item-link" data-label="Contratos"><i class="bi bi-file-earmark-text-fill"></i><span
+          class="nav-label">Contratos</span></a>
+
+      <div class="nav-section-title">Sistema</div>
+      <a href="#" class="nav-item-link" data-label="Relatórios"><i class="bi bi-bar-chart-fill"></i><span
+          class="nav-label">Relatórios</span></a>
+      <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i
+          class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
     </div>
-  </div>
 
-  <div class="sidebar-nav">
-    <div class="nav-section-title">Principal</div>
-    <a href="{{ route('dashboard') }}" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
-    <a href="{{ route('agricultores.index') }}" class="nav-item-link" data-label="Cooperativa"><i class="bi bi-buildings-fill"></i><span class="nav-label">Cooperativa</span></a>
-    <a href="{{ route('agricultores.index') }}" class="nav-item-link active" data-label="Agricultores"><i class="bi bi-person-badge-fill"></i><span class="nav-label">Agricultores</span></a>
-
-    <div class="nav-section-title">Agrícola</div>
-    <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span class="nav-label">Safras</span></a>
-    <a href="#" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span class="nav-label">Talhões</span></a>
-    <a href="#" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span class="nav-label">Insumos</span></a>
-
-    <div class="nav-section-title">Financeiro</div>
-    <a href="#" class="nav-item-link" data-label="Contas a Pagar"><i class="bi bi-arrow-down-circle-fill"></i><span class="nav-label">Contas a Pagar</span></a>
-    <a href="#" class="nav-item-link" data-label="Contas a Receber"><i class="bi bi-arrow-up-circle-fill"></i><span class="nav-label">Contas a Receber</span></a>
-    <a href="#" class="nav-item-link" data-label="Fluxo de Caixa"><i class="bi bi-cash-stack"></i><span class="nav-label">Fluxo de Caixa</span></a>
-
-    <div class="nav-section-title">Comercial</div>
-    <a href="#" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span class="nav-label">Vendas</span></a>
-    <a href="#" class="nav-item-link" data-label="Contratos"><i class="bi bi-file-earmark-text-fill"></i><span class="nav-label">Contratos</span></a>
-
-    <div class="nav-section-title">Sistema</div>
-    <a href="#" class="nav-item-link" data-label="Relatórios"><i class="bi bi-bar-chart-fill"></i><span class="nav-label">Relatórios</span></a>
-    <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
-  </div>
-
-  <div class="sidebar-user">
-    <div class="avatar">
-      @if(!empty(Auth::user()->foto))
-        <img src="{{ asset('storage/users/' . Auth::user()->foto) }}" alt="Foto" onerror="this.onerror=null;this.parentElement.innerHTML='{{ substr(Auth::user()->name,0,1) }}';this.parentElement.style.color='#fff';this.parentElement.style.fontWeight='700';this.parentElement.style.fontSize='15px';">
-      @else
-        <span style="color:#fff;font-weight:700;font-size:15px;">{{ substr(Auth::user()->name,0,1) }}</span>
-      @endif
+    <div class="sidebar-user">
+      <div class="avatar">
+        @if(!empty(Auth::user()->foto))
+          <img src="{{ asset('storage/users/' . Auth::user()->foto) }}" alt="Foto"
+            onerror="this.onerror=null;this.parentElement.innerHTML='{{ substr(Auth::user()->name, 0, 1) }}';this.parentElement.style.color='#fff';this.parentElement.style.fontWeight='700';this.parentElement.style.fontSize='15px';">
+        @else
+          <span style="color:#fff;font-weight:700;font-size:15px;">{{ substr(Auth::user()->name, 0, 1) }}</span>
+        @endif
+      </div>
+      <div class="user-info">
+        <div class="u-name">{{ Auth::user()->name }}</div>
+        <div class="u-role">{{ Auth::user()->nivel }} · Viana</div>
+      </div>
     </div>
-    <div class="user-info">
-      <div class="u-name">{{ Auth::user()->name }}</div>
-      <div class="u-role">{{ Auth::user()->nivel }} · Viana</div>
-    </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════════════
      TOPBAR
 ══════════════════════════════════════ -->
-<header id="topbar">
-  <button class="topbar-toggle" id="sidebarToggle" title="Toggle Sidebar">
-    <i class="bi bi-list"></i>
-  </button>
-  <span class="topbar-title">Agricultores</span>
-  <nav aria-label="breadcrumb" class="d-none d-md-flex ms-3">
-    <ol class="breadcrumb mb-0" style="font-size:12.5px;">
-      <li class="breadcrumb-item"><a href="#" style="color:var(--primary);text-decoration:none;">SIAG</a></li>
-      <li class="breadcrumb-item active" style="color:var(--text-light);">Agricultores</li>
-    </ol>
-  </nav>
-  <div class="topbar-right">
-    <span class="badge rounded-pill d-none d-md-inline-flex align-items-center gap-1"
-      style="background:var(--accent-lt);color:var(--primary);font-size:12px;padding:7px 13px;font-weight:600;">
-      <i class="bi bi-calendar3"></i> Safra 2024/25
-    </span>
-    <button class="topbar-icon-btn" title="Notificações">
-      <i class="bi bi-bell-fill"></i><span class="notif-badge"></span>
+  <header id="topbar">
+    <button class="topbar-toggle" id="sidebarToggle" title="Toggle Sidebar">
+      <i class="bi bi-list"></i>
     </button>
-    <button class="topbar-icon-btn" title="Mensagens">
-      <i class="bi bi-chat-dots-fill"></i>
-    </button>
-    <div class="dropdown d-none d-sm-flex">
-      <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
-        <div class="t-avatar">
-          @if(!empty(Auth::user()->foto))
-            <img src="{{ asset('storage/users/' . Auth::user()->foto) }}" alt="Foto" onerror="this.onerror=null;this.parentElement.innerHTML='{{ substr(Auth::user()->name,0,1) }}';this.parentElement.style.color='#fff';this.parentElement.style.fontWeight='700';this.parentElement.style.fontSize='13px';">
-          @else
-            <span style="color:#fff;font-weight:700;font-size:13px;">{{ substr(Auth::user()->name,0,1) }}</span>
-          @endif
-        </div>
-        <span>{{ explode(' ', Auth::user()->name)[0] }}</span>
-        <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
-      </div>
-      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-        <li><span class="dropdown-header"><i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}</span></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
-        <li>
-          <a class="dropdown-item" href="#" id="themeToggle">
-            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
-            <span id="themeLabel">Modo Escuro</span>
-          </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-          <div class="dropdown-item item-logout p-0">
-            <form method="POST" action="/logout">
-              @csrf
-              <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
-            </form>
+    <span class="topbar-title">Agricultores</span>
+    <nav aria-label="breadcrumb" class="d-none d-md-flex ms-3">
+      <ol class="breadcrumb mb-0" style="font-size:12.5px;">
+        <li class="breadcrumb-item"><a href="#" style="color:var(--primary);text-decoration:none;">SIAG</a></li>
+        <li class="breadcrumb-item active" style="color:var(--text-light);">Agricultores</li>
+      </ol>
+    </nav>
+    <div class="topbar-right">
+      <span class="badge rounded-pill d-none d-md-inline-flex align-items-center gap-1"
+        style="background:var(--accent-lt);color:var(--primary);font-size:12px;padding:7px 13px;font-weight:600;">
+        <i class="bi bi-calendar3"></i> Safra 2024/25
+      </span>
+      <button class="topbar-icon-btn" title="Notificações">
+        <i class="bi bi-bell-fill"></i><span class="notif-badge"></span>
+      </button>
+      <button class="topbar-icon-btn" title="Mensagens">
+        <i class="bi bi-chat-dots-fill"></i>
+      </button>
+      <div class="dropdown d-none d-sm-flex">
+        <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
+          <div class="t-avatar">
+            <img id="dropdownAvatarLarge"
+              src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
+              alt="Foto-perfil" width="20" class="avatar-md">
           </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</header>
 
-<!-- ══════════════════════════════════════
+          <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
+          <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
+          <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
+          <li>
+            <a class="dropdown-item" href="#" id="themeToggle">
+              <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+              <span id="themeLabel">Modo Escuro</span>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <div class="dropdown-item item-logout p-0">
+              <form method="POST" action="/logout">
+                @csrf
+                <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
+              </form>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════
      MAIN
 ══════════════════════════════════════ -->
-<main id="main">
-  <div class="content-inner">
+  <main id="main">
+    <div class="content-inner">
 
-    <!-- Page Header -->
-    <div class="page-header anim">
-      <div>
-        <h1>Gestão de Agricultores</h1>
-        <p>Registo e administração dos agricultores associados às cooperativas da região de Viana</p>
+      <!-- Page Header -->
+      <div class="page-header anim">
+        <div>
+          <h1>Gestão de Agricultores</h1>
+          <p>Registo e administração dos agricultores associados às cooperativas da região de Viana</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-outline-green" id="btnExportar">
+            <i class="bi bi-download"></i> Exportar
+          </button>
+          <button class="btn-green" id="btnNovoAgricultor" data-bs-toggle="modal" data-bs-target="#modalAgricultor">
+            <i class="bi bi-person-add"></i> Novo Agricultor
+          </button>
+        </div>
       </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn-outline-green" id="btnExportar">
-          <i class="bi bi-download"></i> Exportar
-        </button>
-        <button class="btn-green" id="btnNovoAgricultor" data-bs-toggle="modal" data-bs-target="#modalAgricultor">
-          <i class="bi bi-person-add"></i> Novo Agricultor
-        </button>
-      </div>
-    </div>
 
-    <!-- Stat Cards -->
-    <div class="row g-3 mb-4 anim anim-d1">
-      <div class="col-6 col-xl-3">
-        <div class="stat-card">
-          <div class="stat-icon green"><i class="bi bi-person-badge-fill"></i></div>
-          <div class="stat-info">
-            <div class="s-label">Total de Agricultores</div>
-            <div class="s-value">4</div>
-            <span class="stat-badge up"><i class="bi bi-arrow-up"></i> +2 este mês</span>
+      <!-- Stat Cards -->
+      <div class="row g-3 mb-4 anim anim-d1">
+        <div class="col-6 col-xl-3">
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="bi bi-person-badge-fill"></i></div>
+            <div class="stat-info">
+              <div class="s-label">Total de Agricultores</div>
+              <div class="s-value">4</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-xl-3">
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="bi bi-building"></i></div>
+            <div class="stat-info">
+              <div class="s-label">Associados a Cooperativa</div>
+              <div class="s-value">3</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-xl-3">
+          <div class="stat-card">
+            <div class="stat-icon amber"><i class="bi bi-person-fill-exclamation"></i></div>
+            <div class="stat-info">
+              <div class="s-label">Pendentes</div>
+              <div class="s-value">1</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-xl-3">
+          <div class="stat-card">
+            <div class="stat-icon purple"><i class="bi bi-person-check-fill"></i></div>
+            <div class="stat-info">
+              <div class="s-label">Activos</div>
+              <div class="s-value">3</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-6 col-xl-3">
-        <div class="stat-card">
-          <div class="stat-icon blue"><i class="bi bi-buildings-fill"></i></div>
-          <div class="stat-info">
-            <div class="s-label">Associados a Cooperativa</div>
-            <div class="s-value">3</div>
-            <span class="stat-badge info"><i class="bi bi-info-circle"></i> 75% do total</span>
+
+      <!-- Table Card -->
+      <div class="table-card anim anim-d2">
+
+        <!-- Header -->
+        <div class="table-card-header">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <h5><i class="bi bi-person-badge-fill me-2" style="color:var(--primary);"></i>Lista de Agricultores</h5>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            {{-- <span style="font-size:12.5px;color:var(--text-light);" id="tableCountTop">4 registos</span> --}}
           </div>
         </div>
-      </div>
-      <div class="col-6 col-xl-3">
-        <div class="stat-card">
-          <div class="stat-icon amber"><i class="bi bi-person-fill-exclamation"></i></div>
-          <div class="stat-info">
-            <div class="s-label">Pendentes</div>
-            <div class="s-value">1</div>
-            <span class="stat-badge info"><i class="bi bi-hourglass-split"></i> Aguarda associação</span>
+
+        <!-- Search & Filters -->
+        <div class="search-filter-bar">
+          <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text" class="search-input" id="searchAgricultor"
+              placeholder="Pesquisar por nome, BI ou cooperativa…">
+          </div>
+          <select class="filter-select" id="filterEstado">
+            <option value="">Todos os estados</option>
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+            <option value="pendente">Pendente</option>
+          </select>
+          <select class="filter-select" id="filterCooperativa">
+            <option value="">Todas as cooperativas</option>
+            <option value="Coop. Agrícola de Viana">Coop. Agrícola de Viana</option>
+            <option value="Coop. Kilamba Kiaxi">Coop. Kilamba Kiaxi</option>
+            <option value="Coop. Cazenga Agrícola">Coop. Cazenga Agrícola</option>
+            <option value="—">Sem cooperativa</option>
+          </select>
+          <select class="filter-select" id="filterCargo">
+            <option value="">Todos os cargos</option>
+            <option value="agricultor">Agricultor</option>
+            <option value="dirigente">Dirigente</option>
+            <option value="tecnico">Técnico</option>
+            <option value="socio">Sócio</option>
+          </select>
+        </div>
+
+        <!-- Table -->
+        <div style="overflow-x:auto;">
+          <table class="ag-table" id="agTable">
+            <thead>
+              <tr>
+                <th style="width:40px;">
+                  <input type="checkbox" id="selectAll"
+                    style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
+                </th>
+                <th>Agricultor</th>
+                <th>Contacto</th>
+                <th>Cooperativa</th>
+                <th>Cargo</th>
+                <th>Estado</th>
+                <th style="text-align:center;">Acções</th>
+              </tr>
+            </thead>
+            <tbody id="agTableBody">
+
+              {{-- <!-- Row 1 -->
+
+              <!-- Row 4 -->
+              <tr data-estado="pendente" data-cooperativa="—" data-cargo="" id="ag-row-4">
+                <td><input type="checkbox" class="row-check"
+                    style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
+                <td>
+                  <div class="ag-cell">
+                    <div class="person-avatar" style="background:#6A1B9A;">RN</div>
+                    <div>
+                      <div class="ag-name">Rosa Neto</div>
+                      <div class="ag-bi">BI: 002345671LA044</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="font-size:13px;">+244 940 222 333</div>
+                  <div style="font-size:12px;color:var(--text-light);">rosa.neto@email.ao</div>
+                </td>
+                <td><span class="text-muted-coop">Sem cooperativa</span></td>
+                <td><span class="text-muted-coop">—</span></td>
+                <td><span class="badge-status pendente"><span class="dot"></span>Pendente</span></td>
+                <td style="text-align:center;">
+                  <div style="display:flex;gap:6px;justify-content:center;">
+                    <button class="action-btn view" title="Ver detalhes"
+                      onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')"><i
+                        class="bi bi-eye-fill"></i></button>
+                    <button class="action-btn edit btn-editar-ag" title="Editar" data-id="4" data-nome="Rosa Neto"
+                      data-sexo="F" data-nascimento="1995-07-30" data-bi="002345671LA044" data-nif=""
+                      data-estadocivil="solteira" data-tel="+244 940 222 333" data-tel2=""
+                      data-email="rosa.neto@email.ao" data-endereco="Bairro Cazenga, Luanda" data-cooperativa=""
+                      data-cargo="" data-associacao="" data-estado="pendente">
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="4"
+                      data-nome="Rosa Neto"><i class="bi bi-trash-fill"></i></button>
+                  </div>
+                </td>
+              </tr> --}}
+
+              @foreach($agricultores as $agricultor)
+
+                <tr id="agricultor-row-{{ $agricultor->id }}" data-estado="activo"
+                  data-cooperativa="Coop. Agrícola de Viana" data-cargo="dirigente">
+                  <td><input type="checkbox" class="row-check"
+                      style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
+                  <td>
+                    <div class="ag-cell">
+                      <img class="user-avatar-sm"
+                        src="{{ !empty($agricultor->foto) ? asset('uploads/users/' . $agricultor->foto) : asset('uploads/users/default-user.png') }}"
+                        alt="Foto" style="width:40px;height:40px;border-radius:50%;object-fit:cover;"
+                        onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+                      <div>
+                        <div class="ag-name"> {{ $agricultor->nome_completo }}</div>
+                        <div class="ag-bi">BI: {{ $agricultor->bilhete }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div style="font-size:13px;">{{$agricultor->telefone_principal }}</div>
+                    <div style="font-size:12px;color:var(--text-light);">{{ $agricultor->email}}</div>
+                  </td>
+                  <td>Coop. Agrícola de Viana</td>
+                  <td><span class="badge-cargo"></i>Dirigente</span></td>
+                  <td><span class="badge-status activo"> {{ $agricultor->estado}}</span></td>
+                  <td style="text-align:center;">
+                    <div style="display:flex;gap:6px;justify-content:center;">
+                      <button class="action-btn view" title="Ver detalhes"
+                        onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')"><i
+                          class="bi bi-eye-fill"></i></button>
+                      <button class="action-btn edit btn-editar-ag" title="Editar" data-id="{{ $agricultor->id }}"
+                         data-nome="{{ $agricultor->nome_completo }}" data-inicio="{{ $agricultor->data_inicio }}"
+                        data-fim="{{ $agricultor->data_fim }}" data-estado="{{ $agricultor->estado }}"
+
+                         data-sexo="F" data-nascimento="1979-11-02"
+                        data-bi="006234890LA042" data-nif="" data-estadocivil="casada" data-tel="+244 912 333 444"
+                        data-tel2="" data-email="maria.silva@email.ao" data-endereco="Bairro Kicolo, Viana, Luanda"
+                        data-cooperativa="Coop. Agrícola de Viana" data-cargo="dirigente" data-associacao="2018-06-22"
+                        data-coopestado="activo" data-estado="activo">
+                        <i class="bi bi-pencil-fill"></i>
+                      </button>
+                      <button class="action-btn delete btn-eliminar-ag" title="Apagar"  data-id="{{ $agricultor->id }}"
+                        data-nome="{{ $agricultor->nome_completo }}"><i class="bi bi-trash-fill"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+              @endforeach
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty state (hidden by default) -->
+        <div class="empty-state" id="emptyState" style="display:none;">
+          <i class="bi bi-person-x"></i>
+          <h6>Nenhum agricultor encontrado</h6>
+          <p>Tente ajustar os filtros ou registe um novo agricultor.</p>
+        </div>
+
+        <!-- Footer / Pagination -->
+        <div class="table-footer">
+          <span id="tableCount">Mostrando 4 de 4 agricultores</span>
+          <div class="pagination-btns">
+            <button class="page-btn"><i class="bi bi-chevron-left"></i></button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn"><i class="bi bi-chevron-right"></i></button>
           </div>
         </div>
+
       </div>
-      <div class="col-6 col-xl-3">
-        <div class="stat-card">
-          <div class="stat-icon purple"><i class="bi bi-person-check-fill"></i></div>
-          <div class="stat-info">
-            <div class="s-label">Activos</div>
-            <div class="s-value">3</div>
-            <span class="stat-badge up"><i class="bi bi-arrow-up"></i> Estado regular</span>
-          </div>
-        </div>
-      </div>
-    </div>
+      <!-- /table-card -->
 
-    <!-- Table Card -->
-    <div class="table-card anim anim-d2">
-
-      <!-- Header -->
-      <div class="table-card-header">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <h5><i class="bi bi-person-badge-fill me-2" style="color:var(--primary);"></i>Lista de Agricultores</h5>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <span style="font-size:12.5px;color:var(--text-light);" id="tableCountTop">4 registos</span>
-        </div>
-      </div>
-
-      <!-- Search & Filters -->
-      <div class="search-filter-bar">
-        <div class="search-wrap">
-          <i class="bi bi-search"></i>
-          <input type="text" class="search-input" id="searchAgricultor" placeholder="Pesquisar por nome, BI ou cooperativa…">
-        </div>
-        <select class="filter-select" id="filterEstado">
-          <option value="">Todos os estados</option>
-          <option value="activo">Activo</option>
-          <option value="inactivo">Inactivo</option>
-          <option value="pendente">Pendente</option>
-        </select>
-        <select class="filter-select" id="filterCooperativa">
-          <option value="">Todas as cooperativas</option>
-          <option value="Coop. Agrícola de Viana">Coop. Agrícola de Viana</option>
-          <option value="Coop. Kilamba Kiaxi">Coop. Kilamba Kiaxi</option>
-          <option value="Coop. Cazenga Agrícola">Coop. Cazenga Agrícola</option>
-          <option value="—">Sem cooperativa</option>
-        </select>
-        <select class="filter-select" id="filterCargo">
-          <option value="">Todos os cargos</option>
-          <option value="agricultor">Agricultor</option>
-          <option value="dirigente">Dirigente</option>
-          <option value="tecnico">Técnico</option>
-          <option value="socio">Sócio</option>
-        </select>
-      </div>
-
-      <!-- Table -->
-      <div style="overflow-x:auto;">
-        <table class="ag-table" id="agTable">
-          <thead>
-            <tr>
-              <th style="width:40px;">
-                <input type="checkbox" id="selectAll" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
-              </th>
-              <th>Agricultor</th>
-              <th>Contacto</th>
-              <th>Cooperativa</th>
-              <th>Cargo</th>
-              <th>Estado</th>
-              <th style="text-align:center;">Acções</th>
-            </tr>
-          </thead>
-          <tbody id="agTableBody">
-
-            <!-- Row 1 -->
-            <tr data-estado="activo" data-cooperativa="Coop. Agrícola de Viana" data-cargo="agricultor" id="ag-row-1">
-              <td><input type="checkbox" class="row-check" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
-              <td>
-                <div class="ag-cell">
-                  <div class="person-avatar" style="background:#1B5E20;">JF</div>
-                  <div>
-                    <div class="ag-name">João Manuel Ferreira</div>
-                    <div class="ag-bi">BI: 004512378LA041</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div style="font-size:13px;">+244 923 111 222</div>
-                <div style="font-size:12px;color:var(--text-light);">joao.ferreira@email.ao</div>
-              </td>
-              <td>Coop. Agrícola de Viana</td>
-              <td><span class="badge-cargo"><i class="bi bi-person-fill me-1"></i>Agricultor</span></td>
-              <td><span class="badge-status activo"><span class="dot"></span>Activo</span></td>
-              <td style="text-align:center;">
-                <div style="display:flex;gap:6px;justify-content:center;">
-                  <button class="action-btn view" title="Ver detalhes" onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')"><i class="bi bi-eye-fill"></i></button>
-                  <button class="action-btn edit btn-editar-ag" title="Editar"
-                    data-id="1" data-nome="João Manuel Ferreira" data-sexo="M" data-nascimento="1985-04-12"
-                    data-bi="004512378LA041" data-nif="" data-estadocivil="casado"
-                    data-tel="+244 923 111 222" data-tel2="" data-email="joao.ferreira@email.ao"
-                    data-endereco="Bairro Viana, Rua 5, Luanda" data-cooperativa="Coop. Agrícola de Viana"
-                    data-cargo="agricultor" data-associacao="2019-03-10" data-estado="activo">
-                    <i class="bi bi-pencil-fill"></i>
-                  </button>
-                  <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="1" data-nome="João Manuel Ferreira"><i class="bi bi-trash-fill"></i></button>
-                </div>
-              </td>
-            </tr>
-
-            <!-- Row 2 -->
-            <tr data-estado="activo" data-cooperativa="Coop. Agrícola de Viana" data-cargo="dirigente" id="ag-row-2">
-              <td><input type="checkbox" class="row-check" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
-              <td>
-                <div class="ag-cell">
-                  <div class="person-avatar" style="background:#1565C0;">MS</div>
-                  <div>
-                    <div class="ag-name">Maria das Dores Silva</div>
-                    <div class="ag-bi">BI: 006234890LA042</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div style="font-size:13px;">+244 912 333 444</div>
-                <div style="font-size:12px;color:var(--text-light);">maria.silva@email.ao</div>
-              </td>
-              <td>Coop. Agrícola de Viana</td>
-              <td><span class="badge-cargo"><i class="bi bi-star-fill me-1"></i>Dirigente</span></td>
-              <td><span class="badge-status activo"><span class="dot"></span>Activo</span></td>
-              <td style="text-align:center;">
-                <div style="display:flex;gap:6px;justify-content:center;">
-                  <button class="action-btn view" title="Ver detalhes" onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')"><i class="bi bi-eye-fill"></i></button>
-                  <button class="action-btn edit btn-editar-ag" title="Editar"
-                    data-id="2" data-nome="Maria das Dores Silva" data-sexo="F" data-nascimento="1979-11-02"
-                    data-bi="006234890LA042" data-nif="" data-estadocivil="casada"
-                    data-tel="+244 912 333 444" data-tel2="" data-email="maria.silva@email.ao"
-                    data-endereco="Bairro Kicolo, Viana, Luanda" data-cooperativa="Coop. Agrícola de Viana"
-                    data-cargo="dirigente" data-associacao="2018-06-22" data-estado="activo">
-                    <i class="bi bi-pencil-fill"></i>
-                  </button>
-                  <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="2" data-nome="Maria das Dores Silva"><i class="bi bi-trash-fill"></i></button>
-                </div>
-              </td>
-            </tr>
-
-            <!-- Row 3 -->
-            <tr data-estado="activo" data-cooperativa="Coop. Kilamba Kiaxi" data-cargo="socio" id="ag-row-3">
-              <td><input type="checkbox" class="row-check" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
-              <td>
-                <div class="ag-cell">
-                  <div class="person-avatar" style="background:#F57F17;">AL</div>
-                  <div>
-                    <div class="ag-name">António Lopes Costa</div>
-                    <div class="ag-bi">BI: 009871230LA043</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div style="font-size:13px;">+244 935 555 666</div>
-                <div style="font-size:12px;color:var(--text-light);">antonio.costa@email.ao</div>
-              </td>
-              <td>Coop. Kilamba Kiaxi</td>
-              <td><span class="badge-cargo"><i class="bi bi-person-badge me-1"></i>Sócio</span></td>
-              <td><span class="badge-status activo"><span class="dot"></span>Activo</span></td>
-              <td style="text-align:center;">
-                <div style="display:flex;gap:6px;justify-content:center;">
-                  <button class="action-btn view" title="Ver detalhes" onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')"><i class="bi bi-eye-fill"></i></button>
-                  <button class="action-btn edit btn-editar-ag" title="Editar"
-                    data-id="3" data-nome="António Lopes Costa" data-sexo="M" data-nascimento="1990-01-18"
-                    data-bi="009871230LA043" data-nif="" data-estadocivil="solteiro"
-                    data-tel="+244 935 555 666" data-tel2="" data-email="antonio.costa@email.ao"
-                    data-endereco="Bairro Kilamba, Kilamba Kiaxi, Luanda" data-cooperativa="Coop. Kilamba Kiaxi"
-                    data-cargo="socio" data-associacao="2021-02-14" data-estado="activo">
-                    <i class="bi bi-pencil-fill"></i>
-                  </button>
-                  <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="3" data-nome="António Lopes Costa"><i class="bi bi-trash-fill"></i></button>
-                </div>
-              </td>
-            </tr>
-
-            <!-- Row 4 -->
-            <tr data-estado="pendente" data-cooperativa="—" data-cargo="" id="ag-row-4">
-              <td><input type="checkbox" class="row-check" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
-              <td>
-                <div class="ag-cell">
-                  <div class="person-avatar" style="background:#6A1B9A;">RN</div>
-                  <div>
-                    <div class="ag-name">Rosa Neto</div>
-                    <div class="ag-bi">BI: 002345671LA044</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div style="font-size:13px;">+244 940 222 333</div>
-                <div style="font-size:12px;color:var(--text-light);">rosa.neto@email.ao</div>
-              </td>
-              <td><span class="text-muted-coop">Sem cooperativa</span></td>
-              <td><span class="text-muted-coop">—</span></td>
-              <td><span class="badge-status pendente"><span class="dot"></span>Pendente</span></td>
-              <td style="text-align:center;">
-                <div style="display:flex;gap:6px;justify-content:center;">
-                  <button class="action-btn view" title="Ver detalhes" onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')"><i class="bi bi-eye-fill"></i></button>
-                  <button class="action-btn edit btn-editar-ag" title="Editar"
-                    data-id="4" data-nome="Rosa Neto" data-sexo="F" data-nascimento="1995-07-30"
-                    data-bi="002345671LA044" data-nif="" data-estadocivil="solteira"
-                    data-tel="+244 940 222 333" data-tel2="" data-email="rosa.neto@email.ao"
-                    data-endereco="Bairro Cazenga, Luanda" data-cooperativa=""
-                    data-cargo="" data-associacao="" data-estado="pendente">
-                    <i class="bi bi-pencil-fill"></i>
-                  </button>
-                  <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="4" data-nome="Rosa Neto"><i class="bi bi-trash-fill"></i></button>
-                </div>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Empty state (hidden by default) -->
-      <div class="empty-state" id="emptyState" style="display:none;">
-        <i class="bi bi-person-x"></i>
-        <h6>Nenhum agricultor encontrado</h6>
-        <p>Tente ajustar os filtros ou registe um novo agricultor.</p>
-      </div>
-
-      <!-- Footer / Pagination -->
-      <div class="table-footer">
-        <span id="tableCount">Mostrando 4 de 4 agricultores</span>
-        <div class="pagination-btns">
-          <button class="page-btn"><i class="bi bi-chevron-left"></i></button>
-          <button class="page-btn active">1</button>
-          <button class="page-btn"><i class="bi bi-chevron-right"></i></button>
-        </div>
-      </div>
-
-    </div>
-    <!-- /table-card -->
-
-  </div><!-- /content-inner -->
-</main>
+    </div><!-- /content-inner -->
+  </main>
 
 
-<!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════════════
      MODAL — NOVO / EDITAR AGRICULTOR
 ══════════════════════════════════════ -->
-<div class="modal fade" id="modalAgricultor" tabindex="-1" aria-labelledby="modalAgricultorLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-coop modal-dialog-centered">
-    <div class="modal-content">
+  <div class="modal fade" id="modalAgricultor" tabindex="-1" aria-labelledby="modalAgricultorLabel" aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-coop modal-dialog-centered">
+      <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <div style="display:flex;align-items:center;gap:14px;flex:1;">
-          <div class="modal-header-icon">
-            <i class="bi bi-person-badge-fill" id="modalHeaderIcon"></i>
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <div style="display:flex;align-items:center;gap:14px;flex:1;">
+            <div class="modal-header-icon">
+              <i class="bi bi-person-badge-fill" id="modalHeaderIcon"></i>
+            </div>
+            <div>
+              <div class="modal-title" id="modalAgricultorLabel">Novo Agricultor</div>
+            </div>
           </div>
-          <div>
-            <div class="modal-title" id="modalAgricultorLabel">Novo Agricultor</div>
-          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
 
-      <!-- Modal Tabs nav -->
-      <div class="modal-tabs" id="modalTabsNav">
-        <button class="modal-tab-btn active" data-modal-tab="pessoais">
-          <i class="bi bi-person-vcard-fill"></i> Dados Pessoais
-        </button>
-        <button class="modal-tab-btn" data-modal-tab="contactos">
-          <i class="bi bi-geo-alt-fill"></i> Contactos & Endereço
-        </button>
-        <button class="modal-tab-btn" data-modal-tab="cooperativa">
-          <i class="bi bi-buildings-fill"></i> Cooperativa
-        </button>
-      </div>
+        <!-- Modal Tabs nav -->
+        <div class="modal-tabs" id="modalTabsNav">
+          <button class="modal-tab-btn active" data-modal-tab="pessoais">
+            <i class="bi bi-person-vcard-fill"></i> Dados Pessoais
+          </button>
+          <button class="modal-tab-btn" data-modal-tab="contactos">
+            <i class="bi bi-geo-alt-fill"></i> Contactos & Endereço
+          </button>
+          <button class="modal-tab-btn" data-modal-tab="cooperativa">
+            <i class="bi bi-building"></i> Cooperativa
+          </button>
+          <button class="modal-tab-btn" data-modal-tab="estado">
+            <i class="bi bi-toggle-on"></i> Estado
+          </button>
+        </div>
 
-      <!-- Modal Body (tabs content) -->
-      <div class="modal-body">
-        <form id="formAgricultor" novalidate>
-          @csrf
-          <input type="hidden" id="agId" name="id" value="">
+        <!-- Modal Body (tabs content) -->
+        <div class="modal-body">
+          <form id="formAgricultor" novalidate>
+            @csrf
+            <input type="hidden" id="agId" name="id" value="">
 
-          <!-- ── TAB 1: Dados Pessoais ── -->
-          <div class="modal-tab-panel active" id="mtab-pessoais">
-            <div class="modal-form-card">
-              <div class="modal-section-title">
-                <i class="bi bi-camera-fill"></i> Fotografia
-              </div>
-              <div style="display:flex;align-items:center;gap:22px;">
-                <div class="foto-upload-zone" onclick="document.getElementById('agFotoInput').click()" id="agFotoZone">
-                  <i class="bi bi-person-circle"></i>
-                  <span>Carregar foto</span>
+            <!-- ── TAB 1: Dados Pessoais ── -->
+            <div class="modal-tab-panel active" id="mtab-pessoais">
+              <div class="modal-form-card">
+                <div class="modal-section-title">
+                  <i class="bi bi-camera-fill"></i> Fotografia
                 </div>
-                <input type="file" id="agFotoInput" name="foto" accept="image/*" style="display:none;">
+                <div style="display:flex;align-items:center;gap:22px;">
+                  <div class="foto-upload-zone" onclick="document.getElementById('agFotoInput').click()"
+                    id="agFotoZone">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Carregar foto</span>
+                  </div>
+                  <input type="file" id="agFotoInput" name="foto" accept="image/*" style="display:none;">
+                  <div>
+                    <div style="font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:4px;">Foto do
+                      agricultor (opcional)</div>
+                    <div style="font-size:12px;color:var(--text-light);margin-bottom:10px;">JPG ou PNG · Máx. 2 MB ·
+                      200×200 px recomendado</div>
+                    <button type="button" class="btn-outline-green" style="padding:6px 14px;font-size:12.5px;"
+                      onclick="document.getElementById('agFotoInput').click()">
+                      <i class="bi bi-upload"></i> Seleccionar ficheiro
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-form-card">
+                <div class="modal-section-title">
+                  <i class="bi bi-person-vcard-fill"></i> Identificação
+                </div>
+                <div class="row g-3">
+                  <div class="col-12 col-md-8">
+                    <label class="cfg-label" for="agNome">Nome Completo *</label>
+                    <input class="cfg-input" type="text" id="agNome" name="nome" placeholder="Ex: João Manuel Ferreira"
+                      required>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="cfg-label" for="agSexo">Sexo *</label>
+                    <select class="cfg-select" id="agSexo" name="sexo" required>
+                      <option value="">Seleccione…</option>
+                      <option value="M">Masculino</option>
+                      <option value="F">Feminino</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="cfg-label" for="agNascimento">Data de Nascimento *</label>
+                    <input class="cfg-input" type="date" id="agNascimento" name="data_nascimento" required>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="cfg-label" for="agBI">Bilhete de Identidade *</label>
+                    <input class="cfg-input" type="text" id="agBI" name="bi" placeholder="Ex: 004512378LA041" required>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="cfg-label" for="agNIF">NIF <span class="cfg-helper"
+                        style="display:inline;">(opcional)</span></label>
+                    <input class="cfg-input" type="text" id="agNIF" name="nif" placeholder="Ex: 004512378">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── TAB 2: Contactos & Endereço ── -->
+            <div class="modal-tab-panel" id="mtab-contactos">
+              <div class="modal-form-card">
+                <div class="modal-section-title">
+                  <i class="bi bi-telephone-fill"></i> Contactos
+                </div>
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="agTelefone">Telefone Principal *</label>
+                    <input class="cfg-input" type="tel" id="agTelefone" name="telefone" placeholder="+244 9XX XXX XXX"
+                      required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="agTelefoneAlt">Telefone Alternativo</label>
+                    <input class="cfg-input" type="tel" id="agTelefoneAlt" name="telefone_alt"
+                      placeholder="+244 9XX XXX XXX">
+                  </div>
+                  <div class="col-12">
+                    <label class="cfg-label" for="agEmail">E-mail</label>
+                    <input class="cfg-input" type="email" id="agEmail" name="email" placeholder="agricultor@email.ao">
+                  </div>
+                </div>
+              </div>
+              <div class="modal-form-card">
+                <div class="modal-section-title">
+                  <i class="bi bi-geo-alt-fill"></i> Endereço
+                </div>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="cfg-label" for="agEndereco">Endereço Completo</label>
+                    <textarea class="cfg-textarea" id="agEndereco" name="endereco" rows="3"
+                      placeholder="Ex: Bairro Viana, Rua 5, Município de Viana, Luanda"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── TAB 3: Cooperativa ── -->
+            <div class="modal-tab-panel" id="mtab-cooperativa">
+              <div id="agSemCoopAlert" class="info-alert">
+                <i class="bi bi-info-circle-fill"></i>
                 <div>
-                  <div style="font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:4px;">Foto do agricultor (opcional)</div>
-                  <div style="font-size:12px;color:var(--text-light);margin-bottom:10px;">JPG ou PNG · Máx. 2 MB · 200×200 px recomendado</div>
-                  <button type="button" class="btn-outline-green" style="padding:6px 14px;font-size:12.5px;" onclick="document.getElementById('agFotoInput').click()">
-                    <i class="bi bi-upload"></i> Seleccionar ficheiro
-                  </button>
+                  <div class="ia-title">Agricultor sem cooperativa associada</div>
+                  <div class="ia-sub">Seleccione uma cooperativa abaixo para registar o cargo e a data de associação.
+                  </div>
+                </div>
+              </div>
+              <div class="modal-form-card">
+                <div class="modal-section-title">
+                  <i class="bi bi-building"></i> Associação Cooperativa
+                </div>
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="agCooperativa">Cooperativa</label>
+                    <select class="cfg-select" id="agCooperativa" name="cooperativa">
+                      <option value="">Nenhuma (sem associação)</option>
+                      <option value="Coop. Agrícola de Viana">Coop. Agrícola de Viana</option>
+                      <option value="Coop. Kilamba Kiaxi">Coop. Kilamba Kiaxi</option>
+                      <option value="Coop. Cazenga Agrícola">Coop. Cazenga Agrícola</option>
+                    </select>
+                    <div class="cfg-helper">Cooperativa à qual o agricultor está associado</div>
+                  </div>
+                  <div class="col-12 col-md-3 ag-coop-field" style="display:none;">
+                    <label class="cfg-label" for="agCargo">Cargo</label>
+                    <select class="cfg-select" id="agCargo" name="cargo">
+                      <option value="agricultor">Agricultor</option>
+                      <option value="dirigente">Dirigente</option>
+                      <option value="tecnico">Técnico</option>
+                      <option value="socio">Sócio</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-3 ag-coop-field" style="display:none;">
+                    <label class="cfg-label" for="agAssociacao">Data de Associação</label>
+                    <input class="cfg-input" type="date" id="agAssociacao" name="data_associacao">
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="modal-form-card">
-              <div class="modal-section-title">
-                <i class="bi bi-person-vcard-fill"></i> Identificação
-              </div>
-              <div class="row g-3">
-                <div class="col-12 col-md-8">
-                  <label class="cfg-label" for="agNome">Nome Completo *</label>
-                  <input class="cfg-input" type="text" id="agNome" name="nome" placeholder="Ex: João Manuel Ferreira" required>
-                </div>
-                <div class="col-12 col-md-4">
-                  <label class="cfg-label" for="agSexo">Sexo *</label>
-                  <select class="cfg-select" id="agSexo" name="sexo" required>
-                    <option value="">Seleccione…</option>
-                    <option value="M">Masculino</option>
-                    <option value="F">Feminino</option>
-                  </select>
-                </div>
-                <div class="col-12 col-md-4">
-                  <label class="cfg-label" for="agNascimento">Data de Nascimento *</label>
-                  <input class="cfg-input" type="date" id="agNascimento" name="data_nascimento" required>
-                </div>
-                <div class="col-12 col-md-4">
-                  <label class="cfg-label" for="agBI">Bilhete de Identidade *</label>
-                  <input class="cfg-input" type="text" id="agBI" name="bi" placeholder="Ex: 004512378LA041" required>
-                </div>
-                <div class="col-12 col-md-4">
-                  <label class="cfg-label" for="agNIF">NIF <span class="cfg-helper" style="display:inline;">(opcional)</span></label>
-                  <input class="cfg-input" type="text" id="agNIF" name="nif" placeholder="Ex: 004512378">
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label" for="agEstadoCivil">Estado Civil <span class="cfg-helper" style="display:inline;">(opcional)</span></label>
-                  <select class="cfg-select" id="agEstadoCivil" name="estado_civil">
-                    <option value="">Seleccione…</option>
-                    <option value="solteiro">Solteiro(a)</option>
-                    <option value="casado">Casado(a)</option>
-                    <option value="uniao_facto">União de Facto</option>
-                    <option value="divorciado">Divorciado(a)</option>
-                    <option value="viuvo">Viúvo(a)</option>
-                  </select>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label" for="agEstado">Estado da Conta *</label>
-                  <select class="cfg-select" id="agEstado" name="estado" required>
-                    <option value="activo">Activo</option>
-                    <option value="inactivo">Inactivo</option>
-                    <option value="pendente">Pendente</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- ── TAB 2: Contactos & Endereço ── -->
-          <div class="modal-tab-panel" id="mtab-contactos">
-            <div class="modal-form-card">
-              <div class="modal-section-title">
-                <i class="bi bi-telephone-fill"></i> Contactos
-              </div>
-              <div class="row g-3">
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label" for="agTelefone">Telefone Principal *</label>
-                  <input class="cfg-input" type="tel" id="agTelefone" name="telefone" placeholder="+244 9XX XXX XXX" required>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label" for="agTelefoneAlt">Telefone Alternativo</label>
-                  <input class="cfg-input" type="tel" id="agTelefoneAlt" name="telefone_alt" placeholder="+244 9XX XXX XXX">
-                </div>
-                <div class="col-12">
-                  <label class="cfg-label" for="agEmail">E-mail</label>
-                  <input class="cfg-input" type="email" id="agEmail" name="email" placeholder="agricultor@email.ao">
-                </div>
-              </div>
-            </div>
-            <div class="modal-form-card">
-              <div class="modal-section-title">
-                <i class="bi bi-geo-alt-fill"></i> Endereço
-              </div>
-              <div class="row g-3">
-                <div class="col-12">
-                  <label class="cfg-label" for="agEndereco">Endereço Completo</label>
-                  <textarea class="cfg-textarea" id="agEndereco" name="endereco" rows="3" placeholder="Ex: Bairro Viana, Rua 5, Município de Viana, Luanda"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
+            <!-- ── TAB 4: Estado ── -->
+            <div class="modal-tab-panel" id="mtab-estado">
 
-          <!-- ── TAB 3: Cooperativa ── -->
-          <div class="modal-tab-panel" id="mtab-cooperativa">
-            <div id="agSemCoopAlert" class="info-alert">
-              <i class="bi bi-info-circle-fill"></i>
-              <div>
-                <div class="ia-title">Agricultor sem cooperativa associada</div>
-                <div class="ia-sub">Seleccione uma cooperativa abaixo para registar o cargo e a data de associação.</div>
-              </div>
-            </div>
-            <div class="modal-form-card">
-              <div class="modal-section-title">
-                <i class="bi bi-buildings-fill"></i> Associação Cooperativa
-              </div>
-              <div class="row g-3">
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label" for="agCooperativa">Cooperativa</label>
-                  <select class="cfg-select" id="agCooperativa" name="cooperativa">
-                    <option value="">Nenhuma (sem associação)</option>
-                    <option value="Coop. Agrícola de Viana">Coop. Agrícola de Viana</option>
-                    <option value="Coop. Kilamba Kiaxi">Coop. Kilamba Kiaxi</option>
-                    <option value="Coop. Cazenga Agrícola">Coop. Cazenga Agrícola</option>
-                  </select>
-                  <div class="cfg-helper">Cooperativa à qual o agricultor está associado</div>
+              <div class="modal-form-card">
+                <div class="modal-section-title">
+                  <i class="bi bi-toggle-on"></i> Estado do Agricultor
                 </div>
-                <div class="col-12 col-md-3 ag-coop-field" style="display:none;">
-                  <label class="cfg-label" for="agCargo">Cargo</label>
-                  <select class="cfg-select" id="agCargo" name="cargo">
-                    <option value="agricultor">Agricultor</option>
-                    <option value="dirigente">Dirigente</option>
-                    <option value="tecnico">Técnico</option>
-                    <option value="socio">Sócio</option>
-                  </select>
-                </div>
-                <div class="col-12 col-md-3 ag-coop-field" style="display:none;">
-                  <label class="cfg-label" for="agAssociacao">Data de Associação</label>
-                  <input class="cfg-input" type="date" id="agAssociacao" name="data_associacao">
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="agEstado">Estado Actual *</label>
+                    <select class="cfg-select" id="agEstado" name="estado" required>
+                      <option value="activo">Activo</option>
+                      <option value="inactivo">Inactivo</option>
+                      <option value="pendente">Pendente</option>
+                    </select>
+                    <div class="cfg-helper">Define se o agricultor está em actividade no sistema</div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="agDataRegisto">Data de Registo</label>
+                    <input class="cfg-input" type="date" id="agDataRegisto" name="data_registo">
+                    <div class="cfg-helper">Data em que o agricultor foi registado no sistema</div>
+                  </div>
+                  <div class="col-12">
+                    <label class="cfg-label" for="agMotivoInactividade">Motivo de Inactividade <span
+                        style="color:var(--text-light);font-weight:400;">(opcional)</span></label>
+                    <textarea class="cfg-textarea" id="agMotivoInactividade" name="motivo_inactividade" rows="3"
+                      placeholder="Descreva o motivo caso o agricultor esteja inactivo ou pendente…"></textarea>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-        </form>
-      </div>
+            </div>
+            <!-- /TAB ESTADO -->
 
-      <!-- Modal Footer -->
-      <div class="modal-footer">
-        <div style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
-          <div style="font-size:12px;color:var(--text-light);">
-            <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
-          </div>
-          <div style="display:flex;gap:10px;">
-            <button type="button" class="btn-outline-green" data-bs-dismiss="modal">
-              <i class="bi bi-x-lg"></i> Cancelar
-            </button>
-            <button type="button" class="btn-green" id="btnGuardarAg">
-              <i class="bi bi-check2-circle"></i> <span id="btnGuardarAgLabel">Registar Agricultor</span>
-            </button>
+          </form>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <div
+            style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
+            <div style="font-size:12px;color:var(--text-light);">
+              <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
+            </div>
+            <div style="display:flex;gap:10px;">
+              <button type="button" class="btn-outline-green" data-bs-dismiss="modal">
+                <i class="bi bi-x-lg"></i> Cancelar
+              </button>
+              <button type="button" class="btn-green" id="btnGuardarAg">
+                <i class="bi bi-check2-circle"></i> <span id="btnGuardarAgLabel">Registar Agricultor</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ══════════════════════════════════════
+  <!-- ══════════════════════════════════════
      MODAL — CONFIRMAR ELIMINAÇÃO
 ══════════════════════════════════════ -->
-<div class="modal fade" id="modalDelete" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
-    <div class="modal-content">
-      <div class="modal-header" style="background:linear-gradient(135deg, #7f0000, #C62828);">
-        <div style="display:flex;align-items:center;gap:14px;flex:1;">
-          <div class="modal-header-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
-          <div>
-            <div class="modal-title">Confirmar Eliminação</div>
-            <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Esta acção é irreversível</div>
+  <div class="modal fade" id="modalDelete" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
+      <div class="modal-content">
+        <div class="modal-header" style="background:linear-gradient(135deg, #7f0000, #C62828);">
+          <div style="display:flex;align-items:center;gap:14px;flex:1;">
+            <div class="modal-header-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <div>
+              <div class="modal-title">Confirmar Eliminação</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Esta acção é irreversível</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body" style="background:#fff;padding:28px;">
+          <p style="font-size:13.5px;color:var(--text-mid);margin-bottom:10px;">
+            Tem a certeza que deseja eliminar o agricultor:
+          </p>
+          <div
+            style="background:#FFF8F8;border:1px solid #FFCDD2;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:#C62828;" id="deleteAgName">—
+            </div>
+            <div style="font-size:12px;color:var(--text-light);margin-top:3px;">Todos os dados associados serão
+              removidos permanentemente.</div>
           </div>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
-      <div class="modal-body" style="background:#fff;padding:28px;">
-        <p style="font-size:13.5px;color:var(--text-mid);margin-bottom:10px;">
-          Tem a certeza que deseja eliminar o agricultor:
-        </p>
-        <div style="background:#FFF8F8;border:1px solid #FFCDD2;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
-          <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:#C62828;" id="deleteAgName">—</div>
-          <div style="font-size:12px;color:var(--text-light);margin-top:3px;">Todos os dados associados serão removidos permanentemente.</div>
+        <div class="modal-footer" style="border-top:1px solid #FFCDD2;">
+          <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn-green" id="btnConfirmDelete" style="background:#C62828;box-shadow:none;">
+            <i class="bi bi-trash-fill"></i> Eliminar Definitivamente
+          </button>
         </div>
-      </div>
-      <div class="modal-footer" style="border-top:1px solid #FFCDD2;">
-        <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn-green" id="btnConfirmDelete"
-          style="background:#C62828;box-shadow:none;">
-          <i class="bi bi-trash-fill"></i> Eliminar Definitivamente
-        </button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Toast -->
-<div class="save-toast" id="saveToast">
-  <div class="toast-icon success" id="toastIcon"><i class="bi bi-check-lg" id="toastIconI"></i></div>
-  <div class="toast-text">
-    <div class="t-title" id="toastTitle">Operação concluída</div>
-    <div class="t-sub" id="toastSub">Acção realizada com sucesso.</div>
+  <!-- Toast -->
+  <div class="save-toast" id="saveToast">
+    <div class="toast-icon success" id="toastIcon"><i class="bi bi-check-lg" id="toastIconI"></i></div>
+    <div class="toast-text">
+      <div class="t-title" id="toastTitle">Operação concluída</div>
+      <div class="t-sub" id="toastSub">Acção realizada com sucesso.</div>
+    </div>
   </div>
-</div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-/* ══════════════════════════════════════
-   SIDEBAR TOGGLE (3 estados)
-══════════════════════════════════════ */
-const body = document.body;
-let sideState = 0;
+  <script>
+    /* ══════════════════════════════════════
+       SIDEBAR TOGGLE (3 estados)
+    ══════════════════════════════════════ */
+    const body = document.body;
+    let sideState = 0;
 
-function applyTooltips() {
-  document.querySelectorAll('.nav-item-link').forEach(el => {
-    const tip = bootstrap.Tooltip.getInstance(el);
-    if (tip) tip.dispose();
-  });
-  if (body.classList.contains('icons-only')) {
-    document.querySelectorAll('.nav-item-link').forEach(el => {
-      new bootstrap.Tooltip(el, {
-        title: el.dataset.label || '',
-        placement: 'right',
-        trigger: 'hover',
-        customClass: 'sidebar-tooltip'
+    function applyTooltips() {
+      document.querySelectorAll('.nav-item-link').forEach(el => {
+        const tip = bootstrap.Tooltip.getInstance(el);
+        if (tip) tip.dispose();
+      });
+      if (body.classList.contains('icons-only')) {
+        document.querySelectorAll('.nav-item-link').forEach(el => {
+          new bootstrap.Tooltip(el, {
+            title: el.dataset.label || '',
+            placement: 'right',
+            trigger: 'hover',
+            customClass: 'sidebar-tooltip'
+          });
+        });
+      }
+    }
+
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      sideState = (sideState + 1) % 3;
+      body.classList.remove('icons-only', 'sidebar-hidden');
+      if (sideState === 1) body.classList.add('icons-only');
+      if (sideState === 2) body.classList.add('sidebar-hidden');
+      applyTooltips();
+    });
+
+    /* ══════════════════════════════════════
+       DARK MODE
+    ══════════════════════════════════════ */
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+    let darkMode = false;
+
+    themeToggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      darkMode = !darkMode;
+      body.classList.toggle('dark-mode', darkMode);
+      themeIcon.className = darkMode ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
+      themeLabel.textContent = darkMode ? 'Modo Claro' : 'Modo Escuro';
+    });
+
+    /* ══════════════════════════════════════
+       NAV ACTIVE SIDEBAR
+    ══════════════════════════════════════ */
+    document.querySelectorAll('.nav-item-link').forEach(link => {
+      link.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (!href || href === '#') {
+          e.preventDefault();
+        }
+        document.querySelectorAll('.nav-item-link').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        const label = this.dataset.label || this.querySelector('.nav-label')?.textContent || '';
+        document.querySelector('.topbar-title').textContent = label;
       });
     });
-  }
-}
 
-document.getElementById('sidebarToggle').addEventListener('click', () => {
-  sideState = (sideState + 1) % 3;
-  body.classList.remove('icons-only', 'sidebar-hidden');
-  if (sideState === 1) body.classList.add('icons-only');
-  if (sideState === 2) body.classList.add('sidebar-hidden');
-  applyTooltips();
-});
-
-/* ══════════════════════════════════════
-   DARK MODE
-══════════════════════════════════════ */
-const themeToggle = document.getElementById('themeToggle');
-const themeIcon   = document.getElementById('themeIcon');
-const themeLabel  = document.getElementById('themeLabel');
-let darkMode = false;
-
-themeToggle.addEventListener('click', function(e) {
-  e.preventDefault();
-  darkMode = !darkMode;
-  body.classList.toggle('dark-mode', darkMode);
-  themeIcon.className  = darkMode ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
-  themeLabel.textContent = darkMode ? 'Modo Claro' : 'Modo Escuro';
-});
-
-/* ══════════════════════════════════════
-   NAV ACTIVE SIDEBAR
-══════════════════════════════════════ */
-document.querySelectorAll('.nav-item-link').forEach(link => {
-  link.addEventListener('click', function(e) {
-    const href = this.getAttribute('href');
-    if (!href || href === '#') {
-      e.preventDefault();
+    /* ══════════════════════════════════════
+       TOAST
+    ══════════════════════════════════════ */
+    function showToast(title, sub, type = 'success') {
+      const toast = document.getElementById('saveToast');
+      const icon = document.getElementById('toastIcon');
+      const iconI = document.getElementById('toastIconI');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastSub').textContent = sub;
+      icon.className = 'toast-icon ' + (type === 'danger' ? 'danger' : 'success');
+      iconI.className = type === 'danger' ? 'bi bi-x-lg' : 'bi bi-check-lg';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
     }
-    document.querySelectorAll('.nav-item-link').forEach(l => l.classList.remove('active'));
-    this.classList.add('active');
-    const label = this.dataset.label || this.querySelector('.nav-label')?.textContent || '';
-    document.querySelector('.topbar-title').textContent = label;
-  });
-});
 
-/* ══════════════════════════════════════
-   TOAST
-══════════════════════════════════════ */
-function showToast(title, sub, type = 'success') {
-  const toast  = document.getElementById('saveToast');
-  const icon   = document.getElementById('toastIcon');
-  const iconI  = document.getElementById('toastIconI');
-  document.getElementById('toastTitle').textContent = title;
-  document.getElementById('toastSub').textContent   = sub;
-  icon.className = 'toast-icon ' + (type === 'danger' ? 'danger' : 'success');
-  iconI.className = type === 'danger' ? 'bi bi-x-lg' : 'bi bi-check-lg';
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3500);
-}
+    /* ══════════════════════════════════════
+       MODAL TABS
+    ══════════════════════════════════════ */
+    function switchModalTab(tabName) {
+      document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.modalTab === tabName);
+      });
+      document.querySelectorAll('.modal-tab-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === 'mtab-' + tabName);
+      });
+    }
+    document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchModalTab(btn.dataset.modalTab));
+    });
 
-/* ══════════════════════════════════════
-   MODAL TABS
-══════════════════════════════════════ */
-function switchModalTab(tabName) {
-  document.querySelectorAll('.modal-tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.modalTab === tabName);
-  });
-  document.querySelectorAll('.modal-tab-panel').forEach(panel => {
-    panel.classList.toggle('active', panel.id === 'mtab-' + tabName);
-  });
-}
-document.querySelectorAll('.modal-tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => switchModalTab(btn.dataset.modalTab));
-});
-
-/* ══════════════════════════════════════
-   TOGGLE CAMPOS COOPERATIVA (cargo / data associação)
-══════════════════════════════════════ */
-function toggleCooperativaFields() {
-  const val = document.getElementById('agCooperativa').value;
-  const fields = document.querySelectorAll('.ag-coop-field');
-  const alertBox = document.getElementById('agSemCoopAlert');
-  if (val) {
-    fields.forEach(f => f.style.display = '');
-    alertBox.style.display = 'none';
-  } else {
-    fields.forEach(f => f.style.display = 'none');
-    alertBox.style.display = 'flex';
-  }
-}
-document.getElementById('agCooperativa').addEventListener('change', toggleCooperativaFields);
-
-/* ══════════════════════════════════════
-   FUNÇÃO UTILITÁRIA — Formatar datas
-══════════════════════════════════════ */
-function formatDateDisplay(dateStr) {
-  if (!dateStr) return '';
-  dateStr = String(dateStr).trim();
-  const iso = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (iso) return `${iso[3]}/${iso[2]}/${iso[1]}`;
-  const dmy = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
-  if (dmy) return `${dmy[1]}/${dmy[2]}/${dmy[3]}`;
-  const d = new Date(dateStr);
-  if (!isNaN(d)) {
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
-  return dateStr;
-}
-
-function normalizeToISO(dateStr) {
-  if (!dateStr) return '';
-  dateStr = String(dateStr).trim();
-  if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) return dateStr.substring(0, 10);
-  const isoMatch = dateStr.match(/^(\d{4}-\d{2}-\d{2})/);
-  if (isoMatch) return isoMatch[1];
-  const dmy = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
-  if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`;
-  return '';
-}
-
-function parseDateForInput(dateStr) {
-  return normalizeToISO(dateStr);
-}
-
-/* ══════════════════════════════════════
-   AGRICULTOR — reset modal ao abrir (novo)
-══════════════════════════════════════ */
-document.getElementById('modalAgricultor').addEventListener('show.bs.modal', function (e) {
-  if (e.relatedTarget && e.relatedTarget.id === 'btnNovoAgricultor') {
-    document.getElementById('formAgricultor').reset();
-    document.getElementById('agId').value = '';
-    document.getElementById('modalAgricultorLabel').textContent = 'Novo Agricultor';
-    document.getElementById('btnGuardarAgLabel').textContent = 'Registar Agricultor';
-    document.getElementById('modalHeaderIcon').className = 'bi bi-person-badge-fill';
-    document.getElementById('agFotoZone').innerHTML = '<i class="bi bi-person-circle"></i><span>Carregar foto</span>';
-    document.getElementById('agFotoZone').style.border = '';
-    toggleCooperativaFields();
-    switchModalTab('pessoais');
-  }
-});
-
-/* ══════════════════════════════════════
-   AGRICULTOR — botão editar
-══════════════════════════════════════ */
-document.addEventListener('click', function (e) {
-  const btn = e.target.closest('.btn-editar-ag');
-  if (!btn) return;
-
-  document.getElementById('agId').value             = btn.dataset.id || '';
-  document.getElementById('agNome').value           = btn.dataset.nome || '';
-  document.getElementById('agSexo').value           = btn.dataset.sexo || '';
-  document.getElementById('agNascimento').value     = parseDateForInput(btn.dataset.nascimento || '');
-  document.getElementById('agBI').value             = btn.dataset.bi || '';
-  document.getElementById('agNIF').value            = btn.dataset.nif || '';
-  document.getElementById('agEstadoCivil').value    = btn.dataset.estadocivil || '';
-  document.getElementById('agEstado').value         = btn.dataset.estado || 'activo';
-  document.getElementById('agTelefone').value       = btn.dataset.tel || '';
-  document.getElementById('agTelefoneAlt').value    = btn.dataset.tel2 || '';
-  document.getElementById('agEmail').value          = btn.dataset.email || '';
-  document.getElementById('agEndereco').value       = btn.dataset.endereco || '';
-  document.getElementById('agCooperativa').value    = btn.dataset.cooperativa || '';
-  document.getElementById('agCargo').value          = btn.dataset.cargo || 'agricultor';
-  document.getElementById('agAssociacao').value     = parseDateForInput(btn.dataset.associacao || '');
-
-  document.getElementById('modalAgricultorLabel').textContent = 'Editar Agricultor';
-  document.getElementById('btnGuardarAgLabel').textContent = 'Guardar Alterações';
-  document.getElementById('modalHeaderIcon').className = 'bi bi-pencil-fill';
-  document.getElementById('agFotoZone').innerHTML = '<i class="bi bi-person-circle"></i><span>Carregar foto</span>';
-  document.getElementById('agFotoZone').style.border = '';
-
-  toggleCooperativaFields();
-  switchModalTab('pessoais');
-
-  new bootstrap.Modal(document.getElementById('modalAgricultor')).show();
-});
-
-/* ══════════════════════════════════════
-   PREVIEW FOTO
-══════════════════════════════════════ */
-document.getElementById('agFotoInput').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev) {
-    const zone = document.getElementById('agFotoZone');
-    zone.innerHTML = `<img src="${ev.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
-    zone.style.border = '2px solid var(--primary)';
-  };
-  reader.readAsDataURL(file);
-});
-
-/* ══════════════════════════════════════
-   AGRICULTOR — guardar (criar / editar)
-══════════════════════════════════════ */
-document.getElementById('btnGuardarAg').addEventListener('click', () => {
-  const id        = document.getElementById('agId').value;
-  const nome      = document.getElementById('agNome').value.trim();
-  const sexo      = document.getElementById('agSexo').value;
-  const nascimento= document.getElementById('agNascimento').value;
-  const bi        = document.getElementById('agBI').value.trim();
-  const nif       = document.getElementById('agNIF').value.trim();
-  const estadoCivil = document.getElementById('agEstadoCivil').value;
-  const estado    = document.getElementById('agEstado').value;
-  const telefone  = document.getElementById('agTelefone').value.trim();
-  const telefoneAlt = document.getElementById('agTelefoneAlt').value.trim();
-  const email     = document.getElementById('agEmail').value.trim();
-  const endereco  = document.getElementById('agEndereco').value.trim();
-  const cooperativa = document.getElementById('agCooperativa').value;
-  const cargo     = document.getElementById('agCargo').value;
-  const associacao= document.getElementById('agAssociacao').value;
-
-  if (!nome || !sexo || !nascimento || !bi) {
-    switchModalTab('pessoais');
-    showToast('Campos obrigatórios em falta', 'Preencha Nome, Sexo, Data de Nascimento e BI.', 'danger');
-    return;
-  }
-  if (!telefone) {
-    switchModalTab('contactos');
-    showToast('Campo obrigatório em falta', 'Preencha o Telefone Principal.', 'danger');
-    return;
-  }
-
-  const btn = document.getElementById('btnGuardarAg');
-  const orig = btn.innerHTML;
-  btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
-  btn.disabled = true;
-
-  const url = id ? `/agricultores/${id}` : '/agricultores';
-  const method = id ? 'PUT' : 'POST';
-
-  fetch(url, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify({
-      nome, sexo, data_nascimento: nascimento, bi, nif, estado_civil: estadoCivil, estado,
-      telefone, telefone_alt: telefoneAlt, email, endereco,
-      cooperativa, cargo, data_associacao: associacao
-    })
-  })
-  .then(r => r.json())
-  .then(data => {
-    btn.innerHTML = orig;
-    btn.disabled = false;
-
-    if (data.success) {
-      bootstrap.Modal.getInstance(document.getElementById('modalAgricultor')).hide();
-
-      const ag = data.data;
-      const colors = ['#1B5E20','#1565C0','#6A1B9A','#F57F17','#00695C','#C62828'];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const initials = nome.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
-
-      let estadoHtml = '';
-      if (estado === 'activo') {
-        estadoHtml = '<span class="badge-status activo"><span class="dot"></span>Activo</span>';
-      } else if (estado === 'pendente') {
-        estadoHtml = '<span class="badge-status pendente"><span class="dot"></span>Pendente</span>';
+    /* ══════════════════════════════════════
+       TOGGLE CAMPOS COOPERATIVA (cargo / data associação)
+    ══════════════════════════════════════ */
+    function toggleCooperativaFields() {
+      const val = document.getElementById('agCooperativa').value;
+      const fields = document.querySelectorAll('.ag-coop-field');
+      const alertBox = document.getElementById('agSemCoopAlert');
+      if (val) {
+        fields.forEach(f => f.style.display = '');
+        alertBox.style.display = 'none';
       } else {
-        estadoHtml = '<span class="badge-status inactivo"><span class="dot"></span>Inactivo</span>';
+        fields.forEach(f => f.style.display = 'none');
+        alertBox.style.display = 'flex';
+      }
+    }
+    document.getElementById('agCooperativa').addEventListener('change', toggleCooperativaFields);
+
+    /* ══════════════════════════════════════
+       FUNÇÃO UTILITÁRIA — Formatar datas
+    ══════════════════════════════════════ */
+    function formatDateDisplay(dateStr) {
+      if (!dateStr) return '';
+      dateStr = String(dateStr).trim();
+      const iso = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (iso) return `${iso[3]}/${iso[2]}/${iso[1]}`;
+      const dmy = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
+      if (dmy) return `${dmy[1]}/${dmy[2]}/${dmy[3]}`;
+      const d = new Date(dateStr);
+      if (!isNaN(d)) {
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+      }
+      return dateStr;
+    }
+
+    function normalizeToISO(dateStr) {
+      if (!dateStr) return '';
+      dateStr = String(dateStr).trim();
+      if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) return dateStr.substring(0, 10);
+      const isoMatch = dateStr.match(/^(\d{4}-\d{2}-\d{2})/);
+      if (isoMatch) return isoMatch[1];
+      const dmy = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
+      if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`;
+      return '';
+    }
+
+    function parseDateForInput(dateStr) {
+      return normalizeToISO(dateStr);
+    }
+
+    /* ══════════════════════════════════════
+       AGRICULTOR — reset modal ao abrir (novo)
+    ══════════════════════════════════════ */
+    document.getElementById('modalAgricultor').addEventListener('show.bs.modal', function (e) {
+      if (e.relatedTarget && e.relatedTarget.id === 'btnNovoAgricultor') {
+        document.getElementById('formAgricultor').reset();
+        document.getElementById('agId').value = '';
+        document.getElementById('modalAgricultorLabel').textContent = 'Novo Agricultor';
+        document.getElementById('btnGuardarAgLabel').textContent = 'Registar Agricultor';
+        document.getElementById('modalHeaderIcon').className = 'bi bi-person-badge-fill';
+        document.getElementById('agFotoZone').innerHTML = '<i class="bi bi-person-circle"></i><span>Carregar foto</span>';
+        document.getElementById('agFotoZone').style.border = '';
+        toggleCooperativaFields();
+        switchModalTab('pessoais');
+      }
+    });
+
+    /* ══════════════════════════════════════
+       AGRICULTOR — botão editar
+    ══════════════════════════════════════ */
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn-editar-ag');
+      if (!btn) return;
+
+      document.getElementById('agId').value = btn.dataset.id || '';
+      document.getElementById('agNome').value = btn.dataset.nome || '';
+      document.getElementById('agSexo').value = btn.dataset.sexo || '';
+      document.getElementById('agNascimento').value = parseDateForInput(btn.dataset.nascimento || '');
+      document.getElementById('agBI').value = btn.dataset.bi || '';
+      document.getElementById('agNIF').value = btn.dataset.nif || '';
+      document.getElementById('agEstadoCivil').value = btn.dataset.estadocivil || '';
+      document.getElementById('agEstado').value = btn.dataset.estado || 'activo';
+      document.getElementById('agTelefone').value = btn.dataset.tel || '';
+      document.getElementById('agTelefoneAlt').value = btn.dataset.tel2 || '';
+      document.getElementById('agEmail').value = btn.dataset.email || '';
+      document.getElementById('agEndereco').value = btn.dataset.endereco || '';
+      document.getElementById('agCooperativa').value = btn.dataset.cooperativa || '';
+      document.getElementById('agCargo').value = btn.dataset.cargo || 'agricultor';
+      document.getElementById('agAssociacao').value = parseDateForInput(btn.dataset.associacao || '');
+
+      document.getElementById('modalAgricultorLabel').textContent = 'Editar Agricultor';
+      document.getElementById('btnGuardarAgLabel').textContent = 'Guardar Alterações';
+      document.getElementById('modalHeaderIcon').className = 'bi bi-pencil-fill';
+      document.getElementById('agFotoZone').innerHTML = '<i class="bi bi-person-circle"></i><span>Carregar foto</span>';
+      document.getElementById('agFotoZone').style.border = '';
+
+      toggleCooperativaFields();
+      switchModalTab('pessoais');
+
+      new bootstrap.Modal(document.getElementById('modalAgricultor')).show();
+    });
+
+    /* ══════════════════════════════════════
+       PREVIEW FOTO
+    ══════════════════════════════════════ */
+    document.getElementById('agFotoInput').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (ev) {
+        const zone = document.getElementById('agFotoZone');
+        zone.innerHTML = `<img src="${ev.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        zone.style.border = '2px solid var(--primary)';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    /* ══════════════════════════════════════
+       AGRICULTOR — guardar (criar / editar)
+    ══════════════════════════════════════ */
+    document.getElementById('btnGuardarAg').addEventListener('click', () => {
+      const id = document.getElementById('agId').value;
+      const nome = document.getElementById('agNome').value.trim();
+      const sexo = document.getElementById('agSexo').value;
+      const nascimento = document.getElementById('agNascimento').value;
+      const bi = document.getElementById('agBI').value.trim();
+      const nif = document.getElementById('agNIF').value.trim();
+      const estadoCivil = document.getElementById('agEstadoCivil').value;
+      const estado = document.getElementById('agEstado').value;
+      const telefone = document.getElementById('agTelefone').value.trim();
+      const telefoneAlt = document.getElementById('agTelefoneAlt').value.trim();
+      const email = document.getElementById('agEmail').value.trim();
+      const endereco = document.getElementById('agEndereco').value.trim();
+      const cooperativa = document.getElementById('agCooperativa').value;
+      const cargo = document.getElementById('agCargo').value;
+      const associacao = document.getElementById('agAssociacao').value;
+      const motivoInactividade = document.getElementById('agMotivoInactividade').value.trim();
+
+      if (!nome || !sexo || !nascimento || !bi) {
+        switchModalTab('pessoais');
+        showToast('Campos obrigatórios em falta', 'Preencha Nome, Sexo, Data de Nascimento e BI.', 'danger');
+        return;
+      }
+      if (!telefone) {
+        switchModalTab('contactos');
+        showToast('Campo obrigatório em falta', 'Preencha o Telefone Principal.', 'danger');
+        return;
       }
 
-      const cargoLabels = { agricultor:'Agricultor', dirigente:'Dirigente', tecnico:'Técnico', socio:'Sócio' };
-      const cargoIcons  = { agricultor:'bi-person-fill', dirigente:'bi-star-fill', tecnico:'bi-tools', socio:'bi-person-badge' };
-      const cooperativaHtml = cooperativa
-        ? `<td>${cooperativa}</td><td><span class="badge-cargo"><i class="bi ${cargoIcons[cargo] || 'bi-person-fill'} me-1"></i>${cargoLabels[cargo] || ''}</span></td>`
-        : `<td><span class="text-muted-coop">Sem cooperativa</span></td><td><span class="text-muted-coop">—</span></td>`;
+      const btn = document.getElementById('btnGuardarAg');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
+      btn.disabled = true;
 
-      const linha = `
+      const url = id ? `/agricultores/${id}` : '/agricultores';
+      const method = id ? 'PUT' : 'POST';
+
+      fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          nome, sexo, data_nascimento: nascimento, bi, nif, estado_civil: estadoCivil, estado,
+          telefone, telefone_alt: telefoneAlt, email, endereco,
+          cooperativa, cargo, data_associacao: associacao,
+          motivo_inactividade: motivoInactividade
+        })
+      })
+        .then(r => r.json())
+        .then(data => {
+          btn.innerHTML = orig;
+          btn.disabled = false;
+
+          if (data.success) {
+            bootstrap.Modal.getInstance(document.getElementById('modalAgricultor')).hide();
+
+            const ag = data.data;
+            const colors = ['#1B5E20', '#1565C0', '#6A1B9A', '#F57F17', '#00695C', '#C62828'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const initials = nome.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+
+            let estadoHtml = '';
+            if (estado === 'activo') {
+              estadoHtml = '<span class="badge-status activo"><span class="dot"></span>Activo</span>';
+            } else if (estado === 'pendente') {
+              estadoHtml = '<span class="badge-status pendente"><span class="dot"></span>Pendente</span>';
+            } else {
+              estadoHtml = '<span class="badge-status inactivo"><span class="dot"></span>Inactivo</span>';
+            }
+
+            const cargoLabels = { agricultor: 'Agricultor', dirigente: 'Dirigente', tecnico: 'Técnico', socio: 'Sócio' };
+            const cargoIcons = { agricultor: 'bi-person-fill', dirigente: 'bi-star-fill', tecnico: 'bi-tools', socio: 'bi-person-badge' };
+            const cooperativaHtml = cooperativa
+              ? `<td>${cooperativa}</td><td><span class="badge-cargo"><i class="bi ${cargoIcons[cargo] || 'bi-person-fill'} me-1"></i>${cargoLabels[cargo] || ''}</span></td>`
+              : `<td><span class="text-muted-coop">Sem cooperativa</span></td><td><span class="text-muted-coop">—</span></td>`;
+
+            const linha = `
         <tr data-estado="${estado}" data-cooperativa="${cooperativa || '—'}" data-cargo="${cargo || ''}" id="ag-row-${ag.id}">
           <td><input type="checkbox" class="row-check" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
           <td>
@@ -1621,127 +2607,128 @@ document.getElementById('btnGuardarAg').addEventListener('click', () => {
           </td>
         </tr>`;
 
-      const tbody = document.querySelector('#agTableBody');
-      const existingRow = document.getElementById(`ag-row-${ag.id}`);
+            const tbody = document.querySelector('#agTableBody');
+            const existingRow = document.getElementById(`ag-row-${ag.id}`);
 
-      if (existingRow) {
-        existingRow.outerHTML = linha;
-      } else {
-        tbody.insertAdjacentHTML('afterbegin', linha);
-      }
+            if (existingRow) {
+              existingRow.outerHTML = linha;
+            } else {
+              tbody.insertAdjacentHTML('afterbegin', linha);
+            }
 
-      showToast(
-        id ? 'Agricultor actualizado' : 'Agricultor registado',
-        nome + (id ? ' foi actualizado com sucesso.' : ' foi adicionado ao sistema.')
-      );
-      applyFilters();
-    } else {
-      showToast('Erro ao guardar', data.message || 'Verifique os dados e tente novamente.', 'danger');
+            showToast(
+              id ? 'Agricultor actualizado' : 'Agricultor registado',
+              nome + (id ? ' foi actualizado com sucesso.' : ' foi adicionado ao sistema.')
+            );
+            applyFilters();
+          } else {
+            showToast('Erro ao guardar', data.message || 'Verifique os dados e tente novamente.', 'danger');
+          }
+        })
+        .catch(() => {
+          btn.innerHTML = orig;
+          btn.disabled = false;
+          showToast('Erro de ligação', 'Verifique a sua conexão.', 'danger');
+        });
+    });
+
+    /* ══════════════════════════════════════
+       AGRICULTOR — eliminar
+    ══════════════════════════════════════ */
+    let deleteTargetId = null;
+    let deleteTargetName = '';
+
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn-eliminar-ag');
+      if (!btn) return;
+
+      deleteTargetId = btn.dataset.id;
+      deleteTargetName = btn.dataset.nome;
+      document.getElementById('deleteAgName').textContent = deleteTargetName;
+      new bootstrap.Modal(document.getElementById('modalDelete')).show();
+    });
+
+    document.getElementById('btnConfirmDelete').addEventListener('click', () => {
+      if (!deleteTargetId) return;
+
+      const btn = document.getElementById('btnConfirmDelete');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A eliminar…';
+      btn.disabled = true;
+
+      fetch(`/agricultores/${deleteTargetId}`, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json'
+        }
+      })
+        .then(r => r.json())
+        .then(data => {
+          btn.innerHTML = orig;
+          btn.disabled = false;
+          bootstrap.Modal.getInstance(document.getElementById('modalDelete')).hide();
+          if (data.success) {
+            document.getElementById(`ag-row-${deleteTargetId}`)?.remove();
+            showToast('Agricultor eliminado', deleteTargetName + ' foi removido do sistema.', 'danger');
+            applyFilters();
+          } else {
+            showToast('Erro', data.message || 'Não foi possível eliminar.', 'danger');
+          }
+        })
+        .catch(() => {
+          btn.innerHTML = orig;
+          btn.disabled = false;
+          bootstrap.Modal.getInstance(document.getElementById('modalDelete')).hide();
+          showToast('Erro de ligação', 'Verifique a sua conexão.', 'danger');
+        });
+    });
+
+    /* ══════════════════════════════════════
+       SEARCH & FILTER
+    ══════════════════════════════════════ */
+    function applyFilters() {
+      const search = document.getElementById('searchAgricultor').value.toLowerCase().trim();
+      const estado = document.getElementById('filterEstado').value;
+      const cooperativa = document.getElementById('filterCooperativa').value;
+      const cargo = document.getElementById('filterCargo').value;
+      const rows = document.querySelectorAll('#agTableBody tr');
+      let visible = 0;
+      let total = rows.length;
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        const show = (!search || text.includes(search))
+          && (!estado || row.dataset.estado === estado)
+          && (!cooperativa || row.dataset.cooperativa === cooperativa)
+          && (!cargo || row.dataset.cargo === cargo);
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+      document.getElementById('tableCount').textContent = `Mostrando ${visible} de ${total} agricultores`;
+      document.getElementById('tableCountTop').textContent = `${total} registos`;
     }
-  })
-  .catch(() => {
-    btn.innerHTML = orig;
-    btn.disabled = false;
-    showToast('Erro de ligação', 'Verifique a sua conexão.', 'danger');
-  });
-});
 
-/* ══════════════════════════════════════
-   AGRICULTOR — eliminar
-══════════════════════════════════════ */
-let deleteTargetId = null;
-let deleteTargetName = '';
+    document.getElementById('searchAgricultor').addEventListener('input', applyFilters);
+    document.getElementById('filterEstado').addEventListener('change', applyFilters);
+    document.getElementById('filterCooperativa').addEventListener('change', applyFilters);
+    document.getElementById('filterCargo').addEventListener('change', applyFilters);
 
-document.addEventListener('click', function (e) {
-  const btn = e.target.closest('.btn-eliminar-ag');
-  if (!btn) return;
+    /* ══════════════════════════════════════
+       SELECT ALL CHECKBOXES
+    ══════════════════════════════════════ */
+    document.getElementById('selectAll').addEventListener('change', function () {
+      document.querySelectorAll('.row-check').forEach(cb => cb.checked = this.checked);
+    });
 
-  deleteTargetId   = btn.dataset.id;
-  deleteTargetName = btn.dataset.nome;
-  document.getElementById('deleteAgName').textContent = deleteTargetName;
-  new bootstrap.Modal(document.getElementById('modalDelete')).show();
-});
-
-document.getElementById('btnConfirmDelete').addEventListener('click', () => {
-  if (!deleteTargetId) return;
-
-  const btn = document.getElementById('btnConfirmDelete');
-  const orig = btn.innerHTML;
-  btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A eliminar…';
-  btn.disabled = true;
-
-  fetch(`/agricultores/${deleteTargetId}`, {
-    method: 'DELETE',
-    headers: {
-      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      'Accept': 'application/json'
-    }
-  })
-  .then(r => r.json())
-  .then(data => {
-    btn.innerHTML = orig;
-    btn.disabled = false;
-    bootstrap.Modal.getInstance(document.getElementById('modalDelete')).hide();
-    if (data.success) {
-      document.getElementById(`ag-row-${deleteTargetId}`)?.remove();
-      showToast('Agricultor eliminado', deleteTargetName + ' foi removido do sistema.', 'danger');
-      applyFilters();
-    } else {
-      showToast('Erro', data.message || 'Não foi possível eliminar.', 'danger');
-    }
-  })
-  .catch(() => {
-    btn.innerHTML = orig;
-    btn.disabled = false;
-    bootstrap.Modal.getInstance(document.getElementById('modalDelete')).hide();
-    showToast('Erro de ligação', 'Verifique a sua conexão.', 'danger');
-  });
-});
-
-/* ══════════════════════════════════════
-   SEARCH & FILTER
-══════════════════════════════════════ */
-function applyFilters() {
-  const search      = document.getElementById('searchAgricultor').value.toLowerCase().trim();
-  const estado      = document.getElementById('filterEstado').value;
-  const cooperativa = document.getElementById('filterCooperativa').value;
-  const cargo       = document.getElementById('filterCargo').value;
-  const rows = document.querySelectorAll('#agTableBody tr');
-  let visible = 0;
-  let total = rows.length;
-  rows.forEach(row => {
-    const text = row.textContent.toLowerCase();
-    const show = (!search || text.includes(search))
-              && (!estado      || row.dataset.estado      === estado)
-              && (!cooperativa || row.dataset.cooperativa === cooperativa)
-              && (!cargo       || row.dataset.cargo       === cargo);
-    row.style.display = show ? '' : 'none';
-    if (show) visible++;
-  });
-  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
-  document.getElementById('tableCount').textContent = `Mostrando ${visible} de ${total} agricultores`;
-  document.getElementById('tableCountTop').textContent = `${total} registos`;
-}
-
-document.getElementById('searchAgricultor').addEventListener('input', applyFilters);
-document.getElementById('filterEstado').addEventListener('change', applyFilters);
-document.getElementById('filterCooperativa').addEventListener('change', applyFilters);
-document.getElementById('filterCargo').addEventListener('change', applyFilters);
-
-/* ══════════════════════════════════════
-   SELECT ALL CHECKBOXES
-══════════════════════════════════════ */
-document.getElementById('selectAll').addEventListener('change', function() {
-  document.querySelectorAll('.row-check').forEach(cb => cb.checked = this.checked);
-});
-
-/* ══════════════════════════════════════
-   EXPORTAR
-══════════════════════════════════════ */
-document.getElementById('btnExportar').addEventListener('click', () => {
-  showToast('A exportar…', 'O ficheiro será gerado e descarregado em breve.');
-});
-</script>
+    /* ══════════════════════════════════════
+       EXPORTAR
+    ══════════════════════════════════════ */
+    document.getElementById('btnExportar').addEventListener('click', () => {
+      showToast('A exportar…', 'O ficheiro será gerado e descarregado em breve.');
+    });
+  </script>
 
 </body>
+
 </html>

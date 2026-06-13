@@ -8,11 +8,12 @@ class AgricultoresController extends Controller
 {
     public function index()
     {
-        $anos = Agricultor::orderBy('data_inicio', 'desc')
+        $agricultores = Agricultor::orderBy('nome_completo', 'desc')
             ->paginate(10);
 
         return view(
-            'agricultores.agricultores'
+            'agricultores.agricultores',
+            compact('agricultores')
         );
     }
 }
