@@ -1752,8 +1752,8 @@
           class="nav-label">Dashboard</span></a>
       <a href="{{route('cooperativas')}}" class="nav-item-link" data-label="Cooperativa"><i
           class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
-      <a href="{{route('configuracoes')}}" class="nav-item-link" data-label="Cooperados"><i
-          class="bi bi-people-fill"></i><span class="nav-label">Cooperados</span></a>
+      <a href="{{route('agricultores.index')}}" class="nav-item-link" data-label="Agricultores"><i
+          class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
       <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
@@ -4380,157 +4380,157 @@
     </div>
   </div>
   <!-- /MODAL ANO AGRÍCOLA -->
+
   <script>
-
-  /* ══════════════════════════════════════
-     FUNÇÃO UTILITÁRIA — Formatar datas
-  ══════════════════════════════════════ */
-  function formatDateDisplay(dateStr) {
-    if (!dateStr) return '';
-    dateStr = String(dateStr).trim();
-    const iso = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
-    if (iso) return `${iso[3]}/${iso[2]}/${iso[1]}`;
-    const dmy = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
-    if (dmy) return `${dmy[1]}/${dmy[2]}/${dmy[3]}`;
-    const d = new Date(dateStr);
-    if (!isNaN(d)) {
-      const day = String(d.getDate()).padStart(2, '0');
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const year = d.getFullYear();
-      return `${day}/${month}/${year}`;
-    }
-    return dateStr;
-  }
-
-  function normalizeToISO(dateStr) {
-    if (!dateStr) return '';
-    dateStr = String(dateStr).trim();
-    // Se já está em YYYY-MM-DD
-    if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
-      return dateStr.substring(0, 10);
-    }
-    // Se é ISO com hora (YYYY-MM-DDTHH:mm:ss)
-    const isoMatch = dateStr.match(/^(\d{4}-\d{2}-\d{2})/);
-    if (isoMatch) return isoMatch[1];
-    // Se é DD/MM/YYYY
-    const dmy = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
-    if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`;
-    return '';
-  }
-
-  function parseDateForInput(dateStr) {
-    return normalizeToISO(dateStr);
-  }
-
-  /* ══════════════════════════════════════
-     ANO AGRÍCOLA — reset modal ao abrir (novo)
-  ══════════════════════════════════════ */
-  document.getElementById('modalAnoAgricola').addEventListener('show.bs.modal', function (e) {
-    if (e.relatedTarget && e.relatedTarget.id === 'btnIniciarAno') {
-      document.getElementById('formAnoAgricola').reset();
-      document.getElementById('anoId').value = '';
-      document.getElementById('modalAnoLabel').textContent = 'Registar Ano Agrícola';
-      document.getElementById('btnGuardarAnoLabel').textContent = 'Registar Ano';
-    }
-  });
-
-  /* ══════════════════════════════════════
-     ANO AGRÍCOLA — botão editar
-  ══════════════════════════════════════ */
-  document.addEventListener('click', function (e) {
-    const btn = e.target.closest('.btn-editar-ano');
-    if (!btn) return;
-
-    const anoInicio = parseDateForInput(btn.dataset.inicio || '');
-    const anoFim = parseDateForInput(btn.dataset.fim || '');
-
-    document.getElementById('anoId').value = btn.dataset.id || '';
-    document.getElementById('anoNome').value = btn.dataset.nome || '';
-    document.getElementById('anoInicio').value = anoInicio;
-    document.getElementById('anoFim').value = anoFim;
-    document.getElementById('anoEstado').value = btn.dataset.estado || '';
-    document.getElementById('modalAnoLabel').textContent = 'Editar Ano Agrícola';
-    document.getElementById('btnGuardarAnoLabel').textContent = 'Guardar Alterações';
-
-    new bootstrap.Modal(document.getElementById('modalAnoAgricola')).show();
-  });
-
-  /* ══════════════════════════════════════
-     ANO AGRÍCOLA — guardar (criar / editar)
-  ══════════════════════════════════════ */
-  document.getElementById('btnGuardarAno').addEventListener('click', () => {
-    const id = document.getElementById('anoId').value;
-    const nome = document.getElementById('anoNome').value.trim();
-    const inicio = document.getElementById('anoInicio').value;
-    const fim = document.getElementById('anoFim').value;
-    const estado = document.getElementById('anoEstado').value;
-
-    if (!nome || !inicio || !fim || !estado) {
-      showToast('Campos obrigatórios em falta', 'Preencha todos os campos marcados com *.');
-      return;
-    }
-    if (fim < inicio) {
-      showToast('Datas inválidas', 'A data de fim não pode ser anterior à data de início.');
-      return;
+    /* ══════════════════════════════════════
+       FUNÇÃO UTILITÁRIA — Formatar datas
+    ══════════════════════════════════════ */
+    function formatDateDisplay(dateStr) {
+      if (!dateStr) return '';
+      dateStr = String(dateStr).trim();
+      const iso = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (iso) return `${iso[3]}/${iso[2]}/${iso[1]}`;
+      const dmy = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
+      if (dmy) return `${dmy[1]}/${dmy[2]}/${dmy[3]}`;
+      const d = new Date(dateStr);
+      if (!isNaN(d)) {
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+      }
+      return dateStr;
     }
 
-    const btn = document.getElementById('btnGuardarAno');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
-    btn.disabled = true;
+    function normalizeToISO(dateStr) {
+      if (!dateStr) return '';
+      dateStr = String(dateStr).trim();
+      // Se já está em YYYY-MM-DD
+      if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
+        return dateStr.substring(0, 10);
+      }
+      // Se é ISO com hora (YYYY-MM-DDTHH:mm:ss)
+      const isoMatch = dateStr.match(/^(\d{4}-\d{2}-\d{2})/);
+      if (isoMatch) return isoMatch[1];
+      // Se é DD/MM/YYYY
+      const dmy = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
+      if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`;
+      return '';
+    }
 
-    const url = id ? `/ano_agricola/${id}` : '/ano_agricola';
-    const method = id ? 'PUT' : 'POST';
+    function parseDateForInput(dateStr) {
+      return normalizeToISO(dateStr);
+    }
 
-    fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({ nome, data_inicio: inicio, data_fim: fim, estado })
-    })
-      .then(r => r.json())
-      .then(data => {
-        btn.innerHTML = orig;
-        btn.disabled = false;
+    /* ══════════════════════════════════════
+       ANO AGRÍCOLA — reset modal ao abrir (novo)
+    ══════════════════════════════════════ */
+    document.getElementById('modalAnoAgricola').addEventListener('show.bs.modal', function (e) {
+      if (e.relatedTarget && e.relatedTarget.id === 'btnIniciarAno') {
+        document.getElementById('formAnoAgricola').reset();
+        document.getElementById('anoId').value = '';
+        document.getElementById('modalAnoLabel').textContent = 'Registar Ano Agrícola';
+        document.getElementById('btnGuardarAnoLabel').textContent = 'Registar Ano';
+      }
+    });
 
-        if (data.success) {
+    /* ══════════════════════════════════════
+       ANO AGRÍCOLA — botão editar
+    ══════════════════════════════════════ */
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn-editar-ano');
+      if (!btn) return;
 
-          bootstrap.Modal.getInstance(
-            document.getElementById('modalAnoAgricola')
-          ).hide();
+      const anoInicio = parseDateForInput(btn.dataset.inicio || '');
+      const anoFim = parseDateForInput(btn.dataset.fim || '');
 
-          const ano = data.data;
+      document.getElementById('anoId').value = btn.dataset.id || '';
+      document.getElementById('anoNome').value = btn.dataset.nome || '';
+      document.getElementById('anoInicio').value = anoInicio;
+      document.getElementById('anoFim').value = anoFim;
+      document.getElementById('anoEstado').value = btn.dataset.estado || '';
+      document.getElementById('modalAnoLabel').textContent = 'Editar Ano Agrícola';
+      document.getElementById('btnGuardarAnoLabel').textContent = 'Guardar Alterações';
 
-          // Normaliza as datas do servidor para ISO (YYYY-MM-DD)
-          const dataInicioISO = normalizeToISO(ano.data_inicio);
-          const dataFimISO = normalizeToISO(ano.data_fim);
+      new bootstrap.Modal(document.getElementById('modalAnoAgricola')).show();
+    });
 
-          let estadoHtml = '';
+    /* ══════════════════════════════════════
+       ANO AGRÍCOLA — guardar (criar / editar)
+    ══════════════════════════════════════ */
+    document.getElementById('btnGuardarAno').addEventListener('click', () => {
+      const id = document.getElementById('anoId').value;
+      const nome = document.getElementById('anoNome').value.trim();
+      const inicio = document.getElementById('anoInicio').value;
+      const fim = document.getElementById('anoFim').value;
+      const estado = document.getElementById('anoEstado').value;
 
-          if (ano.estado === 'em_producao') {
-            estadoHtml = `
+      if (!nome || !inicio || !fim || !estado) {
+        showToast('Campos obrigatórios em falta', 'Preencha todos os campos marcados com *.');
+        return;
+      }
+      if (fim < inicio) {
+        showToast('Datas inválidas', 'A data de fim não pode ser anterior à data de início.');
+        return;
+      }
+
+      const btn = document.getElementById('btnGuardarAno');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
+      btn.disabled = true;
+
+      const url = id ? `/ano_agricola/${id}` : '/ano_agricola';
+      const method = id ? 'PUT' : 'POST';
+
+      fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ nome, data_inicio: inicio, data_fim: fim, estado })
+      })
+        .then(r => r.json())
+        .then(data => {
+          btn.innerHTML = orig;
+          btn.disabled = false;
+
+          if (data.success) {
+
+            bootstrap.Modal.getInstance(
+              document.getElementById('modalAnoAgricola')
+            ).hide();
+
+            const ano = data.data;
+
+            // Normaliza as datas do servidor para ISO (YYYY-MM-DD)
+            const dataInicioISO = normalizeToISO(ano.data_inicio);
+            const dataFimISO = normalizeToISO(ano.data_fim);
+
+            let estadoHtml = '';
+
+            if (ano.estado === 'em_producao') {
+              estadoHtml = `
             <span style="font-size:11px;font-weight:600;background:#E8F5E9;color:#2E7D32;padding:3px 10px;border-radius:20px;">
                 Em Produção
             </span>
             `;
-          } else if (ano.estado === 'iniciado') {
-            estadoHtml = `
+            } else if (ano.estado === 'iniciado') {
+              estadoHtml = `
             <span style="font-size:11px;font-weight:600;background:#FFF8E1;color:#F57F17;padding:3px 10px;border-radius:20px;">
                 Iniciado
             </span>
             `;
-          } else {
-            estadoHtml = `
+            } else {
+              estadoHtml = `
             <span style="font-size:11px;font-weight:600;background:#F5F5F5;color:#757575;padding:3px 10px;border-radius:20px;">
                 Finalizado
             </span>
             `;
-          }
+            }
 
-          const linha = `
+            const linha = `
           <tr id="ano-row-${ano.id}">
               <td>
                 <div style="font-weight:600;">
@@ -4565,69 +4565,69 @@
           </tr>
           `;
 
-          const tbody = document.querySelector('#tabelaAnosAgricolas tbody');
-          const existingRow = document.getElementById(`ano-row-${ano.id}`);
+            const tbody = document.querySelector('#tabelaAnosAgricolas tbody');
+            const existingRow = document.getElementById(`ano-row-${ano.id}`);
 
-          if (existingRow) {
-            // Edição: substitui a linha existente
-            existingRow.outerHTML = linha;
-          } else {
-            // Novo: insere no início da tabela
-            tbody.insertAdjacentHTML('afterbegin', linha);
-          }
+            if (existingRow) {
+              // Edição: substitui a linha existente
+              existingRow.outerHTML = linha;
+            } else {
+              // Novo: insere no início da tabela
+              tbody.insertAdjacentHTML('afterbegin', linha);
+            }
 
-          showToast(
-            id
-              ? 'Ano Agrícola actualizado'
-              : 'Ano Agrícola registado',
-            nome + (
+            showToast(
               id
-                ? ' foi actualizado com sucesso.'
-                : ' foi adicionado ao sistema.'
-            )
-          );
-        } else {
-          showToast('Erro ao guardar', data.message || 'Verifique os dados e tente novamente.');
+                ? 'Ano Agrícola actualizado'
+                : 'Ano Agrícola registado',
+              nome + (
+                id
+                  ? ' foi actualizado com sucesso.'
+                  : ' foi adicionado ao sistema.'
+              )
+            );
+          } else {
+            showToast('Erro ao guardar', data.message || 'Verifique os dados e tente novamente.');
+          }
+        })
+        .catch(() => {
+          btn.innerHTML = orig;
+          btn.disabled = false;
+          showToast('Erro de ligação', 'Verifique a sua conexão.');
+        });
+    });
+
+    /* ══════════════════════════════════════
+       ANO AGRÍCOLA — eliminar
+    ══════════════════════════════════════ */
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn-eliminar-ano');
+      if (!btn) return;
+
+      const id = btn.dataset.id;
+      if (!confirm('Tem a certeza que deseja eliminar este Ano Agrícola? Esta acção é irreversível.')) return;
+
+      fetch(`/ano_agricola/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json'
         }
       })
-      .catch(() => { 
-        btn.innerHTML = orig; 
-        btn.disabled = false; 
-        showToast('Erro de ligação', 'Verifique a sua conexão.'); 
-      });
-  });
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            btn.closest('tr').remove();
+            showToast('Ano Agrícola eliminado', 'O registo foi removido do sistema.');
+          } else {
+            showToast('Erro', data.message || 'Não foi possível eliminar.');
+          }
+        })
+        .catch(() => showToast('Erro de ligação', 'Verifique a sua conexão.'));
+    });
+  </script>
 
-  /* ══════════════════════════════════════
-     ANO AGRÍCOLA — eliminar
-  ══════════════════════════════════════ */
-  document.addEventListener('click', function (e) {
-    const btn = e.target.closest('.btn-eliminar-ano');
-    if (!btn) return;
 
-    const id = btn.dataset.id;
-    if (!confirm('Tem a certeza que deseja eliminar este Ano Agrícola? Esta acção é irreversível.')) return;
-
-    fetch(`/ano_agricola/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        'Accept': 'application/json'
-      }
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data.success) {
-          btn.closest('tr').remove();
-          showToast('Ano Agrícola eliminado', 'O registo foi removido do sistema.');
-        } else {
-          showToast('Erro', data.message || 'Não foi possível eliminar.');
-        }
-      })
-      .catch(() => showToast('Erro de ligação', 'Verifique a sua conexão.'));
-  });
-</script>
-
- 
 
 </body>
 

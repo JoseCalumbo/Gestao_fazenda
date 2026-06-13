@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfiguracaoController;
 use App\Http\Controllers\CooperativaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AgricultoresController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,7 +17,7 @@ Route::get('/login', [AuthController::class, 'index'])->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/dashboard', [AuthController::class, 'dashboard'])->middleware('auth');
+Route::get('/dashboard', [AuthController::class, 'dashboard'])->middleware('auth')->name('dashboard');;
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
@@ -60,6 +62,21 @@ Route::middleware('auth')->group(function () {
     Route::put( '/ano_agricola/{id}', [AnoAgricolaController::class, 'update'] )->name('ano.update');
 
     Route::delete(  '/ano_agricola/{id}',  [AnoAgricolaController::class, 'destroy'] )->name('ano.destroy');
+});
+
+
+// Agricultores
+Route::middleware('auth')->group(function () {
+
+    Route::get('/agricultores',[AgricultoresController::class,'index'])->name('agricultores.index');
+
+    Route::post('/agricultores',[AgricultoresController::class,'store'])->name('agricultores.store');
+
+    Route::get('/agricultores/{id}',[AgricultoresController::class,'show'])->name('agricultores.show');
+
+    Route::put('/agricultores/{id}',[AgricultoresController::class,'update'])->name('agricultores.update');
+
+    Route::delete('/agricultores/{id}',[AgricultoresController::class,'destroy'])->name('agricultores.destroy');
 });
 
 // cooperativa

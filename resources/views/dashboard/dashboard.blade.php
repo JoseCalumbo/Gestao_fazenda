@@ -1046,9 +1046,9 @@
         <i class="bi bi-building"></i>
         <span class="nav-label">Cooperativa</span>
       </a>
-      <a href="#" class="nav-item-link" data-label="Cooperados">
+      <a href="{{route('agricultores.index')}}" class="nav-item-link" data-label="Agricultores">
         <i class="bi bi-people-fill"></i>
-        <span class="nav-label">Cooperados</span>
+        <span class="nav-label">Agricultores</span>
       </a>
 
       <div class="nav-section-title">Agrícola</div>

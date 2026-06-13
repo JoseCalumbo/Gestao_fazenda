@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>SIAG – Cooperativas</title>
+  <title>SIAG – Agricultores</title>
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -725,9 +725,9 @@
 
   <div class="sidebar-nav">
     <div class="nav-section-title">Principal</div>
-    <a href="/dashboard" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
-    <a href="#" class="nav-item-link active" data-label="Cooperativa"><i class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
-    <a href="#" class="nav-item-link" data-label="Agricultores"><i class="bi bi-people-fill"></i><span class="nav-label">Agricultor</span></a>
+    <a href="{{route('dashboard')}}" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
+    <a href="{{route('cooperativas')}}" class="nav-item-link " data-label="Cooperativa"><i class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
+    <a href="{{route('agricultores.index')}}" class="nav-item-link active" data-label="Agricultores"><i class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
     <div class="nav-section-title">Agrícola</div>
     <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span class="nav-label">Safras</span></a>
@@ -764,11 +764,11 @@
   <button class="topbar-toggle" id="sidebarToggle" title="Toggle Sidebar">
     <i class="bi bi-list"></i>
   </button>
-  <span class="topbar-title">Cooperativas</span>
+  <span class="topbar-title">Agricultores</span>
   <nav aria-label="breadcrumb" class="d-none d-md-flex ms-3">
     <ol class="breadcrumb mb-0" style="font-size:12.5px;">
       <li class="breadcrumb-item"><a href="#" style="color:var(--primary);text-decoration:none;">SIAG</a></li>
-      <li class="breadcrumb-item active" style="color:var(--text-light);">Cooperativas</li>
+      <li class="breadcrumb-item active" style="color:var(--text-light);">Agricultores</li>
     </ol>
   </nav>
   <div class="topbar-right">
@@ -832,8 +832,8 @@
     <!-- Page Header -->
     <div class="page-header anim">
       <div>
-        <h1>Gestão de Cooperativas</h1>
-        <p>Registo e administração das cooperativas agrícolas da região de Viana</p>
+        <h1>Gestão dos Agricultores</h1>
+        <p>Registo e administração dos agricultores da região de Viana</p>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
         <button class="btn-outline-green" id="btnExportar">
