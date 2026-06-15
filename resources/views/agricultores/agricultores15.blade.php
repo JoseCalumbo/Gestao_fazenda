@@ -1636,7 +1636,7 @@
       <a href="{{route('cooperativas')}}" class="nav-item-link" data-label="Cooperativa"><i
           class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
       <a href="{{ route('agricultores.index') }}" class="nav-item-link active" data-label="Agricultores"><i
-          class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
+          class="bi bi-person-badge-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
       <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
@@ -1764,19 +1764,19 @@
             <i class="bi bi-download"></i> Exportar
           </button>
           <button class="btn-green" id="btnNovoAgricultor" data-bs-toggle="modal" data-bs-target="#modalAgricultor">
-            <i class="bi bi-plus-lg"></i> Novo Agricultor
+            <i class="bi bi-person-add"></i> Novo Agricultor
           </button>
         </div>
       </div>
 
-      <!-- Stat Cards - Total de Agricultores, Associados, Técnicos, Activos -->
+      <!-- Stat Cards -->
       <div class="row g-3 mb-4 anim anim-d1">
         <div class="col-6 col-xl-3">
           <div class="stat-card">
             <div class="stat-icon green"><i class="bi bi-person-badge-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Total de Agricultores</div>
-              <div class="s-value" id="totalAgricultoresCount">0</div>
+              <div class="s-value">4</div>
             </div>
           </div>
         </div>
@@ -1785,16 +1785,16 @@
             <div class="stat-icon blue"><i class="bi bi-building"></i></div>
             <div class="stat-info">
               <div class="s-label">Associados a Cooperativa</div>
-              <div class="s-value" id="associadosCoopCount">0</div>
+              <div class="s-value">3</div>
             </div>
           </div>
         </div>
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon amber"><i class="bi bi-person-gear"></i></div>
+            <div class="stat-icon amber"><i class="bi bi-person-fill-exclamation"></i></div>
             <div class="stat-info">
-              <div class="s-label">Técnicos</div>
-              <div class="s-value" id="tecnicosCount">0</div>
+              <div class="s-label">Pendentes</div>
+              <div class="s-value">1</div>
             </div>
           </div>
         </div>
@@ -1803,7 +1803,7 @@
             <div class="stat-icon purple"><i class="bi bi-person-check-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Activos</div>
-              <div class="s-value" id="activosCount">0</div>
+              <div class="s-value">3</div>
             </div>
           </div>
         </div>
@@ -1837,12 +1837,17 @@
           </select>
           <select class="filter-select" id="filterCooperativa">
             <option value="">Todas as cooperativas</option>
+            <option value="Coop. Agrícola de Viana">Coop. Agrícola de Viana</option>
+            <option value="Coop. Kilamba Kiaxi">Coop. Kilamba Kiaxi</option>
+            <option value="Coop. Cazenga Agrícola">Coop. Cazenga Agrícola</option>
+            <option value="—">Sem cooperativa</option>
           </select>
-          <select class="filter-select" id="filterTipoMembro">
-            <option value="">Todos os tipos</option>
-            <option value="Direcção">Direcção</option>
-            <option value="Técnico">Técnico</option>
-            <option value="Membro">Membro</option>
+          <select class="filter-select" id="filterCargo">
+            <option value="">Todos os cargos</option>
+            <option value="agricultor">Agricultor</option>
+            <option value="dirigente">Dirigente</option>
+            <option value="tecnico">Técnico</option>
+            <option value="socio">Sócio</option>
           </select>
         </div>
 
@@ -1858,18 +1863,57 @@
                 <th>Agricultor</th>
                 <th>Contacto</th>
                 <th>Cooperativa</th>
-                <th>Tipo Membro</th>
                 <th>Cargo</th>
                 <th>Estado</th>
                 <th style="text-align:center;">Acções</th>
               </tr>
             </thead>
             <tbody id="agTableBody">
+
+              {{-- <!-- Row 1 -->
+
+              <!-- Row 4 -->
+              <tr data-estado="pendente" data-cooperativa="—" data-cargo="" id="ag-row-4">
+                <td><input type="checkbox" class="row-check"
+                    style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
+                <td>
+                  <div class="ag-cell">
+                    <div class="person-avatar" style="background:#6A1B9A;">RN</div>
+                    <div>
+                      <div class="ag-name">Rosa Neto</div>
+                      <div class="ag-bi">BI: 002345671LA044</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="font-size:13px;">+244 940 222 333</div>
+                  <div style="font-size:12px;color:var(--text-light);">rosa.neto@email.ao</div>
+                </td>
+                <td><span class="text-muted-coop">Sem cooperativa</span></td>
+                <td><span class="text-muted-coop">—</span></td>
+                <td><span class="badge-status pendente"><span class="dot"></span>Pendente</span></td>
+                <td style="text-align:center;">
+                  <div style="display:flex;gap:6px;justify-content:center;">
+                    <button class="action-btn view" title="Ver detalhes"
+                      onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')"><i
+                        class="bi bi-eye-fill"></i></button>
+                    <button class="action-btn edit btn-editar-ag" title="Editar" data-id="4" data-nome="Rosa Neto"
+                      data-sexo="F" data-nascimento="1995-07-30" data-bi="002345671LA044" data-nif=""
+                      data-estadocivil="solteira" data-tel="+244 940 222 333" data-tel2=""
+                      data-email="rosa.neto@email.ao" data-endereco="Bairro Cazenga, Luanda" data-cooperativa=""
+                      data-cargo="" data-associacao="" data-estado="pendente">
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="4"
+                      data-nome="Rosa Neto"><i class="bi bi-trash-fill"></i></button>
+                  </div>
+                </td>
+              </tr> --}}
+
               @foreach($agricultores as $agricultor)
-                <tr id="agricultor-row-{{ $agricultor->id }}" 
-                    data-estado="{{ $agricultor->estado }}" 
-                    data-cooperativa="{{ $agricultor->cooperativa_nome ?? '' }}" 
-                    data-tipo_membro="{{ $agricultor->tipo_membro ?? '' }}">
+
+                <tr id="agricultor-row-{{ $agricultor->id }}" data-estado="activo"
+                  data-cooperativa="Coop. Agrícola de Viana" data-cargo="dirigente">
                   <td><input type="checkbox" class="row-check"
                       style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
                   <td>
@@ -1879,56 +1923,42 @@
                         alt="Foto" style="width:40px;height:40px;border-radius:50%;object-fit:cover;"
                         onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
                       <div>
-                        <div class="ag-name">{{ $agricultor->nome_completo }}</div>
+                        <div class="ag-name"> {{ $agricultor->nome_completo }}</div>
                         <div class="ag-bi">BI: {{ $agricultor->bilhete }}</div>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <div style="font-size:13px;">{{ $agricultor->telefone_principal }}</div>
-                    <div style="font-size:12px;color:var(--text-light);">{{ $agricultor->email }}</div>
+                    <div style="font-size:13px;">{{$agricultor->telefone_principal }}</div>
+                    <div style="font-size:12px;color:var(--text-light);">{{ $agricultor->email}}</div>
                   </td>
-                  <td>{{ $agricultor->cooperativa_nome ?? 'Sem cooperativa' }}</td>
-                  <td><span class="badge-cargo">{{ $agricultor->tipo_membro ?? 'Membro' }}</span></td>
-                  <td><span class="badge-cargo">{{ $agricultor->cargo_cooperativa ?? 'Nenhum' }}</span></td>
-                  <td>
-                    <span class="badge-status {{ $agricultor->estado }}">
-                      <span class="dot"></span>
-                      {{ ucfirst($agricultor->estado) }}
-                    </span>
-                  </td>
+                  <td>Coop. Agrícola de Viana</td>
+                  <td><span class="badge-cargo"></i>Dirigente</span></td>
+                  <td><span class="badge-status activo"> {{ $agricultor->estado}}</span></td>
                   <td style="text-align:center;">
                     <div style="display:flex;gap:6px;justify-content:center;">
                       <button class="action-btn view" title="Ver detalhes"
-                        onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')">
-                        <i class="bi bi-eye-fill"></i>
-                      </button>
-                      <button class="action-btn edit btn-editar-ag" title="Editar" 
-                        data-id="{{ $agricultor->id }}"
-                        data-nome="{{ $agricultor->nome_completo }}"
-                        data-sexo="{{ $agricultor->sexo ?? '' }}"
-                        data-nascimento="{{ $agricultor->data_nascimento ?? '' }}"
-                        data-bi="{{ $agricultor->bilhete ?? '' }}"
-                        data-nif="{{ $agricultor->nif ?? '' }}"
-                        data-telefone="{{ $agricultor->telefone_principal ?? '' }}"
-                        data-telefone_alt="{{ $agricultor->telefone_alternativo ?? '' }}"
-                        data-email="{{ $agricultor->email ?? '' }}"
-                        data-endereco="{{ $agricultor->endereco ?? '' }}"
-                        data-estado="{{ $agricultor->estado ?? 'activo' }}"
-                        data-tipo_membro="{{ $agricultor->tipo_membro ?? 'Membro' }}"
-                        data-cooperativa_id="{{ $agricultor->cooperativa_id ?? '' }}"
-                        data-cargo_cooperativa="{{ $agricultor->cargo_cooperativa ?? 'Nenhum' }}">
+                        onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')"><i
+                          class="bi bi-eye-fill"></i></button>
+                      <button class="action-btn edit btn-editar-ag" title="Editar" data-id="{{ $agricultor->id }}"
+                         data-nome="{{ $agricultor->nome_completo }}" data-inicio="{{ $agricultor->data_inicio }}"
+                        data-fim="{{ $agricultor->data_fim }}" data-estado="{{ $agricultor->estado }}"
+
+                         data-sexo="F" data-nascimento="1979-11-02"
+                        data-bi="006234890LA042" data-nif="" data-estadocivil="casada" data-tel="+244 912 333 444"
+                        data-tel2="" data-email="maria.silva@email.ao" data-endereco="Bairro Kicolo, Viana, Luanda"
+                        data-cooperativa="Coop. Agrícola de Viana" data-cargo="dirigente" data-associacao="2018-06-22"
+                        data-coopestado="activo" data-estado="activo">
                         <i class="bi bi-pencil-fill"></i>
                       </button>
-                      <button class="action-btn delete btn-eliminar-ag" title="Apagar" 
-                        data-id="{{ $agricultor->id }}"
-                        data-nome="{{ $agricultor->nome_completo }}">
-                        <i class="bi bi-trash-fill"></i>
-                      </button>
+                      <button class="action-btn delete btn-eliminar-ag" title="Apagar"  data-id="{{ $agricultor->id }}"
+                        data-nome="{{ $agricultor->nome_completo }}"><i class="bi bi-trash-fill"></i></button>
                     </div>
                   </td>
                 </tr>
+
               @endforeach
+
             </tbody>
           </table>
         </div>
@@ -1942,7 +1972,7 @@
 
         <!-- Footer / Pagination -->
         <div class="table-footer">
-          <span id="tableCount">Mostrando 0 de 0 agricultores</span>
+          <span id="tableCount">Mostrando 4 de 4 agricultores</span>
           <div class="pagination-btns">
             <button class="page-btn"><i class="bi bi-chevron-left"></i></button>
             <button class="page-btn active">1</button>
@@ -1978,19 +2008,19 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
 
-        <!-- Modal Tabs nav (nova ordem: Dados Pessoais, Contactos & Endereços, Estados & Tipos, Cooperativa) -->
+        <!-- Modal Tabs nav -->
         <div class="modal-tabs" id="modalTabsNav">
           <button class="modal-tab-btn active" data-modal-tab="pessoais">
             <i class="bi bi-person-vcard-fill"></i> Dados Pessoais
           </button>
           <button class="modal-tab-btn" data-modal-tab="contactos">
-            <i class="bi bi-geo-alt-fill"></i> Contactos & Endereços
-          </button>
-          <button class="modal-tab-btn" data-modal-tab="estados_tipos">
-            <i class="bi bi-toggle-on"></i> Estados & Tipos
+            <i class="bi bi-geo-alt-fill"></i> Contactos & Endereço
           </button>
           <button class="modal-tab-btn" data-modal-tab="cooperativa">
             <i class="bi bi-building"></i> Cooperativa
+          </button>
+          <button class="modal-tab-btn" data-modal-tab="estado">
+            <i class="bi bi-toggle-on"></i> Estado
           </button>
         </div>
 
@@ -2060,7 +2090,7 @@
               </div>
             </div>
 
-            <!-- ── TAB 2: Contactos & Endereços ── -->
+            <!-- ── TAB 2: Contactos & Endereço ── -->
             <div class="modal-tab-panel" id="mtab-contactos">
               <div class="modal-form-card">
                 <div class="modal-section-title">
@@ -2097,49 +2127,14 @@
               </div>
             </div>
 
-            <!-- ── TAB 3: Estados & Tipos ── -->
-            <div class="modal-tab-panel" id="mtab-estados_tipos">
-              <div class="modal-form-card">
-                <div class="modal-section-title">
-                  <i class="bi bi-toggle-on"></i> Estado
-                </div>
-                <div class="row g-3">
-                  <div class="col-12">
-                    <label class="cfg-label" for="agEstado">Estado *</label>
-                    <select class="cfg-select" id="agEstado" name="estado" required>
-                      <option value="activo">Activo</option>
-                      <option value="inactivo">Inactivo</option>
-                      <option value="pendente">Pendente</option>
-                    </select>
-                    <div class="cfg-helper">Define se o agricultor está em actividade no sistema</div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-form-card">
-                <div class="modal-section-title">
-                  <i class="bi bi-people-fill"></i> Tipo de Membro
-                </div>
-                <div class="row g-3">
-                  <div class="col-12">
-                    <label class="cfg-label" for="agTipoMembro">Tipo de Membro *</label>
-                    <select class="cfg-select" id="agTipoMembro" name="tipo_membro" required>
-                      <option value="Direcção">Direcção</option>
-                      <option value="Técnico">Técnico</option>
-                      <option value="Membro">Membro</option>
-                    </select>
-                    <div class="cfg-helper">Classificação do membro na cooperativa</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- ── TAB 4: Cooperativa ── -->
+            <!-- ── TAB 3: Cooperativa ── -->
             <div class="modal-tab-panel" id="mtab-cooperativa">
               <div id="agSemCoopAlert" class="info-alert">
                 <i class="bi bi-info-circle-fill"></i>
                 <div>
                   <div class="ia-title">Agricultor sem cooperativa associada</div>
-                  <div class="ia-sub">Seleccione uma cooperativa abaixo para registar o cargo.</div>
+                  <div class="ia-sub">Seleccione uma cooperativa abaixo para registar o cargo e a data de associação.
+                  </div>
                 </div>
               </div>
               <div class="modal-form-card">
@@ -2149,29 +2144,64 @@
                 <div class="row g-3">
                   <div class="col-12 col-md-6">
                     <label class="cfg-label" for="agCooperativa">Cooperativa</label>
-                    <select class="cfg-select" id="agCooperativa" name="cooperativa_id">
+                    <select class="cfg-select" id="agCooperativa" name="cooperativa">
                       <option value="">Nenhuma (sem associação)</option>
-                      @foreach($cooperativas as $coop)
-                        <option value="{{ $coop->id }}">{{ $coop->nome }}</option>
-                      @endforeach
+                      <option value="Coop. Agrícola de Viana">Coop. Agrícola de Viana</option>
+                      <option value="Coop. Kilamba Kiaxi">Coop. Kilamba Kiaxi</option>
+                      <option value="Coop. Cazenga Agrícola">Coop. Cazenga Agrícola</option>
                     </select>
                     <div class="cfg-helper">Cooperativa à qual o agricultor está associado</div>
                   </div>
-                  <div class="col-12 col-md-6 ag-coop-field" style="display:none;">
-                    <label class="cfg-label" for="agCargoCooperativa">Cargo</label>
-                    <select class="cfg-select" id="agCargoCooperativa" name="cargo_cooperativa">
-                      <option value="Nenhum">Nenhum - Apenas Membro</option>
-                      <option value="Presidente">Presidente</option>
-                      <option value="Vice-Presidente">Vice-Presidente</option>
-                      <option value="Secretário">Secretário</option>
-                      <option value="Tesoureiro">Tesoureiro</option>
-                      <option value="Técnico">Técnico</option>
-                      <option value="Dirigente">Dirigente</option>
+                  <div class="col-12 col-md-3 ag-coop-field" style="display:none;">
+                    <label class="cfg-label" for="agCargo">Cargo</label>
+                    <select class="cfg-select" id="agCargo" name="cargo">
+                      <option value="agricultor">Agricultor</option>
+                      <option value="dirigente">Dirigente</option>
+                      <option value="tecnico">Técnico</option>
+                      <option value="socio">Sócio</option>
                     </select>
+                  </div>
+                  <div class="col-12 col-md-3 ag-coop-field" style="display:none;">
+                    <label class="cfg-label" for="agAssociacao">Data de Associação</label>
+                    <input class="cfg-input" type="date" id="agAssociacao" name="data_associacao">
                   </div>
                 </div>
               </div>
             </div>
+
+            <!-- ── TAB 4: Estado ── -->
+            <div class="modal-tab-panel" id="mtab-estado">
+
+              <div class="modal-form-card">
+                <div class="modal-section-title">
+                  <i class="bi bi-toggle-on"></i> Estado do Agricultor
+                </div>
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="agEstado">Estado Actual *</label>
+                    <select class="cfg-select" id="agEstado" name="estado" required>
+                      <option value="activo">Activo</option>
+                      <option value="inactivo">Inactivo</option>
+                      <option value="pendente">Pendente</option>
+                    </select>
+                    <div class="cfg-helper">Define se o agricultor está em actividade no sistema</div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="agDataRegisto">Data de Registo</label>
+                    <input class="cfg-input" type="date" id="agDataRegisto" name="data_registo">
+                    <div class="cfg-helper">Data em que o agricultor foi registado no sistema</div>
+                  </div>
+                  <div class="col-12">
+                    <label class="cfg-label" for="agMotivoInactividade">Motivo de Inactividade <span
+                        style="color:var(--text-light);font-weight:400;">(opcional)</span></label>
+                    <textarea class="cfg-textarea" id="agMotivoInactividade" name="motivo_inactividade" rows="3"
+                      placeholder="Descreva o motivo caso o agricultor esteja inactivo ou pendente…"></textarea>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- /TAB ESTADO -->
 
           </form>
         </div>
@@ -2328,7 +2358,7 @@
     }
 
     /* ══════════════════════════════════════
-       MODAL TABS (nova ordem)
+       MODAL TABS
     ══════════════════════════════════════ */
     function switchModalTab(tabName) {
       document.querySelectorAll('.modal-tab-btn').forEach(btn => {
@@ -2343,7 +2373,7 @@
     });
 
     /* ══════════════════════════════════════
-       TOGGLE CAMPOS COOPERATIVA (cargo)
+       TOGGLE CAMPOS COOPERATIVA (cargo / data associação)
     ══════════════════════════════════════ */
     function toggleCooperativaFields() {
       const val = document.getElementById('agCooperativa').value;
@@ -2395,27 +2425,6 @@
     }
 
     /* ══════════════════════════════════════
-       CARDS DINÂMICOS
-    ══════════════════════════════════════ */
-    function updateStatsCards() {
-      // Total de agricultores
-      const totalRows = document.querySelectorAll('#agTableBody tr').length;
-      document.getElementById('totalAgricultoresCount').textContent = totalRows;
-      
-      // Associados a cooperativa (quem tem cooperativa_id preenchido)
-      const associados = document.querySelectorAll('#agTableBody tr[data-cooperativa]:not([data-cooperativa=""])').length;
-      document.getElementById('associadosCoopCount').textContent = associados;
-      
-      // Técnicos (tipo_membro = 'Técnico')
-      const tecnicos = document.querySelectorAll('#agTableBody tr[data-tipo_membro="Técnico"]').length;
-      document.getElementById('tecnicosCount').textContent = tecnicos;
-      
-      // Activos (estado = 'activo')
-      const activos = document.querySelectorAll('#agTableBody tr[data-estado="activo"]').length;
-      document.getElementById('activosCount').textContent = activos;
-    }
-
-    /* ══════════════════════════════════════
        AGRICULTOR — reset modal ao abrir (novo)
     ══════════════════════════════════════ */
     document.getElementById('modalAgricultor').addEventListener('show.bs.modal', function (e) {
@@ -2427,17 +2436,13 @@
         document.getElementById('modalHeaderIcon').className = 'bi bi-person-badge-fill';
         document.getElementById('agFotoZone').innerHTML = '<i class="bi bi-person-circle"></i><span>Carregar foto</span>';
         document.getElementById('agFotoZone').style.border = '';
-        document.getElementById('agEstado').value = 'activo';
-        document.getElementById('agTipoMembro').value = 'Membro';
-        document.getElementById('agCooperativa').value = '';
-        document.getElementById('agCargoCooperativa').value = 'Nenhum';
         toggleCooperativaFields();
         switchModalTab('pessoais');
       }
     });
 
     /* ══════════════════════════════════════
-       AGRICULTOR — botão editar (carrega dados)
+       AGRICULTOR — botão editar
     ══════════════════════════════════════ */
     document.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn-editar-ag');
@@ -2449,14 +2454,15 @@
       document.getElementById('agNascimento').value = parseDateForInput(btn.dataset.nascimento || '');
       document.getElementById('agBI').value = btn.dataset.bi || '';
       document.getElementById('agNIF').value = btn.dataset.nif || '';
+      document.getElementById('agEstadoCivil').value = btn.dataset.estadocivil || '';
       document.getElementById('agEstado').value = btn.dataset.estado || 'activo';
-      document.getElementById('agTipoMembro').value = btn.dataset.tipo_membro || 'Membro';
-      document.getElementById('agTelefone').value = btn.dataset.telefone || '';
-      document.getElementById('agTelefoneAlt').value = btn.dataset.telefone_alt || '';
+      document.getElementById('agTelefone').value = btn.dataset.tel || '';
+      document.getElementById('agTelefoneAlt').value = btn.dataset.tel2 || '';
       document.getElementById('agEmail').value = btn.dataset.email || '';
       document.getElementById('agEndereco').value = btn.dataset.endereco || '';
-      document.getElementById('agCooperativa').value = btn.dataset.cooperativa_id || '';
-      document.getElementById('agCargoCooperativa').value = btn.dataset.cargo_cooperativa || 'Nenhum';
+      document.getElementById('agCooperativa').value = btn.dataset.cooperativa || '';
+      document.getElementById('agCargo').value = btn.dataset.cargo || 'agricultor';
+      document.getElementById('agAssociacao').value = parseDateForInput(btn.dataset.associacao || '');
 
       document.getElementById('modalAgricultorLabel').textContent = 'Editar Agricultor';
       document.getElementById('btnGuardarAgLabel').textContent = 'Guardar Alterações';
@@ -2495,14 +2501,16 @@
       const nascimento = document.getElementById('agNascimento').value;
       const bi = document.getElementById('agBI').value.trim();
       const nif = document.getElementById('agNIF').value.trim();
+      const estadoCivil = document.getElementById('agEstadoCivil').value;
       const estado = document.getElementById('agEstado').value;
-      const tipoMembro = document.getElementById('agTipoMembro').value;
       const telefone = document.getElementById('agTelefone').value.trim();
       const telefoneAlt = document.getElementById('agTelefoneAlt').value.trim();
       const email = document.getElementById('agEmail').value.trim();
       const endereco = document.getElementById('agEndereco').value.trim();
-      const cooperativaId = document.getElementById('agCooperativa').value;
-      const cargoCooperativa = document.getElementById('agCargoCooperativa').value;
+      const cooperativa = document.getElementById('agCooperativa').value;
+      const cargo = document.getElementById('agCargo').value;
+      const associacao = document.getElementById('agAssociacao').value;
+      const motivoInactividade = document.getElementById('agMotivoInactividade').value.trim();
 
       if (!nome || !sexo || !nascimento || !bi) {
         switchModalTab('pessoais');
@@ -2531,11 +2539,10 @@
           'Accept': 'application/json',
         },
         body: JSON.stringify({
-          nome, sexo, data_nascimento: nascimento, bi, nif,
-          estado, tipo_membro: tipoMembro,
+          nome, sexo, data_nascimento: nascimento, bi, nif, estado_civil: estadoCivil, estado,
           telefone, telefone_alt: telefoneAlt, email, endereco,
-          cooperativa_id: cooperativaId || null,
-          cargo_cooperativa: cargoCooperativa
+          cooperativa, cargo, data_associacao: associacao,
+          motivo_inactividade: motivoInactividade
         })
       })
         .then(r => r.json())
@@ -2545,7 +2552,75 @@
 
           if (data.success) {
             bootstrap.Modal.getInstance(document.getElementById('modalAgricultor')).hide();
-            location.reload();
+
+            const ag = data.data;
+            const colors = ['#1B5E20', '#1565C0', '#6A1B9A', '#F57F17', '#00695C', '#C62828'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const initials = nome.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+
+            let estadoHtml = '';
+            if (estado === 'activo') {
+              estadoHtml = '<span class="badge-status activo"><span class="dot"></span>Activo</span>';
+            } else if (estado === 'pendente') {
+              estadoHtml = '<span class="badge-status pendente"><span class="dot"></span>Pendente</span>';
+            } else {
+              estadoHtml = '<span class="badge-status inactivo"><span class="dot"></span>Inactivo</span>';
+            }
+
+            const cargoLabels = { agricultor: 'Agricultor', dirigente: 'Dirigente', tecnico: 'Técnico', socio: 'Sócio' };
+            const cargoIcons = { agricultor: 'bi-person-fill', dirigente: 'bi-star-fill', tecnico: 'bi-tools', socio: 'bi-person-badge' };
+            const cooperativaHtml = cooperativa
+              ? `<td>${cooperativa}</td><td><span class="badge-cargo"><i class="bi ${cargoIcons[cargo] || 'bi-person-fill'} me-1"></i>${cargoLabels[cargo] || ''}</span></td>`
+              : `<td><span class="text-muted-coop">Sem cooperativa</span></td><td><span class="text-muted-coop">—</span></td>`;
+
+            const linha = `
+        <tr data-estado="${estado}" data-cooperativa="${cooperativa || '—'}" data-cargo="${cargo || ''}" id="ag-row-${ag.id}">
+          <td><input type="checkbox" class="row-check" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
+          <td>
+            <div class="ag-cell">
+              <div class="person-avatar" style="background:${color};">${initials}</div>
+              <div>
+                <div class="ag-name">${nome}</div>
+                <div class="ag-bi">BI: ${bi}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-size:13px;">${telefone}</div>
+            <div style="font-size:12px;color:var(--text-light);">${email || ''}</div>
+          </td>
+          ${cooperativaHtml}
+          <td>${estadoHtml}</td>
+          <td style="text-align:center;">
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button class="action-btn view" title="Ver detalhes" onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')"><i class="bi bi-eye-fill"></i></button>
+              <button class="action-btn edit btn-editar-ag" title="Editar"
+                data-id="${ag.id}" data-nome="${nome}" data-sexo="${sexo}" data-nascimento="${nascimento}"
+                data-bi="${bi}" data-nif="${nif}" data-estadocivil="${estadoCivil}"
+                data-tel="${telefone}" data-tel2="${telefoneAlt}" data-email="${email}"
+                data-endereco="${endereco}" data-cooperativa="${cooperativa}"
+                data-cargo="${cargo}" data-associacao="${associacao}" data-estado="${estado}">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+              <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="${ag.id}" data-nome="${nome}"><i class="bi bi-trash-fill"></i></button>
+            </div>
+          </td>
+        </tr>`;
+
+            const tbody = document.querySelector('#agTableBody');
+            const existingRow = document.getElementById(`ag-row-${ag.id}`);
+
+            if (existingRow) {
+              existingRow.outerHTML = linha;
+            } else {
+              tbody.insertAdjacentHTML('afterbegin', linha);
+            }
+
+            showToast(
+              id ? 'Agricultor actualizado' : 'Agricultor registado',
+              nome + (id ? ' foi actualizado com sucesso.' : ' foi adicionado ao sistema.')
+            );
+            applyFilters();
           } else {
             showToast('Erro ao guardar', data.message || 'Verifique os dados e tente novamente.', 'danger');
           }
@@ -2594,9 +2669,8 @@
           btn.disabled = false;
           bootstrap.Modal.getInstance(document.getElementById('modalDelete')).hide();
           if (data.success) {
-            document.getElementById(`agricultor-row-${deleteTargetId}`)?.remove();
+            document.getElementById(`ag-row-${deleteTargetId}`)?.remove();
             showToast('Agricultor eliminado', deleteTargetName + ' foi removido do sistema.', 'danger');
-            updateStatsCards();
             applyFilters();
           } else {
             showToast('Erro', data.message || 'Não foi possível eliminar.', 'danger');
@@ -2617,7 +2691,7 @@
       const search = document.getElementById('searchAgricultor').value.toLowerCase().trim();
       const estado = document.getElementById('filterEstado').value;
       const cooperativa = document.getElementById('filterCooperativa').value;
-      const tipoMembro = document.getElementById('filterTipoMembro').value;
+      const cargo = document.getElementById('filterCargo').value;
       const rows = document.querySelectorAll('#agTableBody tr');
       let visible = 0;
       let total = rows.length;
@@ -2626,18 +2700,19 @@
         const show = (!search || text.includes(search))
           && (!estado || row.dataset.estado === estado)
           && (!cooperativa || row.dataset.cooperativa === cooperativa)
-          && (!tipoMembro || row.dataset.tipo_membro === tipoMembro);
+          && (!cargo || row.dataset.cargo === cargo);
         row.style.display = show ? '' : 'none';
         if (show) visible++;
       });
       document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
       document.getElementById('tableCount').textContent = `Mostrando ${visible} de ${total} agricultores`;
+      document.getElementById('tableCountTop').textContent = `${total} registos`;
     }
 
     document.getElementById('searchAgricultor').addEventListener('input', applyFilters);
     document.getElementById('filterEstado').addEventListener('change', applyFilters);
     document.getElementById('filterCooperativa').addEventListener('change', applyFilters);
-    document.getElementById('filterTipoMembro').addEventListener('change', applyFilters);
+    document.getElementById('filterCargo').addEventListener('change', applyFilters);
 
     /* ══════════════════════════════════════
        SELECT ALL CHECKBOXES
@@ -2652,30 +2727,6 @@
     document.getElementById('btnExportar').addEventListener('click', () => {
       showToast('A exportar…', 'O ficheiro será gerado e descarregado em breve.');
     });
-
-    /* ══════════════════════════════════════
-       INICIALIZAÇÃO
-    ══════════════════════════════════════ */
-    function carregarCooperativasFiltro() {
-      fetch('/cooperativas/list')
-        .then(r => r.json())
-        .then(data => {
-          const select = document.getElementById('filterCooperativa');
-          if (data.cooperativas) {
-            data.cooperativas.forEach(coop => {
-              const option = document.createElement('option');
-              option.value = coop.nome;
-              option.textContent = coop.nome;
-              select.appendChild(option);
-            });
-          }
-        })
-        .catch(() => console.log('Erro ao carregar cooperativas para filtro'));
-    }
-
-    carregarCooperativasFiltro();
-    updateStatsCards();
-    applyFilters();
   </script>
 
 </body>

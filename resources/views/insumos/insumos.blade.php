@@ -606,10 +606,10 @@
               <td>
                 <div class="insumo-cell">
                   <div class="insumo-avatar {{ $insumo->tipo == 'fertilizante' ? 'bg-success bg-opacity-10 text-success' : ($insumo->tipo == 'semente' ? 'bg-warning bg-opacity-10 text-warning' : ($insumo->tipo == 'mecanico' ? 'bg-primary bg-opacity-10 text-primary' : 'bg-secondary bg-opacity-10 text-secondary')) }}">
-                    @if($insumo->tipo == 'fertilizante') 💧
-                    @elseif($insumo->tipo == 'semente') 🌱
-                    @elseif($insumo->tipo == 'mecanico') 🔧
-                    @else 📦 @endif
+                    @if($insumo->tipo == 'fertilizante') 
+                    @elseif($insumo->tipo == 'semente') 
+                    @elseif($insumo->tipo == 'mecanico')
+                    @else @endif
                   </div>
                   <div>
                     <div class="insumo-nome">{{ $insumo->nome }}</div>
@@ -659,8 +659,7 @@
                     data-estado="{{ $insumo->estado }}">
                     <i class="bi bi-pencil-fill"></i>
                   </button>
-                  <button class="action-btn delete btn-eliminar-insumo" title="Eliminar"
-                    data-id="{{ $insumo->id }}">
+                  <button class="action-btn delete btn-eliminar-insumo" title="Eliminar">
                     <i class="bi bi-trash-fill"></i>
                   </button>
                 </div>
@@ -746,10 +745,10 @@
                 <label class="cfg-label" for="insumoTipo">Tipo / Categoria *</label>
                 <select class="cfg-select" id="insumoTipo" name="tipo" required>
                   <option value="">Seleccione…</option>
-                  <option value="fertilizante">🌿 Fertilizante</option>
-                  <option value="semente">🌱 Semente</option>
-                  <option value="mecanico">🔧 Mecânico</option>
-                  <option value="outro">📦 Outro</option>
+                  <option value="fertilizante">Fertilizante</option>
+                  <option value="semente">Semente</option>
+                  <option value="mecanico">Mecânico</option>
+                  <option value="outro">Outro</option>
                 </select>
               </div>
             </div>
@@ -804,8 +803,8 @@
               <div class="col-12 col-md-6">
                 <label class="cfg-label" for="insumoEstado">Estado *</label>
                 <select class="cfg-select" id="insumoEstado" name="estado" required>
-                  <option value="activo">Activo</option>
-                  <option value="inactivo">Inactivo</option>
+                  <option value="activo">Ativo</option>
+                  <option value="desativado">Desativado</option>
                 </select>
                 <div class="cfg-helper">Insumos inactivos não aparecem nas saídas</div>
               </div>
@@ -1011,6 +1010,7 @@ document.addEventListener('click', function(e) {
    GUARDAR INSUMO (criar / editar)
 ══════════════════════════════════════ */
 document.getElementById('btnGuardarInsumo').addEventListener('click', () => {
+  // 1. Recolha de Dados do Formulário
   const id         = document.getElementById('insumoId').value;
   const nome       = document.getElementById('insumoNome').value.trim();
   const tipo       = document.getElementById('insumoTipo').value;
@@ -1020,21 +1020,22 @@ document.getElementById('btnGuardarInsumo').addEventListener('click', () => {
   const entrada    = document.getElementById('insumoDataEntrada').value;
   const estado     = document.getElementById('insumoEstado').value;
 
+  // 2. Validação básica no Frontend (Campos Obrigatórios)
   if (!nome || !tipo || !quantidade || !unidade || !preco || !entrada) {
     showToast('Campos obrigatórios em falta', 'Preencha todos os campos marcados com *.', 'danger');
     return;
   }
 
+  // 3. Estado de Carregamento (Loading) do Botão
   const btn  = document.getElementById('btnGuardarInsumo');
   const orig = btn.innerHTML;
   btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
   btn.disabled  = true;
 
-  const url    = id ? `/insumos/${id}` : '/insumos';
-  const method = 'POST';
-
+  // 4. Definição Dinâmica de URL e Configuração do FormData
+  const url  = id ? `/insumos/${id}` : '/insumos';
+  
   const formData = new FormData();
-  formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
   formData.append('nome',           nome);
   formData.append('tipo',           tipo);
   formData.append('quantidade',     quantidade);
@@ -1042,30 +1043,47 @@ document.getElementById('btnGuardarInsumo').addEventListener('click', () => {
   formData.append('preco_unitario', preco);
   formData.append('data_entrada',   entrada);
   formData.append('estado',         estado);
-  if (id) formData.append('_method', 'PUT');
+  
+  // Se existir ID, simulamos o método PUT para o Laravel através do FormData
+  if (id) {
+    formData.append('_method', 'PUT');
+  }
 
+  // 5. Envio dos dados via Fetch (Sempre POST para suporte correto a FormData/PUT no Laravel)
   fetch(url, {
-    method,
+    method: 'POST',
     headers: {
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      'Accept': 'application/json',
+      'Accept': 'application/json', // Força o Laravel a responder em JSON (mesmo em erros de validação)
     },
     body: formData
   })
-    .then(r => r.json())
+    .then(response => {
+      // Se o Laravel devolver um erro de validação (422) ou outro erro, capturamos o JSON da mesma forma
+      return response.json().then(data => {
+        if (!response.ok) {
+          // Lança o objeto de erro capturado para o bloco .catch() tratar
+          throw data;
+        }
+        return data;
+      });
+    })
     .then(data => {
+      // Restaurar botão ao estado original
       btn.innerHTML = orig;
       btn.disabled  = false;
 
+      // Resposta de sucesso do servidor
       if (data.success) {
         bootstrap.Modal.getInstance(document.getElementById('modalInsumo')).hide();
         document.getElementById('formInsumo').reset();
 
+        // O 'modoInsumo' deve ser definido ao abrir o modal (ex: 'create' ou 'edit')
         if (modoInsumo === 'create') {
-          inserirLinhaTabela(data.insumo);
+          inserirLinhaTabela(data.insumo); // Corrigido para data.insumo conforme o Controller
           showToast('Insumo registado', data.insumo.nome + ' foi adicionado ao stock.');
         } else {
-          atualizarLinhaTabela(data.insumo);
+          atualizarLinhaTabela(data.insumo); // Corrigido para data.insumo conforme o Controller
           showToast('Insumo actualizado', data.insumo.nome + ' foi actualizado com sucesso.');
         }
         atualizarContadores();
@@ -1073,16 +1091,96 @@ document.getElementById('btnGuardarInsumo').addEventListener('click', () => {
         showToast('Erro ao guardar', data.message || 'Verifique os dados e tente novamente.', 'danger');
       }
     })
-    .catch(() => {
+    .catch(error => {
+      // Restaurar botão ao estado original em caso de erro
       btn.innerHTML = orig;
       btn.disabled  = false;
-      showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
+
+      // Se o erro vier da validação do Laravel (Status 422), extraímos a mensagem amigável
+      if (error.errors) {
+        const primeiroErro = Object.values(error.errors)[0][0];
+        showToast('Erro de validação', primeiroErro, 'danger');
+      } else {
+        showToast('Erro de ligação', error.message || 'Não foi possível comunicar com o servidor.', 'danger');
+      }
     });
 });
+
+  // document.getElementById('btnGuardarInsumo').addEventListener('click', () => {
+  //   const id         = document.getElementById('insumoId').value;
+  //   const nome       = document.getElementById('insumoNome').value.trim();
+  //   const tipo       = document.getElementById('insumoTipo').value;
+  //   const quantidade = document.getElementById('insumoQuantidade').value;
+  //   const unidade    = document.getElementById('insumoUnidade').value;
+  //   const preco      = document.getElementById('insumoPreco').value;
+  //   const entrada    = document.getElementById('insumoDataEntrada').value;
+  //   const estado     = document.getElementById('insumoEstado').value;
+
+  //   if (!nome || !tipo || !quantidade || !unidade || !preco || !entrada) {
+  //     showToast('Campos obrigatórios em falta', 'Preencha todos os campos marcados com *.', 'danger');
+  //     return;
+  //   }
+
+  //   const btn  = document.getElementById('btnGuardarInsumo');
+  //   const orig = btn.innerHTML;
+  //   btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
+  //   btn.disabled  = true;
+
+  //   const url    = id ? `/insumos/${id}` : '/insumos';
+  //   const method = 'POST';
+
+  //   const formData = new FormData();
+  //   formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+  //   formData.append('nome',           nome);
+  //   formData.append('tipo',           tipo);
+  //   formData.append('quantidade',     quantidade);
+  //   formData.append('unidade',        unidade);
+  //   formData.append('preco_unitario', preco);
+  //   formData.append('data_entrada',   entrada);
+  //   formData.append('estado',         estado);
+  //   if (id) formData.append('_method', 'PUT');
+
+  //   fetch(url, {
+  //     method,
+  //     headers: {
+  //       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+  //       'Accept': 'application/json',
+  //     },
+  //     body: formData
+  //   })
+  //     .then(r => r.json())
+  //     .then(data => {
+  //       btn.innerHTML = orig;
+  //       btn.disabled  = false;
+
+  //       if (data.success) {
+  //         bootstrap.Modal.getInstance(document.getElementById('modalInsumo')).hide();
+  //         document.getElementById('formInsumo').reset();
+
+  //         if (modoInsumo === 'create') {
+  //           inserirLinhaTabela(data.insumo);
+  //           showToast('Insumo registado', data.insumo.nome + ' foi adicionado ao stock.');
+  //         } else {
+  //           atualizarLinhaTabela(data.insumo);
+  //           showToast('Insumo actualizado', data.insumo.nome + ' foi actualizado com sucesso.');
+  //         }
+  //         atualizarContadores();
+  //       } else {
+  //         showToast('Erro ao guardar', data.message || 'Verifique os dados e tente novamente.', 'danger');
+  //       }
+  //     })
+  //     .catch(() => {
+  //       btn.innerHTML = orig;
+  //       btn.disabled  = false;
+  //       showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
+  //     });
+  // });
+
 
 /* ══════════════════════════════════════
    ELIMINAR INSUMO
 ══════════════════════════════════════ */
+
 document.addEventListener('click', function(e) {
   const btn = e.target.closest('.btn-eliminar-insumo');
   if (!btn) return;
@@ -1097,21 +1195,16 @@ document.addEventListener('click', function(e) {
       'Accept': 'application/json'
     }
   })
-    .then(r => r.json())
-    .then(data => {
-      if (data.success) {
-        const row = document.getElementById(`insumo-row-${id}`);
-        if (row) {
-          row.style.transition = 'opacity .2s';
-          row.style.opacity = '0';
-          setTimeout(() => { row.remove(); atualizarContadores(); filtrarInsumos(); }, 220);
-        }
-        showToast('Insumo eliminado', 'O registo foi removido do stock.', 'danger');
-      } else {
-        showToast('Erro', data.message || 'Não foi possível eliminar.', 'danger');
-      }
-    })
-    .catch(() => showToast('Erro de ligação', 'Verifique a sua conexão.', 'danger'));
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            btn.closest('tr').remove();
+            showToast('Ano Agrícola eliminado', 'O registo foi removido do sistema.');
+          } else {
+            showToast('Erro', data.message || 'Não foi possível eliminar2.');
+          }
+        })
+        .catch(() => showToast('Erro de ligação', 'Verifique a sua conexão.'));
 });
 
 /* ══════════════════════════════════════
