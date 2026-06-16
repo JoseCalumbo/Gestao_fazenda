@@ -15,7 +15,7 @@ class Agricultor extends Model
         'bilhete',
         'nif',
         'estado_civil',
-        'fotografia',
+        'foto',
         'telefone_principal',
         'telefone_alternativo',
         'email',

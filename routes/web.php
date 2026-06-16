@@ -114,3 +114,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/cooperativas/{id}/update', [CooperativaController::class, 'update'])->name('cooperativas.update');
     Route::delete('/cooperativas/{id}/destroy', [CooperativaController::class, 'destroy'])->name('cooperativas.destroy');
 });
+
+
+Route::prefix('cooperativas')->name('cooperativas.')->group(function () {
+    Route::get('/list', [CooperativaController::class, 'list'])->name('list');
+    Route::get('/select-options', [CooperativaController::class, 'selectOptions'])->name('select-options');
+});
