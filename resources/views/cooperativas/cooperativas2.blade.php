@@ -199,10 +199,8 @@
     .topbar-user .t-avatar {
       width: 30px; height: 30px; background: var(--primary);
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
     }
     .topbar-user .t-avatar i { color: #fff; font-size: 14px; }
-    .avatar-md { width: 30px !important; height: 30px; object-fit: cover; border-radius: 50%; }
     .topbar-user span { font-size: 13px; font-weight: 500; color: var(--primary); }
 
     .dropdown-menu-user {
@@ -447,6 +445,12 @@
     .modal-coop .modal-body {
       flex: 1; overflow: hidden; padding: 0; background: var(--page-bg);
     }
+    /* Cada tab-panel faz o seu próprio scroll interno */
+    .modal-tab-panel {
+      height: 100%; overflow-y: auto; padding: 0;
+    }
+    .modal-tab-panel::-webkit-scrollbar { width: 4px; }
+    .modal-tab-panel::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 4px; }
 
     .modal-content {
       border: none; border-radius: 18px;
@@ -581,10 +585,8 @@
       border-radius: 20px; min-width: 20px; text-align: center;
     }
     .modal-tab-badge.danger { background: #FFEBEE; color: #C62828; }
-    .modal-tab-panel { display: none; height: 100%; overflow-y: auto; padding: 22px; }
+    .modal-tab-panel { display: none; padding: 22px; }
     .modal-tab-panel.active { display: block; }
-    .modal-tab-panel::-webkit-scrollbar { width: 4px; }
-    .modal-tab-panel::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 4px; }
 
     /* Cooperados inside modal */
     .coop-member-row {
@@ -681,7 +683,6 @@
       #ficha-print { position: fixed; top: 0; left: 0; width: 100%; }
     }
   </style>
-  
 </head>
 <body>
 
@@ -724,9 +725,9 @@
 
   <div class="sidebar-nav">
     <div class="nav-section-title">Principal</div>
-    <a href="/dashboard" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
-    <a href="#" class="nav-item-link active" data-label="Cooperativa"><i class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
-    <a href="{{ route('agricultores.index') }}" class="nav-item-link" data-label="Agricultores"><i class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
+    <a href="#" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
+    <a href="#" class="nav-item-link active" data-label="Cooperativa"><i class="bi bi-buildings-fill"></i><span class="nav-label">Cooperativa</span></a>
+    <a href="#" class="nav-item-link" data-label="Cooperados"><i class="bi bi-people-fill"></i><span class="nav-label">Cooperados</span></a>
 
     <div class="nav-section-title">Agrícola</div>
     <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span class="nav-label">Safras</span></a>
@@ -783,20 +784,13 @@
     </button>
     <div class="dropdown d-none d-sm-flex">
       <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
-        <div class="t-avatar">
-          <img id="dropdownAvatarLarge"
-            src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
-            alt="Foto-perfil" width="20" class="avatar-md">
-        </div>
-
-        <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
+        <div class="t-avatar"><i class="bi bi-person-fill"></i></div>
+        <span>Admin</span>
         <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
       </div>
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-        <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
+        <li><span class="dropdown-header"><i class="bi bi-person-circle me-1"></i> Admin SIAG</span></li>
+        <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
         <li>
           <a class="dropdown-item" href="#" id="themeToggle">
@@ -804,9 +798,7 @@
             <span id="themeLabel">Modo Escuro</span>
           </a>
         </li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
+        <li><hr class="dropdown-divider"></li>
         <li>
           <div class="dropdown-item item-logout p-0">
             <form method="POST" action="/logout">
@@ -846,7 +838,7 @@
     <div class="row g-3 mb-4 anim anim-d1">
       <div class="col-6 col-xl-3">
         <div class="stat-card">
-          <div class="stat-icon green"><i class="bi bi-building"></i></div>
+          <div class="stat-icon green"><i class="bi bi-buildings-fill"></i></div>
           <div class="stat-info">
             <div class="s-label">Total Registadas</div>
             <div class="s-value">3</div>
@@ -892,7 +884,7 @@
       <!-- Header -->
       <div class="table-card-header">
         <div style="display:flex;align-items:center;gap:12px;">
-          <h5><i class="bi bi-building me-2" style="color:var(--primary);"></i>Lista de Cooperativas</h5>
+          <h5><i class="bi bi-buildings-fill me-2" style="color:var(--primary);"></i>Lista de Cooperativas</h5>
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
           <span style="font-size:12.5px;color:var(--text-light);">3 registos</span>
@@ -1092,7 +1084,7 @@
       <div class="modal-header">
         <div style="display:flex;align-items:center;gap:14px;flex:1;">
           <div class="modal-header-icon">
-            <i class="bi bi-building" id="modalHeaderIcon"></i>
+            <i class="bi bi-buildings-fill" id="modalHeaderIcon"></i>
           </div>
           <div>
             <div class="modal-title" id="modalCoopLabel">Nova Cooperativa</div>
@@ -1173,6 +1165,11 @@
                 <i class="bi bi-geo-alt-fill"></i> Localização
               </div>
               <div class="row g-3">
+                <div class="col-12 col-md-5">
+                  <label class="cfg-label" for="municipioCoop">Município *</label>
+                  <input class="cfg-input" type="text" id="municipioCoop" name="municipio"
+                    placeholder="Ex: Viana" required>
+                </div>
                 <div class="col-12 col-md-4">
                   <label class="cfg-label" for="provinciaCoop">Província *</label>
                   <select class="cfg-select" id="provinciaCoop" name="provincia">
@@ -1186,15 +1183,9 @@
                     <option>Cunene</option><option>Namibe</option><option>Benguela</option>
                   </select>
                 </div>
-                <div class="col-12 col-md-4">
-                  <label class="cfg-label" for="comunaCoop">Comuna / Distrito</label>
-                  <input class="cfg-input" type="text" id="comunaCoop" name="comuna"
-                    placeholder="Ex: Distrito Urbano da Vila">
-                </div>
-                <div class="col-12 col-md-4">
-                  <label class="cfg-label" for="municipioCoop">Município *</label>
-                  <input class="cfg-input" type="text" id="municipioCoop" name="municipio"
-                    placeholder="Ex: Viana" required>
+                <div class="col-12 col-md-3">
+                  <label class="cfg-label" for="paisCoop">País</label>
+                  <input class="cfg-input" type="text" id="paisCoop" name="pais" value="Angola" readonly>
                 </div>
                 <div class="col-12">
                   <label class="cfg-label" for="enderecoCoop">Endereço Completo</label>
@@ -1662,6 +1653,7 @@ function popularSelectAgricultores() {
 function resetModal() {
   document.getElementById('formCooperativa').reset();
   document.getElementById('coopId').value = '';
+  document.getElementById('paisCoop').value = 'Angola';
   document.getElementById('coopNoIdAlert').style.display = 'flex';
   agricultoresAssociados = [];
   renderMemberList();
@@ -1674,7 +1666,7 @@ document.getElementById('btnNovaCooperativa').addEventListener('click', () => {
   currentEditId = null;
   document.getElementById('modalCoopLabel').textContent = 'Nova Cooperativa';
   document.getElementById('btnSalvarLabel').textContent = 'Registar Cooperativa';
-  document.getElementById('modalHeaderIcon').className = 'bi bi-building';
+  document.getElementById('modalHeaderIcon').className = 'bi bi-buildings-fill';
   resetModal();
 });
 
@@ -1707,7 +1699,6 @@ function editCooperativa(id) {
   document.getElementById('nomeCooperativa').value     = d.nome       || '';
   document.getElementById('nifCooperativa').value      = d.nif        || '';
   document.getElementById('municipioCoop').value       = d.municipio  || '';
-  document.getElementById('comunaCoop').value          = d.comuna     || '';
   document.getElementById('provinciaCoop').value       = d.provincia  || '';
   document.getElementById('enderecoCoop').value        = d.endereco   || '';
   document.getElementById('telefCoop').value           = d.telefone   || '';

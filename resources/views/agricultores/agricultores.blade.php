@@ -1787,16 +1787,16 @@
             <div class="stat-icon blue"><i class="bi bi-building"></i></div>
             <div class="stat-info">
               <div class="s-label">Associados a Cooperativa</div>
-              <div class="s-value" id="associadosCoopCount">0</div>
+              <div class="s-value" id="associadosCoopCount">{{ $associadosCoop ?? 0 }}</div>
             </div>
           </div>
         </div>
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon amber"><i class="bi bi-person-gear"></i></div>
+            <div class="stat-icon amber"><i class="bi bi-hourglass"></i></div>
             <div class="stat-info">
-              <div class="s-label">Técnicos</div>
-              <div class="s-value" id="tecnicosCount">{{ $tecnicos ?? 0}}</div>
+              <div class="s-label">Pedentes</div>
+              <div class="s-value" id="tecnicosCount">{{ $pedentes ?? 0}}</div>
             </div>
           </div>
         </div>
@@ -1824,30 +1824,6 @@
           </div>
         </div>
 
-        {{-- <!-- Search & Filters -->
-        <div class="search-filter-bar">
-          <div class="search-wrap">
-            <i class="bi bi-search"></i>
-            <input type="text" class="search-input" id="searchAgricultor"
-              placeholder="Pesquisar por nome, BI ou cooperativa…">
-          </div>
-          <select class="filter-select" id="filterEstado">
-            <option value="">Todos os estados</option>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-            <option value="pendente">Pendente</option>
-          </select>
-          <select class="filter-select" id="filterCooperativa">
-            <option value="">Todas as cooperativas</option>
-          </select>
-          <select class="filter-select" id="filterTipoMembro">
-            <option value="">Todos os tipos</option>
-            <option value="Direcção">Direcção</option>
-            <option value="Técnico">Técnico</option>
-            <option value="Membro">Membro</option>
-          </select>
-        </div> --}}
-
         <form action="{{ route('agricultores.index') }}" method="GET" class="search-filter-bar" id="filterForm">
 
           <div class="search-wrap">
@@ -1872,150 +1848,168 @@
             @endforeach
           </select>
 
-          <select class="filter-select" name="tipo_membro" id="filterTipoMembro" onchange="this.form.submit()">
-            <option value="">Todos os tipos</option>
-            <option value="Direcção" {{ request('tipo_membro') == 'Direcção' ? 'selected' : '' }}>Direcção</option>
-            <option value="Técnico" {{ request('tipo_membro') == 'Técnico' ? 'selected' : '' }}>Técnico</option>
-            <option value="Membro" {{ request('tipo_membro') == 'Membro' ? 'selected' : '' }}>Membro</option>
-          </select>
-
-        </form>
-
-        <!-- Table2 -->
-        <div style="overflow-x:auto;">
-          <table class="ag-table" id="agTable">
-            <thead>
-              <tr>
-                <th style="width:40px;">
-                  <input type="checkbox" id="selectAll"
-                    style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
-                </th>
-                <th>Agricultor</th>
-                <th>Contacto</th>
-                <th>Cooperativa</th>
-                <th>Tipo Membro</th>
-                <th>Cargo</th>
-                <th>Estado</th>
-                <th style="text-align:center;">Acções</th>
-              </tr>
-            </thead>
-            <tbody id="agTableBody">
-              @foreach($agricultores as $agricultor)
-
-                <tr id="agricultor-row-{{ $agricultor->id }}" data-estado="{{ $agricultor->estado }}"
-                  data-cooperativa="{{ $agricultor->cooperativa_nome ?? '' }}"
-                  data-tipo_membro="{{ $agricultor->tipo_membro ?? '' }}">
-                  <td><input type="checkbox" class="row-check"
-                      style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
-                  <td>
-                    <div class="ag-cell">
-                      @if($agricultor->foto)
-                        <img src="{{ asset('storage/' . $agricultor->foto) }}"
-                          alt="Foto de {{ $agricultor->nome_completo }}" class="rounded-circle shadow-sm"
-                          style="width: 45px; height: 45px; object-fit: cover;">
-                      @else
-                        <div
-                          class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
-                          style="width: 45px; height: 45px;">
-                          <i class="bi bi-person-fill"></i>
-                        </div>
-                      @endif
-
-                      <div>
-                        <div class="ag-name">{{ $agricultor->nome_completo }}</div>
-                        <div class="ag-bi">BI: {{ $agricultor->bilhete }}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div style="font-size:13px;">{{ $agricultor->telefone_principal }}</div>
-                    <div style="font-size:12px;color:var(--text-light);">{{ $agricultor->email }}</div>
-                  </td>
-                  <td>{{ $agricultor->cooperativa_nome ?? 'Sem cooperativa' }}</td>
-                  <td><span class="badge-cargo">{{ $agricultor->tipo_membro ?? 'Membro' }}</span></td>
-                  <td><span class="badge-cargo">{{ $agricultor->cargo_cooperativa ?? 'Nenhum' }}</span></td>
-                  <td>
-                    <span class="badge-status {{ $agricultor->estado }}">
-                      <span class="dot"></span>
-                      {{ ucfirst($agricultor->estado) }}
-                    </span>
-                  </td>
-                  <td style="text-align:center;">
-                    <div style="display:flex;gap:6px;justify-content:center;">
-                      <button class="action-btn view" title="Ver detalhes"
-                        onclick="showToast('Detalhes do Agricultor','Módulo de detalhe será implementado na próxima sprint.')">
-                        <i class="bi bi-eye-fill"></i>
-                      </button>
-                      <button class="action-btn edit btn-editar-ag" title="Editar" data-id="{{ $agricultor->id }}"
-                        data-nome_completo="{{ $agricultor->nome_completo }}" data-sexo="{{ $agricultor->sexo ?? '' }}"
-                        data-nascimento="{{ $agricultor->data_nascimento ?? '' }}"
-                        data-bilhete="{{ $agricultor->bilhete ?? '' }}" data-nif="{{ $agricultor->nif ?? '' }}"
-                        data-telefone="{{ $agricultor->telefone_principal ?? '' }}"
-                        data-telefone_alt="{{ $agricultor->telefone_alternativo ?? '' }}"
-                        data-email="{{ $agricultor->email ?? '' }}" data-endereco="{{ $agricultor->endereco ?? '' }}"
-                        data-estado="{{ $agricultor->estado ?? 'activo' }}"
-                        data-tipo_membro="{{ $agricultor->tipo_membro ?? 'Membro' }}"
-                        data-cooperativa_id="{{ $agricultor->cooperativa_id ?? '' }}"
-                        data-cargo_cooperativa="{{ $agricultor->cargo_cooperativa ?? 'Nenhum' }}"
-                        data-foto="{{ $agricultor->foto }}">
-
-                        <i class="bi bi-pencil-fill"></i>
-                      </button>
-                      <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="{{ $agricultor->id }}"
-                        data-nome="{{ $agricultor->nome_completo }}">
-                        <i class="bi bi-trash-fill"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Empty state (hidden by default) -->
-        <div class="empty-state" id="emptyState" style="display:none;">
-          <i class="bi bi-person-x"></i>
-          <h6>Nenhum agricultor encontrado</h6>
-          <p>Tente ajustar os filtros ou registe um novo agricultor.</p>
-        </div>
-
-        <div class="table-footer">
-          <span id="tableCount">
-            MostrandoA {{ $agricultores->firstItem() ?? 0 }} até {{ $agricultores->lastItem() ?? 0 }} de
-            {{ $agricultores->total() }} agricultores
-          </span>
-
-          <div class="pagination-btns">
-
-            {{-- Botão Anterior --}}
-            @if ($agricultores->onFirstPage())
-              <button class="page-btn" disabled><i class="bi bi-chevron-left"></i></button>
-            @else
-              <a href="{{ $agricultores->previousPageUrl() }}" class="page-btn"><i class="bi bi-chevron-left"></i></a>
-            @endif
-
-            {{-- Números das Páginas --}}
-            @foreach ($agricultores->getUrlRange(1, $agricultores->lastPage()) as $page => $url)
-              @if ($page == $agricultores->currentPage())
-                <button class="page-btn active">{{ $page }}</button>
-              @else
-                <a href="{{ $url }}" class="page-btn">{{ $page }}</a>
-              @endif
-            @endforeach
-
-            {{-- Botão Próximo --}}
-            @if ($agricultores->hasMorePages())
-              <a href="{{ $agricultores->nextPageUrl() }}" class="page-btn"><i class="bi bi-chevron-right"></i></a>
-            @else
-              <button class="page-btn" disabled><i class="bi bi-chevron-right"></i></button>
-            @endif
-
-          </div>
-        </div>
-
+          {{-- <select class="filter-select" name="tipo_membro" id="filterCargo" onchange="this.form.submit()"> --}}
+            <select class="filter-select" id="filterCargo" name="cargo" class="form-select"
+              onchange="document.getElementById('filterForm').submit();">
+              <option value="">Todos os cargos</option>
+              <option value="Nenhum" {{ request('cargo') == 'Nenhum' ? 'selected' : '' }}>Nenhum - Apenas Membro</option>
+              <option value="Presidente" {{ request('cargo') == 'Presidente' ? 'selected' : '' }}>Presidente</option>
+              <option value="Vice-Presidente" {{ request('cargo') == 'Vice-Presidente' ? 'selected' : '' }}>
+                Vice-Presidente</option>
+              <option value="Secretário" {{ request('cargo') == 'Secretário' ? 'selected' : '' }}>Secretário</option>
+              <option value="Tesoureiro" {{ request('cargo') == 'Tesoureiro' ? 'selected' : '' }}>Tesoureiro</option>
+              <option value="Técnico" {{ request('cargo') == 'Técnico' ? 'selected' : '' }}>Técnico</option>
+              <option value="Dirigente" {{ request('cargo') == 'Dirigente' ? 'selected' : '' }}>Dirigente</option>
+            </select>
       </div>
-      <!-- /table-card -->
+      </select>
+
+      </form>
+
+      <!-- Table2 -->
+      <div style="overflow-x:auto;">
+        <table class="ag-table" id="agTable">
+          <thead>
+            <tr>
+              <th style="width:40px;">
+                <input type="checkbox" id="selectAll"
+                  style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
+              </th>
+              <th>Agricultor</th>
+              <th>Contacto</th>
+              <th>Cooperativa</th>
+              <th>Cargo</th>
+              <th>Estado</th>
+              <th style="text-align:center;">Acções</th>
+            </tr>
+          </thead>
+
+
+          <tbody id="agTableBody">
+            @foreach($agricultores as $agricultor)
+              @php
+                $vinculoAtivo = $agricultor->associacoes->where('activo', true)->first();
+                $cooperativaNome = $vinculoAtivo && $vinculoAtivo->cooperativa ? $vinculoAtivo->cooperativa->nome : 'Sem cooperativa';
+                $cooperativaId = $vinculoAtivo ? $vinculoAtivo->cooperativa_id : '';
+                $cargoCooperativa = $vinculoAtivo ? $vinculoAtivo->cargo : 'Nenhum';
+              @endphp
+
+              <tr id="agricultor-row-{{ $agricultor->id }}" data-estado="{{ $agricultor->estado }}"
+                data-cooperativa="{{ $cooperativaNome }}">
+                <td><input type="checkbox" class="row-check"
+                    style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
+                <td>
+                  <div class="ag-cell">
+                    @if($agricultor->foto)
+                      <img src="{{ asset('storage/' . $agricultor->foto) }}" alt="Foto de {{ $agricultor->nome_completo }}"
+                        class="rounded-circle shadow-sm" style="width: 45px; height: 45px; object-fit: cover;">
+                    @else
+                      <div
+                        class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                        style="width: 45px; height: 45px;">
+                        <i class="bi bi-person-fill"></i>
+                      </div>
+                    @endif
+
+                    <div>
+                      <div class="ag-name">{{ $agricultor->nome_completo }}</div>
+                      <div class="ag-bi">BI: {{ $agricultor->bilhete }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="font-size:13px;">{{ $agricultor->telefone_principal }}</div>
+                  <div style="font-size:12px;color:var(--text-light);">{{ $agricultor->email }}</div>
+                </td>
+
+                <td>{{ $cooperativaNome }}</td>
+
+                <td><span class="badge-cargo">{{ $cargoCooperativa }}</span></td>
+
+                <td>
+                  <span class="badge-status {{ $agricultor->estado }}">
+                    <span class="dot"></span>
+                    {{ ucfirst($agricultor->estado) }}
+                  </span>
+                </td>
+                <td style="text-align:center;">
+                  <div style="display:flex;gap:6px;justify-content:center;">
+
+                    <a href="{{ route('agricultores.show', $agricultor->id) }}" class="action-btn view"
+                      title="Ver detalhes"
+                      style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+                      <i class="bi bi-eye-fill"></i>
+                    </a>
+
+                    <button class="action-btn edit btn-editar-ag" title="Editar" data-id="{{ $agricultor->id }}"
+                      data-nome_completo="{{ $agricultor->nome_completo }}" data-sexo="{{ $agricultor->sexo ?? '' }}"
+                      data-nascimento="{{ $agricultor->data_nascimento ?? '' }}"
+                      data-bilhete="{{ $agricultor->bilhete ?? '' }}" data-nif="{{ $agricultor->nif ?? '' }}"
+                      data-telefone="{{ $agricultor->telefone_principal ?? '' }}"
+                      data-telefone_alt="{{ $agricultor->telefone_alternativo ?? '' }}"
+                      data-email="{{ $agricultor->email ?? '' }}" data-endereco="{{ $agricultor->endereco ?? '' }}"
+                      data-estado="{{ $agricultor->estado ?? 'activo' }}" data-cooperativa_id="{{ $cooperativaId }}"
+                      data-cargo_cooperativa="{{ $cargoCooperativa }}" data-foto="{{ $agricultor->foto }}">
+
+                      <i class="bi bi-pencil-fill"></i>
+                    </button>
+
+                    <button class="action-btn delete btn-eliminar-ag" title="Apagar" data-id="{{ $agricultor->id }}"
+                      data-nome="{{ $agricultor->nome_completo }}">
+                      <i class="bi bi-trash-fill"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+
+        </table>
+      </div>
+
+      <!-- Empty state (hidden by default) -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <i class="bi bi-person-x"></i>
+        <h6>Nenhum agricultor encontrado</h6>
+        <p>Tente ajustar os filtros ou registe um novo agricultor.</p>
+      </div>
+
+      <div class="table-footer">
+        <span id="tableCount">
+          MostrandoA {{ $agricultores->firstItem() ?? 0 }} até {{ $agricultores->lastItem() ?? 0 }} de
+          {{ $agricultores->total() }} agricultores
+        </span>
+
+        <div class="pagination-btns">
+
+          {{-- Botão Anterior --}}
+          @if ($agricultores->onFirstPage())
+            <button class="page-btn" disabled><i class="bi bi-chevron-left"></i></button>
+          @else
+            <a href="{{ $agricultores->previousPageUrl() }}" class="page-btn"><i class="bi bi-chevron-left"></i></a>
+          @endif
+
+          {{-- Números das Páginas --}}
+          @foreach ($agricultores->getUrlRange(1, $agricultores->lastPage()) as $page => $url)
+            @if ($page == $agricultores->currentPage())
+              <button class="page-btn active">{{ $page }}</button>
+            @else
+              <a href="{{ $url }}" class="page-btn">{{ $page }}</a>
+            @endif
+          @endforeach
+
+          {{-- Botão Próximo --}}
+          @if ($agricultores->hasMorePages())
+            <a href="{{ $agricultores->nextPageUrl() }}" class="page-btn"><i class="bi bi-chevron-right"></i></a>
+          @else
+            <button class="page-btn" disabled><i class="bi bi-chevron-right"></i></button>
+          @endif
+
+        </div>
+      </div>
+
+    </div>
+    <!-- /table-card -->
 
     </div><!-- /content-inner -->
   </main>
@@ -2163,7 +2157,7 @@
               </div>
             </div>
 
-            <!-- ── TAB 3: Estados & Tipos ── -->
+            <!-- ── TAB 3: Estados ── -->
             <div class="modal-tab-panel" id="mtab-estados_tipos">
               <div class="modal-form-card">
                 <div class="modal-section-title">
@@ -2173,27 +2167,11 @@
                   <div class="col-12">
                     <label class="cfg-label" for="agEstado">Estado *</label>
                     <select class="cfg-select" id="agEstado" name="estado" required>
-                      <option value="activo">Activo</option>
+                      <option value="activo">Activo </option>
                       <option value="inactivo">Inactivo</option>
                       <option value="pendente">Pendente</option>
                     </select>
                     <div class="cfg-helper">Define se o agricultor está em actividade no sistema</div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-form-card">
-                <div class="modal-section-title">
-                  <i class="bi bi-people-fill"></i> Tipo de Membro
-                </div>
-                <div class="row g-3">
-                  <div class="col-12">
-                    <label class="cfg-label" for="agTipoMembro">Tipo de Membro *</label>
-                    <select class="cfg-select" id="agTipoMembro" name="tipo_membro" required>
-                      <option value="Direcção">Direcção</option>
-                      <option value="Técnico">Técnico</option>
-                      <option value="Membro">Membro</option>
-                    </select>
-                    <div class="cfg-helper">Classificação do membro na cooperativa</div>
                   </div>
                 </div>
               </div>
@@ -2474,7 +2452,6 @@
         document.getElementById('agFotoZone').innerHTML = '<i class="bi bi-person-circle"></i><span>Carregar foto</span>';
         document.getElementById('agFotoZone').style.border = '';
         document.getElementById('agEstado').value = 'activo';
-        document.getElementById('agTipoMembro').value = 'Membro';
         document.getElementById('agCooperativa').value = '';
         document.getElementById('agCargoCooperativa').value = 'Nenhum';
         toggleCooperativaFields();
@@ -2502,7 +2479,7 @@
       const estado = btn.dataset.estado ? btn.dataset.estado.toLowerCase() : 'activo';
       document.getElementById('agEstado').value = estado;
 
-      document.getElementById('agTipoMembro').value = btn.dataset.tipo_membro || btn.dataset.tipoMembro || 'Membro';
+
 
       // Aqui o seu HTML diz "data-telefone", por isso mapeamos para dataset.telefone
       document.getElementById('agTelefone').value = btn.dataset.telefone || '';
@@ -2567,7 +2544,6 @@
       const bilhete = document.getElementById('agBI').value.trim();
       const nif = document.getElementById('agNIF').value.trim();
       const estado = document.getElementById('agEstado').value;
-      const tipoMembro = document.getElementById('agTipoMembro').value;
       const telefone_principal = document.getElementById('agTelefone').value.trim();
       const telefoneAlt = document.getElementById('agTelefoneAlt').value.trim();
       const email = document.getElementById('agEmail').value.trim();
@@ -2610,7 +2586,6 @@
       formData.append('bilhete', bilhete);
       formData.append('nif', nif || '');
       formData.append('estado', estado);
-      formData.append('tipo_membro', tipoMembro);
       formData.append('telefone_principal', telefone_principal);
       formData.append('telefone_alternativo', telefoneAlt || '');
       formData.append('email', email || '');
@@ -2690,8 +2665,7 @@
           if (data.success) {
             document.getElementById(`agricultor-row-${deleteTargetId}`)?.remove();
             showToast('Agricultor eliminado', deleteTargetName + ' foi removido do sistema.', 'danger');
-            updateStatsCards();
-            applyFilters();
+
           } else {
             showToast('Erro', data.message || 'Não foi possível eliminar.', 'danger');
           }
@@ -2707,12 +2681,25 @@
     /* ══════════════════════════════════════
        SEARCH & FILTER
     ══════════════════════════════════════ */
+
+    // O seu código existente para a tecla Enter na barra de pesquisa:
     document.getElementById('searchAgricultor').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
         e.preventDefault();
         document.getElementById('filterForm').submit();
       }
     });
+
+    // Detetar quando o utilizador muda o Estado ou a Cooperativa para submeter a página:
+    const filterEstado = document.getElementById('filterEstado');
+    if (filterEstado) {
+      filterEstado.addEventListener('change', () => document.getElementById('filterForm').submit());
+    }
+
+    const filterCooperativa = document.getElementById('filterCooperativa');
+    if (filterCooperativa) {
+      filterCooperativa.addEventListener('change', () => document.getElementById('filterForm').submit());
+    }
 
     /* ══════════════════════════════════════
        SELECT ALL CHECKBOXES
@@ -2728,29 +2715,7 @@
       showToast('A exportar…', 'O ficheiro será gerado e descarregado em breve.');
     });
 
-    /* ══════════════════════════════════════
-       INICIALIZAÇÃO
-    ══════════════════════════════════════ */
-    function carregarCooperativasFiltro() {
-      fetch('/cooperativas/list')
-        .then(r => r.json())
-        .then(data => {
-          const select = document.getElementById('filterCooperativa');
-          if (data.cooperativas) {
-            data.cooperativas.forEach(coop => {
-              const option = document.createElement('option');
-              option.value = coop.nome;
-              option.textContent = coop.nome;
-              select.appendChild(option);
-            });
-          }
-        })
-        .catch(() => console.log('Erro ao carregar cooperativas para filtro'));
-    }
 
-    carregarCooperativasFiltro();
-    updateStatsCards();
-    applyFilters();
   </script>
 
 </body>

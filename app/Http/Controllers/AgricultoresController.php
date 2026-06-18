@@ -4,184 +4,131 @@ namespace App\Http\Controllers;
 
 use App\Models\Agricultor;
 use App\Models\Cooperativa;
+use App\Models\CooperativaMembro;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class AgricultoresController extends Controller
 {
-    // public function index()
-    // {
-    //     // Dados para as tabelas e selects (que você já tinha)
-    //     $agricultores = Agricultor::latest()->paginate(10);
-    //     $cooperativas = Cooperativa::all();
+    /**
+     * Exibir os detalhes de um Agricultor específico
+     */
+    public function show($id)
+    {
+        // Busca o agricultor com a árvore de relações ativa carregada
+        $agricultor = Agricultor::with(['associacoes.cooperativa'])->findOrFail($id);
 
-    //     // 1. Total de agricultores cadastrados
-    //     $totalAgricultores = Agricultor::count();
+        // Extrai os dados da associação para passar de forma amigável para a view
+        $vinculoAtivo = $agricultor->associacoes->where('activo', true)->first();
+        $cooperativaNome = $vinculoAtivo && $vinculoAtivo->cooperativa ? $vinculoAtivo->cooperativa->nome : 'Sem cooperativa';
+        $cargoCooperativa = $vinculoAtivo ? $vinculoAtivo->cargo : 'Nenhum';
 
-    //     // 2. Associados à cooperativa (quem tem o campo cooperativa_id preenchido)
-    //     // $associadosCoop = Agricultor::whereNotNull('cooperativa_id')
-    //     //                             ->where('cooperativa_id', '!=', '')
-    //     //                             ->where('cooperativa_id', '!=', 0)
-    //     //                             ->count();
+        $stats =[];
+        
+        return view('agricultores.agricultor_perfil', compact('agricultor', 'cooperativaNome', 'cargoCooperativa','stats'));
+    }
 
-    //     // 3. Técnicos (tipo_membro = 'Técnico')
-    //     // $tecnicos = Agricultor::where('tipo_membro', 'Técnico')->count();
-
-    //     // 4. Activos (estado = 'activo')
-    //     $activos = Agricultor::where('estado', 'activo')->count();
-
-    //     // Retorna a view passando TODAS as variáveis necessárias para os cards
-    //     return view('agricultores.agricultores', compact(
-    //         'agricultores',
-    //         'cooperativas',
-    //         'totalAgricultores',
-    //         //  'associadosCoop',
-    //         //   'tecnicos',
-    //         'activos'
-    //     ));
-    // }
-
+    
 
     public function index(Request $request)
     {
         // 1. Lista de cooperativas para preencher o <select> no Blade
         $cooperativas = Cooperativa::all();
 
-        // 2. Criar a Query Base para os agricultores (usando Query Builder)
-        $query = Agricultor::query();
+        $query = Agricultor::with(['associacoes.cooperativa']);
 
-        // FILTRO: Pesquisa por Nome, BI ou Cooperativa (via relacionamento ou texto)
-        // if ($request->filled('search')) {
-        //     $search = $request->input('search');
-        //     $query->where(function ($q) use ($search) {
-        //         $q->where('nome', 'like', "%{$search}%")
-        //             ->orWhere('bi', 'like', "%{$search}%"); // Ajuste o nome da coluna do BI se necessário
+        // FILTRO: Pesquisa por Nome, BI (bilhete) ou Nome da Cooperativa
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nome_completo', 'like', "%{$search}%")
+                    ->orWhere('bilhete', 'like', "%{$search}%");
 
-        //         // Opcional: Se quiser pesquisar pelo nome da cooperativa associada
-        //         $q->orWhereHas('cooperativa', function ($coopQuery) use ($search) {
-        //             $coopQuery->where('nome', 'like', "%{$search}%");
-        //         });
-        //     });
-        // }
+                // Pesquisa pelo nome da cooperativa na nova estrutura relacional
+                $q->orWhereHas('associacoes.cooperativa', function ($coopQuery) use ($search) {
+                    $coopQuery->where('nome', 'like', "%{$search}%")
+                        ->where('cooperativa_membros.activo', true); // Apenas na associação ativa
+                });
+            });
+        }
 
-        // FILTRO: Estado
+        // FILTRO: Estado do Agricultor
         if ($request->filled('estado')) {
             $query->where('estado', $request->input('estado'));
         }
 
-        // FILTRO: Cooperativa
-        // if ($request->filled('cooperativa_id')) {
-        //     $query->where('cooperativa_id', $request->input('cooperativa_id'));
-        // }
+        // FILTRO: Cooperativa (Filtra agricultores com vínculo ATIVO na cooperativa selecionada)
+        if ($request->filled('cooperativa_id')) {
+            $cooperativaId = $request->input('cooperativa_id');
+            $query->whereHas('associacoes', function ($q) use ($cooperativaId) {
+                $q->where('cooperativa_id', $cooperativaId)
+                    ->where('activo', true);
+            });
+        }
 
-        // // FILTRO: Tipo de Membro
-        // if ($request->filled('tipo_membro')) {
-        //     $query->where('tipo_membro', $request->input('tipo_membro'));
-        // }
+        // FILTRO: Cargo na Cooperativa
+        if ($request->filled('cargo')) {
+            $cargo = $request->input('cargo');
+            $query->whereHas('associacoes', function ($q) use ($cargo) {
+                $q->where('cargo', $cargo)
+                    ->where('activo', true); // Garante que filtra apenas pelo cargo atual/ativo
+            });
+        }
 
-        // 3. Obter os agricultores filtrados com paginação (mantendo os filtros na URL)
-        $agricultores = $query->latest()->paginate(10)->withQueryString();
+        // 3. Obter os agricultores filtrados com paginação (mantive o seu valor de 2 para testes)
+        $agricultores = $query->latest()->paginate(5)->withQueryString();
 
-        // 4. Contagens para os Cards (Geralmente mantém-se o total geral,
-        // mas se quiser que os cards mudem com o filtro, use $query->count() antes de paginar)
+        // 4. Contagens para os Cards baseadas na nova tabela pivot
         $totalAgricultores = Agricultor::count();
-        // $associadosCoop = Agricultor::whereNotNull('cooperativa_id')->where('cooperativa_id', '!=', 0)->count();
-        // $tecnicos = Agricultor::where('tipo_membro', 'Técnico')->count();
+
+        // Conta quantos agricultores possuem um vínculo ATIVO na tabela cooperativa_membros
+        $associadosCoop = Agricultor::whereHas('associacoes', function ($q) {
+            $q->where('activo', true);
+        })->count();
+
+        // Conta quantos agricultores possuem o cargo de 'Técnico' no seu vínculo ativo
+        $tecnicos = Agricultor::whereHas('associacoes', function ($q) {
+            $q->where('cargo', 'Técnico')
+                ->where('activo', true);
+        })->count();
+
+        // Conta os agricultores ativos no sistema de forma geral
         $activos = Agricultor::where('estado', 'activo')->count();
+
+        // Conta os agricultores ativos no sistema de forma geral
+        $pedentes = Agricultor::where('estado', 'Pendente')->count();
 
         return view('agricultores.agricultores', compact(
             'agricultores',
             'cooperativas',
             'totalAgricultores',
-            // 'associadosCoop',
-            // 'tecnicos',
+            'associadosCoop',
+            'pedentes',
             'activos'
         ));
-    }
-
-    public function store1(Request $request)
-    {
-        // 1. Validação dos dados
-        $validated = $request->validate([
-            'nome_completo' => 'required|string|max:255',
-            'sexo' => 'required',
-            'data_nascimento' => 'required|date',
-            'bilhete' => 'required|string|max:20',
-            'telefone_principal' => 'required',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // max 2MB
-        ]);
-
-        // 2. Upload da Foto (se existir)
-        $fotoPath = null;
-        if ($request->hasFile('foto')) {
-
-            $file = $request->file('foto');
-            // Opção A: Usar o nome original que veio do computador do utilizador
-            $nomeArquivo = time().'_'.$file->getClientOriginalName();
-            // Guarda o arquivo com o nome definido na pasta storage/app/public/agricultores
-            $file->storeAs('agricultores', $nomeArquivo, 'public');
-            // Salva no banco de dados apenas: "agricultores/nome_do_arquivo.png"
-            $fotoPath = 'agricultores/'.$nomeArquivo;
-        }
-
-        // 3. Criar o Agricultor
-        $agricultor = Agricultor::create([
-            'nome_completo' => $request->nome_completo,
-            'sexo' => $request->sexo,
-            'data_nascimento' => $request->data_nascimento,
-            'bilhete' => $request->bilhete,
-            'nif' => $request->nif,
-            'estado' => $request->estado,
-            'tipo_membro' => $request->tipo_membro,
-            'telefone_principal' => $request->telefone_principal,
-            'telefone_alternativo' => $request->telefone_alternativo,
-            'email' => $request->email,
-            'endereco' => $request->endereco,
-            'foto' => $fotoPath, // Guarda o caminho gerado
-        ]);
-
-        // 4. Vincular à Cooperativa se foi selecionada
-        if ($request->filled('cooperativa_id')) {
-            // Faz a inserção na tabela pivot através do relacionamento ou via DB direto
-            \DB::table('agricultor_cooperativa')->insert([
-                'agricultor_id' => $agricultor->id,
-                'cooperativa_id' => $request->cooperativa_id,
-                'cargo' => $request->cargo_cooperativa,
-                'data_inicio' => now()->toDateString(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Agricultor guardado e associado à cooperativa com sucesso!',
-        ]);
     }
 
     public function store(Request $request)
     {
         try {
-
+            // 1. Validação
             $request->validate([
                 'nome_completo' => 'required|string|max:255',
                 'sexo' => 'required',
                 'data_nascimento' => 'required|date',
-                // unique:tabela,coluna
                 'bilhete' => 'required|string|max:20|unique:agricultores,bilhete',
                 'telefone_principal' => 'required',
                 'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             ], [
-                // Mensagem personalizada em português
                 'bilhete.unique' => 'Este número de Bilhete de Identidade já está registado no sistema.',
             ]);
+
+            // Inicia a transação de segurança no Banco de Dados
+            \DB::beginTransaction();
 
             // 2. Upload da Foto (se existir)
             $fotoPath = null;
             if ($request->hasFile('foto')) {
-                // Guarda na pasta storage/app/public/agricultores
                 $fotoPath = $request->file('foto')->store('agricultores', 'public');
             }
 
@@ -193,26 +140,25 @@ class AgricultoresController extends Controller
                 'bilhete' => $request->bilhete,
                 'nif' => $request->nif,
                 'estado' => $request->estado,
-                'tipo_membro' => $request->tipo_membro,
                 'telefone_principal' => $request->telefone_principal,
                 'telefone_alternativo' => $request->telefone_alternativo,
                 'email' => $request->email,
                 'endereco' => $request->endereco,
-                'foto' => $fotoPath, // Guarda o caminho gerado
+                'foto' => $fotoPath,
             ]);
 
-            // 4. Vincular à Cooperativa se foi selecionada
+            // 4. Vincular à Cooperativa usando o Model correto
             if ($request->filled('cooperativa_id')) {
-                // Faz a inserção na tabela pivot através do relacionamento ou via DB direto
-                \DB::table('agricultor_cooperativa')->insert([
+                CooperativaMembro::create([
                     'agricultor_id' => $agricultor->id,
                     'cooperativa_id' => $request->cooperativa_id,
-                    'cargo' => $request->cargo_cooperativa,
-                    'data_inicio' => now()->toDateString(),
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'cargo' => $request->cargo_cooperativa ?? 'Membro',
+                    'activo' => true,
                 ]);
             }
+
+            // Se tudo deu certo, confirma as gravações no Banco
+            \DB::commit();
 
             return response()->json([
                 'success' => true,
@@ -220,11 +166,21 @@ class AgricultoresController extends Controller
             ]);
 
         } catch (ValidationException $e) {
-            // Captura o erro de validação (incluindo o BI duplicado) e envia de forma limpa para o JS
+            // Se a validação falhar, desfaz as alterações que estavam na fila
+            \DB::rollBack();
+
             return response()->json([
                 'success' => false,
-                'message' => $e->validator->errors()->first(), // Pega a primeira mensagem de erro
-            ], 422); // Status 422: Unprocessable Entity
+                'message' => $e->validator->errors()->first(),
+            ], 422);
+        } catch (\Exception $e) {
+            // Captura qualquer outro erro inesperado do sistema
+            \DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro interno ao guardar dados: '.$e->getMessage(),
+            ], 500);
         }
     }
 
@@ -233,75 +189,135 @@ class AgricultoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $agricultor = Agricultor::findOrFail($id);
+        // Usamos um try/catch abrangente e Transactions para total segurança
+        try {
+            $agricultor = Agricultor::findOrFail($id);
 
-        $request->validate([
-            'nome_completo' => 'required|string|max:255',
-            'sexo' => 'required',
-            'data_nascimento' => 'required|date',
-            'bilhete' => 'required|string',
-            'telefone_principal' => 'required',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+            $request->validate([
+                'nome_completo' => 'required|string|max:255',
+                'sexo' => 'required',
+                'data_nascimento' => 'required|date',
+                'bilhete' => 'required|string',
+                'telefone_principal' => 'required',
+                'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
 
-        // Se foi enviada uma NOVA foto
-        if ($request->hasFile('foto')) {
-            // Se já existia uma foto antiga no banco, apaga o arquivo antigo para não acumular lixo
-            if ($agricultor->foto) {
-                Storage::disk('public')->delete($agricultor->foto);
+            \DB::beginTransaction();
+
+            // Se foi enviada uma NOVA foto
+            if ($request->hasFile('foto')) {
+                if ($agricultor->foto) {
+                    \Storage::disk('public')->delete($agricultor->foto);
+                }
+                $agricultor->foto = $request->file('foto')->store('agricultores', 'public');
             }
-            // Salva a nova foto
-            $agricultor->foto = $request->file('foto')->store('agricultores', 'public');
-        }
 
-        // Atualizar todos os dados de texto na tabela 'agricultores'
-        $agricultor->update([
-            'nome_completo' => $request->nome_completo,
-            'sexo' => $request->sexo,
-            'data_nascimento' => $request->data_nascimento,
-            'bilhete' => $request->bilhete,
-            'nif' => $request->nif ?: null,
-            'estado' => $request->estado,
-            'tipo_membro' => $request->tipo_membro,
-            'telefone_principal' => $request->telefone_principal,
-            'telefone_alternativo' => $request->telefone_alternativo ?: null,
-            'email' => $request->email ?: null,
-            'endereco' => $request->endereco ?: null,
-            'foto' => $agricultor->foto, // Mantém a foto atual ou a nova
-        ]);
+            // Atualizar todos os dados na tabela 'agricultores'
+            $agricultor->update([
+                'nome_completo' => $request->nome_completo,
+                'sexo' => $request->sexo,
+                'data_nascimento' => $request->data_nascimento,
+                'bilhete' => $request->bilhete,
+                'nif' => $request->nif ?: null,
+                'estado' => $request->estado,
+                'telefone_principal' => $request->telefone_principal,
+                'telefone_alternativo' => $request->telefone_alternativo ?: null,
+                'email' => $request->email ?: null,
+                'endereco' => $request->endereco ?: null,
+                'foto' => $agricultor->foto,
+            ]);
 
-        // Gerenciar o vínculo com a Cooperativa (Tabela Pivot)
-        if ($request->filled('cooperativa_id')) {
-            // Verifica se este agricultor já tinha alguma cooperativa antes
-            $vinculo = DB::table('agricultor_cooperativa')->where('agricultor_id', $agricultor->id)->first();
+            // Gerenciar o vínculo com a Cooperativa (Usando o Modelo CooperativaMembro)
+            if ($request->filled('cooperativa_id')) {
 
-            if ($vinculo) {
-                // Se já tinha, atualiza os dados da cooperativa e cargo
-                DB::table('agricultor_cooperativa')
-                    ->where('agricultor_id', $agricultor->id)
-                    ->update([
+                // Busca se ele já possui um registo ativo nesta tabela
+                $vinculo = CooperativaMembro::where('agricultor_id', $agricultor->id)
+                    ->where('activo', true)
+                    ->first();
+
+                if ($vinculo) {
+                    // Se já tinha, atualiza os dados da cooperativa e cargo atuais
+                    $vinculo->update([
                         'cooperativa_id' => $request->cooperativa_id,
-                        'cargo' => $request->cargo_cooperativa ?: null,
-                        'updated_at' => now(),
+                        'cargo' => $request->cargo_cooperativa ?: 'Membro',
                     ]);
+                } else {
+                    // Se não tinha associação ativa, cria uma nova ativa
+                    CooperativaMembro::create([
+                        'agricultor_id' => $agricultor->id,
+                        'cooperativa_id' => $request->cooperativa_id,
+                        'cargo' => $request->cargo_cooperativa ?: 'Membro',
+                        'activo' => true,
+                    ]);
+                }
             } else {
-                // Se não tinha cooperativa, cria uma nova associação
-                DB::table('agricultor_cooperativa')->insert([
-                    'agricultor_id' => $agricultor->id,
-                    'cooperativa_id' => $request->cooperativa_id,
-                    'cargo' => $request->cargo_cooperativa ?: null,
-                    'data_inicio' => now()->toDateString(),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+                // Se o campo cooperativa veio vazio no formulário, desativamos o vínculo atual dele (activo = false)
+                CooperativaMembro::where('agricultor_id', $agricultor->id)
+                    ->where('activo', true)
+                    ->update(['activo' => false]);
             }
-        } else {
-            // Se o campo cooperativa veio vazio, remove o agricultor de qualquer cooperativa existente
-            DB::table('agricultor_cooperativa')->where('agricultor_id', $agricultor->id)->delete();
-        }
 
-        return response()->json(['success' => true, 'message' => 'Agricultor atualizado com sucesso!']);
+            \DB::commit();
+
+            return response()->json(['success' => true, 'message' => 'Agricultor atualizado com sucesso!']);
+
+        } catch (ValidationException $e) {
+            \DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->validator->errors()->first(),
+            ], 422);
+        } catch (\Exception $e) {
+            \DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao atualizar dados: '.$e->getMessage(),
+            ], 500);
+        }
     }
+
+    /**
+     * Eliminar Agricultor
+     */
+
+    // public function destroy($id)
+    // {
+    //     // Usa uma Transaction para garantir que se algo falhar, nada é apagado por metade
+    //     \DB::beginTransaction();
+
+    //     try {
+    //         $agricultor = Agricultor::findOrFail($id);
+
+    //         // 1. Remove o vínculo com a cooperativa na tabela pivot primeiro
+    //         //  \DB::table('agricultor_cooperativa')->where('agricultor_id', $agricultor->id)->delete();
+
+    //         // 2. Remove a fotografia física do disco (ajustado de 'fotografia' para 'foto')
+    //         if ($agricultor->foto) {
+    //             \Storage::disk('public')->delete($agricultor->foto);
+    //         }
+
+    //         // 3. Elimina o agricultor da base de dados
+    //         $agricultor->delete();
+    //         // Se tudo correu bem, confirma as alterações na BD
+    //         \DB::commit();
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'Agricultor, foto e vínculos eliminados com sucesso.',
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         // Se der algum erro, desfaz tudo para não corromper os dados
+    //         \DB::rollBack();
+
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Erro ao eliminar o agricultor: '.$e->getMessage(),
+    //         ], 500);
+    //     }
+    // }
 
     /**
      * Eliminar Agricultor
@@ -314,16 +330,17 @@ class AgricultoresController extends Controller
         try {
             $agricultor = Agricultor::findOrFail($id);
 
-            // 1. Remove o vínculo com a cooperativa na tabela pivot primeiro
-            //  \DB::table('agricultor_cooperativa')->where('agricultor_id', $agricultor->id)->delete();
+            // 1. Remove os vínculos com a cooperativa na tabela 'cooperativa_membros' primeiro
+            CooperativaMembro::where('agricultor_id', $agricultor->id)->delete();
 
-            // 2. Remove a fotografia física do disco (ajustado de 'fotografia' para 'foto')
+            // 2. Remove a fotografia física do disco
             if ($agricultor->foto) {
                 \Storage::disk('public')->delete($agricultor->foto);
             }
 
-            // 3. Elimina o agricultor da base de dados
+            // 3. Elimina o agricultor da base de dados (tabela 'agricultores')
             $agricultor->delete();
+
             // Se tudo correu bem, confirma as alterações na BD
             \DB::commit();
 

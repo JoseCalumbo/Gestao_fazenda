@@ -437,28 +437,44 @@
     /* ═══════════════════════════════════════════
        MODAL
     ═══════════════════════════════════════════ */
+    /* Modal tamanho fixo — igual em todas as tabs */
+    .modal-coop { max-width: 780px; }
+    .modal-coop .modal-content {
+      height: 620px; display: flex; flex-direction: column;
+    }
+    .modal-coop .modal-body {
+      flex: 1; overflow: hidden; padding: 0; background: var(--page-bg);
+    }
+    /* Cada tab-panel faz o seu próprio scroll interno */
+    .modal-tab-panel {
+      height: 100%; overflow-y: auto; padding: 0;
+    }
+    .modal-tab-panel::-webkit-scrollbar { width: 4px; }
+    .modal-tab-panel::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 4px; }
+
     .modal-content {
       border: none; border-radius: 18px;
       box-shadow: 0 24px 64px rgba(0,0,0,.15);
       overflow: hidden;
     }
     .modal-header {
-      padding: 8px 28px; border-bottom: 1px solid var(--border);
+      padding: 11px 20px; border-bottom: 1px solid var(--border);
       background: linear-gradient(135deg, var(--sidebar-bg) 0%, var(--primary) 100%);
+      flex-shrink: 0;
     }
     .modal-header .modal-title {
-      font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 700; color: #fff;
+      font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; color: #fff;
     }
     .modal-header .btn-close { filter: brightness(0) invert(1); opacity: .8; }
     .modal-header .btn-close:hover { opacity: 1; }
     .modal-header-icon {
-      width: 42px; height: 42px; border-radius: 12px;
+      width: 36px; height: 36px; border-radius: 10px;
       background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center;
-      font-size: 20px; color: #fff; flex-shrink: 0;
+      font-size: 17px; color: #fff; flex-shrink: 0;
     }
 
-    .modal-body { padding: 28px; background: var(--page-bg); }
-    .modal-footer { padding: 16px 28px; border-top: 1px solid var(--border); background: #fff; }
+    .modal-body { background: var(--page-bg); }
+    .modal-footer { padding: 14px 20px; border-top: 1px solid var(--border); background: #fff; flex-shrink: 0; }
 
     /* Modal section titles */
     .modal-section-title {
@@ -711,7 +727,7 @@
     <div class="nav-section-title">Principal</div>
     <a href="/dashboard" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
     <a href="#" class="nav-item-link active" data-label="Cooperativa"><i class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
-    <a href="#" class="nav-item-link" data-label="Cooperados"><i class="bi bi-people-fill"></i><span class="nav-label">Cooperados</span></a>
+    <a href="{{route('agricultores.index')}}" class="nav-item-link" data-label="Agricultores"><i class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
     <div class="nav-section-title">Agrícola</div>
     <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span class="nav-label">Safras</span></a>
@@ -729,7 +745,7 @@
 
     <div class="nav-section-title">Sistema</div>
     <a href="#" class="nav-item-link" data-label="Relatórios"><i class="bi bi-bar-chart-fill"></i><span class="nav-label">Relatórios</span></a>
-    <a href="#" class="nav-item-link" data-label="Configurações"><i class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
+    <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
   </div>
 
   <div class="sidebar-user">
@@ -766,33 +782,44 @@
     <button class="topbar-icon-btn" title="Mensagens">
       <i class="bi bi-chat-dots-fill"></i>
     </button>
-    <div class="dropdown d-none d-sm-flex">
-      <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
-        <div class="t-avatar"><i class="bi bi-person-fill"></i></div>
-        <span>Admin</span>
-        <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
-      </div>
-      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-        <li><span class="dropdown-header"><i class="bi bi-person-circle me-1"></i> Admin SIAG</span></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
-        <li>
-          <a class="dropdown-item" href="#" id="themeToggle">
-            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
-            <span id="themeLabel">Modo Escuro</span>
-          </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-          <div class="dropdown-item item-logout p-0">
-            <form method="POST" action="/logout">
-              @csrf
-              <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
-            </form>
+
+       <div class="dropdown d-none d-sm-flex">
+        <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
+          <div class="t-avatar">
+            <img id="dropdownAvatarLarge"
+              src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
+              alt="Foto-perfil" width="20" class="avatar-md">
           </div>
-        </li>
-      </ul>
-    </div>
+
+          <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
+          <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
+        </div>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
+          <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
+          <li>
+            <a class="dropdown-item" href="#" id="themeToggle">
+              <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+              <span id="themeLabel">Modo Escuro</span>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <div class="dropdown-item item-logout p-0">
+              <form method="POST" action="/logout">
+                @csrf
+                <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
+              </form>
+            </div>
+          </li>
+        </ul>
+      </div>
+
   </div>
 </header>
 
@@ -1060,8 +1087,8 @@
 <!-- ══════════════════════════════════════
      MODAL — NOVA / EDITAR COOPERATIVA
 ══════════════════════════════════════ -->
-<div class="modal fade" id="modalCooperativa" tabindex="-1" aria-labelledby="modalCoopLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+<div class="modal fade" id="modalCooperativa" tabindex="-1" aria-labelledby="modalCoopLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-coop modal-dialog-centered">
     <div class="modal-content">
 
       <!-- Modal Header -->
@@ -1072,9 +1099,6 @@
           </div>
           <div>
             <div class="modal-title" id="modalCoopLabel">Nova Cooperativa</div>
-            <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">
-              Preencha todos os campos obrigatórios (*)
-            </div>
           </div>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
@@ -1625,6 +1649,7 @@ themeToggle.addEventListener('click', function(e) {
 ══════════════════════════════════════ */
 document.querySelectorAll('.nav-item-link').forEach(link => {
   link.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
     if (!href || href === '#') {
       e.preventDefault();
     }

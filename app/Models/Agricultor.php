@@ -14,7 +14,7 @@ class Agricultor extends Model
         'data_nascimento',
         'bilhete',
         'nif',
-        'estado_civil',
+        'estado',
         'foto',
         'telefone_principal',
         'telefone_alternativo',
@@ -25,6 +25,23 @@ class Agricultor extends Model
     protected $casts = [
         'data_nascimento' => 'date',
     ];
+
+    public function cooperativas()
+    {
+        return $this->hasMany(CooperativaMembro::class);
+    }
+
+    // Relacionamento com a tabela pivot (Um agricultor pode ter vários registos ou históricos de associação)
+    public function associacoes()
+    {
+        return $this->hasMany(CooperativaMembro::class, 'agricultor_id');
+    }
+
+    // Atalho direto: Retorna a associação ativa atual do Agricultor (se houver)
+    public function associacaoAtiva()
+    {
+        return $this->hasOne(CooperativaMembro::class, 'agricultor_id')->where('activo', true);
+    }
 
     public function getIdadeAttribute()
     {
@@ -40,10 +57,82 @@ class Agricultor extends Model
 
     public function getFotoUrlAttribute()
     {
-        if ($this->fotografia) {
-            return asset('storage/'.$this->fotografia);
+        if ($this->foto) {
+            return asset('storage/'.$this->foto);
         }
 
         return asset('images/user-default.png');
+    }
+
+    /**
+     * Relacionamento com Colheitas
+     */
+    public function colheitas()
+    {
+        return $this->hasMany(Colheita::class, 'agricultor_id') ?? 0;
+    }
+
+    /**
+     * Relacionamento com Insumos (Estoque)
+     */
+    public function insumos()
+    {
+        return $this->hasMany(Insumo::class, 'agricultor_id');
+    }
+
+    /**
+     * Relacionamento com Produtos (Estoque)
+     */
+    public function produtos()
+    {
+        return $this->hasMany(Produto::class, 'agricultor_id') ?? 0;
+    }
+
+    /**
+     * Relacionamento com Talhões
+     */
+    public function talhoes()
+    {
+        return $this->hasMany(Talhao::class, 'agricultor_id');
+    }
+
+    /**
+     * Relacionamento com Receitas
+     */
+    public function receitas()
+    {
+        return $this->hasMany(Receita::class, 'agricultor_id');
+    }
+
+    /**
+     * Relacionamento com Vendas
+     */
+    public function vendas()
+    {
+        return $this->hasMany(Venda::class, 'agricultor_id');
+    }
+
+    /**
+     * Accessor para idade
+     */
+    public function getIdadeAttribute1()
+    {
+        if ($this->data_nascimento) {
+            return Carbon::parse($this->data_nascimento)->age;
+        }
+
+        return null;
+    }
+
+    /**
+     * Accessor para tempo de associação
+     */
+    public function getTempoAssociacaoAttribute()
+    {
+        if ($this->created_at) {
+            return Carbon::parse($this->created_at)->diffForHumans();
+        }
+
+        return null;
     }
 }
