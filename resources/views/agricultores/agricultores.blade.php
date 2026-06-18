@@ -1886,6 +1886,7 @@
 
 
           <tbody id="agTableBody">
+            
             @foreach($agricultores as $agricultor)
               @php
                 $vinculoAtivo = $agricultor->associacoes->where('activo', true)->first();
@@ -1962,6 +1963,8 @@
                 </td>
               </tr>
             @endforeach
+
+            
           </tbody>
 
         </table>

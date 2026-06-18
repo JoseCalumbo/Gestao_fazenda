@@ -199,8 +199,10 @@
     .topbar-user .t-avatar {
       width: 30px; height: 30px; background: var(--primary);
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
     }
     .topbar-user .t-avatar i { color: #fff; font-size: 14px; }
+    .avatar-md { width: 30px !important; height: 30px; object-fit: cover; border-radius: 50%; }
     .topbar-user span { font-size: 13px; font-weight: 500; color: var(--primary); }
 
     .dropdown-menu-user {
@@ -445,12 +447,6 @@
     .modal-coop .modal-body {
       flex: 1; overflow: hidden; padding: 0; background: var(--page-bg);
     }
-    /* Cada tab-panel faz o seu próprio scroll interno */
-    .modal-tab-panel {
-      height: 100%; overflow-y: auto; padding: 0;
-    }
-    .modal-tab-panel::-webkit-scrollbar { width: 4px; }
-    .modal-tab-panel::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 4px; }
 
     .modal-content {
       border: none; border-radius: 18px;
@@ -585,8 +581,10 @@
       border-radius: 20px; min-width: 20px; text-align: center;
     }
     .modal-tab-badge.danger { background: #FFEBEE; color: #C62828; }
-    .modal-tab-panel { display: none; padding: 22px; }
+    .modal-tab-panel { display: none; height: 100%; overflow-y: auto; padding: 22px; }
     .modal-tab-panel.active { display: block; }
+    .modal-tab-panel::-webkit-scrollbar { width: 4px; }
+    .modal-tab-panel::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 4px; }
 
     /* Cooperados inside modal */
     .coop-member-row {
@@ -683,6 +681,7 @@
       #ficha-print { position: fixed; top: 0; left: 0; width: 100%; }
     }
   </style>
+  
 </head>
 <body>
 
@@ -727,7 +726,7 @@
     <div class="nav-section-title">Principal</div>
     <a href="/dashboard" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
     <a href="#" class="nav-item-link active" data-label="Cooperativa"><i class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
-    <a href="{{route('agricultores.index')}}" class="nav-item-link" data-label="Agricultores"><i class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
+    <a href="{{ route('agricultores.index') }}" class="nav-item-link" data-label="Agricultores"><i class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
     <div class="nav-section-title">Agrícola</div>
     <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span class="nav-label">Safras</span></a>
@@ -782,44 +781,42 @@
     <button class="topbar-icon-btn" title="Mensagens">
       <i class="bi bi-chat-dots-fill"></i>
     </button>
-
-       <div class="dropdown d-none d-sm-flex">
-        <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
-          <div class="t-avatar">
-            <img id="dropdownAvatarLarge"
-              src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
-              alt="Foto-perfil" width="20" class="avatar-md">
-          </div>
-
-          <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
-          <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
+    <div class="dropdown d-none d-sm-flex">
+      <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
+        <div class="t-avatar">
+          <img id="dropdownAvatarLarge"
+            src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
+            alt="Foto-perfil" width="20" class="avatar-md">
         </div>
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-          <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
-          <li>
-            <a class="dropdown-item" href="#" id="themeToggle">
-              <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
-              <span id="themeLabel">Modo Escuro</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li>
-            <div class="dropdown-item item-logout p-0">
-              <form method="POST" action="/logout">
-                @csrf
-                <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
-              </form>
-            </div>
-          </li>
-        </ul>
-      </div>
 
+        <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
+        <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
+      </div>
+      <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
+        <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
+        <li>
+          <a class="dropdown-item" href="#" id="themeToggle">
+            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+            <span id="themeLabel">Modo Escuro</span>
+          </a>
+        </li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <div class="dropdown-item item-logout p-0">
+            <form method="POST" action="/logout">
+              @csrf
+              <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </header>
 
@@ -869,11 +866,11 @@
       </div>
       <div class="col-6 col-xl-3">
         <div class="stat-card">
-          <div class="stat-icon amber"><i class="bi bi-flower2"></i></div>
+          <div class="stat-icon amber"><i class="bi bi-building"></i></div>
           <div class="stat-info">
-            <div class="s-label">Em Safra Activa</div>
-            <div class="s-value">2</div>
-            <span class="stat-badge info"><i class="bi bi-calendar3"></i> Safra 24/25</span>
+            <div class="s-label">Cooperativas Inactivas</div>
+            <div class="s-value">0</div>
+            <span class="stat-badge info"><i class="bi bi-info-circle"></i> Nenhuma inactiva</span>
           </div>
         </div>
       </div>
@@ -1116,7 +1113,7 @@
           <i class="bi bi-flower2"></i> Safra & Agrícola
         </button>
         <button class="modal-tab-btn" data-modal-tab="cooperados">
-          <i class="bi bi-people-fill"></i> Cooperados
+          <i class="bi bi-people-fill"></i> Agricultores
           <span class="modal-tab-badge" id="tabBadgeCooperados">0</span>
         </button>
       </div>
@@ -1176,11 +1173,6 @@
                 <i class="bi bi-geo-alt-fill"></i> Localização
               </div>
               <div class="row g-3">
-                <div class="col-12 col-md-5">
-                  <label class="cfg-label" for="municipioCoop">Município *</label>
-                  <input class="cfg-input" type="text" id="municipioCoop" name="municipio"
-                    placeholder="Ex: Viana" required>
-                </div>
                 <div class="col-12 col-md-4">
                   <label class="cfg-label" for="provinciaCoop">Província *</label>
                   <select class="cfg-select" id="provinciaCoop" name="provincia">
@@ -1194,9 +1186,15 @@
                     <option>Cunene</option><option>Namibe</option><option>Benguela</option>
                   </select>
                 </div>
-                <div class="col-12 col-md-3">
-                  <label class="cfg-label" for="paisCoop">País</label>
-                  <input class="cfg-input" type="text" id="paisCoop" name="pais" value="Angola" readonly>
+                <div class="col-12 col-md-4">
+                  <label class="cfg-label" for="comunaCoop">Comuna / Distrito</label>
+                  <input class="cfg-input" type="text" id="comunaCoop" name="comuna"
+                    placeholder="Ex: Distrito Urbano da Vila">
+                </div>
+                <div class="col-12 col-md-4">
+                  <label class="cfg-label" for="municipioCoop">Município *</label>
+                  <input class="cfg-input" type="text" id="municipioCoop" name="municipio"
+                    placeholder="Ex: Viana" required>
                 </div>
                 <div class="col-12">
                   <label class="cfg-label" for="enderecoCoop">Endereço Completo</label>
@@ -1233,26 +1231,6 @@
           <div class="modal-tab-panel" id="mtab-safra">
             <div class="modal-form-card">
               <div class="modal-section-title">
-                <i class="bi bi-flower2"></i> Safra Activa
-              </div>
-              <div class="row g-3">
-                <div class="col-12 col-md-4">
-                  <label class="cfg-label" for="safraActiva">Designação da Safra</label>
-                  <input class="cfg-input" type="text" id="safraActiva" name="safra_activa"
-                    placeholder="Ex: 2024/2025">
-                </div>
-                <div class="col-12 col-md-4">
-                  <label class="cfg-label" for="inicioSafra">Início da Safra</label>
-                  <input class="cfg-input" type="date" id="inicioSafra" name="inicio_safra">
-                </div>
-                <div class="col-12 col-md-4">
-                  <label class="cfg-label" for="fimSafra">Fim Previsto</label>
-                  <input class="cfg-input" type="date" id="fimSafra" name="fim_safra">
-                </div>
-              </div>
-            </div>
-            <div class="modal-form-card">
-              <div class="modal-section-title">
                 <i class="bi bi-map-fill"></i> Parâmetros Agrícolas
               </div>
               <div class="row g-3">
@@ -1286,32 +1264,26 @@
             </div>
           </div>
 
-          <!-- ── TAB 4: Cooperados ── -->
+          <!-- ── TAB 4: Agricultores ── -->
           <div class="modal-tab-panel" id="mtab-cooperados">
 
             <!-- Aviso quando modal é para "Nova" (sem ID ainda) -->
             <div id="coopNoIdAlert" style="background:#FFF8E1;border:1px solid #FFE082;border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;gap:12px;align-items:flex-start;">
               <i class="bi bi-info-circle-fill" style="color:#F57F17;font-size:18px;flex-shrink:0;margin-top:1px;"></i>
               <div>
-                <div style="font-size:13.5px;font-weight:600;color:#7f5000;">Guarde a cooperativa primeiro</div>
-                <div style="font-size:12.5px;color:#9a6000;margin-top:2px;">Para adicionar cooperados, preencha os dados básicos e registe a cooperativa. Depois pode associar agricultores.</div>
+                <div style="font-size:13.5px;font-weight:600;color:#7f5000;">Adicione agricultores à cooperativa</div>
+                <div style="font-size:12.5px;color:#9a6000;margin-top:2px;">Seleccione um agricultor já registado (sem cooperativa associada) e clique em "Adicionar".</div>
               </div>
             </div>
 
-            <!-- Formulário de adicionar cooperado (visível só em modo edição) -->
-            <div id="addMemberSection" style="display:none;">
+            <!-- Formulário de adicionar agricultor -->
+            <div id="addMemberSection">
               <div class="add-member-form">
-                <div style="flex:1;min-width:160px;">
-                  <label class="cfg-label">Nome do Agricultor *</label>
-                  <input class="cfg-input" type="text" id="novoMemberNome" placeholder="Nome completo">
-                </div>
-                <div style="width:130px;">
-                  <label class="cfg-label">BI / NIF</label>
-                  <input class="cfg-input" type="text" id="novoMemberBI" placeholder="Nº BI">
-                </div>
-                <div style="width:130px;">
-                  <label class="cfg-label">Telefone</label>
-                  <input class="cfg-input" type="tel" id="novoMemberTel" placeholder="+244 9XX…">
+                <div style="flex:1;min-width:200px;">
+                  <label class="cfg-label">Agricultor *</label>
+                  <select class="cfg-select" id="novoMemberSelect">
+                    <option value="">Seleccione um agricultor…</option>
+                  </select>
                 </div>
                 <div style="width:130px;">
                   <label class="cfg-label">Função</label>
@@ -1324,75 +1296,39 @@
                 </div>
                 <div>
                   <label class="cfg-label">&nbsp;</label>
-                  <button type="button" class="btn-green" onclick="adicionarMembro()" style="height:42px;">
-                    <i class="bi bi-plus-lg"></i> Adicionar
+                  <button type="button" class="btn-green" id="btnNovoAgricultorAdd" onclick="adicionarMembro()" style="height:42px;">
+                    <i class="bi bi-plus-lg"></i> Novo Agricultor
                   </button>
                 </div>
               </div>
 
-              <!-- Pesquisa de cooperados -->
+              <!-- Pesquisa de agricultores associados -->
               <div style="position:relative;margin-bottom:14px;">
                 <i class="bi bi-search" style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text-light);font-size:13px;pointer-events:none;"></i>
-                <input type="text" class="cfg-input" id="searchMembro" placeholder="Pesquisar cooperado por nome ou BI…"
+                <input type="text" class="cfg-input" id="searchMembro" placeholder="Pesquisar agricultor por nome ou BI…"
                   style="padding-left:36px;" oninput="filtrarMembros()">
               </div>
 
-              <!-- Lista de cooperados -->
+              <!-- Lista de agricultores associados -->
               <div style="background:var(--card-bg);border-radius:12px;border:1px solid var(--border);overflow:hidden;">
                 <div style="padding:10px 16px;background:#FAFBFA;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-                  <span style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);">Cooperados Associados</span>
-                  <span style="font-size:12px;font-weight:600;color:var(--primary);" id="memberCount">3 cooperados</span>
+                  <span style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);">Agricultores Associados</span>
+                  <span style="font-size:12px;font-weight:600;color:var(--primary);" id="memberCount">0 agricultores</span>
                 </div>
-                <div id="memberList" style="padding:0 16px;max-height:260px;overflow-y:auto;">
-
-                  <div class="coop-member-row" data-member-name="João Manuel Ferreira">
-                    <div class="member-avatar" style="background:#1B5E20;">JF</div>
-                    <div class="member-info">
-                      <div class="m-name">João Manuel Ferreira</div>
-                      <div class="m-meta">BI: 004512378LA041 · +244 923 111 222 · <span style="background:var(--accent-lt);color:var(--primary);padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;">Agricultor</span></div>
-                    </div>
-                    <div class="member-actions">
-                      <button type="button" class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                      <button type="button" class="action-btn delete" title="Remover" onclick="removerMembro(this)"><i class="bi bi-x-lg"></i></button>
-                    </div>
-                  </div>
-
-                  <div class="coop-member-row" data-member-name="Maria das Dores Silva">
-                    <div class="member-avatar" style="background:#1565C0;">MS</div>
-                    <div class="member-info">
-                      <div class="m-name">Maria das Dores Silva</div>
-                      <div class="m-meta">BI: 006234890LA042 · +244 912 333 444 · <span style="background:#E3F2FD;color:#1565C0;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;">Dirigente</span></div>
-                    </div>
-                    <div class="member-actions">
-                      <button type="button" class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                      <button type="button" class="action-btn delete" title="Remover" onclick="removerMembro(this)"><i class="bi bi-x-lg"></i></button>
-                    </div>
-                  </div>
-
-                  <div class="coop-member-row" data-member-name="António Lopes Costa">
-                    <div class="member-avatar" style="background:#F57F17;">AL</div>
-                    <div class="member-info">
-                      <div class="m-name">António Lopes Costa</div>
-                      <div class="m-meta">BI: 009871230LA043 · +244 935 555 666 · <span style="background:#FFF8E1;color:#F57F17;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;">Sócio</span></div>
-                    </div>
-                    <div class="member-actions">
-                      <button type="button" class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                      <button type="button" class="action-btn delete" title="Remover" onclick="removerMembro(this)"><i class="bi bi-x-lg"></i></button>
-                    </div>
-                  </div>
-
+                <div id="memberList" style="padding:0 16px;max-height:240px;overflow-y:auto;">
+                  <!-- linhas inseridas dinamicamente via JS -->
                 </div>
               </div>
 
               <!-- Nota rodapé -->
               <div style="margin-top:12px;font-size:12px;color:var(--text-light);">
                 <i class="bi bi-info-circle me-1"></i>
-                Para gestão completa dos cooperados (talhões, produções, pagamentos) aceda ao módulo <strong>Cooperados</strong> no menu principal.
+                Para gestão completa dos agricultores (talhões, produções, pagamentos) aceda ao módulo <strong>Agricultores</strong> no menu principal.
               </div>
             </div>
 
           </div>
-          <!-- /TAB Cooperados -->
+          <!-- /TAB Agricultores -->
 
         </form>
       </div>
@@ -1702,14 +1638,34 @@ document.getElementById('modalCooperativa').addEventListener('show.bs.modal', ()
 let isEditing = false;
 let currentEditId = null;
 
+// Agricultores sem cooperativa associada (mock — viria do backend via fetch)
+let agricultoresDisponiveis = [
+  { id: 4, nome: 'Rosa Neto', bi: '002345671LA044', tel: '+244 940 222 333' },
+  { id: 5, nome: 'Carlos Manuel Pinto', bi: '008765432LA045', tel: '+244 927 888 999' },
+  { id: 6, nome: 'Isabel Fernanda Gomes', bi: '003456789LA046', tel: '+244 913 444 555' },
+];
+
+// Agricultores já associados à cooperativa actualmente aberta no modal
+let agricultoresAssociados = [];
+
+function popularSelectAgricultores() {
+  const select = document.getElementById('novoMemberSelect');
+  select.innerHTML = '<option value="">Seleccione um agricultor…</option>';
+  agricultoresDisponiveis.forEach(ag => {
+    const opt = document.createElement('option');
+    opt.value = ag.id;
+    opt.textContent = ag.nome + ' — BI: ' + ag.bi;
+    select.appendChild(opt);
+  });
+}
+
 function resetModal() {
   document.getElementById('formCooperativa').reset();
   document.getElementById('coopId').value = '';
-  document.getElementById('paisCoop').value = 'Angola';
-  // Cooperados tab: mostrar aviso, esconder form
   document.getElementById('coopNoIdAlert').style.display = 'flex';
-  document.getElementById('addMemberSection').style.display = 'none';
-  updateMemberCount();
+  agricultoresAssociados = [];
+  renderMemberList();
+  popularSelectAgricultores();
 }
 
 // Botão "Nova Cooperativa"
@@ -1728,9 +1684,19 @@ function editCooperativa(id) {
   currentEditId = id;
 
   const dados = {
-    1: { nome:'Cooperativa Agrícola de Viana', nif:'5401234567', municipio:'Viana', provincia:'Luanda', endereco:'Km 12, Estrada de Viana, Luanda Sul', telefone:'+244 923 456 789', email:'geral@coop-viana.ao', website:'', safra:'2024/2025', cultura:'Milho', estado:'activa', missao:'Cooperativa dedicada ao apoio dos agricultores locais de Viana.', numSocios:'348', area:'1240', talhoes:'86', producao:'1153', inicio:'2024-09-01', fim:'2025-08-31' },
-    2: { nome:'Cooperativa Kilamba Kiaxi', nif:'5409876543', municipio:'Kilamba Kiaxi', provincia:'Luanda', endereco:'Rua da Paz, Kilamba', telefone:'+244 912 345 678', email:'info@coop-ki.ao', website:'', safra:'2024/2025', cultura:'Feijão', estado:'activa', missao:'', numSocios:'412', area:'980', talhoes:'104', producao:'890', inicio:'2024-09-01', fim:'2025-08-31' },
-    3: { nome:'Cooperativa Cazenga Agrícola', nif:'5407654321', municipio:'Cazenga', provincia:'Luanda', endereco:'Bairro Cazenga, Luanda', telefone:'+244 935 678 901', email:'cazenga@coop.ao', website:'', safra:'', cultura:'Mandioca', estado:'activa', missao:'', numSocios:'264', area:'620', talhoes:'96', producao:'', inicio:'', fim:'' },
+    1: { nome:'Cooperativa Agrícola de Viana', nif:'5401234567', municipio:'Viana', provincia:'Luanda', endereco:'Km 12, Estrada de Viana, Luanda Sul', telefone:'+244 923 456 789', email:'geral@coop-viana.ao', website:'', cultura:'Milho', estado:'activa', missao:'Cooperativa dedicada ao apoio dos agricultores locais de Viana.', numSocios:'348', area:'1240', talhoes:'86', producao:'1153' },
+    2: { nome:'Cooperativa Kilamba Kiaxi', nif:'5409876543', municipio:'Kilamba Kiaxi', provincia:'Luanda', endereco:'Rua da Paz, Kilamba', telefone:'+244 912 345 678', email:'info@coop-ki.ao', website:'', cultura:'Feijão', estado:'activa', missao:'', numSocios:'412', area:'980', talhoes:'104', producao:'890' },
+    3: { nome:'Cooperativa Cazenga Agrícola', nif:'5407654321', municipio:'Cazenga', provincia:'Luanda', endereco:'Bairro Cazenga, Luanda', telefone:'+244 935 678 901', email:'cazenga@coop.ao', website:'', cultura:'Mandioca', estado:'activa', missao:'', numSocios:'264', area:'620', talhoes:'96', producao:'' },
+  };
+
+  const membrosExistentes = {
+    1: [
+      { id: 101, nome: 'João Manuel Ferreira', bi: '004512378LA041', tel: '+244 923 111 222', funcao: 'agricultor' },
+      { id: 102, nome: 'Maria das Dores Silva', bi: '006234890LA042', tel: '+244 912 333 444', funcao: 'dirigente' },
+      { id: 103, nome: 'António Lopes Costa',   bi: '009871230LA043', tel: '+244 935 555 666', funcao: 'socio' },
+    ],
+    2: [],
+    3: [],
   };
 
   const d = dados[id] || {};
@@ -1741,26 +1707,25 @@ function editCooperativa(id) {
   document.getElementById('nomeCooperativa').value     = d.nome       || '';
   document.getElementById('nifCooperativa').value      = d.nif        || '';
   document.getElementById('municipioCoop').value       = d.municipio  || '';
+  document.getElementById('comunaCoop').value          = d.comuna     || '';
   document.getElementById('provinciaCoop').value       = d.provincia  || '';
   document.getElementById('enderecoCoop').value        = d.endereco   || '';
   document.getElementById('telefCoop').value           = d.telefone   || '';
   document.getElementById('emailCoop').value           = d.email      || '';
   document.getElementById('websiteCoop').value         = d.website    || '';
-  document.getElementById('safraActiva').value         = d.safra      || '';
   document.getElementById('missaoCoop').value          = d.missao     || '';
   document.getElementById('numSocios').value           = d.numSocios  || '';
   document.getElementById('areaTotal').value           = d.area       || '';
   document.getElementById('numTalhoes').value          = d.talhoes    || '';
   document.getElementById('producaoEstimada').value    = d.producao   || '';
-  document.getElementById('inicioSafra').value         = d.inicio     || '';
-  document.getElementById('fimSafra').value            = d.fim        || '';
   document.getElementById('estadoCoop').value          = d.estado     || 'activa';
   if (d.cultura) document.getElementById('principalCultura').value = d.cultura;
 
-  // Cooperados tab: esconder aviso, mostrar form
+  // Agricultores tab: esconder aviso, carregar lista existente
   document.getElementById('coopNoIdAlert').style.display = 'none';
-  document.getElementById('addMemberSection').style.display = 'block';
-  updateMemberCount();
+  agricultoresAssociados = (membrosExistentes[id] || []).slice();
+  renderMemberList();
+  popularSelectAgricultores();
 
   const modal = new bootstrap.Modal(document.getElementById('modalCooperativa'));
   modal.show();
@@ -1801,74 +1766,92 @@ document.getElementById('btnSalvarCoop').addEventListener('click', () => {
 });
 
 /* ══════════════════════════════════════
-   COOPERADOS — gestão dentro do modal
+   AGRICULTORES — gestão dinâmica dentro do modal
 ══════════════════════════════════════ */
+const funcLabels = {
+  agricultor: { bg:'var(--accent-lt)', color:'var(--primary)', label:'Agricultor' },
+  dirigente:  { bg:'#E3F2FD', color:'#1565C0', label:'Dirigente' },
+  tecnico:    { bg:'#EDE7F6', color:'#6A1B9A', label:'Técnico' },
+  socio:      { bg:'#FFF8E1', color:'#F57F17', label:'Sócio' },
+};
+const avatarColors = ['#1B5E20','#1565C0','#6A1B9A','#F57F17','#00695C','#C62828'];
+
+function renderMemberList() {
+  const list = document.getElementById('memberList');
+  list.innerHTML = '';
+
+  agricultoresAssociados.forEach((ag, idx) => {
+    const initials = ag.nome.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+    const color = avatarColors[idx % avatarColors.length];
+    const fl = funcLabels[ag.funcao] || funcLabels.agricultor;
+    const meta = ['BI: ' + ag.bi, ag.tel].filter(Boolean).join(' · ');
+
+    const row = document.createElement('div');
+    row.className = 'coop-member-row';
+    row.dataset.memberName = ag.nome;
+    row.dataset.memberId = ag.id;
+    row.innerHTML = `
+      <div class="member-avatar" style="background:${color};">${initials}</div>
+      <div class="member-info">
+        <div class="m-name">${ag.nome}</div>
+        <div class="m-meta">${meta} · <span style="background:${fl.bg};color:${fl.color};padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;">${fl.label}</span></div>
+      </div>
+      <div class="member-actions">
+        <button type="button" class="action-btn delete" title="Remover" onclick="removerMembro(${ag.id})"><i class="bi bi-x-lg"></i></button>
+      </div>`;
+    list.appendChild(row);
+  });
+
+  updateMemberCount();
+}
+
 function updateMemberCount() {
-  const rows  = document.querySelectorAll('#memberList .coop-member-row:not([style*="display: none"])');
-  const total = document.querySelectorAll('#memberList .coop-member-row').length;
+  const total = agricultoresAssociados.length;
   const badge = document.getElementById('tabBadgeCooperados');
   const countEl = document.getElementById('memberCount');
   if (badge) badge.textContent = total;
-  if (countEl) countEl.textContent = total + ' cooperado' + (total !== 1 ? 's' : '');
+  if (countEl) countEl.textContent = total + ' agricultor' + (total !== 1 ? 'es' : '');
 }
 
 function adicionarMembro() {
-  const nome = document.getElementById('novoMemberNome').value.trim();
-  const bi   = document.getElementById('novoMemberBI').value.trim();
-  const tel  = document.getElementById('novoMemberTel').value.trim();
-  const func = document.getElementById('novoMemberFuncao').value;
+  const select = document.getElementById('novoMemberSelect');
+  const func   = document.getElementById('novoMemberFuncao').value;
+  const agId   = select.value;
 
-  if (!nome) {
-    showToast('Nome obrigatório', 'Introduza o nome do agricultor.', 'danger');
+  if (!agId) {
+    showToast('Agricultor obrigatório', 'Seleccione um agricultor da lista.', 'danger');
     return;
   }
 
-  const initials = nome.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
-  const colors   = ['#1B5E20','#1565C0','#6A1B9A','#F57F17','#00695C','#C62828'];
-  const color    = colors[Math.floor(Math.random() * colors.length)];
+  const idx = agricultoresDisponiveis.findIndex(a => String(a.id) === String(agId));
+  if (idx === -1) return;
 
-  const funcLabels = {
-    agricultor: { bg:'var(--accent-lt)', color:'var(--primary)', label:'Agricultor' },
-    dirigente:  { bg:'#E3F2FD', color:'#1565C0', label:'Dirigente' },
-    tecnico:    { bg:'#EDE7F6', color:'#6A1B9A', label:'Técnico' },
-    socio:      { bg:'#FFF8E1', color:'#F57F17', label:'Sócio' },
-  };
-  const fl = funcLabels[func] || funcLabels.agricultor;
+  const agricultor = agricultoresDisponiveis[idx];
+  agricultoresAssociados.push({
+    id: agricultor.id, nome: agricultor.nome, bi: agricultor.bi, tel: agricultor.tel, funcao: func
+  });
 
-  const meta = [bi && 'BI: ' + bi, tel].filter(Boolean).join(' · ');
+  // Remove da lista de disponíveis e actualiza o select
+  agricultoresDisponiveis.splice(idx, 1);
+  popularSelectAgricultores();
 
-  const row = document.createElement('div');
-  row.className = 'coop-member-row';
-  row.dataset.memberName = nome;
-  row.innerHTML = `
-    <div class="member-avatar" style="background:${color};">${initials}</div>
-    <div class="member-info">
-      <div class="m-name">${nome}</div>
-      <div class="m-meta">${meta} · <span style="background:${fl.bg};color:${fl.color};padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;">${fl.label}</span></div>
-    </div>
-    <div class="member-actions">
-      <button type="button" class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-      <button type="button" class="action-btn delete" title="Remover" onclick="removerMembro(this)"><i class="bi bi-x-lg"></i></button>
-    </div>`;
-
-  document.getElementById('memberList').appendChild(row);
-
-  // Reset inputs
-  document.getElementById('novoMemberNome').value = '';
-  document.getElementById('novoMemberBI').value   = '';
-  document.getElementById('novoMemberTel').value  = '';
-
-  updateMemberCount();
-  showToast('Cooperado adicionado', nome + ' foi associado à cooperativa.');
+  renderMemberList();
+  showToast('Agricultor adicionado', agricultor.nome + ' foi associado à cooperativa.');
 }
 
-function removerMembro(btn) {
-  const row  = btn.closest('.coop-member-row');
-  const nome = row.dataset.memberName || 'Cooperado';
-  row.style.transition = 'opacity .2s';
-  row.style.opacity = '0';
-  setTimeout(() => { row.remove(); updateMemberCount(); }, 200);
-  showToast('Cooperado removido', nome + ' foi desassociado.', 'danger');
+function removerMembro(agId) {
+  const idx = agricultoresAssociados.findIndex(a => String(a.id) === String(agId));
+  if (idx === -1) return;
+
+  const agricultor = agricultoresAssociados[idx];
+  agricultoresAssociados.splice(idx, 1);
+
+  // Devolve à lista de disponíveis
+  agricultoresDisponiveis.push({ id: agricultor.id, nome: agricultor.nome, bi: agricultor.bi, tel: agricultor.tel });
+  popularSelectAgricultores();
+
+  renderMemberList();
+  showToast('Agricultor removido', agricultor.nome + ' foi desassociado.', 'danger');
 }
 
 function filtrarMembros() {
@@ -1879,7 +1862,8 @@ function filtrarMembros() {
   });
 }
 
-updateMemberCount();
+popularSelectAgricultores();
+renderMemberList();
 
 /* ══════════════════════════════════════
    VER DETALHES
