@@ -2482,8 +2482,6 @@
       const estado = btn.dataset.estado ? btn.dataset.estado.toLowerCase() : 'activo';
       document.getElementById('agEstado').value = estado;
 
-
-
       // Aqui o seu HTML diz "data-telefone", por isso mapeamos para dataset.telefone
       document.getElementById('agTelefone').value = btn.dataset.telefone || '';
       document.getElementById('agTelefoneAlt').value = btn.dataset.telefone_alt || btn.dataset.telefoneAlt || '';

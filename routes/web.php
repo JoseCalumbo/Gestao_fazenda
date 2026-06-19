@@ -78,6 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/agricultores/{id}', [AgricultoresController::class, 'destroy'])->name('agricultores.destroy');
     // Rota para exibir o detalhe de um agricultor específico
     Route::get('/agricultores/{id}', [AgricultoresController::class, 'show'])->name('agricultores.show');
+    
 });
 
 // Insumos
@@ -102,11 +103,11 @@ Route::middleware('auth')->group(function () {
 // cooperativa
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/cooperativas', [CooperativaController::class, 'index'])
-        ->name('cooperativas');
-
-    // Rota para carregar a página principal (Listagem e Modais)
     Route::get('/cooperativas', [CooperativaController::class, 'index'])->name('cooperativas');
+    Route::post('/cooperativas', [CooperativaController::class, 'store'])->name('cooperativas.store');
+    Route::put('/cooperativas/{id}', [CooperativaController::class, 'update'])->name('cooperativas.update');
+    Route::delete('/cooperativas/{id}', [CooperativaController::class, 'destroy'])->name('cooperativas.destroy');
+    Route::get('/cooperativas/exportar-pdf', [CooperativaController::class, 'exportarPdf'])->name('cooperativas.pdf');
 
     // Rotas específicas para manipulação de dados via AJAX (retornam JSON)
     Route::post('/cooperativas/store', [CooperativaController::class, 'store'])->name('cooperativas.store');

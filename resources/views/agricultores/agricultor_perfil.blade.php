@@ -1356,11 +1356,11 @@
 
     <div class="sidebar-nav">
       <div class="nav-section-title">Principal</div>
-      <a href="{{ route('dashboard') }}" class="nav-item-link" data-label="Dashboard"><i
+      <a href="{{ route('dashboard')}}" class="nav-item-link" data-label="Dashboard"><i
           class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
-      <a href="#" class="nav-item-link" data-label="Cooperativa"><i class="bi bi-building"></i><span
+      <a href="{{ route('cooperativas')}}" class="nav-item-link" data-label="Cooperativa"><i class="bi bi-building"></i><span
           class="nav-label">Cooperativa</span></a>
-      <a href="" class="nav-item-link active" data-label="Agricultores"><i class="bi bi-person-badge-fill"></i><span
+      <a href="{{ route('agricultores.index')}}" class="nav-item-link active" data-label="Agricultores"><i class="bi bi-person-badge-fill"></i><span
           class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
@@ -1368,7 +1368,7 @@
           class="nav-label">Safras</span></a>
       <a href="#" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
           class="nav-label">Talhões</span></a>
-      <a href="#" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
+      <a href="{{ route('insumos.index')}}" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
           class="nav-label">Insumos</span></a>
 
       <div class="nav-section-title">Financeiro</div>

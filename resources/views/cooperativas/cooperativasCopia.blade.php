@@ -1988,10 +1988,9 @@
           <p>Registo e administração das cooperativas agrícolas da região de Viana</p>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="{{route('cooperativas.pdf', request()->all()) }}" class="btn-outline-green" id="btnExportar">
-            <i class="bi bi-download"></i> Exportar PDF
-          </a>
-
+          <button class="btn-outline-green" id="btnExportar">
+            <i class="bi bi-download"></i> Exportar
+          </button>
           <button class="btn-green" id="btnNovaCooperativa" data-bs-toggle="modal" data-bs-target="#modalCooperativa">
             <i class="bi bi-plus-lg"></i> Nova Cooperativa
           </button>
@@ -2024,8 +2023,8 @@
           <div class="stat-card">
             <div class="stat-icon amber"><i class="bi bi-building"></i></div>
             <div class="stat-info">
-              <div class="s-label">Cooperativas Pedentes</div>
-              <div class="s-value">{{ $totalPendentes ?? 0}}</div>
+              <div class="s-label">Cooperativas Inactivas</div>
+              <div class="s-value">0</div>
               <span class="stat-badge info"><i class="bi bi-info-circle"></i> Nenhuma inactiva</span>
             </div>
           </div>
@@ -2034,8 +2033,8 @@
           <div class="stat-card">
             <div class="stat-icon purple"><i class="bi bi-map-fill"></i></div>
             <div class="stat-info">
-              <div class="s-label">Cooperativas Inactiva </div>
-              <div class="s-value">{{ $totalInactivas ?? 0 }}</div>
+              <div class="s-label">Talhões Registados</div>
+              <div class="s-value">286</div>
               <span class="stat-badge up"><i class="bi bi-arrow-up"></i> +12 novos</span>
             </div>
           </div>
@@ -2050,42 +2049,43 @@
           <div style="display:flex;align-items:center;gap:12px;">
             <h5><i class="bi bi-building me-2" style="color:var(--primary);"></i>Lista de Cooperativas</h5>
           </div>
-
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span style="font-size:12.5px;color:var(--text-light);">3 registos</span>
+            <div style="width:1px;height:20px;background:var(--border);"></div>
+            <button class="action-btn view" title="Ver em grelha" id="btnViewGrid"><i
+                class="bi bi-grid-3x3-gap-fill"></i></button>
+            <button class="action-btn edit" title="Ver em lista" id="btnViewList"
+              style="background:var(--primary);color:#fff;"><i class="bi bi-list-ul"></i></button>
+          </div>
         </div>
 
-
-        <form method="GET" action="{{ route('cooperativas') }}" class="search-filter-bar">
-
+        <!-- Search & Filters -->
+        <div class="search-filter-bar">
           <div class="search-wrap">
             <i class="bi bi-search"></i>
-            <input type="text" name="nome" class="search-input" id="searchCoop" value="{{ request('nome') }}"
-              placeholder="Pesquisar cooperativa por nome…">
+            <input type="text" class="search-input" id="searchCoop"
+              placeholder="Pesquisar cooperativa por nome, NIF ou município…">
           </div>
-
-          <select class="filter-select" id="filterEstado" name="estado" onchange="this.form.submit()">
+          <select class="filter-select" id="filterEstado">
             <option value="">Todos os estados</option>
-            <option value="activa" {{ request('estado') == 'activa' ? 'selected' : '' }}>Activa</option>
-            <option value="inactiva" {{ request('estado') == 'inactiva' ? 'selected' : '' }}>Inactiva</option>
-            <option value="pendente" {{ request('estado') == 'pendente' ? 'selected' : '' }}>Pendente</option>
+            <option value="activa">Activa</option>
+            <option value="inactiva">Inactiva</option>
+            <option value="pendente">Pendente</option>
           </select>
-
-          <select class="filter-select" id="filterProvincia" name="provincia" onchange="this.form.submit()">
+          <select class="filter-select" id="filterProvincia">
             <option value="">Todas as províncias</option>
-            <option value="Luanda" {{ request('provincia') == 'Luanda' ? 'selected' : '' }}>Luanda</option>
-            <option value="Bengo" {{ request('provincia') == 'Bengo' ? 'selected' : '' }}>Bengo</option>
-            <option value="Malanje" {{ request('provincia') == 'Malanje' ? 'selected' : '' }}>Malanje</option>
-            <option value="Huíla" {{ request('provincia') == 'Huíla' ? 'selected' : '' }}>Huíla</option>
+            <option value="Luanda">Luanda</option>
+            <option value="Bengo">Bengo</option>
+            <option value="Malanje">Malanje</option>
+            <option value="Huíla">Huíla</option>
           </select>
-
-          <button type="submit" style="display: none;"></button>
-
-          @if(request()->hasAny(['nome', 'estado', 'provincia']))
-            <a href="{{ route('cooperativas') }}" class="btn-clear"
-              style="padding: 8px 12px; font-size: 14px; text-decoration: none; color: #721c24; background: #f8d7da; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
-              <i class="bi bi-x-circle-fill" style="margin-right: 4px;"></i> Limpar
-            </a>
-          @endif
-        </form>
+          <select class="filter-select" id="filterSafra">
+            <option value="">Safra: Todas</option>
+            <option value="activa">Em safra activa</option>
+            <option value="planeada">Safra planeada</option>
+            <option value="none">Sem safra</option>
+          </select>
+        </div>
 
         <!-- Table -->
         <div style="overflow-x:auto;">
@@ -2096,10 +2096,10 @@
                   <input type="checkbox" id="selectAll"
                     style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
                 </th>
-                <th>Cooperativas</th>
+                <th>Cooperativa</th>
                 <th>Município / Província</th>
                 <th>Contacto</th>
-                <th>Agricultores</th>
+                <th>Cooperados</th>
                 <th>Estado</th>
                 <th style="text-align:center;">Acções</th>
               </tr>
@@ -2138,7 +2138,7 @@
                   </td>
                   <td>
                     <span
-                      style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;color:var(--primary);">{{ $cooperador->membros_activos_count }}</span>
+                      style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;color:var(--primary);">412</span>
                   </td>
 
                   <td><span class="badge-status {{ $cooperador->estado }}">{{ $cooperador->estado }}</span></td>
@@ -2148,17 +2148,25 @@
                       <button class="action-btn view" title="Ver detalhes" onclick="viewCooperativa(2)"><i
                           class="bi bi-eye-fill"></i></button>
 
-                      <button class="action-btn edit" title="Editar" onclick="editCooperativa({{ $cooperador->id }})">
+                      {{-- <button class="action-btn edit btn-editar-ag" title="Editar" onclick="editCooperativa(2)"
+                        data-id="{{ $cooperador->id }}" data-nome="{{ $cooperador->nome}}"
+                        data-nif="{{ $cooperador->nif ?? '' }}" data-telefone="{{ $cooperador->telefone ?? '' }}"
+                        data-email="{{ $cooperador->email ?? '' }}" data-endereco="{{ $cooperador->endereco ?? '' }}"
+                        data-estado="{{ $cooperador->estado ?? 'activo' }}" data-foto="{{ $cooperador->foto }}">
+
+                        <i class="bi bi-pencil-fill"></i>
+                      </button> --}}
+
+                                            <button class="action-btn edit" title="Editar" onclick="editCooperativa({{ $cooperador->id }})">
                         <i class="bi bi-pencil-fill"></i>
                       </button>
+
 
                       <button class="action-btn print" title="Imprimir ficha" onclick="printFicha(2)"><i
                           class="bi bi-printer-fill"></i></button>
 
                       <button class="action-btn delete" title="Apagar"
-                        onclick="abrirModalEliminar({{$cooperador->id}}, '{{ $cooperador->nome}}')"><i
-                          class="bi bi-trash-fill"></i>
-                      </button>
+                        onclick="deleteCooperativa(2, 'Coop. Kilamba Kiaxi')"><i class="bi bi-trash-fill"></i></button>
                     </div>
                   </td>
                 </tr>
@@ -2178,33 +2186,11 @@
 
         <!-- Footer / Pagination -->
         <div class="table-footer">
-          <span id="tableCount">
-            Mostrando {{ $cooperativas->firstItem() ?? 0 }} até {{ $cooperativas->lastItem() ?? 0 }}
-            de {{ $cooperativas->total() }} cooperativas
-          </span>
-
+          <span id="tableCount">Mostrando 3 de 3 cooperativas</span>
           <div class="pagination-btns">
-
-            @if ($cooperativas->onFirstPage())
-              <button class="page-btn" disabled><i class="bi bi-chevron-left"></i></button>
-            @else
-              <a href="{{ $cooperativas->previousPageUrl() }}" class="page-btn"><i class="bi bi-chevron-left"></i></a>
-            @endif
-
-            @foreach ($cooperativas->getUrlRange(1, $cooperativas->lastPage()) as $page => $url)
-              @if ($page == $cooperativas->currentPage())
-                <button class="page-btn active">{{ $page }}</button>
-              @else
-                <a href="{{ $url }}" class="page-btn" style="text-decoration: none;">{{ $page }}</a>
-              @endif
-            @endforeach
-
-            @if ($cooperativas->hasMorePages())
-              <a href="{{ $cooperativas->nextPageUrl() }}" class="page-btn"><i class="bi bi-chevron-right"></i></a>
-            @else
-              <button class="page-btn" disabled><i class="bi bi-chevron-right"></i></button>
-            @endif
-
+            <button class="page-btn"><i class="bi bi-chevron-left"></i></button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn"><i class="bi bi-chevron-right"></i></button>
           </div>
         </div>
 
@@ -2216,7 +2202,7 @@
 
 
   <!-- ══════════════════════════════════════
-     modal1 — NOVA / EDITAR COOPERATIVA
+     MODAL — NOVA / EDITAR COOPERATIVA
 ══════════════════════════════════════ -->
 
   <div class="modal fade" id="modalCooperativa" tabindex="-1" aria-labelledby="modalCoopLabel" aria-hidden="true"
@@ -2356,19 +2342,16 @@
                       <option>Benguela</option>
                     </select>
                   </div>
-
-                  <div class="col-12 col-md-4">
-                    <label class="cfg-label" for="municipioCoop">Município *</label>
-                    <input class="cfg-input" type="text" id="municipioCoop" name="municipio" placeholder="Ex: Viana"
-                      required>
-                  </div>
-
                   <div class="col-12 col-md-4">
                     <label class="cfg-label" for="comunaCoop">Comuna / Distrito</label>
                     <input class="cfg-input" type="text" id="comunaCoop" name="comuna"
                       placeholder="Ex: Distrito Urbano da Vila">
                   </div>
-
+                  <div class="col-12 col-md-4">
+                    <label class="cfg-label" for="municipioCoop">Município *</label>
+                    <input class="cfg-input" type="text" id="municipioCoop" name="municipio" placeholder="Ex: Viana"
+                      required>
+                  </div>
                   <div class="col-12">
                     <label class="cfg-label" for="enderecoCoop">Endereço Completo</label>
                     <input class="cfg-input" type="text" id="enderecoCoop" name="endereco"
@@ -2417,15 +2400,15 @@
                     <label class="cfg-label" for="principalCultura">Principal Cultura</label>
                     <select class="cfg-select" id="principalCultura" name="principal_cultura">
                       <option value="">Seleccione…</option>
-                      <option value="Milho">Milho</option>
-                      <option value="Feijão">Feijão</option>
-                      <option value="Mandioca">Mandioca</option>
-                      <option value="Batata-doce">Batata-doce</option>
-                      <option value="Hortícolas">Hortícolas</option>
-                      <option value="Frutas tropicais">Frutas tropicais</option>
-                      <option value="Café">Café</option>
-                      <option value="Algodão">Algodão</option>
-                      <option value="Outras">Outras</option>
+                      <option>Milho</option>
+                      <option>Feijão</option>
+                      <option>Mandioca</option>
+                      <option>Batata-doce</option>
+                      <option>Hortícolas</option>
+                      <option>Frutas tropicais</option>
+                      <option>Café</option>
+                      <option>Algodão</option>
+                      <option>Outras</option>
                     </select>
                   </div>
                   <div class="col-12 col-md-6">
@@ -2451,13 +2434,75 @@
                   style="color:#F57F17;font-size:18px;flex-shrink:0;margin-top:1px;"></i>
                 <div>
                   <div style="font-size:13.5px;font-weight:600;color:#7f5000;">Adicione agricultores à cooperativa</div>
-                  <div style="font-size:12.5px;color:#9a6000;margin-top:2px;">Seleccione um agricultor já registado e
-                    clique em "Adicionar".</div>
+                  <div style="font-size:12.5px;color:#9a6000;margin-top:2px;">Seleccione um agricultor já registado (sem
+                    cooperativa associada) e clique em "Adicionar".</div>
                 </div>
               </div>
 
+              <!-- Formulário de adicionar agricultor -->
+              {{-- <div id="addMemberSection">
+                <div class="add-member-form">
+                  <div style="flex:1;min-width:200px;">
+                    <label class="cfg-label">Agricultor *</label>
+                    <select class="cfg-select" id="novoMemberSelect">
+                      @foreach($agricultoresLivres as $ag)
+                      <option value="{{ $ag->id }}">{{ $ag->nome_completo }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+
+                  <div>
+                    <label class="cfg-label">&nbsp;</label>
+                    <button type="button" class="btn-green" id="btnNovoAgricultorAdd" onclick="adicionarMembro()"
+                      style="height:42px;">
+                      <i class="bi bi-plus-lg"></i> Adicionar
+                    </button>
+                  </div>
+
+                </div>
+
+                <!-- Pesquisa de agricultores associados -->
+                <div style="position:relative;margin-bottom:14px;">
+                  <i class="bi bi-search"
+                    style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text-light);font-size:13px;pointer-events:none;"></i>
+                  <input type="text" class="cfg-input" id="searchMembro"
+                    placeholder="Pesquisar agricultor por nome ou BI…" style="padding-left:36px;"
+                    oninput="filtrarMembros()">
+                </div>
+
+                <!-- Lista de agricultores associados -->
+                <div
+                  style="background:var(--card-bg);border-radius:12px;border:1px solid var(--border);overflow:hidden;">
+                  <div
+                    style="padding:10px 16px;background:#FAFBFA;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+                    <span
+                      style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);">Agricultores
+                      Associados</span>
+                    <span style="font-size:12px;font-weight:600;color:var(--primary);" id="memberCount">0
+                      agricultores</span>
+                  </div>
+                  <div id="memberList" style="padding:0 16px;max-height:240px;overflow-y:auto;">
+                    <!-- linhas inseridas dinamicamente via JS -->
+                  </div>
+                </div>
+
+                <!-- Nota rodapé -->
+                <div style="margin-top:12px;font-size:12px;color:var(--text-light);">
+                  <i class="bi bi-info-circle me-1"></i>
+                  Para gestão completa dos agricultores (talhões, produções, pagamentos) aceda ao módulo
+                  <strong>Agricultores</strong> no menu principal.
+                </div>
+              </div> --}}
+
               <div id="addMemberSection">
                 <div class="add-member-form" style="display:flex; gap:10px; margin-bottom:15px; align-items:flex-end;">
+
+                  {{-- <div style="flex:1; min-width:200px;">
+                    <label class="cfg-label">Agricultor *</label>
+                    <select class="cfg-select" id="novoMemberSelect">
+                      <option value="">Seleccione um agricultor…</option>
+                    </select>
+                  </div> --}}
 
                   <div style="flex:1; min-width:200px;">
                     <label class="cfg-label">Agricultor *</label>
@@ -2473,7 +2518,7 @@
                   </div>
 
                   <div style="width:160px;">
-                    <label class="cfg-label">Cargo</label>
+                    <label class="cfg-label">Função</label>
                     <select class="cfg-select" id="novoMemberFuncao">
                       <option value="Nenhum">Nenhum - Apenas Membro</option>
                       <option value="Presidente">Presidente</option>
@@ -2505,21 +2550,17 @@
                   <div
                     style="padding:10px 16px;background:#FAFBFA;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
                     <span
-                      style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);">
-                      Agricultores Associados
-                    </span>
+                      style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-light);">Agricultores
+                      Associados</span>
                     <span style="font-size:12px;font-weight:600;color:var(--primary);" id="memberCount">0
                       agricultores</span>
                   </div>
                   <div id="memberList" style="padding:0 16px;max-height:240px;overflow-y:auto;">
-
                   </div>
                 </div>
               </div>
 
             </div>
-
-
             <!-- /TAB Agricultores -->
 
           </form>
@@ -2569,7 +2610,6 @@
           </p>
           <div
             style="background:#FFF8F8;border:1px solid #FFCDD2;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
-
             <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:#C62828;"
               id="deleteCoopName">—</div>
             <div style="font-size:12px;color:var(--text-light);margin-top:3px;">Todos os dados associados serão
@@ -2582,7 +2622,6 @@
         </div>
         <div class="modal-footer" style="border-top:1px solid #FFCDD2;">
           <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Cancelar</button>
-
           <button type="button" class="btn-green" id="btnConfirmDelete" style="background:#C62828;box-shadow:none;"
             onclick="confirmDelete()">
             <i class="bi bi-trash-fill"></i> Eliminar Definitivamente
@@ -2733,6 +2772,1079 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+  {{--
+  <script>
+    /* ══════════════════════════════════════
+       SIDEBAR TOGGLE (3 estados)
+    ══════════════════════════════════════ */
+    const body = document.body;
+    let sideState = 0;
+
+    function applyTooltips() {
+      document.querySelectorAll('.nav-item-link').forEach(el => {
+        const tip = bootstrap.Tooltip.getInstance(el);
+        if (tip) tip.dispose();
+      });
+      if (body.classList.contains('icons-only')) {
+        document.querySelectorAll('.nav-item-link').forEach(el => {
+          new bootstrap.Tooltip(el, {
+            title: el.dataset.label || '',
+            placement: 'right',
+            trigger: 'hover',
+            customClass: 'sidebar-tooltip'
+          });
+        });
+      }
+    }
+
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      sideState = (sideState + 1) % 3;
+      body.classList.remove('icons-only', 'sidebar-hidden');
+      if (sideState === 1) body.classList.add('icons-only');
+      if (sideState === 2) body.classList.add('sidebar-hidden');
+      applyTooltips();
+    });
+
+    /* ══════════════════════════════════════
+       DARK MODE
+    ══════════════════════════════════════ */
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+    let darkMode = false;
+
+    themeToggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      darkMode = !darkMode;
+      body.classList.toggle('dark-mode', darkMode);
+      themeIcon.className = darkMode ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
+      themeLabel.textContent = darkMode ? 'Modo Claro' : 'Modo Escuro';
+    });
+
+    /* ══════════════════════════════════════
+       NAV ACTIVE SIDEBAR
+    ══════════════════════════════════════ */
+    document.querySelectorAll('.nav-item-link').forEach(link => {
+      link.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (!href || href === '#') {
+          e.preventDefault();
+        }
+        document.querySelectorAll('.nav-item-link').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        const label = this.dataset.label || this.querySelector('.nav-label')?.textContent || '';
+        document.querySelector('.topbar-title').textContent = label;
+      });
+    });
+
+    /* ══════════════════════════════════════
+       TOAST
+    ══════════════════════════════════════ */
+    function showToast(title, sub, type = 'success') {
+      const toast = document.getElementById('saveToast');
+      const icon = document.getElementById('toastIcon');
+      const iconI = document.getElementById('toastIconI');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastSub').textContent = sub;
+      icon.className = 'toast-icon ' + (type === 'danger' ? 'danger' : 'success');
+      iconI.className = type === 'danger' ? 'bi bi-x-lg' : 'bi bi-check-lg';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    /* ══════════════════════════════════════
+       MODAL TABS
+    ══════════════════════════════════════ */
+    function switchModalTab(tabName) {
+      document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.modalTab === tabName);
+      });
+      document.querySelectorAll('.modal-tab-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === 'mtab-' + tabName);
+      });
+    }
+
+    document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchModalTab(btn.dataset.modalTab));
+    });
+
+    /* Reset tabs ao abrir o modal */
+    document.getElementById('modalCooperativa').addEventListener('show.bs.modal', () => {
+      switchModalTab('identificacao');
+    });
+
+    /* ══════════════════════════════════════
+       MODAL — NOVA / EDITAR COOPERATIVA
+    ══════════════════════════════════════ */
+    let isEditing = false;
+    let currentEditId = null;
+
+    // Agricultores já associados à cooperativa actualmente aberta no modal
+    let agricultoresAssociados = [];
+
+    function popularSelectAgricultores() {
+      const select = document.getElementById('novoMemberSelect');
+      select.innerHTML = '<option value="">Seleccione um agricultor…</option>';
+      agricultoresDisponiveis.forEach(ag => {
+        const opt = document.createElement('option');
+        opt.value = ag.id;
+        opt.textContent = ag.nome + ' — BI: ' + ag.bi;
+        select.appendChild(opt);
+      });
+    }
+
+    function resetModal() {
+      document.getElementById('formCooperativa').reset();
+      document.getElementById('coopId').value = '';
+      document.getElementById('coopNoIdAlert').style.display = 'flex';
+      agricultoresAssociados = [];
+      renderMemberList();
+      popularSelectAgricultores();
+      // Reset logo zone
+      const logoZone = document.getElementById('coopLogoZone');
+      logoZone.innerHTML = '<i class="bi bi-building"></i><span>Carregar logo</span>';
+      logoZone.style.border = '';
+    }
+
+    // Preview da logomarca
+    document.getElementById('coopLogoInput').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (ev) {
+        const zone = document.getElementById('coopLogoZone');
+        zone.innerHTML = `<img src="${ev.target.result}" alt="Logomarca">`;
+        zone.style.border = '2px solid var(--primary)';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Botão "Nova Cooperativa"
+    document.getElementById('btnNovaCooperativa').addEventListener('click', () => {
+      isEditing = false;
+      currentEditId = null;
+      document.getElementById('modalCoopLabel').textContent = 'Nova Cooperativa';
+      document.getElementById('btnSalvarLabel').textContent = 'Registar Cooperativa';
+      document.getElementById('modalHeaderIcon').className = 'bi bi-building';
+      resetModal();
+    });
+
+    // Editar cooperativa
+    function editCooperativa(id) {
+      isEditing = true;
+      currentEditId = id;
+
+      const dados = {
+        1: { nome: 'Cooperativa Agrícola de Viana', nif: '5401234567', municipio: 'Viana', provincia: 'Luanda', endereco: 'Km 12, Estrada de Viana, Luanda Sul', telefone: '+244 923 456 789', email: 'geral@coop-viana.ao', website: '', cultura: 'Milho', estado: 'activa', missao: 'Cooperativa dedicada ao apoio dos agricultores locais de Viana.', numSocios: '348', area: '1240', talhoes: '86', producao: '1153' },
+        2: { nome: 'Cooperativa Kilamba Kiaxi', nif: '5409876543', municipio: 'Kilamba Kiaxi', provincia: 'Luanda', endereco: 'Rua da Paz, Kilamba', telefone: '+244 912 345 678', email: 'info@coop-ki.ao', website: '', cultura: 'Feijão', estado: 'activa', missao: '', numSocios: '412', area: '980', talhoes: '104', producao: '890' },
+        3: { nome: 'Cooperativa Cazenga Agrícola', nif: '5407654321', municipio: 'Cazenga', provincia: 'Luanda', endereco: 'Bairro Cazenga, Luanda', telefone: '+244 935 678 901', email: 'cazenga@coop.ao', website: '', cultura: 'Mandioca', estado: 'activa', missao: '', numSocios: '264', area: '620', talhoes: '96', producao: '' },
+      };
+
+      const membrosExistentes = {
+        1: [
+          { id: 101, nome: 'João Manuel Ferreira', bi: '004512378LA041', tel: '+244 923 111 222', funcao: 'agricultor' },
+          { id: 102, nome: 'Maria das Dores Silva', bi: '006234890LA042', tel: '+244 912 333 444', funcao: 'dirigente' },
+          { id: 103, nome: 'António Lopes Costa', bi: '009871230LA043', tel: '+244 935 555 666', funcao: 'socio' },
+        ],
+        2: [],
+        3: [],
+      };
+
+      const d = dados[id] || {};
+      document.getElementById('modalCoopLabel').textContent = 'Editar Cooperativa';
+      document.getElementById('btnSalvarLabel').textContent = 'Guardar Alterações';
+      document.getElementById('modalHeaderIcon').className = 'bi bi-pencil-fill';
+      document.getElementById('coopId').value = id;
+      document.getElementById('nomeCooperativa').value = d.nome || '';
+      document.getElementById('nifCooperativa').value = d.nif || '';
+      document.getElementById('municipioCoop').value = d.municipio || '';
+      document.getElementById('comunaCoop').value = d.comuna || '';
+      document.getElementById('provinciaCoop').value = d.provincia || '';
+      document.getElementById('enderecoCoop').value = d.endereco || '';
+      document.getElementById('telefCoop').value = d.telefone || '';
+      document.getElementById('emailCoop').value = d.email || '';
+      document.getElementById('websiteCoop').value = d.website || '';
+      document.getElementById('missaoCoop').value = d.missao || '';
+      document.getElementById('numSocios').value = d.numSocios || '';
+      document.getElementById('areaTotal').value = d.area || '';
+      document.getElementById('numTalhoes').value = d.talhoes || '';
+      document.getElementById('producaoEstimada').value = d.producao || '';
+      document.getElementById('estadoCoop').value = d.estado || 'activa';
+      if (d.cultura) document.getElementById('principalCultura').value = d.cultura;
+
+      // Logo zone: reset visual (em produção, carregaria a logo já guardada via URL)
+      const logoZone = document.getElementById('coopLogoZone');
+      if (d.logoUrl) {
+        logoZone.innerHTML = `<img src="${d.logoUrl}" alt="Logomarca">`;
+        logoZone.style.border = '2px solid var(--primary)';
+      } else {
+        logoZone.innerHTML = '<i class="bi bi-building"></i><span>Carregar logo</span>';
+        logoZone.style.border = '';
+      }
+
+      // Agricultores tab: esconder aviso, carregar lista existente
+      document.getElementById('coopNoIdAlert').style.display = 'none';
+      agricultoresAssociados = (membrosExistentes[id] || []).slice();
+      renderMemberList();
+      popularSelectAgricultores();
+
+      const modal = new bootstrap.Modal(document.getElementById('modalCooperativa'));
+      modal.show();
+    }
+
+    /* ══════════════════════════════════════
+       COOPERATIVA — guardar (criar / editar)
+    ══════════════════════════════════════ */
+
+    document.getElementById('btnSalvarCoop').addEventListener('click', () => {
+      // 1. Captura de Identificação e Dados Institucionais
+      const id = document.getElementById('coopId').value;
+      const nome = document.getElementById('nomeCooperativa').value.trim();
+      const nif = document.getElementById('nifCooperativa').value.trim();
+      const data_fundacao = document.getElementById('dateFundacao').value;
+      const num_socios = document.getElementById('numSocios').value;
+      const estado = document.getElementById('estadoCoop').value;
+      const descricao = document.getElementById('missaoCoop').value.trim(); // Vinculado ao 'missao' no Blade / descricao no Model
+
+      // 2. Localização & Contactos
+      const provincia = document.getElementById('provinciaCoop').value;
+      const comuna = document.getElementById('comunaCoop').value.trim();
+      const municipio = document.getElementById('municipioCoop').value.trim();
+      const endereco = document.getElementById('enderecoCoop').value.trim();
+      const telefone = document.getElementById('telefCoop').value.trim();
+      const email = document.getElementById('emailCoop').value.trim();
+      const website = document.getElementById('websiteCoop').value.trim();
+
+      // 3. Parâmetros Agrícolas & Safra (Model mappings)
+      const area_total_cultivada = document.getElementById('areaTotal').value;
+      const principal_cultura = document.getElementById('principalCultura').value;
+      const numero_talhoes = document.getElementById('numTalhoes').value;
+      const producao_estimada = document.getElementById('producaoEstimada').value;
+
+      // 4. Capturar Logomarca (Campo 'foto' no seu Model)
+      const logoInput = document.getElementById('coopLogoInput');
+      const fotoFile = logoInput && logoInput.files.length > 0 ? logoInput.files[0] : null;
+
+      // Validação dos campos obrigatórios demarcados com * no seu modal
+      if (!nome || !nif || !municipio || !provincia || !telefone || !estado) {
+        showToast('Campos obrigatórios em falta', 'Por favor, preencha todos os campos obrigatórios (*).', 'danger');
+        return;
+      }
+
+      const btn = document.getElementById('btnSalvarCoop');
+      const labelBtn = document.getElementById('btnSalvarLabel');
+      const origText = labelBtn.innerHTML;
+
+      labelBtn.innerText = 'A guardar…';
+      btn.disabled = true;
+
+      // Configuração de URL RESTful do Laravel
+      const url = id ? `/cooperativas/${id}` : '/cooperativas';
+      const formData = new FormData();
+
+      if (id) {
+        formData.append('_method', 'PUT'); // Spoofing do método PUT para suportar uploads
+      }
+
+      // Acoplamento de variáveis de texto e numéricas alinhadas ao seu Model $fillable
+      formData.append('nome', nome);
+      formData.append('nif', nif);
+      formData.append('data_fundacao', data_fundacao || '');
+      formData.append('descricao', descricao || ''); // Vinculado à coluna 'descricao'
+      formData.append('telefone', telefone);
+      formData.append('email', email || '');
+      formData.append('website', website || '');
+      formData.append('provincia', provincia);
+      formData.append('municipio', municipio);
+      formData.append('comuna', comuna || '');
+      formData.append('endereco', endereco || '');
+      formData.append('numero_socios', num_socios || 0);
+      formData.append('principal_cultura', principal_cultura || '');
+      formData.append('numero_talhoes', numero_talhoes || 0);
+      formData.append('producao_estimada', producao_estimada || 0);
+      formData.append('area_total_cultivada', area_total_cultivada || 0);
+      formData.append('estado', estado);
+
+      if (fotoFile) {
+        formData.append('foto', fotoFile); // O upload usa a chave 'foto' mapeada na base de dados
+      }
+
+      // ═══════════════════════════════════════
+      // CAPTURAR MULTIPLOS AGRICULTORES DA LISTA (CORRIGIDO)
+      // ═══════════════════════════════════════
+      const listaMembros = document.getElementById('memberList');
+      if (listaMembros) {
+        // Procura exatamente pelas linhas geradas pelo teu renderMemberList
+        const rows = listaMembros.querySelectorAll('.coop-member-row');
+
+        rows.forEach(row => {
+          const agId = row.getAttribute('data-agricultor-id');
+          const agCargo = row.getAttribute('data-cargo') || 'Nenhum';
+
+          if (agId) {
+            formData.append('agricultores[]', agId);
+            formData.append('cargos[]', agCargo); // Envia o array de cargos em paralelo para o Controller
+          }
+        });
+      }
+
+      // Envio da Requisição assíncrona para o Servidor
+      fetch(url, {
+        method: 'POST', // Obrigatoriamente POST devido ao multipart FormData
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json'
+        },
+        body: formData
+      })
+        .then(r => r.json())
+        .then(data => {
+          labelBtn.innerHTML = origText;
+          btn.disabled = false;
+
+          if (data.success) {
+            const modalEl = document.getElementById('modalCooperativa');
+            if (modalEl) bootstrap.Modal.getInstance(modalEl).hide();
+            location.reload();
+          } else {
+            showToast('Erro ao guardar', data.message || 'Verifique as informações introduzidas.', 'danger');
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          labelBtn.innerHTML = origText;
+          btn.disabled = false;
+          showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
+        });
+    });
+
+    /* ══════════════════════════════════════
+       AGRICULTORES — gestão dinâmica dentro do modal
+    ══════════════════════════════════════ */
+    const funcLabels = {
+      agricultor: { bg: 'var(--accent-lt)', color: 'var(--primary)', label: 'Agricultor' },
+      dirigente: { bg: '#E3F2FD', color: '#1565C0', label: 'Dirigente' },
+      tecnico: { bg: '#EDE7F6', color: '#6A1B9A', label: 'Técnico' },
+      socio: { bg: '#FFF8E1', color: '#F57F17', label: 'Sócio' },
+    };
+    const avatarColors = ['#1B5E20', '#1565C0', '#6A1B9A', '#F57F17', '#00695C', '#C62828'];
+
+    function renderMemberList() {
+      const container = document.getElementById('memberList');
+      container.innerHTML = '';
+
+      // Atualiza os contadores das badges do teu Modal
+      document.getElementById('memberCount').textContent = agricultoresAssociados.length + ' agricultores';
+      document.getElementById('tabBadgeCooperados').textContent = agricultoresAssociados.length;
+
+      if (agricultoresAssociados.length === 0) {
+        container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">Nenhum agricultor associado a esta cooperativa.</div>';
+        return;
+      }
+
+      agricultoresAssociados.forEach(membro => {
+        // IMPORTANTE: Adicionamos data-agricultor-id e data-cargo para o botão Salvar ler
+        const row = document.createElement('div');
+        row.className = 'coop-member-row';
+        row.setAttribute('data-agricultor-id', membro.id);
+        row.setAttribute('data-cargo', membro.funcao || 'Nenhum');
+        row.setAttribute('data-member-name', membro.nome); // Usado na tua função filtrarMembros()
+
+        row.style = 'display:flex;align-items:center;justify-content:between;padding:12px 0;border-bottom:1px solid #f0f2f0;';
+
+        row.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="background:#e8f5e9;color:var(--primary);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;">
+          ${membro.nome.charAt(0).toUpperCase()}
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:600;color:var(--text-dark);">${membro.nome}</div>
+          <div style="font-size:11.5px;color:var(--text-light);">BI: ${membro.bi || 'N/A'} · Função: <span class="badge bg-light text-dark border">${membro.funcao}</span></div>
+        </div>
+      </div>
+      <button type="button" class="btn text-danger" onclick="removerMembro(${membro.id})" style="padding:4px 8px;">
+        <i class="bi bi-trash3"></i>
+      </button>
+    `;
+        container.appendChild(row);
+      });
+    }
+
+    function updateMemberCount() {
+      const total = agricultoresAssociados.length;
+      const badge = document.getElementById('tabBadgeCooperados');
+      const countEl = document.getElementById('memberCount');
+      if (badge) badge.textContent = total;
+      if (countEl) countEl.textContent = total + ' agricultor' + (total !== 1 ? 'es' : '');
+    }
+
+    function adicionarMembro() {
+      const select = document.getElementById('novoMemberSelect');
+      const func = document.getElementById('novoMemberFuncao').value;
+      const agId = select.value;
+
+      if (!agId) {
+        showToast('Agricultor obrigatório', 'Seleccione um agricultor da lista.', 'danger');
+        return;
+      }
+
+      const idx = agricultoresDisponiveis.findIndex(a => String(a.id) === String(agId));
+      if (idx === -1) return;
+
+      const agricultor = agricultoresDisponiveis[idx];
+      agricultoresAssociados.push({
+        id: agricultor.id, nome: agricultor.nome, bi: agricultor.bi, tel: agricultor.tel, funcao: func
+      });
+
+      // Remove da lista de disponíveis e actualiza o select
+      agricultoresDisponiveis.splice(idx, 1);
+      popularSelectAgricultores();
+
+      renderMemberList();
+      showToast('Agricultor adicionado', agricultor.nome + ' foi associado à cooperativa.');
+    }
+
+    function removerMembro(agId) {
+      const idx = agricultoresAssociados.findIndex(a => String(a.id) === String(agId));
+      if (idx === -1) return;
+
+      const agricultor = agricultoresAssociados[idx];
+      agricultoresAssociados.splice(idx, 1);
+
+      // Devolve à lista de disponíveis
+      agricultoresDisponiveis.push({ id: agricultor.id, nome: agricultor.nome, bi: agricultor.bi, tel: agricultor.tel });
+      popularSelectAgricultores();
+
+      renderMemberList();
+      showToast('Agricultor removido', agricultor.nome + ' foi desassociado.', 'danger');
+    }
+
+    function filtrarMembros() {
+      const q = document.getElementById('searchMembro').value.toLowerCase();
+      document.querySelectorAll('#memberList .coop-member-row').forEach(row => {
+        const match = (row.dataset.memberName || '').toLowerCase().includes(q);
+        row.style.display = match ? '' : 'none';
+      });
+    }
+
+    popularSelectAgricultores();
+    renderMemberList();
+
+    /* ══════════════════════════════════════
+       VER DETALHES
+    ══════════════════════════════════════ */
+    function viewCooperativa(id) {
+      showToast('Detalhes da Cooperativa', 'Módulo de detalhe será implementado na próxima sprint.');
+    }
+
+    /* ══════════════════════════════════════
+       DELETE
+    ══════════════════════════════════════ */
+    let deleteTargetId = null;
+    let deleteTargetName = '';
+
+    function deleteCooperativa(id, nome) {
+      deleteTargetId = id;
+      deleteTargetName = nome;
+      document.getElementById('deleteCoopName').textContent = nome;
+      new bootstrap.Modal(document.getElementById('modalDelete')).show();
+    }
+
+    function confirmDelete() {
+      const btn = document.getElementById('btnConfirmDelete');
+      btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A eliminar…';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerHTML = '<i class="bi bi-trash-fill"></i> Eliminar Definitivamente';
+        btn.disabled = false;
+        bootstrap.Modal.getInstance(document.getElementById('modalDelete')).hide();
+        showToast('Cooperativa eliminada', deleteTargetName + ' foi removida do sistema.', 'danger');
+      }, 1000);
+    }
+
+    /* ══════════════════════════════════════
+       IMPRIMIR FICHA
+    ══════════════════════════════════════ */
+    const fichaData = {
+      1: { logo: 'CAV', nome: 'Cooperativa Agrícola de Viana', nif: '5401234567', estado: 'Activa', municipio: 'Viana', provincia: 'Luanda', endereco: 'Km 12, Estrada de Viana, Luanda Sul, Angola', telefone: '+244 923 456 789', email: 'geral@coop-viana.ao', safra: '2024/2025', cultura: 'Milho', cooperados: '348', area: '1.240', fundacao: '15/03/2018' },
+      2: { logo: 'CKI', nome: 'Cooperativa Kilamba Kiaxi', nif: '5409876543', estado: 'Activa', municipio: 'Kilamba Kiaxi', provincia: 'Luanda', endereco: 'Rua da Paz, Kilamba, Luanda', telefone: '+244 912 345 678', email: 'info@coop-ki.ao', safra: '2024/2025', cultura: 'Feijão', cooperados: '412', area: '980', fundacao: '10/06/2019' },
+      3: { logo: 'CCA', nome: 'Cooperativa Cazenga Agrícola', nif: '5407654321', estado: 'Activa', municipio: 'Cazenga', provincia: 'Luanda', endereco: 'Bairro Cazenga, Luanda', telefone: '+244 935 678 901', email: 'cazenga@coop.ao', safra: 'Planeada', cultura: 'Mandioca', cooperados: '264', area: '620', fundacao: '22/01/2021' },
+    };
+
+    function printFicha(id) {
+      const d = fichaData[id];
+      if (!d) return;
+      const today = new Date();
+      const ds = String(today.getDate()).padStart(2, '0') + '/' + String(today.getMonth() + 1).padStart(2, '0') + '/' + today.getFullYear();
+      document.getElementById('fichaLogo').textContent = d.logo;
+      document.getElementById('fichaNome').textContent = d.nome;
+      document.getElementById('fichaEstado').textContent = d.estado;
+      document.getElementById('fichaNIF').textContent = d.nif;
+      document.getElementById('fichaDataEmissao').textContent = ds;
+      document.getElementById('fNome').textContent = d.nome;
+      document.getElementById('fNIF').textContent = d.nif;
+      document.getElementById('fFundacao').textContent = d.fundacao;
+      document.getElementById('fEstado').textContent = d.estado;
+      document.getElementById('fMunicipio').textContent = d.municipio;
+      document.getElementById('fProvincia').textContent = d.provincia;
+      document.getElementById('fEndereco').textContent = d.endereco;
+      document.getElementById('fTelefone').textContent = d.telefone;
+      document.getElementById('fEmail').textContent = d.email;
+      document.getElementById('fSafra').textContent = d.safra;
+      document.getElementById('fCultura').textContent = d.cultura;
+      document.getElementById('fCooperados').textContent = d.cooperados;
+      document.getElementById('fArea').textContent = d.area + ' ha';
+      new bootstrap.Modal(document.getElementById('modalFicha')).show();
+    }
+
+    /* ══════════════════════════════════════
+       SEARCH & FILTER
+    ══════════════════════════════════════ */
+    function applyFilters() {
+      const search = document.getElementById('searchCoop').value.toLowerCase().trim();
+      const estado = document.getElementById('filterEstado').value;
+      const provincia = document.getElementById('filterProvincia').value;
+      const safra = document.getElementById('filterSafra').value;
+      const rows = document.querySelectorAll('#coopTableBody tr');
+      let visible = 0;
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        const show = (!search || text.includes(search))
+          && (!estado || row.dataset.estado === estado)
+          && (!provincia || row.dataset.provincia === provincia)
+          && (!safra || row.dataset.safra === safra);
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+      document.getElementById('tableCount').textContent = `Mostrando ${visible} de 3 cooperativas`;
+    }
+
+    document.getElementById('searchCoop').addEventListener('input', applyFilters);
+    document.getElementById('filterEstado').addEventListener('change', applyFilters);
+    document.getElementById('filterProvincia').addEventListener('change', applyFilters);
+    document.getElementById('filterSafra').addEventListener('change', applyFilters);
+
+    /* ══════════════════════════════════════
+       SELECT ALL CHECKBOXES
+    ══════════════════════════════════════ */
+    document.getElementById('selectAll').addEventListener('change', function () {
+      document.querySelectorAll('.row-check').forEach(cb => cb.checked = this.checked);
+    });
+
+    /* ══════════════════════════════════════
+       VIEW TOGGLE
+    ══════════════════════════════════════ */
+    document.getElementById('btnViewGrid').addEventListener('click', function () {
+      this.style.background = 'var(--primary)'; this.style.color = '#fff';
+      const l = document.getElementById('btnViewList');
+      l.style.background = ''; l.style.color = '';
+      showToast('Vista em Grelha', 'Funcionalidade disponível em breve.');
+    });
+    document.getElementById('btnViewList').addEventListener('click', function () {
+      this.style.background = 'var(--primary)'; this.style.color = '#fff';
+      const g = document.getElementById('btnViewGrid');
+      g.style.background = ''; g.style.color = '';
+    });
+
+    /* ══════════════════════════════════════
+       EXPORTAR
+    ══════════════════════════════════════ */
+    document.getElementById('btnExportar').addEventListener('click', () => {
+      showToast('A exportar…', 'O ficheiro será gerado e descarregado em breve.');
+    });
+
+  </script> --}}
+
+  {{--
+  <script>
+    /* ══════════════════════════════════════
+       INICIALIZAÇÃO DOS DADOS DO BANCO (LARAVEL)
+    ══════════════════════════════════════ */
+    // Captura todos os agricultores sem cooperativa ativa do seu Controller
+    const agricultoresBanco = [
+      @foreach($agricultoresLivres as $ag)
+    {
+        id: {{ $ag-> id }},
+    nome: "{{ $ag->nome_completo }}",
+      bilhete: "{{ $ag->bilhete ?? 'N/A' }}",
+        tel: "{{ $ag->telefone_principal ?? $ag->telefone ?? 'N/A' }}" 
+    },
+    @endforeach
+  ];
+
+    // Variáveis de controle dinâmico no Modal
+    let agricultoresDisponiveis = [];
+    let agricultoresAssociados = [];
+    let isEditing = false;
+    let currentEditId = null;
+
+    /* ══════════════════════════════════════
+       SIDEBAR TOGGLE (3 estados)
+    ══════════════════════════════════════ */
+    const body = document.body;
+    let sideState = 0;
+
+    function applyTooltips() {
+      document.querySelectorAll('.nav-item-link').forEach(el => {
+        const tip = bootstrap.Tooltip.getInstance(el);
+        if (tip) tip.dispose();
+      });
+      if (body.classList.contains('icons-only')) {
+        document.querySelectorAll('.nav-item-link').forEach(el => {
+          new bootstrap.Tooltip(el, {
+            title: el.dataset.label || '',
+            placement: 'right',
+            trigger: 'hover',
+            customClass: 'sidebar-tooltip'
+          });
+        });
+      }
+    }
+
+    const sidebarBtn = document.getElementById('sidebarToggle');
+    if (sidebarBtn) {
+      sidebarBtn.addEventListener('click', () => {
+        sideState = (sideState + 1) % 3;
+        body.classList.remove('icons-only', 'sidebar-hidden');
+        if (sideState === 1) body.classList.add('icons-only');
+        if (sideState === 2) body.classList.add('sidebar-hidden');
+        applyTooltips();
+      });
+    }
+
+    /* ══════════════════════════════════════
+       DARK MODE
+    ══════════════════════════════════════ */
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+    let darkMode = false;
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        darkMode = !darkMode;
+        body.classList.toggle('dark-mode', darkMode);
+        themeIcon.className = darkMode ? 'bi bi-sun-fill' : 'bi bi-moon-stars-fill';
+        themeLabel.textContent = darkMode ? 'Modo Claro' : 'Modo Escuro';
+      });
+    }
+
+    /* ══════════════════════════════════════
+       NAV ACTIVE SIDEBAR
+    ══════════════════════════════════════ */
+    document.querySelectorAll('.nav-item-link').forEach(link => {
+      link.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (!href || href === '#') {
+          e.preventDefault();
+        }
+        document.querySelectorAll('.nav-item-link').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        const label = this.dataset.label || this.querySelector('.nav-label')?.textContent || '';
+        const topbarTitle = document.querySelector('.topbar-title');
+        if (topbarTitle) topbarTitle.textContent = label;
+      });
+    });
+
+    /* ══════════════════════════════════════
+       TOAST
+    ══════════════════════════════════════ */
+    function showToast(title, sub, type = 'success') {
+      const toast = document.getElementById('saveToast');
+      if (!toast) return;
+      const icon = document.getElementById('toastIcon');
+      const iconI = document.getElementById('toastIconI');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastSub').textContent = sub;
+      icon.className = 'toast-icon ' + (type === 'danger' ? 'danger' : 'success');
+      iconI.className = type === 'danger' ? 'bi bi-x-lg' : 'bi bi-check-lg';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    /* ══════════════════════════════════════
+       MODAL TABS
+    ══════════════════════════════════════ */
+    function switchModalTab(tabName) {
+      document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.modalTab === tabName);
+      });
+      document.querySelectorAll('.modal-tab-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === 'mtab-' + tabName);
+      });
+    }
+
+    document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchModalTab(btn.dataset.modalTab));
+    });
+
+    const modalElCoop = document.getElementById('modalCooperativa');
+    if (modalElCoop) {
+      modalElCoop.addEventListener('show.bs.modal', () => {
+        switchModalTab('identificacao');
+      });
+    }
+
+    /* ══════════════════════════════════════
+       GESTÃO DINÂMICA DOS MEMBROS (SELECT E LISTA)
+    ══════════════════════════════════════ */
+    function popularSelectAgricultores() {
+      const select = document.getElementById('novoMemberSelect');
+      if (!select) return;
+      select.innerHTML = '<option value="">Seleccione um agricultor…</option>';
+      agricultoresDisponiveis.forEach(ag => {
+        const opt = document.createElement('option');
+        opt.value = ag.id;
+        opt.textContent = ag.nome + ' — BI: ' + ag.bilhete;
+        select.appendChild(opt);
+      });
+    }
+
+    function renderMemberList() {
+      const container = document.getElementById('memberList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const badge = document.getElementById('tabBadgeCooperados');
+      const countEl = document.getElementById('memberCount');
+      if (badge) badge.textContent = agricultoresAssociados.length;
+      if (countEl) countEl.textContent = agricultoresAssociados.length + ' agricultor' + (agricultoresAssociados.length !== 1 ? 'es' : '');
+
+      if (agricultoresAssociados.length === 0) {
+        container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">Nenhum agricultor associado a esta cooperativa.</div>';
+        return;
+      }
+
+      agricultoresAssociados.forEach(membro => {
+        const row = document.createElement('div');
+        row.className = 'coop-member-row';
+        row.setAttribute('data-agricultor-id', membro.id);
+        row.setAttribute('data-cargo', membro.funcao || 'Nenhum');
+        row.setAttribute('data-member-name', membro.nome);
+
+        row.style = 'display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f0f2f0;';
+        row.innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="background:#e8f5e9;color:var(--primary);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;">
+            ${membro.nome.charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <div style="font-size:13.5px;font-weight:600;color:var(--text-dark);">${membro.nome}</div>
+            <div style="font-size:11.5px;color:var(--text-light);">BI: ${membro.bilhete} · Função: <span class="badge bg-light text-dark border">${membro.funcao}</span></div>
+          </div>
+        </div>
+        <button type="button" class="btn text-danger" onclick="removerMembro(${membro.id})" style="padding:4px 8px;">
+          <i class="bi bi-trash3"></i>
+        </button>
+      `;
+        container.appendChild(row);
+      });
+    }
+
+    function adicionarMembro() {
+      const select = document.getElementById('novoMemberSelect');
+      const func = document.getElementById('novoMemberFuncao').value;
+      const agId = select.value;
+
+      if (!agId) {
+        showToast('Agricultor obrigatório', 'Seleccione um agricultor da lista.', 'danger');
+        return;
+      }
+
+      const idx = agricultoresDisponiveis.findIndex(a => String(a.id) === String(agId));
+      if (idx === -1) return;
+
+      const agricultor = agricultoresDisponiveis[idx];
+      agricultoresAssociados.push({
+        id: agricultor.id, nome: agricultor.nome, bilhete: agricultor.bilhete, tel: agricultor.tel, funcao: func
+      });
+
+      agricultoresDisponiveis.splice(idx, 1);
+      popularSelectAgricultores();
+      renderMemberList();
+      showToast('Agricultor adicionado', agricultor.nome + ' foi associado.');
+    }
+
+    function removerMembro(agId) {
+      const idx = agricultoresAssociados.findIndex(a => String(a.id) === String(agId));
+      if (idx === -1) return;
+
+      const agricultor = agricultoresAssociados[idx];
+      agricultoresAssociados.splice(idx, 1);
+
+      agricultoresDisponiveis.push({ id: agricultor.id, nome: agricultor.nome, bilhete: agricultor.bilhete, tel: agricultor.tel });
+      popularSelectAgricultores();
+      renderMemberList();
+      showToast('Agricultor removido', agricultor.nome + ' foi desassociado.', 'danger');
+    }
+
+    function filtrarMembros() {
+      const q = document.getElementById('searchMembro').value.toLowerCase();
+      document.querySelectorAll('#memberList .coop-member-row').forEach(row => {
+        const name = row.getAttribute('data-member-name') || '';
+        const match = name.toLowerCase().includes(q);
+        row.style.display = match ? 'flex' : 'none';
+      });
+    }
+
+    function resetModal() {
+      document.getElementById('formCooperativa').reset();
+      document.getElementById('coopId').value = '';
+      document.getElementById('coopNoIdAlert').style.display = 'flex';
+
+      agricultoresDisponiveis = JSON.parse(JSON.stringify(agricultoresBanco));
+      agricultoresAssociados = [];
+
+      renderMemberList();
+      popularSelectAgricultores();
+
+      const logoZone = document.getElementById('coopLogoZone');
+      if (logoZone) {
+        logoZone.innerHTML = '<i class="bi bi-building"></i><span>Carregar logo</span>';
+        logoZone.style.border = '';
+      }
+    }
+
+    /* ══════════════════════════════════════
+       BOTÕES ABRIR MODAL (NOVA / EDITAR REAL VIA AJAX)
+    ══════════════════════════════════════ */
+    const btnNovaCoop = document.getElementById('btnNovaCooperativa');
+    if (btnNovaCoop) {
+      btnNovaCoop.addEventListener('click', () => {
+        isEditing = false;
+        currentEditId = null;
+        document.getElementById('modalCoopLabel').textContent = 'Nova Cooperativa';
+        document.getElementById('btnSalvarLabel').textContent = 'Registar Cooperativa';
+        document.getElementById('modalHeaderIcon').className = 'bi bi-building';
+        resetModal();
+      });
+    }
+
+    function editCooperativa(id) {
+      isEditing = true;
+      currentEditId = id;
+
+      document.getElementById('formCooperativa').reset();
+      document.getElementById('coopId').value = id;
+      document.getElementById('coopNoIdAlert').style.display = 'none';
+
+      document.getElementById('modalCoopLabel').textContent = 'Editar Cooperativa';
+      document.getElementById('btnSalvarLabel').textContent = 'Guardar Alterações';
+      document.getElementById('modalHeaderIcon').className = 'bi bi-pencil-fill';
+
+      // AJAX para ler do Banco de Dados
+      fetch(`/cooperativas/${id}/edit`, {
+        headers: { 'Accept': 'application/json' }
+      })
+        .then(r => r.json())
+        .then(res => {
+          if (res.success) {
+            const d = res.cooperativa;
+
+            // Povoamento dos campos de Texto
+            document.getElementById('nomeCooperativa').value = d.nome || '';
+            document.getElementById('nifCooperativa').value = d.nif || '';
+            document.getElementById('municipioCoop').value = d.municipio || '';
+            document.getElementById('comunaCoop').value = d.comuna || '';
+            document.getElementById('provinciaCoop').value = d.provincia || '';
+            document.getElementById('enderecoCoop').value = d.endereco || '';
+            document.getElementById('telefCoop').value = d.telefone || '';
+            document.getElementById('emailCoop').value = d.email || '';
+            document.getElementById('websiteCoop').value = d.website || '';
+            document.getElementById('missaoCoop').value = d.descricao || '';
+            document.getElementById('numSocios').value = d.numero_socios || '';
+            document.getElementById('areaTotal').value = d.area_total_cultivada || '';
+            document.getElementById('numTalhoes').value = d.numero_talhoes || '';
+            document.getElementById('producaoEstimada').value = d.producao_estimada || '';
+            document.getElementById('estadoCoop').value = d.estado || 'activo';
+
+            if (d.principal_cultura) {
+              document.getElementById('principalCultura').value = d.principal_cultura;
+            }
+
+            // Recuperação da Logomarca
+            const logoZone = document.getElementById('coopLogoZone');
+            if (d.foto && logoZone) {
+              logoZone.innerHTML = `<img src="/storage/${d.foto}" alt="Logomarca" style="max-height:100%">`;
+              logoZone.style.border = '2px solid var(--primary)';
+            }
+
+            // ═══════════════════════════════════════
+            // TRATAMENTO DINÂMICO DOS MEMBROS EM EDIÇÃO
+            // ═══════════════════════════════════════
+            const listaMembrosBd = res.membros || d.membros || [];
+
+            // 1. Popular os associados atuais desta cooperativa
+            agricultoresAssociados = listaMembrosBd.map(m => ({
+              id: m.id,
+              nome: m.nome_completo || m.nome,
+              bilhete: m.bilhete || 'N/A',
+              tel: m.telefone_principal || m.telefone || 'N/A',
+              funcao: (m.pivot && m.pivot.cargo) ? m.pivot.cargo : 'Nenhum'
+            }));
+
+            // 2. Filtrar os disponíveis: Todos do banco menos os que já estão associados aqui
+            const associadosIds = agricultoresAssociados.map(m => m.id);
+            agricultoresDisponiveis = agricultoresBanco.filter(a => !associadosIds.includes(a.id));
+
+            renderMemberList();
+            popularSelectAgricultores();
+          }
+        })
+        .catch(err => console.error("Erro ao carregar dados da cooperativa:", err));
+
+      const modal = new bootstrap.Modal(document.getElementById('modalCooperativa'));
+      modal.show();
+    }
+
+    /* Preview da imagem carregada */
+    const logoInput = document.getElementById('coopLogoInput');
+    if (logoInput) {
+      logoInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          const zone = document.getElementById('coopLogoZone');
+          if (zone) {
+            zone.innerHTML = `<img src="${ev.target.result}" alt="Logomarca" style="max-height:100%">`;
+            zone.style.border = '2px solid var(--primary)';
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    /* ══════════════════════════════════════
+       BOTÃO SALVAR COOPERATIVA (SUBMIT VIA FORMDATA MANUAL)
+    ══════════════════════════════════════ */
+    document.getElementById('btnSalvarCoop').addEventListener('click', () => {
+      // 1. Captura manual de Identificação e Dados Institucionais
+      const id = document.getElementById('coopId').value;
+      const nome = document.getElementById('nomeCooperativa').value.trim();
+      const nif = document.getElementById('nifCooperativa').value.trim();
+      const data_fundacao = document.getElementById('dateFundacao') ? document.getElementById('dateFundacao').value : '';
+      const num_socios = document.getElementById('numSocios').value;
+      const estado = document.getElementById('estadoCoop').value;
+      const descricao = document.getElementById('missaoCoop').value.trim();
+
+      // 2. Localização & Contactos
+      const provincia = document.getElementById('provinciaCoop').value;
+      const comuna = document.getElementById('comunaCoop').value.trim();
+      const municipio = document.getElementById('municipioCoop').value.trim();
+      const endereco = document.getElementById('enderecoCoop').value.trim();
+      const telefone = document.getElementById('telefCoop').value.trim();
+      const email = document.getElementById('emailCoop').value.trim();
+      const website = document.getElementById('websiteCoop').value.trim();
+
+      // 3. Parâmetros Agrícolas & Safra
+      const area_total_cultivada = document.getElementById('areaTotal').value;
+      const principal_cultura = document.getElementById('principalCultura').value;
+      const numero_talhoes = document.getElementById('numTalhoes').value;
+      const producao_estimada = document.getElementById('producaoEstimada').value;
+
+      // 4. Capturar Logomarca
+      const logoInput = document.getElementById('coopLogoInput');
+      const fotoFile = logoInput && logoInput.files.length > 0 ? logoInput.files[0] : null;
+
+      if (!nome || !nif || !municipio || !provincia || !telefone || !estado) {
+        showToast('Campos obrigatórios em falta', 'Por favor, preencha todos os campos obrigatórios (*).', 'danger');
+        return;
+      }
+
+      const btn = document.getElementById('btnSalvarCoop');
+      const labelBtn = document.getElementById('btnSalvarLabel');
+      const origText = labelBtn.innerHTML;
+
+      labelBtn.innerText = 'A guardar…';
+      btn.disabled = true;
+
+      const url = id ? `/cooperativas/${id}` : '/cooperativas';
+      const formData = new FormData(); // FormData criado limpo
+
+      if (id) {
+        formData.append('_method', 'PUT');
+      }
+
+      // Acoplamento manual de todas as variáveis
+      formData.append('nome', nome);
+      formData.append('nif', nif);
+      formData.append('data_fundacao', data_fundacao);
+      formData.append('descricao', descricao);
+      formData.append('telefone', telefone);
+      formData.append('email', email);
+      formData.append('website', website);
+      formData.append('provincia', provincia);
+      formData.append('municipio', municipio);
+      formData.append('comuna', comuna);
+      formData.append('endereco', endereco);
+      formData.append('numero_socios', num_socios || 0);
+      formData.append('principal_cultura', principal_cultura);
+      formData.append('numero_talhoes', numero_talhoes || 0);
+      formData.append('producao_estimada', producao_estimada || 0);
+      formData.append('area_total_cultivada', area_total_cultivada || 0);
+      formData.append('estado', estado);
+
+      if (fotoFile) {
+        formData.append('foto', fotoFile);
+      }
+
+      // Capturar múltiplos agricultores das linhas renderizadas na lista
+      document.querySelectorAll('#memberList .coop-member-row').forEach(row => {
+        const agId = row.getAttribute('data-agricultor-id');
+        const agCargo = row.getAttribute('data-cargo') || 'Nenhum';
+        if (agId) {
+          formData.append('agricultores[]', agId);
+          formData.append('cargos[]', agCargo);
+        }
+      });
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json'
+        },
+        body: formData
+      })
+        .then(r => r.json())
+        .then(data => {
+          labelBtn.innerHTML = origText;
+          btn.disabled = false;
+          if (data.success) {
+            location.reload();
+          } else {
+            showToast('Erro ao guardar', data.message || 'Verifique as informações introduzidas.', 'danger');
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          labelBtn.innerHTML = origText;
+          btn.disabled = false;
+          showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
+        });
+    });
+
+    // Inicializa o ambiente ao carregar o DOM
+    document.addEventListener("DOMContentLoaded", () => {
+      agricultoresDisponiveis = JSON.parse(JSON.stringify(agricultoresBanco));
+      popularSelectAgricultores();
+      renderMemberList();
+    });
+
+    /* Métodos complementares (Deletar, Imprimir) */
+    let deleteTargetId = null;
+    let deleteTargetName = '';
+    function deleteCooperativa(id, nome) {
+      deleteTargetId = id; deleteTargetName = nome;
+      document.getElementById('deleteCoopName').textContent = nome;
+      new bootstrap.Modal(document.getElementById('modalDelete')).show();
+    }
+  </script> --}}
+
+
   <script>
     /* ══════════════════════════════════════
        INICIALIZAÇÃO DOS DADOS A PARTIR DO DOM (BLADE)
@@ -2743,25 +3855,45 @@
     let isEditing = false;
     let currentEditId = null;
 
+    // // Função para carregar os agricultores livres do select do Blade para o JS
+    // function carregarAgricultoresDoDOM() {
+    //   const selectBlade = document.getElementById('coopAgricultores');
+    //   if (!selectBlade) return;
+
+    //   agricultoresBanco = Array.from(selectBlade.options).map(opt => {
+    //     // Extrai o BI e Telefone se estiverem guardados em atributos data-* no seu HTML do Blade
+    //     return {
+    //       id: parseInt(opt.value),
+    //       nome: opt.textContent.split(' — ')[0].trim(), // Remove o sufixo caso metas texto extra
+    //       bilhete: opt.dataset.bilhete || 'N/A',
+    //       tel: opt.dataset.telefone || 'N/A'
+    //     };
+    //   });
+
+    //   // Inicializa os disponíveis com uma cópia limpa do banco
+    //   agricultoresDisponiveis = JSON.parse(JSON.stringify(agricultoresBanco));
+
+    // }
+
     function carregarAgricultoresDoDOM() {
-      // Agora lê diretamente do select que está dentro do modal!
-      const selectBlade = document.getElementById('novoMemberSelect');
-      if (!selectBlade) return;
+    // Agora lê diretamente do select que está dentro do modal!
+    const selectBlade = document.getElementById('novoMemberSelect');
+    if (!selectBlade) return;
 
-      // Guarda os dados na memória (ignorando a primeira opção que é o placeholder)
-      agricultoresBanco = Array.from(selectBlade.options)
-        .filter(opt => opt.value !== "")
-        .map(opt => {
-          return {
-            id: parseInt(opt.value),
-            nome: opt.textContent.trim(),
-            bilhete: opt.dataset.bilhete || 'N/A',
-            tel: opt.dataset.telefone || 'N/A'
-          };
-        });
-
-      agricultoresDisponiveis = JSON.parse(JSON.stringify(agricultoresBanco));
-    }
+    // Guarda os dados na memória (ignorando a primeira opção que é o placeholder)
+    agricultoresBanco = Array.from(selectBlade.options)
+      .filter(opt => opt.value !== "")
+      .map(opt => {
+        return {
+          id: parseInt(opt.value),
+          nome: opt.textContent.trim(),
+          bilhete: opt.dataset.bilhete || 'N/A',
+          tel: opt.dataset.telefone || 'N/A'
+        };
+      });
+    
+    agricultoresDisponiveis = JSON.parse(JSON.stringify(agricultoresBanco));
+  }
 
     /* ══════════════════════════════════════
        SIDEBAR TOGGLE (3 estados)
@@ -2884,217 +4016,90 @@
       });
     }
 
-
-
-
-    // Função que renderiza a lista visual de Agricultores Associados
     function renderMemberList() {
       const container = document.getElementById('memberList');
-      const badgeContador = document.getElementById('memberCount');
-      const badgeTab = document.getElementById('tabBadgeCooperados');
-
       if (!container) return;
-
-      // Limpa a lista antes de redesenhar
       container.innerHTML = '';
 
-      // Atualiza os contadores no topo do painel e na Tab do Modal
-      if (badgeContador) badgeContador.textContent = `${agricultoresAssociados.length} agricultores`;
-      if (badgeTab) badgeTab.textContent = agricultoresAssociados.length;
+      const badge = document.getElementById('tabBadgeCooperados');
+      const countEl = document.getElementById('memberCount');
+      if (badge) badge.textContent = agricultoresAssociados.length;
+      if (countEl) countEl.textContent = agricultoresAssociados.length + ' agricultor' + (agricultoresAssociados.length !== 1 ? 'es' : '');
 
-      // Se não houver nenhum membro associado
       if (agricultoresAssociados.length === 0) {
-        container.innerHTML = `
-          <div style="padding: 24px; text-align: center; color: var(--text-light, #6c757d); font-size: 13px;">
-            <i class="bi bi-people" style="font-size: 26px; display: block; margin-bottom: 6px; color: #ccc;"></i>
-            Nenhum agricultor associado a esta cooperativa ainda.
-          </div>
-          `;
+        container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">Nenhum agricultor associado a esta cooperativa.</div>';
         return;
       }
 
-      // Percorre o array e gera o HTML estruturado
-      agricultoresAssociados.forEach((membro, index) => {
+      agricultoresAssociados.forEach(membro => {
+        const row = document.createElement('div');
+        row.className = 'coop-member-row';
+        row.setAttribute('data-agricultor-id', membro.id);
+        row.setAttribute('data-cargo', membro.funcao || 'Nenhum');
+        row.setAttribute('data-member-name', membro.nome);
 
-        console.log(membro);
-
-        const itemHtml = `
-      <div class="member-item" data-id="${membro.id}" 
-           style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; gap: 10px;">
-        
-        <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
-          <div style="width: 36px; height: 36px; background: #E8F5E9; color: #2e7d32; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">
+        row.style = 'display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f0f2f0;';
+        row.innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="background:#e8f5e9;color:var(--primary);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;">
             ${membro.nome.charAt(0).toUpperCase()}
           </div>
-          <div style="min-width: 0; flex: 1;">
-            <div style="font-size: 13.5px; font-weight: 600; color: #212529; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-              ${membro.nome}
-            </div>
-            <div style="font-size: 11.5px; color: #6c757d; margin-top: 2px;">
-              <span><strong>BI:</strong> ${membro.bilhete}</span> 
-              <span style="margin-left: 10px;"><strong>Tel:</strong> ${membro.tel}</span>
-            </div>
+          <div>
+            <div style="font-size:13.5px;font-weight:600;color:var(--text-dark);">${membro.nome}</div>
+            <div style="font-size:11.5px;color:var(--text-light);">BI: ${membro.bilhete} · Função: <span class="badge bg-light text-dark border">${membro.funcao}</span></div>
           </div>
         </div>
-
-        <div style="display: flex; align-items: center; gap: 12px; flex-shrink: 0;">
-          <span style="font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; background: ${membro.funcao === 'Nenhum' ? '#f8f9fa' : '#E8F5E9'}; color: ${membro.funcao === 'Nenhum' ? '#495057' : '#2e7d32'}; border: 1px solid ${membro.funcao === 'Nenhum' ? '#dee2e6' : '#c8e6c9'};">
-            ${membro.funcao === 'Nenhum' ? 'Membro' : membro.funcao}
-          </span>
-          
-          <button type="button" onclick="removerMembroDoPainel(${membro.id})" 
-                  style="background: transparent; border: none; color: #dc3545; padding: 4px 8px; font-size: 16px; cursor: pointer;" title="Remover agricultor">
-            <i class="bi bi-trash3"></i>
-          </button>
-        </div>
-
-        <input type="hidden" name="membros[${index}][id]" value="${membro.id}">
-        <input type="hidden" name="membros[${index}][cargo]" value="${membro.funcao}">
-      </div>
+        <button type="button" class="btn text-danger" onclick="removerMembro(${membro.id})" style="padding:4px 8px;">
+          <i class="bi bi-trash3"></i>
+        </button>
       `;
-        container.insertAdjacentHTML('beforeend', itemHtml);
-      });
-
-    }
-
-    // Atualiza as opções do Select dinamicamente baseado na variável de disponíveis
-    function popularSelectAgricultores() {
-      const select = document.getElementById('novoMemberSelect');
-      if (!select) return;
-
-      select.innerHTML = '<option value="">Seleccione um agricultor…</option>';
-
-      agricultoresDisponiveis.forEach(ag => {
-        const opt = document.createElement('option');
-        opt.value = ag.id;
-        opt.textContent = ag.nome;
-        opt.dataset.bilhete = ag.bilhete || 'N/A';
-        opt.dataset.telefone = ag.tel || 'N/A';
-        select.appendChild(opt);
+        container.appendChild(row);
       });
     }
 
-    function removerMembroDoPainel(id) {
-      // Encontra o membro a ser removido
-      const membro = agricultoresAssociados.find(m => m.id === id);
-      if (!membro) return;
-
-      // Remove do array de associados
-      agricultoresAssociados = agricultoresAssociados.filter(m => m.id !== id);
-
-      // Devolve o agricultor para a lista de disponíveis na memória
-      if (typeof agricultoresBanco !== 'undefined') {
-        const original = agricultoresBanco.find(a => a.id === id);
-        if (original) {
-          agricultoresDisponiveis.push(original);
-          // Ordena alfabeticamente os disponíveis novamente
-          agricultoresDisponiveis.sort((a, b) => a.nome.localeCompare(b.nome));
-        }
-      }
-
-      // Atualiza o ecrã
-      renderMemberList();
-      if (typeof popularSelectAgricultores === 'function') {
-        popularSelectAgricultores();
-      }
-    }
-
-
-    // Executado quando se clica no botão verde "Adicionar"
     function adicionarMembro() {
       const select = document.getElementById('novoMemberSelect');
-      const funcaoSelect = document.getElementById('novoMemberFuncao');
+      const func = document.getElementById('novoMemberFuncao').value;
+      const agId = select.value;
 
-      if (!select || select.value === "") {
-        alert("Por favor, seleccione um agricultor primeiro.");
+      if (!agId) {
+        showToast('Agricultor obrigatório', 'Seleccione um agricultor da lista.', 'danger');
         return;
       }
 
-      const selectedOption = select.options[select.selectedIndex];
-      const id = parseInt(select.value);
-      const nome = selectedOption.textContent.trim();
-      const bilhete = selectedOption.dataset.bilhete || 'N/A';
-      const tel = selectedOption.dataset.telefone || 'N/A';
-      const funcao = funcaoSelect.value || 'Nenhum';
+      const idx = agricultoresDisponiveis.findIndex(a => String(a.id) === String(agId));
+      if (idx === -1) return;
 
-      // Adiciona ao array de associados
-      agricultoresAssociados.push({ id, nome, bilhete, tel, funcao });
-
-      // Remove dos disponíveis na memória
-      agricultoresDisponiveis = agricultoresDisponiveis.filter(a => a.id !== id);
-
-      // Faz o reset do campo de seleção
-      select.value = "";
-      funcaoSelect.value = "Nenhum";
-
-      // Atualiza as listas
-      renderMemberList();
-      popularSelectAgricultores();
-    }
-
-    // // Executado ao clicar no botão da lixeira dentro do `#memberList`
-    // function removerMembroDoPainel(id) {
-    //   const membro = agricultoresAssociados.find(m => m.id === id);
-    //   if (!membro) return;
-
-    //   // Remove dos associados
-    //   agricultoresAssociados = agricultoresAssociados.filter(m => m.id !== id);
-
-    //   // Devolve à lista de disponíveis
-    //   agricultoresDisponiveis.push({
-    //     id: membro.id,
-    //     nome: membro.nome,
-    //     bilhete: membro.bilhete,
-    //     tel: membro.tel
-    //   });
-
-    //   // Ordena alfabeticamente os disponíveis
-    //   agricultoresDisponiveis.sort((a, b) => a.nome.localeCompare(b.nome));
-
-    //   // Atualiza as listas
-    //   renderMemberList();
-    //   popularSelectAgricultores();
-    // }
-
-    // Executado ao clicar no botão da lixeira dentro do `#memberList`
-    function removerMembroDoPainel(id) {
-      // FORÇAR O ID A SER NÚMERO (Resolve conflitos de string vs integer)
-      const idNumerico = parseInt(id);
-
-      const membro = agricultoresAssociados.find(m => parseInt(m.id) === idNumerico);
-      if (!membro) return;
-
-      // Remove dos associados garantindo a tipagem idêntica
-      agricultoresAssociados = agricultoresAssociados.filter(m => parseInt(m.id) !== idNumerico);
-
-      // Devolve à lista de disponíveis
-      agricultoresDisponiveis.push({
-        id: membro.id,
-        nome: membro.nome,
-        bilhete: membro.bilhete,
-        tel: membro.tel
+      const agricultor = agricultoresDisponiveis[idx];
+      agricultoresAssociados.push({
+        id: agricultor.id, nome: agricultor.nome, bilhete: agricultor.bilhete, tel: agricultor.tel, funcao: func
       });
 
-      // Ordena alfabeticamente os disponíveis
-      agricultoresDisponiveis.sort((a, b) => a.nome.localeCompare(b.nome));
-
-      // Atualiza as listas
-      renderMemberList();
+      agricultoresDisponiveis.splice(idx, 1);
       popularSelectAgricultores();
+      renderMemberList();
+      showToast('Agricultor adicionado', agricultor.nome + ' foi associado.');
     }
 
+    function removerMembro(agId) {
+      const idx = agricultoresAssociados.findIndex(a => String(a.id) === String(agId));
+      if (idx === -1) return;
+
+      const agricultor = agricultoresAssociados[idx];
+      agricultoresAssociados.splice(idx, 1);
+
+      agricultoresDisponiveis.push({ id: agricultor.id, nome: agricultor.nome, bilhete: agricultor.bilhete, tel: agricultor.tel });
+      popularSelectAgricultores();
+      renderMemberList();
+      showToast('Agricultor removido', agricultor.nome + ' foi desassociado.', 'danger');
+    }
 
     function filtrarMembros() {
-      const termo = document.getElementById('searchMembro').value.toLowerCase();
-      const itens = document.querySelectorAll('#memberList .member-item');
-
-      itens.forEach(item => {
-        const nome = item.querySelector('div[style*="font-size: 13.5px"]').textContent.toLowerCase();
-        if (nome.includes(termo)) {
-          item.style.setProperty('display', 'flex', 'important');
-        } else {
-          item.style.setProperty('display', 'none', 'important');
-        }
+      const q = document.getElementById('searchMembro').value.toLowerCase();
+      document.querySelectorAll('#memberList .coop-member-row').forEach(row => {
+        const name = row.getAttribute('data-member-name') || '';
+        const match = name.toLowerCase().includes(q);
+        row.style.display = match ? 'flex' : 'none';
       });
     }
 
@@ -3132,212 +4137,121 @@
       });
     }
 
-    function editCooperativa(id) {
-      isEditing = true;
-      currentEditId = id;
-
-      document.getElementById('formCooperativa').reset();
-      document.getElementById('coopId').value = id;
-      document.getElementById('coopNoIdAlert').style.display = 'none';
-
-      document.getElementById('modalCoopLabel').textContent = 'Editar Cooperativa';
-      document.getElementById('btnSalvarLabel').textContent = 'Guardar Alterações';
-      document.getElementById('modalHeaderIcon').className = 'bi bi-pencil-fill';
-
-      fetch(`/cooperativas/${id}/edit`, {
-        headers: { 'Accept': 'application/json' }
-      })
-        .then(r => r.json())
-        .then(res => {
-          if (res.success) {
-            const d = res.cooperativa;
-
-            // Povoamento de texto padrão
-            document.getElementById('nomeCooperativa').value = d.nome || '';
-            document.getElementById('nifCooperativa').value = d.nif || '';
-            document.getElementById('municipioCoop').value = d.municipio || '';
-            document.getElementById('dateFundacao').value = d.data_fundacao || '';
-            document.getElementById('comunaCoop').value = d.comuna || '';
-            document.getElementById('provinciaCoop').value = d.provincia || '';
-            document.getElementById('enderecoCoop').value = d.endereco || '';
-            document.getElementById('telefCoop').value = d.telefone || '';
-            document.getElementById('emailCoop').value = d.email || '';
-            document.getElementById('websiteCoop').value = d.website || '';
-            document.getElementById('missaoCoop').value = d.descricao || '';
-            document.getElementById('numSocios').value = d.numero_socios || '';
-            document.getElementById('areaTotal').value = d.area_total_cultivada || '';
-            document.getElementById('numTalhoes').value = d.numero_talhoes || '';
-            document.getElementById('producaoEstimada').value = d.producao_estimada || '';
-            document.getElementById('estadoCoop').value = d.estado || 'activo';
-            document.getElementById('principalCultura').value = d.principal_cultura || '';
-
-            if (d.principal_cultura) document.getElementById('principalCultura').value = d.principal_cultura;
-
-            const logoZone = document.getElementById('coopLogoZone');
-            if (d.foto && logoZone) {
-              logoZone.innerHTML = `<img src="/storage/${d.foto}" alt="Logomarca" style="max-height:100%">`;
-              logoZone.style.border = '2px solid var(--primary)';
-            }
-
-            // Recupera os membros associados da cooperativa
-            const listaMembrosBd = d.membros || [];
-
-            console.log('Membros recebidos:', listaMembrosBd);
-
-            agricultoresAssociados = listaMembrosBd.map(m => ({
-              id: m.id,
-              nome: m.nome,
-              bilhete: m.bilhete || 'N/AA',
-              tel: m.tel || 'N/AA',
-              funcao: m.pivot?.cargo || 'Nenhum'
-            }));
-
-            // Remove da lista disponível os agricultores já associados
-            const associadosIds = agricultoresAssociados.map(a => a.id);
-
-            agricultoresDisponiveis = agricultoresBanco.filter(
-              agricultor => !associadosIds.includes(agricultor.id)
-            );
-
-            // Atualiza o tab Agricultores
-            renderMemberList();
-            popularSelectAgricultores();
 
 
-          }
-        })
-        .catch(err => console.error("Erro ao carregar dados da cooperativa:", err));
 
-      const modal = new bootstrap.Modal(document.getElementById('modalCooperativa'));
-      modal.show();
-    }
 
-    /* Preview da imagem carregada */
-    const logoInput = document.getElementById('coopLogoInput');
-    if (logoInput) {
-      logoInput.addEventListener('change', function (e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function (ev) {
-          const zone = document.getElementById('coopLogoZone');
-          if (zone) {
-            zone.innerHTML = `<img src="${ev.target.result}" alt="Logomarca" style="max-height:100%">`;
-            zone.style.border = '2px solid var(--primary)';
-          }
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+
+ // ===== Função de edição (declarada corretamente) =====
+  function editCooperativa(id) {
+                  isEditing = true;
+                  currentEditId = id;
+
+                  // Prepara o visual inicial do Modal
+                  const form = document.getElementById('formCooperativa');
+                  if (form) form.reset();
+                  document.getElementById('coopId').value = id;
+                  const noIdAlert = document.getElementById('coopNoIdAlert');
+                  if (noIdAlert) noIdAlert.style.display = 'none';
+
+                  document.getElementById('modalCoopLabel').textContent = 'Editar Cooperativa';
+                  document.getElementById('modalHeaderIcon').className = 'bi bi-pencil-fill';
+                  document.getElementById('btnSalvarLabel').textContent = 'Guardar Alterações';
+
+                  // Faz a requisição AJAX para a rota edit do Laravel
+                  fetch(`/cooperativas/${id}/edit`, {
+                    headers: { 'Accept': 'application/json' }
+                  })
+                  .then(response => {
+                    if (!response.ok) throw new Error('Erro na resposta do servidor');
+                    return response.json();
+                  })
+                  .then(res => {
+                    if (res.success) {
+                      const d = res.cooperativa || {};
+
+                      // TAB 1
+                      document.getElementById('nomeCooperativa').value = d.nome || '';
+                      document.getElementById('nifCooperativa').value = d.nif || '';
+                      document.getElementById('dateFundacao').value = d.data_fundacao || '';
+                      document.getElementById('numSocios').value = d.numero_socios || '0';
+                      document.getElementById('estadoCoop').value = d.estado || 'activa';
+                      document.getElementById('missaoCoop').value = d.descricao || '';
+
+                      // TAB 2
+                      document.getElementById('provinciaCoop').value = d.provincia || '';
+                      document.getElementById('comunaCoop').value = d.comuna || '';
+                      document.getElementById('municipioCoop').value = d.municipio || '';
+                      document.getElementById('enderecoCoop').value = d.endereco || '';
+                      document.getElementById('telefCoop').value = d.telefone || '';
+                      document.getElementById('emailCoop').value = d.email || '';
+                      document.getElementById('websiteCoop').value = d.website || '';
+
+                      // TAB 3
+                      document.getElementById('areaTotal').value = d.area_total_cultivada || '';
+                      document.getElementById('principalCultura').value = d.principal_cultura || '';
+                      document.getElementById('numTalhoes').value = d.numero_talhoes || '';
+                      document.getElementById('producaoEstimada').value = d.producao_estimada || '';
+
+                      // Logomarca
+                      const logoZone = document.getElementById('coopLogoZone');
+                      if (d.foto && logoZone) {
+                        logoZone.innerHTML = `<img src="/storage/${d.foto}" alt="Logomarca" style="max-height:100%">`;
+                        logoZone.style.border = '2px solid var(--primary)';
+                      } else if (logoZone) {
+                        logoZone.innerHTML = '<i class="bi bi-building"></i><span>Carregar logo</span>';
+                        logoZone.style.border = '';
+                      }
+
+                      // TAB 4 - membros
+                      const listaMembros = d.membros || [];
+                      agricultoresAssociados = [];
+                      listaMembros.forEach(m => {
+                        agricultoresAssociados.push({
+                          id: m.id,
+                          nome: m.nome_completo || m.nome || '',
+                          bilhete: m.bilhete || 'N/A',
+                          tel: m.telefone_principal || m.telefone || 'N/A',
+                          funcao: (m.pivot && m.pivot.cargo) ? m.pivot.cargo : 'Nenhum'
+                        });
+                      });
+
+                      const associadosIds = agricultoresAssociados.map(m => m.id);
+                      carregarAgricultoresDoDOM(); // recarrega agricultoresBanco a partir do select blade
+                      agricultoresDisponiveis = agricultoresBanco.filter(a => !associadosIds.includes(a.id));
+
+                      renderMemberList();
+                      popularSelectAgricultores();
+
+                      showToast('Cooperativa carregada', 'Dados carregados com sucesso.');
+                    } else {
+                      showToast('Erro ao carregar', res.message || 'Não foi possível carregar os dados.', 'danger');
+                    }
+                  })
+                  .catch(err => {
+                    console.error("Erro ao carregar dados da cooperativa via AJAX:", err);
+                    showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
+                  });
+
+                  // Abre o modal Bootstrap
+                  const modal = new bootstrap.Modal(document.getElementById('modalCooperativa'));
+                  modal.show();
+  }
+
+
+
+
+
+
+   
+
+
+   
 
     /* ══════════════════════════════════════
        BOTÃO SALVAR COOPERATIVA (SUBMIT FORM DATA)
     ══════════════════════════════════════ */
-
-
-    // document.getElementById('btnSalvarCoop').addEventListener('click', () => {
-    //   const id = document.getElementById('coopId').value;
-    //   const nome = document.getElementById('nomeCooperativa').value.trim();
-    //   const nif = document.getElementById('nifCooperativa').value.trim();
-    //   const data_fundacao = document.getElementById('dateFundacao') ? document.getElementById('dateFundacao').value : '';
-    //   const num_socios = document.getElementById('numSocios').value;
-    //   const estado = document.getElementById('estadoCoop').value;
-    //   const descricao = document.getElementById('missaoCoop').value.trim();
-
-    //   const provincia = document.getElementById('provinciaCoop').value;
-    //   const comuna = document.getElementById('comunaCoop').value.trim();
-    //   const municipio = document.getElementById('municipioCoop').value.trim();
-    //   const endereco = document.getElementById('enderecoCoop').value.trim();
-    //   const telefone = document.getElementById('telefCoop').value.trim();
-    //   const email = document.getElementById('emailCoop').value.trim();
-    //   const website = document.getElementById('websiteCoop').value.trim();
-
-    //   const area_total_cultivada = document.getElementById('areaTotal').value;
-    //   const principal_cultura = document.getElementById('principalCultura').value;
-    //   const numero_talhoes = document.getElementById('numTalhoes').value;
-    //   const producao_estimada = document.getElementById('producaoEstimada').value;
-
-    //   const logoInput = document.getElementById('coopLogoInput');
-    //   const fotoFile = logoInput && logoInput.files.length > 0 ? logoInput.files[0] : null;
-
-    //   if (!nome || !nif || !municipio || !provincia || !telefone || !estado) {
-    //     showToast('Campos obrigatórios em falta', 'Por favor, preencha todos os campos obrigatórios (*).', 'danger');
-    //     return;
-    //   }
-
-    //   const btn = document.getElementById('btnSalvarCoop');
-    //   const labelBtn = document.getElementById('btnSalvarLabel');
-    //   const origText = labelBtn.innerHTML;
-
-    //   labelBtn.innerText = 'A guardar…';
-    //   btn.disabled = true;
-
-    //   const url = id ? `/cooperativas/${id}` : '/cooperativas';
-    //   const formData = new FormData();
-
-    //   if (id) {
-    //     formData.append('_method', 'PUT');
-    //   }
-
-    //   formData.append('nome', nome);
-    //   formData.append('nif', nif);
-    //   formData.append('data_fundacao', data_fundacao);
-    //   formData.append('descricao', descricao);
-    //   formData.append('telefone', telefone);
-    //   formData.append('email', email);
-    //   formData.append('website', website);
-    //   formData.append('provincia', provincia);
-    //   formData.append('municipio', municipio);
-    //   formData.append('comuna', comuna);
-    //   formData.append('endereco', endereco);
-    //   formData.append('numero_socios', num_socios || 0);
-    //   formData.append('principal_cultura', principal_cultura);
-    //   formData.append('numero_talhoes', numero_talhoes || 0);
-    //   formData.append('producao_estimada', producao_estimada || 0);
-    //   formData.append('area_total_cultivada', area_total_cultivada || 0);
-    //   formData.append('estado', estado);
-
-    //   if (fotoFile) formData.append('foto', fotoFile);
-
-    //   // Captura os membros dinâmicos mapeados nas linhas geradas pelo HTML
-    //   document.querySelectorAll('#memberList .coop-member-row').forEach(row => {
-    //     const agId = row.getAttribute('data-agricultor-id');
-    //     const agCargo = row.getAttribute('data-cargo') || 'Nenhum';
-    //     if (agId) {
-    //       formData.append('agricultores[]', agId);
-    //       formData.append('cargos[]', agCargo);
-    //     }
-    //   });
-
-    //   fetch(url, {
-    //     method: 'POST',
-    //     headers: {
-    //       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-    //       'Accept': 'application/json'
-    //     },
-    //     body: formData
-    //   })
-    //     .then(r => r.json())
-    //     .then(data => {
-    //       labelBtn.innerHTML = origText;
-    //       btn.disabled = false;
-    //       if (data.success) {
-    //         location.reload();
-    //       } else {
-    //         showToast('Erro ao guardar', data.message || 'Verifique as informações introduzidas.', 'danger');
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //       labelBtn.innerHTML = origText;
-    //       btn.disabled = false;
-    //       showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
-    //     });
-    // });
-
-
     document.getElementById('btnSalvarCoop').addEventListener('click', () => {
-
       const id = document.getElementById('coopId').value;
       const nome = document.getElementById('nomeCooperativa').value.trim();
       const nif = document.getElementById('nifCooperativa').value.trim();
@@ -3401,26 +4315,16 @@
 
       if (fotoFile) formData.append('foto', fotoFile);
 
-      // --- CAPTURA CORRIGIDA SEGUNDO O TEU RENDER ---
-      const linhasMembros = document.querySelectorAll('#memberList .member-item');
-
-      linhasMembros.forEach((row) => {
-        // No teu HTML usas data-id para o id do agricultor
-        const agId = row.getAttribute('data-id');
-
-        // Procura pelo input hidden do cargo que geras dentro da linha
-        const inputCargo = row.querySelector('input[name*="[cargo]"]');
-        const agCargo = inputCargo ? inputCargo.value : 'Nenhum';
-
+      // Captura os membros dinâmicos mapeados nas linhas geradas pelo HTML
+      document.querySelectorAll('#memberList .coop-member-row').forEach(row => {
+        const agId = row.getAttribute('data-agricultor-id');
+        const agCargo = row.getAttribute('data-cargo') || 'Nenhum';
         if (agId) {
           formData.append('agricultores[]', agId);
           formData.append('cargos[]', agCargo);
         }
       });
 
-      // ----------------------------------------------
-
-      // Requisição AJAX para o Servidor
       fetch(url, {
         method: 'POST',
         headers: {
@@ -3447,7 +4351,6 @@
         });
     });
 
-
     // Inicializa o ambiente ao carregar o DOM lendo os dados vindos do HTML do Blade
     document.addEventListener("DOMContentLoaded", () => {
       carregarAgricultoresDoDOM();
@@ -3455,66 +4358,16 @@
       renderMemberList();
     });
 
-
     let deleteTargetId = null;
     let deleteTargetName = '';
-
-    function abrirModalEliminar(id, nome) {
-      deleteTargetId = id;
-      deleteTargetName = nome;
+    function deleteCooperativa(id, nome) {
+      deleteTargetId = id; deleteTargetName = nome;
       document.getElementById('deleteCoopName').textContent = nome;
       new bootstrap.Modal(document.getElementById('modalDelete')).show();
     }
-
-    function confirmDelete() {
-      // Captura os valores diretamente das variáveis globais definidas no abrirModalEliminar
-      const id = deleteTargetId;
-      const nome = deleteTargetName;
-
-      // Proteção rápida caso as variáveis globais estejam vazias
-      if (!id) {
-        console.error('Erro: ID da cooperativa não foi definido.');
-        return;
-      }
-
-      // 2. Disparo do AJAX com o método na URL (garante compatibilidade com a rota)
-      fetch(`/cooperativas/${id}?_method=DELETE`, {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-          'Accept': 'application/json'
-        }
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            if (typeof showToast === 'function') {
-              showToast('Sucesso', data.message, 'success');
-            } else {
-              alert(data.message);
-            }
-
-            // Recarrega a página para limpar a linha apagada da tabela
-            location.reload();
-          } else {
-            if (typeof showToast === 'function') {
-              showToast('Erro', data.message, 'danger');
-            } else {
-              alert('Erro: ' + data.message);
-            }
-          }
-        })
-        .catch(err => {
-          console.error('Erro na requisição:', err);
-          if (typeof showToast === 'function') {
-            showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
-          } else {
-            alert('Não foi possível comunicar com o servidor.');
-          }
-        });
-    }
-
   </script>
+
+
 
 </body>
 
