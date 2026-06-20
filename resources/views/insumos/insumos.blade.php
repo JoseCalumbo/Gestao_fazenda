@@ -804,7 +804,7 @@
                 <label class="cfg-label" for="insumoEstado">Estado *</label>
                 <select class="cfg-select" id="insumoEstado" name="estado" required>
                   <option value="activo">Ativo</option>
-                  <option value="desativado">Desativado</option>
+                  <option value="inactivo">Desativado</option>
                 </select>
                 <div class="cfg-helper">Insumos inactivos não aparecem nas saídas</div>
               </div>
@@ -1106,76 +1106,7 @@ document.getElementById('btnGuardarInsumo').addEventListener('click', () => {
     });
 });
 
-  // document.getElementById('btnGuardarInsumo').addEventListener('click', () => {
-  //   const id         = document.getElementById('insumoId').value;
-  //   const nome       = document.getElementById('insumoNome').value.trim();
-  //   const tipo       = document.getElementById('insumoTipo').value;
-  //   const quantidade = document.getElementById('insumoQuantidade').value;
-  //   const unidade    = document.getElementById('insumoUnidade').value;
-  //   const preco      = document.getElementById('insumoPreco').value;
-  //   const entrada    = document.getElementById('insumoDataEntrada').value;
-  //   const estado     = document.getElementById('insumoEstado').value;
-
-  //   if (!nome || !tipo || !quantidade || !unidade || !preco || !entrada) {
-  //     showToast('Campos obrigatórios em falta', 'Preencha todos os campos marcados com *.', 'danger');
-  //     return;
-  //   }
-
-  //   const btn  = document.getElementById('btnGuardarInsumo');
-  //   const orig = btn.innerHTML;
-  //   btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
-  //   btn.disabled  = true;
-
-  //   const url    = id ? `/insumos/${id}` : '/insumos';
-  //   const method = 'POST';
-
-  //   const formData = new FormData();
-  //   formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-  //   formData.append('nome',           nome);
-  //   formData.append('tipo',           tipo);
-  //   formData.append('quantidade',     quantidade);
-  //   formData.append('unidade',        unidade);
-  //   formData.append('preco_unitario', preco);
-  //   formData.append('data_entrada',   entrada);
-  //   formData.append('estado',         estado);
-  //   if (id) formData.append('_method', 'PUT');
-
-  //   fetch(url, {
-  //     method,
-  //     headers: {
-  //       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-  //       'Accept': 'application/json',
-  //     },
-  //     body: formData
-  //   })
-  //     .then(r => r.json())
-  //     .then(data => {
-  //       btn.innerHTML = orig;
-  //       btn.disabled  = false;
-
-  //       if (data.success) {
-  //         bootstrap.Modal.getInstance(document.getElementById('modalInsumo')).hide();
-  //         document.getElementById('formInsumo').reset();
-
-  //         if (modoInsumo === 'create') {
-  //           inserirLinhaTabela(data.insumo);
-  //           showToast('Insumo registado', data.insumo.nome + ' foi adicionado ao stock.');
-  //         } else {
-  //           atualizarLinhaTabela(data.insumo);
-  //           showToast('Insumo actualizado', data.insumo.nome + ' foi actualizado com sucesso.');
-  //         }
-  //         atualizarContadores();
-  //       } else {
-  //         showToast('Erro ao guardar', data.message || 'Verifique os dados e tente novamente.', 'danger');
-  //       }
-  //     })
-  //     .catch(() => {
-  //       btn.innerHTML = orig;
-  //       btn.disabled  = false;
-  //       showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
-  //     });
-  // });
-
+  
 
 /* ══════════════════════════════════════
    ELIMINAR INSUMO

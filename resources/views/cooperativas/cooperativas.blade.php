@@ -2145,8 +2145,10 @@
 
                   <td style="text-align:center;">
                     <div style="display:flex;gap:6px;justify-content:center;">
-                      <button class="action-btn view" title="Ver detalhes" onclick="viewCooperativa(2)"><i
-                          class="bi bi-eye-fill"></i></button>
+
+                      <a href="{{ route('cooperativas.show', $cooperador->id) }}" class="action-btn view" title="Ver detalhes">
+                        <i class="bi bi-eye-fill"></i>
+                      </a>
 
                       <button class="action-btn edit" title="Editar" onclick="editCooperativa({{ $cooperador->id }})">
                         <i class="bi bi-pencil-fill"></i>

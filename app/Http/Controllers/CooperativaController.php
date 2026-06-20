@@ -5,79 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Agricultor;
 use App\Models\Cooperativa;
 use App\Models\CooperativaMembro;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CooperativaController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $cooperativas = Cooperativa::orderBy('nome', 'asc')->paginate(10);
-
-    //     // // Carrega as cooperativas trazendo a contagem apenas dos membros que estão ativos (activo = 1)
-    //     $cooperativas = Cooperativa::withCount(['membros as membros_activos_count' => function ($query) {
-    //         $query->where('activo', 1);
-    //     }])->paginate(3);
-
-    //     // Contagem de Inativas e pedentes
-    //     $totalPendentes = Cooperativa::whereIn('estado', ['pendente', 'Pendente', 'PENDENTE'])->count();
-    //     $totalInactivas = Cooperativa::whereIn('estado', ['inactiva', 'Inactivo', 'INACTIVA'])->count();
-    //     $totalMembrosInativos = CooperativaMembro::where('activo', false)->count();
-
-    //     $totalCooperativasActivas = Cooperativa::where('estado', 'activo')->count();
-    //     $totalCooperativas = Cooperativa::count();
-    //     $totalGeralAssociados = CooperativaMembro::distinct('agricultor_id')->count('agricultor_id');
-
-    //     // sem cooperativa e activo ou pendente
-    //     $agricultoresLivres = Agricultor::whereIn('estado', ['activo', 'pendente']) // Permite tanto activo como pendente
-    //         ->whereDoesntHave('associacoes', function ($query) {
-    //             $query->where('activo', true);
-    //         })->orderBy('nome_completo', 'asc')->get();
-
-    //     // Inicia o construtor de queries de forma explícita
-    //     $query = Cooperativa::query();
-
-    //     // Adiciona a contagem que já funcionava bem
-    //     $query->withCount(['membros as membros_activos_count' => function ($q) {
-    //         $q->where('activo', 1);
-    //     }]);
-
-    //     // Filtro por Nome (Captura o input 'nome' enviado pelo Blade)
-    //     if ($request->filled('nome')) {
-    //         $query->where('nome', 'LIKE', '%'.$request->input('nome').'%');
-    //     }
-
-    //     // Filtro por Estado
-    //     if ($request->filled('estado')) {
-    //         $estado = $request->input('estado');
-    //         if ($estado === 'activa') {
-    //             $query->whereIn('estado', ['activa', 'Activo', 'ACTIVO', 'activo']);
-    //         } elseif ($estado === 'pendente') {
-    //             $query->whereIn('estado', ['pendente', 'Pendente', 'PENDENTE']);
-    //         } elseif ($estado === 'inactiva') {
-    //             $query->whereIn('estado', ['inactiva', 'Inactivo', 'INACTIVA']);
-    //         } else {
-    //             $query->where('estado', $estado);
-    //         }
-    //     }
-
-    //     // Filtro por Província
-    //     if ($request->filled('provincia')) {
-    //         $query->where('provincia', $request->input('provincia'));
-    //     }
-
-    //     return view('cooperativas.cooperativas', compact(
-    //         'cooperativas',
-    //         'totalInactivas',
-    //         'totalPendentes',
-    //         'totalCooperativas',
-    //         'totalGeralAssociados',
-    //         'agricultoresLivres',
-
-    //     ));
-    // }
-
+    
     public function index(Request $request)
     {
         // 1. Contagens de apoio e estatísticas para os cartões (Fixas)
@@ -90,7 +25,7 @@ class CooperativaController extends Controller
         $totalGeralAssociados = CooperativaMembro::distinct('agricultor_id')->count('agricultor_id');
 
         // Agricultores sem cooperativa ativos ou pendentes
-        $agricultoresLivres = Agricultor::whereIn('estado', ['activo', 'pendente']) 
+        $agricultoresLivres = Agricultor::whereIn('estado', ['activo', 'pendente'])
             ->whereDoesntHave('associacoes', function ($query) {
                 $query->where('activo', true);
             })->orderBy('nome_completo', 'asc')->get();
@@ -116,9 +51,9 @@ class CooperativaController extends Controller
             if ($estado === 'activa') {
                 $query->whereIn('estado', ['activa', 'Activo', 'ACTIVO', 'activo']);
             } elseif ($estado === 'pendente') {
-                $query->whereIn('estado', ['pendente', 'Pendente', 'PENDENTE']);
+                $query->whereIn('estado', ['pendente', 'Pendente']);
             } elseif ($estado === 'inactiva') {
-                $query->whereIn('estado', ['inactiva', 'Inactivo', 'INACTIVA']);
+                $query->whereIn('estado', ['inactiva', 'Inactivo']);
             } else {
                 $query->where('estado', $estado);
             }
@@ -129,13 +64,10 @@ class CooperativaController extends Controller
             $query->where('provincia', $request->input('provincia'));
         }
 
-        // ==========================================
-        // 3. EXECUÇÃO DA QUERY COM PAGINAÇÃO
-        // ==========================================
         // Ordena por nome (ou por criados recentemente se preferires) e pagina mantendo os filtros na URL
         $cooperativas = $query->orderBy('nome', 'asc')
-                              ->paginate(5) // Podes mudar para 3 ou 10 registros por página
-                              ->appends($request->all());
+            ->paginate(5) // Podes mudar para 3 ou 10 registros por página
+            ->appends($request->all());
 
         // Retorna tudo certinho para o Blade
         return view('cooperativas.cooperativas', compact(
@@ -150,8 +82,6 @@ class CooperativaController extends Controller
 
     public function edit($id)
     {
-        // $cooperativa = Cooperativa::with('membros.agricultor')->find($id);
-
         // Aqui filtramos para trazer apenas membros onde activo = 1
         $cooperativa = Cooperativa::with(['membros' => function ($query) {
             $query->where('activo', 1); // Garante que só vem membros ativos
@@ -272,6 +202,7 @@ class CooperativaController extends Controller
         }
     }
 
+
     public function update(Request $request, $id)
     {
         $cooperativa = Cooperativa::find($id);
@@ -326,7 +257,6 @@ class CooperativaController extends Controller
             // Atualização dos dados da cooperativa
             $cooperativa->update($dados);
 
-            // --- CORREÇÃO DA LÓGICA DE MEMBROS (PERMITE ZERAR) ---
 
             // 1. Desativa sempre todos os atuais (histórico preservado)
             CooperativaMembro::where('cooperativa_id', $cooperativa->id)
@@ -398,7 +328,6 @@ class CooperativaController extends Controller
             // Guardamos o caminho da foto antes de eliminar o registo
             $fotoPath = $cooperativa->foto;
 
-            // Nota: Como a tua tabela 'cooperativa_membros' tem ON DELETE CASCADE na FK,
             // o Laravel/MySQL vai limpar as relações de membros automaticamente aqui.
             $cooperativa->delete();
 
@@ -424,22 +353,88 @@ class CooperativaController extends Controller
         }
     }
 
-    public function destroy1($id)
-    {
-        $cooperativa = Cooperativa::find($id);
 
-        if (! $cooperativa) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cooperativa não encontrada.',
-            ], 404);
+public function show($id)
+{
+   // $cooperativa = Cooperativa::with('agricultores')->findOrFail($id);
+    $cooperativa = Cooperativa::find($id);
+    
+    // Dados agregados
+    // $totalColheitas = Colheita::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
+    // $totalInsumos = Insumo::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
+    // ... etc
+    
+    return view('cooperativas.tes', compact(
+        'cooperativa',
+        // 'agricultores',
+        // 'colheitas',
+        // 'insumos',
+        // 'produtos',
+        // 'talhoes',
+        // 'receitas',
+        // 'contasReceber',
+        // 'contasPagar',
+        // 'totalColheitas',
+        // 'totalInsumos',
+        // 'totalProdutos',
+        // 'totalTalhoes',
+        // 'totalReceitas',
+        // 'totalContasReceber',
+        // 'totalContasPagar'
+    ));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+    public function exportarPdf(Request $request)
+    {
+        // 1. Construção da Query com os mesmos filtros dinâmicos
+        $query = Cooperativa::query();
+
+        $query->withCount(['membros as membros_activos_count' => function ($q) {
+            $q->where('activo', 1);
+        }]);
+
+        if ($request->filled('nome')) {
+            $query->where('nome', 'LIKE', '%'.$request->input('nome').'%');
         }
 
-        $cooperativa->delete();
+        if ($request->filled('estado')) {
+            $estado = $request->input('estado');
+            if ($estado === 'activa') {
+                $query->whereIn('estado', ['activa', 'Activo', 'ACTIVO', 'activo']);
+            } elseif ($estado === 'pendente') {
+                $query->whereIn('estado', ['pendente', 'Pendente', 'PENDENTE']);
+            } elseif ($estado === 'inactiva') {
+                $query->whereIn('estado', ['inactiva', 'Inactivo', 'INACTIVA']);
+            } else {
+                $query->where('estado', $estado);
+            }
+        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Cooperativa eliminada com sucesso.',
-        ]);
+        if ($request->filled('provincia')) {
+            $query->where('provincia', $request->input('provincia'));
+        }
+
+        // Trazemos TODOS os registos filtrados (sem paginação para o relatório)
+        $cooperativas = $query->orderBy('nome', 'asc')->get();
+
+        // 2. Carregar a View do PDF e passar os dados
+        $pdf = Pdf::loadView('cooperativas.pdf', compact('cooperativas'));
+
+        // (Opcional) Configurar folha A4 em modo Paisagem se a tabela for muito larga
+        $pdf->setPaper('a4', 'landscape');
+
+        // 3. Fazer o download automático do ficheiro
+        return $pdf->download('relatorio-cooperativas.pdf');
     }
 }

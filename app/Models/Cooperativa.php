@@ -60,38 +60,25 @@ class Cooperativa extends Model
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // Relacionamento com a tabela pivot para listar os membros desta cooperativa
     public function membros()
     {
         return $this->hasMany(CooperativaMembro::class, 'cooperativa_id');
     }
 
+
+
     // Opcional: Atalho direto para listar apenas os membros que estão atualmente ativos
     public function membrosAtivos()
     {
         return $this->hasMany(CooperativaMembro::class, 'cooperativa_id')->where('activo', true);
     }
+
+
+    
+    // Relacionamento com a tabela Insumos
+    public function insumos()
+{
+    return $this->hasMany(Insumo::class);
+}
 }

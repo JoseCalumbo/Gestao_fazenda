@@ -17,7 +17,8 @@ class Insumo extends Model
         'unidade',
         'preco_unitario',
         'data_entrada',
-        'estado'
+        'estado',
+        'cooperativa_id',
     ];
 
     protected $casts = [
@@ -26,4 +27,10 @@ class Insumo extends Model
         'preco_unitario' => 'decimal:2',
         'data_entrada' => 'date',
     ];
+
+    // relação insumos_cooperativa
+    public function cooperativa()
+{
+    return $this->belongsTo(Cooperativa::class);
+}
 }

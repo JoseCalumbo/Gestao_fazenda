@@ -278,46 +278,7 @@ class AgricultoresController extends Controller
         }
     }
 
-    /**
-     * Eliminar Agricultor
-     */
-
-    // public function destroy($id)
-    // {
-    //     // Usa uma Transaction para garantir que se algo falhar, nada é apagado por metade
-    //     \DB::beginTransaction();
-
-    //     try {
-    //         $agricultor = Agricultor::findOrFail($id);
-
-    //         // 1. Remove o vínculo com a cooperativa na tabela pivot primeiro
-    //         //  \DB::table('agricultor_cooperativa')->where('agricultor_id', $agricultor->id)->delete();
-
-    //         // 2. Remove a fotografia física do disco (ajustado de 'fotografia' para 'foto')
-    //         if ($agricultor->foto) {
-    //             \Storage::disk('public')->delete($agricultor->foto);
-    //         }
-
-    //         // 3. Elimina o agricultor da base de dados
-    //         $agricultor->delete();
-    //         // Se tudo correu bem, confirma as alterações na BD
-    //         \DB::commit();
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'Agricultor, foto e vínculos eliminados com sucesso.',
-    //         ]);
-
-    //     } catch (\Exception $e) {
-    //         // Se der algum erro, desfaz tudo para não corromper os dados
-    //         \DB::rollBack();
-
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Erro ao eliminar o agricultor: '.$e->getMessage(),
-    //         ], 500);
-    //     }
-    // }
+    
 
     /**
      * Eliminar Agricultor

@@ -31,7 +31,7 @@ class InsumosController extends Controller
             'unidade' => 'required|string|max:50',
             'preco_unitario' => 'required|numeric|min:0',
             'data_entrada' => 'required|date',
-            'estado' => 'nullable|in:ativo,desativado',
+            'estado' => 'nullable|in:activo,inactivo',
         ]);
 
         $insumo = Insumo::create($dados);
@@ -90,7 +90,7 @@ class InsumosController extends Controller
             'unidade' => 'required|string|max:50',
             'preco_unitario' => 'required|numeric|min:0',
             'data_entrada' => 'required|date',
-            'estado' => 'required|in:ativo,desativado',
+            'estado' => 'nullable|in:activo,inactivo',
         ]);
 
         // 3. Atualiza os dados do insumo

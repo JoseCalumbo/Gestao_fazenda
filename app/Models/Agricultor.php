@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Agricultor extends Model
 {
@@ -30,6 +31,13 @@ class Agricultor extends Model
     {
         return $this->hasMany(CooperativaMembro::class);
     }
+
+    public function talhoes()
+    {
+        return $this->hasMany(Talhao::class);
+    }
+
+    
 
     // Relacionamento com a tabela pivot (Um agricultor pode ter vários registos ou históricos de associação)
     public function associacoes()
@@ -80,6 +88,7 @@ class Agricultor extends Model
         return $this->hasMany(Insumo::class, 'agricultor_id');
     }
 
+
     /**
      * Relacionamento com Produtos (Estoque)
      */
@@ -88,13 +97,7 @@ class Agricultor extends Model
         return $this->hasMany(Produto::class, 'agricultor_id') ?? 0;
     }
 
-    /**
-     * Relacionamento com Talhões
-     */
-    public function talhoes()
-    {
-        return $this->hasMany(Talhao::class, 'agricultor_id');
-    }
+  
 
     /**
      * Relacionamento com Receitas
