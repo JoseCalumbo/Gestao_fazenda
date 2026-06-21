@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Storage;
 
 class CooperativaController extends Controller
 {
-    
     public function index(Request $request)
     {
         // 1. Contagens de apoio e estatísticas para os cartões (Fixas)
@@ -202,7 +201,6 @@ class CooperativaController extends Controller
         }
     }
 
-
     public function update(Request $request, $id)
     {
         $cooperativa = Cooperativa::find($id);
@@ -256,7 +254,6 @@ class CooperativaController extends Controller
 
             // Atualização dos dados da cooperativa
             $cooperativa->update($dados);
-
 
             // 1. Desativa sempre todos os atuais (histórico preservado)
             CooperativaMembro::where('cooperativa_id', $cooperativa->id)
@@ -354,46 +351,35 @@ class CooperativaController extends Controller
     }
 
 
-public function show($id)
-{
-   // $cooperativa = Cooperativa::with('agricultores')->findOrFail($id);
-    $cooperativa = Cooperativa::find($id);
-    
-    // Dados agregados
-    // $totalColheitas = Colheita::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
-    // $totalInsumos = Insumo::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
-    // ... etc
-    
-    return view('cooperativas.tes', compact(
-        'cooperativa',
-        // 'agricultores',
-        // 'colheitas',
-        // 'insumos',
-        // 'produtos',
-        // 'talhoes',
-        // 'receitas',
-        // 'contasReceber',
-        // 'contasPagar',
-        // 'totalColheitas',
-        // 'totalInsumos',
-        // 'totalProdutos',
-        // 'totalTalhoes',
-        // 'totalReceitas',
-        // 'totalContasReceber',
-        // 'totalContasPagar'
-    ));
-}
+    public function show($id)
+    {
+        // $cooperativa = Cooperativa::with('agricultores')->findOrFail($id);
+        $cooperativa = Cooperativa::find($id);
 
+        // Dados agregados
+        // $totalColheitas = Colheita::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
+        // $totalInsumos = Insumo::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
+        // ... etc
 
-
-
-
-
-
-
-
-
-
+        return view('cooperativas.perfil3', compact(
+            'cooperativa',
+            // 'agricultores',
+            // 'colheitas',
+            // 'insumos',
+            // 'produtos',
+            // 'talhoes',
+            // 'receitas',
+            // 'contasReceber',
+            // 'contasPagar',
+            // 'totalColheitas',
+            // 'totalInsumos',
+            // 'totalProdutos',
+            // 'totalTalhoes',
+            // 'totalReceitas',
+            // 'totalContasReceber',
+            // 'totalContasPagar'
+        ));
+    }
 
     public function exportarPdf(Request $request)
     {
@@ -437,4 +423,8 @@ public function show($id)
         // 3. Fazer o download automático do ficheiro
         return $pdf->download('relatorio-cooperativas.pdf');
     }
+
+    
+    public function  list(){}
+    public function  selectOptions(){}
 }

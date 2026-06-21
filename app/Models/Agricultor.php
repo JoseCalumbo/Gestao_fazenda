@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Agricultor extends Model
 {
@@ -37,7 +36,19 @@ class Agricultor extends Model
         return $this->hasMany(Talhao::class);
     }
 
-    
+    public function movimentoInsumos()
+    {
+        return $this->hasMany(MovimentoInsumo::class);
+    }
+
+
+    /**
+     * Relacionamento com Insumos (Estoque)
+     */
+    public function insumos()
+    {
+        return $this->hasMany(Insumo::class, 'agricultor_id');
+    }
 
     // Relacionamento com a tabela pivot (Um agricultor pode ter vários registos ou históricos de associação)
     public function associacoes()
@@ -72,48 +83,14 @@ class Agricultor extends Model
         return asset('images/user-default.png');
     }
 
-    /**
-     * Relacionamento com Colheitas
-     */
-    public function colheitas()
-    {
-        return $this->hasMany(Colheita::class, 'agricultor_id') ?? 0;
-    }
-
-    /**
-     * Relacionamento com Insumos (Estoque)
-     */
-    public function insumos()
-    {
-        return $this->hasMany(Insumo::class, 'agricultor_id');
-    }
 
 
-    /**
-     * Relacionamento com Produtos (Estoque)
-     */
-    public function produtos()
-    {
-        return $this->hasMany(Produto::class, 'agricultor_id') ?? 0;
-    }
 
-  
 
-    /**
-     * Relacionamento com Receitas
-     */
-    public function receitas()
-    {
-        return $this->hasMany(Receita::class, 'agricultor_id');
-    }
 
-    /**
-     * Relacionamento com Vendas
-     */
-    public function vendas()
-    {
-        return $this->hasMany(Venda::class, 'agricultor_id');
-    }
+
+
+
 
     /**
      * Accessor para idade

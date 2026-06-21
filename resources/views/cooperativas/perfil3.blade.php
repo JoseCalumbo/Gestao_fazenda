@@ -2276,9 +2276,9 @@
                   </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                  <a href="{{ route('insumos.index') }}" class="btn-outline-green"
+                  <a href="{{ route('cooperativas.insumos.index',$cooperativa->id) }}" class="btn-outline-green"
                     style="padding:8px 14px;font-size:12.5px;text-decoration:none;">
-                    <i class="bi bi-box-seam-fill"></i> Insumo Estoque
+                    <i class="bi bi-box-seam-fill"></i> Gerenciar Estoque
                   </a>
                   <button class="btn-green" style="padding:8px 14px;font-size:12.5px;" id="btnRegistrarSaidaInsumo">
                     <i class="bi bi-plus-lg"></i> Registrar Saída

@@ -30,7 +30,12 @@ class Insumo extends Model
 
     // relação insumos_cooperativa
     public function cooperativa()
-{
-    return $this->belongsTo(Cooperativa::class);
-}
+    {
+        return $this->belongsTo(Cooperativa::class);
+    }
+
+    public function movimentoInsumos()
+    {
+        return $this->hasMany(MovimentoInsumo::class);
+    }
 }

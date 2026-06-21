@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cooperativa extends Model
 {
-
- protected $table = 'cooperativas';
+    protected $table = 'cooperativas';
 
     protected $fillable = [
 
@@ -37,8 +36,8 @@ class Cooperativa extends Model
         'fim_previsto_safra',
 
         'estado',
-        
-        'foto'
+
+        'foto',
     ];
 
     protected $casts = [
@@ -58,15 +57,11 @@ class Cooperativa extends Model
         'area_total_cultivada' => 'decimal:2',
     ];
 
-
-
     // Relacionamento com a tabela pivot para listar os membros desta cooperativa
     public function membros()
     {
         return $this->hasMany(CooperativaMembro::class, 'cooperativa_id');
     }
-
-
 
     // Opcional: Atalho direto para listar apenas os membros que estão atualmente ativos
     public function membrosAtivos()
@@ -74,11 +69,15 @@ class Cooperativa extends Model
         return $this->hasMany(CooperativaMembro::class, 'cooperativa_id')->where('activo', true);
     }
 
-
-    
     // Relacionamento com a tabela Insumos
     public function insumos()
-{
-    return $this->hasMany(Insumo::class);
-}
+    {
+        return $this->hasMany(Insumo::class);
+    }
+    
+    // relacionamento com tabela movimento
+    public function movimentoInsumos()
+    {
+        return $this->hasMany(MovimentoInsumo::class);
+    }
 }
