@@ -232,7 +232,7 @@ class CooperativaController extends Controller
             'safra' => 'nullable|string|max:100',
             'inicio_safra' => 'nullable|date',
             'fim_previsto_safra' => 'nullable|date',
-            'estado' => 'required|in:activa,inactiva,Activo,Inactivo,ACTIVO,INACTIVA,activo',
+            'estado' => 'required|in:activa,inactiva,Activo,Inactivo,pendente,Pendente,activo',
             'foto' => 'nullable|image|max:2048',
             'agricultores' => 'nullable|array',
             'cargos' => 'nullable|array',

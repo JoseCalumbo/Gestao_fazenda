@@ -30,7 +30,6 @@ class InsumosController extends Controller
             'stock_minimo' => 'nullable|numeric|min:0',
             'unidade' => 'required|string|max:50',
             'preco_unitario' => 'required|numeric|min:0',
-            'data_entrada' => 'required|date',
             'estado' => 'nullable|in:activo,inactivo',
         ]);
 
@@ -132,20 +131,12 @@ class InsumosController extends Controller
 
 
 
-a
-
-
-
     public function estoqueCooperativa($id)
     {
         // Filtra pelo id da cooperativa e traz os insumos mais recentes com paginação
         $insumos = Insumo::where('cooperativa_id', $id)
             ->latest()
             ->paginate(10);
-
-        // Opcional: Se quiseres passar também os dados da cooperativa para exibir o nome dela no topo da página view
-        // $cooperativa = Cooperativa::findOrFail($id);
-        // return view('estoque.insumos', compact('insumos', 'cooperativa'));
 
         return view('estoque.insumos', compact('insumos', 'id'));
     }
@@ -159,6 +150,7 @@ a
             'preco_unitario' => 'required|numeric|min:0',
             'stock_minimo' => 'required|numeric|min:0',
             'descricao' => 'nullable|string',
+            'quantidade' => 'required|numeric|min:0',
             'cooperativa_id' => 'required', // Garante que o vínculo existe
         ]);
 
@@ -168,17 +160,60 @@ a
         $insumo->unidade = $request->unidade;
         $insumo->preco_unitario = $request->preco_unitario;
         $insumo->stock_minimo = $request->stock_minimo;
-        $insumo->quantidade = 0;
+        $insumo->quantidade = $request->quantidade;
         $insumo->descricao = $request->descricao;
         $insumo->cooperativa_id = $request->cooperativa_id; // Grava o ID correspondente
 
         $insumo->save();
+
+        \App\Models\HistoricoEstoque::create([
+            'cooperativa_id' => $insumo->cooperativa_id,
+            'insumo_id'      => $insumo->id,
+            'agricultor_id'  => null, // Sem agricultor no cadastro inicial
+            'movimento_id'   => null, // Sem movimento de distribuição associado
+            'tipo_movimento' => 'Entrada', // Registrado como entrada/balanço inicial
+            'quantidade'     => $request->quantidade,
+            'stock_anterior' => 0,
+            'stock_atual'    => $request->quantidade,
+            'utilizador'     => auth()->user()->name ?? 'Sistema',
+            'observacao'     => "Cadastro inicial do insumo no sistema com estoque zerado."
+        ]);
 
         return response()->json([
             'message' => 'Insumo cadastrado com sucesso!',
             'insumo' => $insumo,
         ], 201);
     }
+
+    // public function update(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'nome' => 'required|string|max:255',
+    //         'tipo' => 'required|string',
+    //         'unidade' => 'required|string|max:50',
+    //         'preco_unitario' => 'required|numeric|min:0',
+    //         'stock_minimo' => 'required|numeric|min:0',
+    //         'descricao' => 'nullable|string',
+    //     ]);
+
+    //     $insumo = Insumo::findOrFail($id);
+    //     $insumo->nome = $request->nome;
+    //     $insumo->tipo = $request->tipo;
+    //     $insumo->unidade = $request->unidade;
+    //     $insumo->preco_unitario = $request->preco_unitario;
+    //     $insumo->stock_minimo = $request->stock_minimo;
+    //     $insumo->descricao = $request->descricao;
+
+    //     $insumo->save();
+
+        
+
+    //     return response()->json([
+    //         'message' => 'Insumo atualizado com sucesso!',
+    //         'insumo' => $insumo,
+    //     ], 200);
+    // }
+
 
     public function update(Request $request, $id)
     {
@@ -192,6 +227,10 @@ a
         ]);
 
         $insumo = Insumo::findOrFail($id);
+        
+        // Guarda o stock atual do insumo antes de salvar para a auditoria
+        $stockAtual = $insumo->quantidade;
+
         $insumo->nome = $request->nome;
         $insumo->tipo = $request->tipo;
         $insumo->unidade = $request->unidade;
@@ -201,22 +240,48 @@ a
 
         $insumo->save();
 
+        // ─── HISTÓRICO DE ESTOQUE (ATUALIZAÇÃO DE DADOS) ───
+        \App\Models\HistoricoEstoque::create([
+            'cooperativa_id' => $insumo->cooperativa_id,
+            'insumo_id'      => $insumo->id,
+            'agricultor_id'  => null,
+            'movimento_id'   => null,
+            'tipo_movimento' => 'Atualização', // Define o tipo como atualização cadastral
+            'quantidade'     => 0,             // Nenhuma quantidade foi fisicamente movida
+            'stock_anterior' => $stockAtual,
+            'stock_atual'    => $stockAtual,   // O stock permanece idêntico
+            'utilizador'     => auth()->user()->name ?? 'Sistema',
+            'observacao'     => "Dados cadastrais do insumo atualizados no sistema."
+        ]);
+
         return response()->json([
             'message' => 'Insumo atualizado com sucesso!',
             'insumo' => $insumo,
         ], 200);
     }
 
+
     public function destroy($id)
     {
         try {
             $insumo = Insumo::findOrFail($id);
 
-            // 💡 Dica de Ouro: Se este insumo já tiver movimentações associadas,
-            // podes decidir se apagas em cascata ou se bloqueias a exclusão:
-            // Se a tua tabela de histórico/movimentos tiver chave estrangeira para o insumo:
-            // $insumo->movimentos()->delete(); // Caso queiras apagar o histórico junto
+            // ─── HISTÓRICO DE ESTOQUE (REGISTO DE REMOÇÃO) ───
+            // Criamos o registo antes do delete() para capturar os dados do insumo
+            \App\Models\HistoricoEstoque::create([
+                'cooperativa_id' => $insumo->cooperativa_id,
+                'insumo_id'      => $insumo->id,
+                'agricultor_id'  => null,
+                'movimento_id'   => null,
+                'tipo_movimento' => 'Remoção', // Identifica que o produto foi apagado
+                'quantidade'     => 0,
+                'stock_anterior' => $insumo->quantidade,
+                'stock_atual'    => 0, // O stock deixa de existir no sistema
+                'utilizador'     => auth()->user()->name ?? 'Sistema',
+                'observacao'     => "Insumo '{$insumo->nome}' removido do sistema com saldo final de {$insumo->quantidade}."
+            ]);
 
+            // Agora sim, remove o registo de forma definitiva
             $insumo->delete();
 
             return response()->json([
@@ -226,10 +291,10 @@ a
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Ocorreu um erro ao tentar eliminar o insumo da base de dados.',
+                'error'   => $e->getMessage() // Opcional: ajuda a debugar se algo falhar
             ], 500);
         }
     }
-
     // ── ENTRADA DE STOCK ──
     public function registrarEntrada(Request $request, $cooperativa_id)
     {
@@ -287,51 +352,6 @@ a
         ]);
     }
 
-    // use App\Models\Insumo;
-    // use App\Models\Movimento; // Altera para o nome real do teu modelo de histórico
-    // use Illuminate\Http\Request;
-
-    // public function movimentar(Request $request)
-    // {
-    //     $request->validate([
-    //         'insumo_id' => 'required|exists:insumos,id',
-    //         'tipo_movimento' => 'required|in:Entrada,Saída',
-    //         'quantidade' => 'required|integer|min:1',
-    //         'data' => 'required|date',
-    //         'observacao' => 'nullable|string'
-    //     ]);
-
-    //     $insumo = Insumo::findOrFail($request->insumo_id);
-
-    //     // Validação de segurança extra para saídas
-    //     if ($request->tipo_movimento === 'Saída' && $insumo->quantidade < $request->quantidade) {
-    //         return response()->json(['message' => 'Quantidade de saída excede o stock disponível.'], 422);
-    //     }
-
-    //     // 1. Guardar o histórico do movimento
-    //     $movimento = new Movimento();
-    //     $movimento->insumo_id = $insumo->id;
-    //     $movimento->tipo_movimento = $request->tipo_movimento;
-    //     $movimento->quantidade = $request->quantidade;
-    //     $movimento->stock_anterior = $insumo->quantidade;
-
-    //     // 2. Atualizar o stock real do insumo
-    //     if ($request->tipo_movimento === 'Entrada') {
-    //         $insumo->quantidade += $request->quantidade;
-    //     } else {
-    //         $insumo->quantidade -= $request->quantidade;
-    //     }
-
-    //     $movimento->stock_atual = $insumo->quantidade;
-    //     $movimento->data = $request->data;
-    //     $movimento->utilizador = auth()->user()->name ?? 'Sistema';
-    //     $movimento->observacao = $request->observacao;
-
-    //     // Salvar ambos no Banco de Dados
-    //     $insumo->save();
-    //     $movimento->save();
-
-    //     return response()->json(['message' => 'Movimentação registada com sucesso!']);
-    // }
+   
 
 }

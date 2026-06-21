@@ -1813,15 +1813,12 @@
           <a href="#" class="page-header-back" onclick="history.back();return false;">
             <i class="bi bi-arrow-left"></i> Voltar
           </a>
-          <h1>Gestão de Estoque</h1>
+          <h1>Gestão de Estoque </h1>
           <p>Registo e administração do estoque da cooperativa</p>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <button class="btn-outline-green" id="btnExportarEstoque">
             <i class="bi bi-download"></i> Exportar
-          </button>
-          <button class="btn-green" id="btnAdicionarInsumo">
-            <i class="bi bi-plus-lg"></i> Adicionar Insumo
           </button>
         </div>
       </div>
@@ -1876,7 +1873,10 @@
         <!-- ── VERTICAL NAV ── -->
         <nav class="settings-nav">
           <button class="settings-nav-item active" data-tab="disponiveis">
-            <i class="bi bi-box-seam-fill"></i> Insumos Disponíveis <span class="nav-count" id="countInsumos">0</span>
+            <i class="bi bi-arrow-left-circle-fill"></i> Entrada<span class="nav-count" id="countInsumos">0</span>
+          </button>
+          <button class="settings-nav-item" data-tab="saidas">
+            <i class="bi bi-arrow-right-circle-fill"></i> Saídas <span class="nav-count" id="countSaidas">0</span>
           </button>
           <button class="settings-nav-item" data-tab="historico">
             <i class="bi bi-clock-history"></i> Histórico <span class="nav-count" id="countHistorico">0</span>
@@ -1896,19 +1896,13 @@
                   <div class="cfg-card-icon green"><i class="bi bi-box-seam-fill"></i></div>
                   <div>
                     <div class="cfg-card-title">Estoque de Insumos</div>
-                    <div class="cfg-card-sub">Todos os insumos disponíveis na cooperativa</div>
+                    <div class="cfg-card-sub">Registro de entrada de todos os insumos disponíveis na cooperativa</div>
                   </div>
                 </div>
                 <div style="display:flex;gap:8px;flex-wrap:wrap;">
-
-                  {{-- <button class="btn-green" id="btnMovimentarEstoque" style="padding:8px 14px;font-size:12.5px;">
-                    <i class="bi bi-arrow-left-right"></i> Movimentar Estoque
-                  </button> --}}
-
-                  <button type="button" class="btn-green"  onclick="abrirModalCadastro()">
+                  <button type="button" class="btn-green" onclick="abrirModalCadastro()">
                     <i class="bi bi-plus-circle"></i> Novo Insumo
                   </button>
-
                 </div>
               </div>
 
@@ -1921,9 +1915,9 @@
                 </div>
                 <select class="filter-select" id="filterTipo">
                   <option value="">Todos os tipos</option>
-                  <option value="Semente">Semente</option>
-                  <option value="Fertilizante">Fertilizante</option>
-                  <option value="Mecânico">Mecânico</option>
+                  <option value="semente">Semente</option>
+                  <option value="fertilizante">Fertilizante</option>
+                  <option value="mecânico">Mecânico</option>
                 </select>
                 <button class="btn-green" id="btnAplicarFiltros" style="padding:8px 18px;"><i class="bi bi-search"></i>
                   Filtrar</button>
@@ -1961,7 +1955,85 @@
           </div>
 
           <!-- ════════════════════════
-             TAB 2 — HISTÓRICO
+             TAB 2 — SAÍDAS
+        ════════════════════════ -->
+          <div class="settings-panel" id="tab-saidas">
+            <div class="cfg-card anim">
+              <div class="cfg-card-header">
+                <div class="cfg-card-header-left">
+                  <div class="cfg-card-icon amber"><i class="bi bi-arrow-right-circle-fill"></i></div>
+                  <div>
+                    <div class="cfg-card-title">Saídas de Insumos</div>
+                    <div class="cfg-card-sub">Registo de saídas e distribuição de insumos</div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <button class="btn-green" id="btnRegistrarSaidaInsumo" style="padding:8px 14px;font-size:12.5px;">
+                    <i class="bi bi-plus-circle"></i> Registrar Saída
+                  </button>
+                </div>
+              </div>
+
+              <!-- Barra de Ações - Saídas -->
+              <div class="action-bar">
+                <div class="search-wrap">
+                  <i class="bi bi-search"></i>
+                  <input type="text" class="search-input" id="searchSaida"
+                    placeholder="Pesquisar por insumo ou agricultor...">
+                </div>
+                <select class="filter-select" id="filterSaidaEstado">
+                  <option value="">Todos os estados</option>
+                  <option value="Pago">Pago</option>
+                  <option value="Pendente">Pendente</option>
+                  <option value="Oferecido">Oferecido</option>
+                  <option value="Liquidado">Liquidado</option>
+                </select>
+                <select class="filter-select" id="filterSaidaModalidade">
+                  <option value="">Todas as modalidades</option>
+                  <option value="vendido">Vendido</option>
+                  <option value="oferta">Oferta</option>
+                  <option value="troca">Troca</option>
+                  <option value="crédito">Crédito</option>
+                </select>
+                <button class="btn-green" id="btnFiltrarSaidas" style="padding:8px 18px;"><i class="bi bi-search"></i>
+                  Filtrar</button>
+                <button class="btn-outline-green" id="btnLimparFiltrosSaidas" style="padding:8px 18px;"><i
+                    class="bi bi-eraser"></i> Limpar</button>
+              </div>
+
+              <!-- Tabela Saídas -->
+              <div class="table-wrap">
+                <table class="estoque-table" id="tabelaSaidas">
+                  <thead>
+                    <tr>
+                      <th data-col="id" style="width:60px;">ID <i class="bi bi-arrow-up-short"></i></th>
+                      <th data-col="insumo_nome">Insumo</th>
+                      <th data-col="agricultor_nome">Agricultor</th>
+                      <th data-col="tipo">Tipo</th>
+                      <th data-col="quantidade">Quantidade</th>
+                      <th data-col="modalidade">Modalidade</th>
+                      <th data-col="estado">Estado</th>
+                      <th style="text-align:center;">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tabelaSaidasBody">
+                    <!-- Renderizado via JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Paginação Saídas -->
+              <div class="table-footer">
+                <span id="infoSaidas">Mostrando 0 - 0 de 0 registos</span>
+                <div class="pagination-btns" id="paginacaoSaidas">
+                  <!-- Renderizado via JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ════════════════════════
+             TAB 3 — HISTÓRICO
         ════════════════════════ -->
           <div class="settings-panel" id="tab-historico">
             <div class="cfg-card anim">
@@ -2039,6 +2111,203 @@
      MODALS
 ══════════════════════════════════════ -->
 
+
+
+  {{-- <!-- ─── MODAL INSUMOS: REGISTRAR SAÍDA ─── -->
+  <div class="modal fade modal-coop" id="modalRegistrarSaidaInsumo" tabindex="-1" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div style="display:flex;align-items:center;gap:14px;flex:1;">
+            <div class="modal-header-icon"><i class="bi bi-box-seam-fill"></i></div>
+            <div>
+              <div class="modal-title">Distribuição de Insumos</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Registar saída ou distribuição de
+                insumos</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formRegistrarSaidaInsumo">
+            @csrf
+            <div class="modal-form-card">
+              <div class="modal-section-title"><i class="bi bi-box-seam-fill"></i> Dados da Saída</div>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="cfg-label">Insumo *</label>
+                  <select class="cfg-select" id="insumoSaidaInsumo" required>
+                    <option value="">Selecione um insumo</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="cfg-label">Agricultor *</label>
+                  <select class="cfg-select" id="insumoSaidaAgricultor">
+                    <option value="">Selecione um agricultor</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Data de Saída *</label>
+                  <input type="date" class="cfg-input" id="insumoSaidaData" required>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Quantidade *</label>
+                  <input type="number" class="cfg-input" id="insumoSaidaQuantidade" required placeholder="0">
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Modalidade *</label>
+                  <select class="cfg-select" id="insumoSaidaModalidade">
+                    <option value="vendido">Vendido</option>
+                    <option value="oferta">Oferta</option>
+                    <option value="troca">Troca</option>
+                    <option value="crédito">Crédito</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Estado *</label>
+                  <select class="cfg-select" id="insumoSaidaEstado">
+                    <option value="pago">Pago</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="oferecido">Oferecido</option>
+                    <option value="liquidado">Liquidado</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <div
+            style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
+            <div style="font-size:12px;color:var(--text-light);">
+              <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
+            </div>
+            <div style="display:flex;gap:10px;">
+              <button type="button" class="btn-outline-green" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>
+                Cancelar</button>
+              <button type="button" class="btn-green" id="btnSalvarSaidaInsumo"><i class="bi bi-check2-circle"></i>
+                Registrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> --}}
+
+  <div class="modal fade modal-coop" id="modalRegistrarSaidaInsumo" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div style="display:flex;align-items:center;gap:14px;flex:1;">
+            <div class="modal-header-icon"><i class="bi bi-box-seam-fill"></i></div>
+            <div>
+              <div class="modal-title" id="modalSaidaTitulo">Distribuição de Insumos</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="modalSaidaSubtitulo">Registar saída ou distribuição de insumos</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formRegistrarSaidaInsumo">
+            @csrf
+            <input type="hidden" id="editarSaidaId" name="id">
+
+            <div class="modal-form-card">
+              <div class="modal-section-title"><i class="bi bi-box-seam-fill"></i> Dados da Saída</div>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="cfg-label">Insumo *</label>
+                  <select class="cfg-select" id="insumoSaidaInsumo" name="insumo_id" required>
+                    <option value="">Selecione um insumo</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="cfg-label">Agricultor *</label>
+                  <select class="cfg-select" id="insumoSaidaAgricultor" name="agricultor_id">
+                    <option value="">Selecione um agricultor</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Data de Saída *</label>
+                  <input type="date" class="cfg-input" id="insumoSaidaData" name="data_movimento" required>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Quantidade *</label>
+                  <input type="number" class="cfg-input" id="insumoSaidaQuantidade" name="quantidade" required placeholder="0">
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Modalidade *</label>
+                  <select class="cfg-select" id="insumoSaidaModalidade" name="modalidade">
+                    <option value="vendido">Vendido</option>
+                    <option value="oferta">Oferta</option>
+                    <option value="troca">Troca</option>
+                    <option value="crédito">Crédito</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Estado *</label>
+                  <select class="cfg-select" id="insumoSaidaEstado" name="estado">
+                    <option value="pago">Pago</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="oferecido">Oferecido</option>
+                    <option value="liquidado">Liquidado</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <div style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
+            <div style="font-size:12px;color:var(--text-light);">
+              <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
+            </div>
+            <div style="display:flex;gap:10px;">
+              <button type="button" class="btn-outline-green" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i> Cancelar</button>
+              <button type="button" class="btn-green" id="btnSalvarSaidaInsumo"><i class="bi bi-check2-circle"></i> <span id="btnSalvarSaidaTexto">Registrar</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL INSUMOS: APAGAR SAÍDA ─── -->
+<div class="modal fade" id="modalExcluirSaida" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
+      <div class="modal-content">
+        <div class="modal-header" style="background:linear-gradient(135deg, #7f0000, #C62828);">
+          <div style="display:flex;align-items:center;gap:14px;flex:1;">
+            <div class="modal-header-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <div>
+              <div class="modal-title">Confirmar Exclusão</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Esta acção é irreversível</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body" style="background:#fff;padding:28px;">
+          <p style="font-size:13.5px;color:var(--text-mid);margin-bottom:10px;">
+            Tem a certeza que deseja excluir o registo de saída do insumo:
+          </p>
+          <div style="background:#FFF8F8;border:1px solid #FFCDD2;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:#C62828;" id="excluirSaidaNome">—</div>
+            <div style="font-size:12px;color:var(--text-light);margin-top:3px;">O histórico de movimentação desta distribuição será removido permanentemente.</div>
+          </div>
+          <input type="hidden" id="excluirSaidaId">
+        </div>
+        <div class="modal-footer" style="border-top:1px solid #FFCDD2;">
+          <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn-green" id="btnConfirmarExcluirSaida" style="background:#C62828;box-shadow:none;">
+            <i class="bi bi-trash-fill"></i> Excluir Definitivamente
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ─── MODAL ADICIONAR INSUMO ─── -->
   <div class="modal fade modal-coop" id="modalAdicionarInsumo" tabindex="-1" data-bs-backdrop="static"
     data-bs-keyboard="false">
@@ -2049,7 +2318,8 @@
             <div class="modal-header-icon"><i class="bi bi-box-seam-fill"></i></div>
             <div>
               <div id="modalInsumoTitulo" class="modal-title">Adicionar Insumo</div>
-              <div id="modalInsumoSubTitulo" style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Registar novo insumo no estoque
+              <div id="modalInsumoSubTitulo" style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Registar
+                novo insumo no estoque
               </div>
             </div>
           </div>
@@ -2224,75 +2494,6 @@
     </div>
   </div>
 
-  <!-- ─── MODAL EDITAR INSUMO ─── -->
-  {{-- <div class="modal fade modal-coop" id="modalEditarInsumo" tabindex="-1" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div style="display:flex;align-items:center;gap:14px;flex:1;">
-            <div class="modal-header-icon"><i class="bi bi-pencil-fill"></i></div>
-            <div>
-              <div class="modal-title">Editar Insumo</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Atualizar dados do insumo</div>
-            </div>
-          </div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-        </div>
-        <div class="modal-body">
-          <form id="formEditarInsumo">
-            @csrf
-            @method('PUT')
-            <input type="hidden" id="editarInsumoId">
-            <div class="modal-form-card">
-              <div class="modal-section-title"><i class="bi bi-pencil-fill"></i> Dados do Insumo</div>
-              <div class="row g-3">
-                <div class="col-12">
-                  <label class="cfg-label">Nome *</label>
-                  <input type="text" class="cfg-input" id="editarInsumoNome" required>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Tipo *</label>
-                  <select class="cfg-select" id="editarInsumoTipo" required>
-                    <option value="semente">Semente</option>
-                    <option value="fertilizante">Fertilizante</option>
-                    <option value="mecânico">Mecânico</option>
-                  </select>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Unidade de Medida *</label>
-                  <input type="text" class="cfg-input" id="editarInsumoUnidade" required>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Preço de Custo (Kz) *</label>
-                  <input type="number" class="cfg-input" id="editarInsumoPreco" required step="0.01">
-                </div>
-                <div class="col-12">
-                  <label class="cfg-label">Descrição</label>
-                  <textarea class="cfg-textarea" id="editarInsumoDescricao" rows="3"></textarea>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <div
-            style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
-            <div style="font-size:12px;color:var(--text-light);">
-              <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
-            </div>
-            <div style="display:flex;gap:10px;">
-              <button type="button" class="btn-outline-green" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>
-                Cancelar</button>
-              <button type="button" class="btn-green" id="btnSalvarEditarInsumo"><i class="bi bi-check2-circle"></i>
-                Salvar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> --}}
-
   <!-- ─── MODAL EXCLUIR INSUMO ─── -->
   <div class="modal fade" id="modalExcluirInsumo" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
@@ -2345,7 +2546,9 @@
   <!-- ══════════════════════════════════════
      SCRIPT PRINCIPAL
 ══════════════════════════════════════ -->
+
   <script>
+
     /* ══════════════════════════════════════
        SIDEBAR TOGGLE
     ══════════════════════════════════════ */
@@ -2403,7 +2606,8 @@
       document.getElementById('toastTitle').textContent = title;
       document.getElementById('toastSub').textContent = sub;
       icon.className = 'toast-icon ' + type;
-      iconI.className = type === 'danger' ? 'bi bi-x-lg' : type === 'warning' ? 'bi bi-exclamation-triangle-fill' : 'bi bi-check-lg';
+      iconI.className = type === 'danger' ? 'bi bi-x-lg' : type === 'warning' ? 'bi bi-exclamation-triangle-fill' :
+        'bi bi-check-lg';
       toast.classList.add('show');
       clearTimeout(toast._timeout);
       toast._timeout = setTimeout(() => toast.classList.remove('show'), 3500);
@@ -2433,6 +2637,7 @@
         }
 
         if (tab === 'disponiveis') renderInsumos();
+        else if (tab === 'saidas') renderSaidas();
         else if (tab === 'historico') renderHistorico();
       });
     });
@@ -2455,13 +2660,21 @@
       };
     });
 
-    // Mantemos os movimentos estáticos por enquanto até criares o histórico na BD
+    // Dados de Saídas (mockados - substituir com dados reais do backend)
+
     let movimentos = [
-      { id: 1, insumo_id: 1, tipo_movimento: 'Entrada', quantidade: 50, stock_anterior: 100, stock_atual: 150, data: '2025-01-10', utilizador: 'João Silva', observacao: 'Compra realizada' },
-      { id: 2, insumo_id: 2, tipo_movimento: 'Saída', quantidade: 20, stock_anterior: 100, stock_atual: 80, data: '2025-01-12', utilizador: 'Maria Santos', observacao: 'Distribuição para agricultores' }
+      {
+        id: 1, insumo_id: 1, tipo_movimento: 'Entrada', quantidade: 50, stock_anterior: 100, stock_atual: 150,
+        data: '2025-01-10', utilizador: 'João Silva', observacao: 'Compra realizada'
+      },
+      {
+        id: 2, insumo_id: 2, tipo_movimento: 'Saída', quantidade: 20, stock_anterior: 100, stock_atual: 80,
+        data: '2025-01-12', utilizador: 'Maria Santos', observacao: 'Distribuição para agricultores'
+      }
     ];
 
     let nextInsumoId = insumosData.length > 0 ? Math.max(...insumosData.map(i => i.id)) + 1 : 1;
+    let nextSaidaId = 4;
     let nextMovimentoId = 3;
 
     /* ══════════════════════════════════════
@@ -2469,7 +2682,7 @@
     ══════════════════════════════════════ */
     let insumosFiltrados = [...insumosData];
     let insumosPagina = 1;
-    const insumosPorPagina = 10; // Alinhado com o paginate(10) do teu Controller
+    const insumosPorPagina = 10;
     let insumosOrdenacao = { col: 'id', dir: 'asc' };
 
     function renderInsumos() {
@@ -2507,12 +2720,13 @@
       // Atualizar corpo da tabela
       const tbody = document.getElementById('tabelaInsumosBody');
       if (pageItems.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);">
+        tbody.innerHTML =
+          `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);">
       <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhum insumo encontrado.</td></tr>`;
       } else {
         tbody.innerHTML = pageItems.map(i => {
-          // Lógica Dinâmica baseada no stock_minimo do Banco de Dados
-          const nivelEstoque = i.stock_atual <= i.stock_minimo ? 'critico' : (i.stock_atual <= i.stock_minimo * 1.5 ? 'baixo' : 'normal');
+          const nivelEstoque = i.stock_atual <= i.stock_minimo ? 'critico' : (i.stock_atual <= i
+            .stock_minimo * 1.5 ? 'baixo' : 'normal');
 
           return `
         <tr>
@@ -2538,22 +2752,29 @@
       }
 
       // Atualizar info e paginação
-      document.getElementById('infoInsumos').textContent = `Mostrando ${total === 0 ? 0 : start + 1} - ${end} de ${total} registos`;
+      document.getElementById('infoInsumos').textContent =
+        `Mostrando ${total === 0 ? 0 : start + 1} - ${end} de ${total} registos`;
       const pagContainer = document.getElementById('paginacaoInsumos');
       let pagHtml = '';
-      pagHtml += `<button class="page-btn" ${insumosPagina <= 1 ? 'disabled' : ''} onclick="insumosPagina--;renderInsumos();"><i class="bi bi-chevron-left"></i></button>`;
+      pagHtml +=
+        `<button class="page-btn" ${insumosPagina <= 1 ? 'disabled' : ''} onclick="insumosPagina--;renderInsumos();"><i class="bi bi-chevron-left"></i></button>`;
       for (let p = 1; p <= totalPages; p++) {
-        pagHtml += `<button class="page-btn ${p === insumosPagina ? 'active' : ''}" onclick="insumosPagina=${p};renderInsumos();">${p}</button>`;
+        pagHtml +=
+          `<button class="page-btn ${p === insumosPagina ? 'active' : ''}" onclick="insumosPagina=${p};renderInsumos();">${p}</button>`;
       }
-      pagHtml += `<button class="page-btn" ${insumosPagina >= totalPages ? 'disabled' : ''} onclick="insumosPagina++;renderInsumos();"><i class="bi bi-chevron-right"></i></button>`;
+      pagHtml +=
+        `<button class="page-btn" ${insumosPagina >= totalPages ? 'disabled' : ''} onclick="insumosPagina++;renderInsumos();"><i class="bi bi-chevron-right"></i></button>`;
       pagContainer.innerHTML = pagHtml;
 
       // Atualizar cards e contagem
       const totalItens = insumosData.reduce((acc, i) => acc + i.stock_atual, 0);
       document.getElementById('totalEstoque').textContent = totalItens;
-      document.getElementById('totalFertilizantes').textContent = insumosData.filter(i => i.tipo === 'Fertilizante').reduce((acc, i) => acc + i.stock_atual, 0);
-      document.getElementById('totalSementes').textContent = insumosData.filter(i => i.tipo === 'Semente').reduce((acc, i) => acc + i.stock_atual, 0);
-      document.getElementById('totalMecanico').textContent = insumosData.filter(i => i.tipo === 'Mecânico').reduce((acc, i) => acc + i.stock_atual, 0);
+      document.getElementById('totalFertilizantes').textContent = insumosData.filter(i => i.tipo === 'Fertilizante')
+        .reduce((acc, i) => acc + i.stock_atual, 0);
+      document.getElementById('totalSementes').textContent = insumosData.filter(i => i.tipo === 'Semente').reduce((acc,
+        i) => acc + i.stock_atual, 0);
+      document.getElementById('totalMecanico').textContent = insumosData.filter(i => i.tipo === 'Mecânico').reduce((acc,
+        i) => acc + i.stock_atual, 0);
       document.getElementById('countInsumos').textContent = insumosData.length;
     }
 
@@ -2589,14 +2810,13 @@
       }
     });
 
-  
+
     /* ══════════════════════════════════════
        SALVAR INSUMO (CADASTRO / EDIÇÃO) — UNIFICADO
     ══════════════════════════════════════ */
     document.getElementById('btnSalvarInsumo').addEventListener('click', async function () {
-      // Captura o ID oculto para saber se é Nova Criação ou Edição
       const id = document.getElementById('insumoId').value;
-      
+
       const nome = document.getElementById('insumoNome').value.trim();
       const tipo = document.getElementById('insumoTipo').value;
       const unidade = document.getElementById('insumoUnidade').value.trim();
@@ -2605,19 +2825,15 @@
       const descricao = document.getElementById('insumoDescricao').value.trim();
       const token = document.querySelector('input[name="_token"]').value;
 
-      // Validação rápida de campos obrigatórios
       if (!nome || !tipo || !unidade || isNaN(preco) || isNaN(stockMinimo)) {
         showToast('Campos inválidos', 'Preencha todos os campos obrigatórios.', 'danger');
         return;
       }
 
-      // Bloqueia o botão para evitar cliques duplos no envio lento
       this.disabled = true;
 
-      // Define dinamicamente a URL e método conforme a ação (Novo ou Editar)
       const url = id ? `/estoque/insumos/${id}` : '/estoque/insumos/store';
-      
-      // Monta o Payload JSON de envio
+
       const payload = {
         cooperativa_id: "{{ $id }}",
         nome: nome,
@@ -2628,18 +2844,16 @@
         descricao: descricao
       };
 
-      // Se for uma Edição (id preenchido), injetamos a quantidade atual e simulamos o PUT do Laravel
       if (id) {
         payload._method = 'PUT';
         payload.quantidade = parseInt(document.getElementById('insumoQuantidade').value) || 0;
       } else {
-        // Se for Novo, enviamos o valor digitado como a quantidade inicial
         payload.quantidade = parseInt(document.getElementById('insumoQuantidade').value) || 0;
       }
 
       try {
         const response = await fetch(url, {
-          method: 'POST', // Mantemos POST devido ao envio do _method PUT ou cadastro nativo
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': token,
@@ -2652,7 +2866,6 @@
 
         if (response.ok) {
           if (id) {
-            // MODO EDIÇÃO: Localiza e atualiza o objeto existente no array local insumosData
             const idx = insumosData.findIndex(i => i.id == id);
             if (idx !== -1) {
               insumosData[idx] = {
@@ -2669,7 +2882,6 @@
               showToast('Sucesso', 'Insumo atualizado com sucesso!');
             }
           } else {
-            // MODO CADASTRO: Insere o novo objeto no topo do array local
             insumosData.unshift({
               id: resultado.insumo.id,
               nome: resultado.insumo.nome,
@@ -2684,19 +2896,17 @@
             showToast('Sucesso', 'Insumo cadastrado com sucesso!');
           }
 
-          // Fecha o modal de forma limpa usando a instância Bootstrap
           const modalElement = document.getElementById('modalAdicionarInsumo');
           const modalInstancia = bootstrap.Modal.getOrCreateInstance(modalElement);
           modalInstancia.hide();
 
-          // LIMPEZA COMPLETA FORÇADA DE TODOS OS CAMPOS DO FORMULÁRIO
           document.getElementById('formAdicionarInsumo').reset();
-          document.getElementById('insumoId').value = ''; // Limpa explicitamente o ID oculto
+          document.getElementById('insumoId').value = '';
 
-          // Re-renderiza a tabela, contadores e listas suspensas (selects) do sistema
           renderInsumos();
           if (typeof carregarSelectInsumos === 'function') carregarSelectInsumos();
           if (typeof carregarSelectHistorico === 'function') carregarSelectHistorico();
+          if (typeof carregarSelectSaidas === 'function') carregarSelectSaidas();
 
         } else {
           showToast('Erro', resultado.message || 'Erro ao processar requisição.', 'danger');
@@ -2705,7 +2915,6 @@
         console.error("Erro na operação:", error);
         showToast('Erro de Conexão', 'Não foi possível ligar ao servidor.', 'danger');
       } finally {
-        // Devolve o estado ativo ao botão
         this.disabled = false;
       }
     });
@@ -2732,7 +2941,6 @@
 
 
     document.getElementById('btnSalvarMovimento').addEventListener('click', async function () {
-      // 1. Capturar os elementos e valores
       const insumoId = document.getElementById('movInsumo').value;
       const tipo = document.getElementById('movTipo').value;
       const qtd = parseInt(document.getElementById('movQuantidade').value);
@@ -2740,18 +2948,14 @@
       const obs = document.getElementById('movObservacao').value.trim();
       const token = document.querySelector('input[name="_token"]').value;
 
-      // 2. Validação simples no Front-end
       if (!insumoId || !tipo || isNaN(qtd) || qtd <= 0 || !data) {
         showToast('Campos inválidos', 'Preencha todos os campos obrigatórios.', 'danger');
         return;
       }
 
-      // Desativar o botão temporariamente para evitar cliques duplos
       this.disabled = true;
 
       try {
-        // 3. Envio dos dados via AJAX para o Laravel
-        // Altera '/estoque/movimentar' para a URL exata da tua rota se for diferente
         const response = await fetch('/estoque/movimentar', {
           method: 'POST',
           headers: {
@@ -2771,15 +2975,12 @@
         const resultado = await response.json();
 
         if (response.ok) {
-          // 4. Sucesso: Atualizar dados locais da view
-          // Atualiza o estoque do insumo alterado localmente na lista JS
           const insumoAlterado = insumosData.find(i => i.id == insumoId);
           if (insumoAlterado) {
             if (tipo === 'Entrada') insumoAlterado.stock_atual += qtd;
             if (tipo === 'Saída') insumoAlterado.stock_atual -= qtd;
           }
 
-          // Fechar o modal e atualizar as tabelas do ecrã
           modalMovimentar.hide();
           renderInsumos();
           if (typeof renderHistorico === 'function') renderHistorico();
@@ -2787,7 +2988,6 @@
 
           showToast('Sucesso', resultado.message || 'Movimentação registada com sucesso!');
         } else {
-          // Se o Laravel devolver validação de erro (ex: falta de estoque)
           showToast('Erro ao salvar', resultado.message || 'Não foi possível registrar o movimento.', 'danger');
         }
 
@@ -2795,7 +2995,6 @@
         console.error('Erro na requisição:', error);
         showToast('Erro de Conexão', 'Ocorreu um problema ao comunicar com o servidor.', 'danger');
       } finally {
-        // Reativar o botão de salvar
         this.disabled = false;
       }
     });
@@ -2812,80 +3011,72 @@
       document.getElementById('visualizarId').textContent = insumo.id;
       document.getElementById('visualizarTipo').textContent = insumo.tipo;
       document.getElementById('visualizarUnidade').textContent = insumo.unidade || '—';
-      document.getElementById('visualizarPreco').textContent = (insumo.preco_custo || 0).toLocaleString('pt-AO') + ' Kz';
+      document.getElementById('visualizarPreco').textContent = (insumo.preco_custo || 0).toLocaleString('pt-AO') +
+        ' Kz';
       document.getElementById('visualizarStock').textContent = insumo.stock_atual + ' ' + (insumo.unidade || '');
       document.getElementById('visualizarDescricao').textContent = insumo.descricao || '—';
       modalVisualizar.show();
     }
 
 
-        /* ══════════════════════════════════════
+    /* ══════════════════════════════════════
        ABRIR MODAL REGISTAR E EDITAR
     ══════════════════════════════════════ */
-function abrirModalCadastro() {
-        // Força a limpeza manual absoluta de cada campo antes de abrir
-        document.getElementById('insumoId').value = '';
-        document.getElementById('insumoNome').value = '';
-        document.getElementById('insumoTipo').value = ''; 
-        document.getElementById('insumoUnidade').value = '';
-        document.getElementById('insumoPreco').value = '';
-        document.getElementById('insumoQuantidade').value = '';
-        document.getElementById('insumoStockMinimo').value = '0';
-        document.getElementById('insumoDescricao').value = '';
+    function abrirModalCadastro() {
+      document.getElementById('insumoId').value = '';
+      document.getElementById('insumoNome').value = '';
+      document.getElementById('insumoTipo').value = '';
+      document.getElementById('insumoUnidade').value = '';
+      document.getElementById('insumoPreco').value = '';
+      document.getElementById('insumoQuantidade').value = '';
+      document.getElementById('insumoStockMinimo').value = '0';
+      document.getElementById('insumoDescricao').value = '';
 
-        // Liberta o campo quantidade para o novo cadastro
-        document.getElementById('insumoQuantidade').disabled = false; 
-        
-        // Altera o título do cabeçalho
-        document.getElementById('modalInsumoTitulo').textContent = 'Adicionar Insumo';
-        document.getElementById('modalInsumoSubTitulo').textContent = 'Registrar dados insumo em estoque';
-        
-        // Abre o modal
-        const modalElement = document.getElementById('modalAdicionarInsumo');
-        const modalInstancia = bootstrap.Modal.getOrCreateInstance(modalElement);
-        modalInstancia.show();
+      document.getElementById('insumoQuantidade').disabled = false;
+
+      document.getElementById('modalInsumoTitulo').textContent = 'Adicionar Insumo';
+      document.getElementById('modalInsumoSubTitulo').textContent = 'Registrar dados insumo em estoque';
+
+      const modalElement = document.getElementById('modalAdicionarInsumo');
+      const modalInstancia = bootstrap.Modal.getOrCreateInstance(modalElement);
+      modalInstancia.show();
     }
 
-function abrirModalEdicao(id) {
-    const insumo = insumosData.find(i => i.id == id);
-    if (!insumo) {
+    function abrirModalEdicao(id) {
+      const insumo = insumosData.find(i => i.id == id);
+      if (!insumo) {
         showToast('Erro', 'Insumo não encontrado localmente.', 'danger');
         return;
-    }
+      }
 
-    // Preenche os campos de texto
-    document.getElementById('insumoId').value = insumo.id;
-    document.getElementById('insumoNome').value = insumo.nome;
-    document.getElementById('insumoUnidade').value = insumo.unidade;
-    document.getElementById('insumoPreco').value = insumo.preco_unitario || insumo.preco_custo || 0;
-    document.getElementById('insumoQuantidade').value = insumo.quantidade || insumo.stock_atual || 0;
-    document.getElementById('insumoStockMinimo').value = insumo.stock_minimo || 0;
-    document.getElementById('insumoDescricao').value = insumo.descricao || '';
+      document.getElementById('insumoId').value = insumo.id;
+      document.getElementById('insumoNome').value = insumo.nome;
+      document.getElementById('insumoUnidade').value = insumo.unidade;
+      document.getElementById('insumoPreco').value = insumo.preco_unitario || insumo.preco_custo || 0;
+      document.getElementById('insumoQuantidade').value = insumo.quantidade || insumo.stock_atual || 0;
+      document.getElementById('insumoStockMinimo').value = insumo.stock_minimo || 0;
+      document.getElementById('insumoDescricao').value = insumo.descricao || '';
 
-    // CORREÇÃO DO SELECT TIPO: Garante a correspondência com ou sem acento
-    let tipoValor = insumo.tipo.toLowerCase().trim();
-    if (tipoValor === 'mecanico' || tipoValor === 'mecânico') {
+      let tipoValor = insumo.tipo.toLowerCase().trim();
+      if (tipoValor === 'mecanico' || tipoValor === 'mecânico') {
         document.getElementById('insumoTipo').value = 'mecânico';
-    } else if (tipoValor === 'fertilizante') {
+      } else if (tipoValor === 'fertilizante') {
         document.getElementById('insumoTipo').value = 'fertilizante';
-    } else if (tipoValor === 'semente') {
+      } else if (tipoValor === 'semente') {
         document.getElementById('insumoTipo').value = 'semente';
-    } else {
+      } else {
         document.getElementById('insumoTipo').value = 'outros';
+      }
+
+      document.getElementById('insumoQuantidade').disabled = true;
+
+      document.getElementById('modalInsumoTitulo').textContent = 'Editar Insumo';
+      document.getElementById('modalInsumoSubTitulo').textContent = 'Editar dados insumo em estoque';
+
+      const modalElement = document.getElementById('modalAdicionarInsumo');
+      const modalInstancia = bootstrap.Modal.getOrCreateInstance(modalElement);
+      modalInstancia.show();
     }
-    
-    // Bloqueia a quantidade na edição por segurança
-    document.getElementById('insumoQuantidade').disabled = true; 
-
-    // Altera o título do cabeçalho
-    document.getElementById('modalInsumoTitulo').textContent = 'Editar Insumo';
-    document.getElementById('modalInsumoSubTitulo').textContent = 'Editar dados insumo em estoque';
-
-    // Abre o modal
-    const modalElement = document.getElementById('modalAdicionarInsumo');
-    const modalInstancia = bootstrap.Modal.getOrCreateInstance(modalElement);
-    modalInstancia.show();
-}
 
 
     /* ══════════════════════════════════════
@@ -2901,15 +3092,13 @@ function abrirModalEdicao(id) {
 
     document.getElementById('btnConfirmarExcluir').addEventListener('click', async function () {
       const id = parseInt(document.getElementById('excluirInsumoId').value);
-      const token = document.querySelector('input[name="_token"]').value; // Captura o token CSRF obrigatório
+      const token = document.querySelector('input[name="_token"]').value;
 
       if (!id) return;
 
-      // Desativar o botão para evitar cliques duplos
       this.disabled = true;
 
       try {
-        // Faz a requisição AJAX usando o método DELETE do Laravel
         const response = await fetch(`/estoque/insumos/${id}`, {
           method: 'DELETE',
           headers: {
@@ -2921,17 +3110,16 @@ function abrirModalEdicao(id) {
         const resultado = await response.json();
 
         if (response.ok) {
-          // Se o Laravel apagou com sucesso, removemos da lista local (o teu código original)
           const idx = insumosData.findIndex(i => i.id === id);
           if (idx !== -1) {
             const nome = insumosData[idx].nome;
             insumosData.splice(idx, 1);
 
-            // Fecha o modal e atualiza a interface
             modalExcluir.hide();
             renderInsumos();
             if (typeof carregarSelectInsumos === 'function') carregarSelectInsumos();
             if (typeof carregarSelectHistorico === 'function') carregarSelectHistorico();
+            if (typeof carregarSelectSaidas === 'function') carregarSelectSaidas();
 
             showToast('Insumo excluído', `${nome} foi removido permanentemente.`, 'danger');
           }
@@ -2942,10 +3130,461 @@ function abrirModalEdicao(id) {
         console.error('Erro na requisição:', error);
         showToast('Erro de Conexão', 'Não foi possível comunicar com o servidor.', 'danger');
       } finally {
-        // Reativar o botão
         this.disabled = false;
       }
     });
+
+
+    /* ══════════════════════════════════════
+       TABELA SAÍDAS
+    ══════════════════════════════════════ */
+    let saidasData = [];
+    let saidasFiltrados = [];
+    let saidasPagina = 1;
+    const saidasPorPagina = 10;
+    let saidasOrdenacao = { col: 'id', dir: 'desc' };
+
+    function carregarSelectSaidas() {
+      const select = document.getElementById('insumoSaidaInsumo');
+      if (!select) return;
+      select.innerHTML = '<option value="">Selecione um insumo</option>' +
+        insumosData.map(i => `<option value="${i.id}">${i.nome} (${i.stock_atual} ${i.unidade})</option>`).join('');
+    }
+
+    async function carregarAgricultoresSaida() {
+      const cooperativaId = "{{$id}}"; // ID da cooperativa passado de forma segura pelo Blade
+      const select = document.getElementById('insumoSaidaAgricultor');
+      if (!select) return;
+
+      try {
+        const response = await fetch(`/cooperativa/${cooperativaId}/agricultores`);
+        if (response.ok) {
+          const agricultores = await response.json();
+          select.innerHTML = '<option value="">Selecione um agricultor</option>' +
+            agricultores.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar agricultores:', error);
+      }
+    }
+
+    function abrirModalSaidaInsumo() {
+      const form = document.getElementById('formRegistrarSaidaInsumo');
+      if (form) form.reset();
+
+      const inputData = document.getElementById('insumoSaidaData');
+      if (inputData) inputData.valueAsDate = new Date();
+
+      // Recarrega o select de saídas para garantir saldos em tempo real
+      carregarSelectSaidas();
+
+      const modalElement = document.getElementById('modalRegistrarSaidaInsumo');
+      const modalInstancia = bootstrap.Modal.getOrCreateInstance(modalElement);
+      modalInstancia.show();
+    }
+
+
+    /* ══════════════════════════════════════════════════════════
+       CARREGAR SAÍDAS DIRETAMENTE DA ROTA DO LARAVEL (AJAX)
+    ══════════════════════════════════════════════════════════ */
+    async function carregarSaidasDoServidor() {
+      const urlParts = window.location.pathname.split('/');
+      // Compatível tanto se sua URL contiver /cooperativa/ ou /cooperativas/
+      let idx = urlParts.indexOf('cooperativa');
+      if (idx === -1) idx = urlParts.indexOf('cooperativas');
+
+      const cooperativaId = idx !== -1 ? urlParts[idx + 1] : "{{ $id }}";
+
+      if (!cooperativaId) return;
+
+      try {
+        const response = await fetch(`/cooperativa/${cooperativaId}/movimentos/saidas`);
+        if (response.ok) {
+          saidasData = await response.json();
+          // Sincroniza a cópia de filtragem inicial sem estourar o erro de inicialização
+          saidasFiltrados = [...saidasData];
+          renderSaidas();
+        }
+      } catch (error) {
+        console.error("Erro ao carregar saídas do banco de dados:", error);
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       RENDERIZAR TABELA DE SAÍDAS COM OS IDS CORRIGIDOS DO HTML
+    ══════════════════════════════════════════════════════════ */
+
+    function renderSaidas() {
+      // Captura EXACTAMENTE os IDs do teu HTML real
+      const inputSearch = document.getElementById('searchSaida');
+      const selectEstado = document.getElementById('filterSaidaEstado');
+      const selectModalidade = document.getElementById('filterSaidaModalidade');
+
+      const search = inputSearch ? inputSearch.value.toLowerCase().trim() : '';
+      const estado = selectEstado ? selectEstado.value.toLowerCase() : '';
+      const modalidade = selectModalidade ? selectModalidade.value.toLowerCase() : '';
+
+      saidasFiltrados = saidasData.filter(s => {
+        const insumoNome = s.insumo_nome ? s.insumo_nome.toLowerCase() : '';
+        const agricultorNome = s.agricultor_nome ? s.agricultor_nome.toLowerCase() : '';
+        const estadoItem = s.estado ? s.estado.toLowerCase() : '';
+        const modalidadeItem = s.modalidade ? s.modalidade.toLowerCase() : '';
+
+        const matchSearch = insumoNome.includes(search) || agricultorNome.includes(search);
+        const matchEstado = estado ? estadoItem === estado : true;
+        const matchModalidade = modalidade ? modalidadeItem === modalidade : true;
+
+        return matchSearch && matchEstado && matchModalidade;
+      });
+
+      // Ordenação Dinâmica
+      const col = saidasOrdenacao.col;
+      const dir = saidasOrdenacao.dir;
+      saidasFiltrados.sort((a, b) => {
+        let valA = a[col] ?? '';
+        let valB = b[col] ?? '';
+        if (typeof valA === 'string') valA = valA.toLowerCase();
+        if (typeof valB === 'string') valB = valB.toLowerCase();
+        if (valA < valB) return dir === 'asc' ? -1 : 1;
+        if (valA > valB) return dir === 'asc' ? 1 : -1;
+        return 0;
+      });
+
+      // Paginação
+      const total = saidasFiltrados.length;
+      const totalPages = Math.ceil(total / saidasPorPagina) || 1;
+      if (saidasPagina > totalPages) saidasPagina = totalPages;
+      const start = (saidasPagina - 1) * saidasPorPagina;
+      const end = Math.min(start + saidasPorPagina, total);
+      const pageItems = saidasFiltrados.slice(start, end);
+
+      const tbody = document.getElementById('tabelaSaidasBody');
+      if (!tbody) return;
+
+      if (pageItems.length === 0) {
+        tbody.innerHTML =
+          `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
+        <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma saída registada.</td></tr>`;
+      } else {
+        tbody.innerHTML = pageItems.map(s => {
+          const estadoClass = s.estado ? s.estado.toLowerCase() : 'pendente';
+          const tipoClass = s.tipo ? s.tipo.toLowerCase() : 'default';
+          const formatarTexto = (txt) => txt ? txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase() : '';
+
+          return `
+            <tr>
+              <td>${s.id}</td>
+              <td><strong>${s.insumo_nome}</strong></td>
+              <td>${s.agricultor_nome || 'Não Associado'}</td>
+              <td><span class="badge-tipo ${tipoClass}">${formatarTexto(s.tipo)}</span></td>
+              <td>${s.quantidade}</td>
+              <td>${formatarTexto(s.modalidade)}</td>
+              <td><span class="badge-status ${estadoClass}"><span class="dot"></span> ${formatarTexto(s.estado)}</span></td>
+              <td style="text-align:center;">
+                <div style="display:flex;gap:6px;justify-content:center;">
+                  
+                  <button class="action-btn view" title="Visualizar" onclick="showToast('Detalhes da Saída', 'Saída #${s.id} - ${s.insumo_nome}')"><i class="bi bi-eye-fill"></i></button>
+                  <button class="action-btn edit" title="Editar" onclick="showToast('Editar Saída', 'Funcionalidade em desenvolvimento.')"><i class="bi bi-pencil-fill"></i></button>
+               
+                  <button class="action-btn delete" title="Excluir" onclick="excluirSaida(${s.id}, '${s.insumo_nome}')">
+                      <i class="bi bi-trash-fill"></i>
+                  </button>
+              
+                  </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      document.getElementById('infoSaidas').textContent =
+        `Mostrando ${total === 0 ? 0 : start + 1} - ${end} de ${total} registos`;
+
+      const pagContainer = document.getElementById('paginacaoSaidas');
+      if (pagContainer) {
+
+        let pagHtml = '';
+        pagHtml += `<button class="page-btn" ${saidasPagina <= 1 ? 'disabled' : ''} onclick="saidasPagina--;renderSaidas();"><i class="bi bi-chevron-left"></i></button>`;
+        for (let p = 1; p <= totalPages; p++) {
+          pagHtml += `<button class="page-btn ${p === saidasPagina ? 'active' : ''}" onclick="saidasPagina=${p};renderSaidas();">${p}</button>`;
+        }
+        pagHtml += `<button class="page-btn" ${saidasPagina >= totalPages ? 'disabled' : ''} onclick="saidasPagina++;renderSaidas();"><i class="bi bi-chevron-right"></i></button>`;
+        pagContainer.innerHTML = pagHtml;
+      }
+
+      const countSaidasEl = document.getElementById('countSaidas');
+      if (countSaidasEl) countSaidasEl.textContent = saidasData.length;
+    }
+
+
+    /* Ordenação Saídas */
+    document.querySelectorAll('#tabelaSaidas thead th[data-col]').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = th.dataset.col;
+        if (saidasOrdenacao.col === col) {
+          saidasOrdenacao.dir = saidasOrdenacao.dir === 'asc' ? 'desc' : 'asc';
+        } else {
+          saidasOrdenacao.col = col;
+          saidasOrdenacao.dir = 'asc';
+        }
+        renderSaidas();
+      });
+    });
+
+    /* Filtros Saídas */
+    document.getElementById('btnFiltrarSaidas').addEventListener('click', () => {
+      saidasPagina = 1;
+      renderSaidas();
+    });
+
+    document.getElementById('btnLimparFiltrosSaidas').addEventListener('click', () => {
+      document.getElementById('searchSaida').value = '';
+      document.getElementById('filterSaidaEstado').value = '';
+      document.getElementById('filterSaidaModalidade').value = '';
+      saidasPagina = 1;
+      renderSaidas();
+    });
+
+    document.getElementById('btnLimparFiltrosSaidas').addEventListener('click', () => {
+      if (document.getElementById('searchSaidas')) document.getElementById('searchSaidas').value = '';
+      if (document.getElementById('filterEstado')) document.getElementById('filterEstado').value = '';
+      if (document.getElementById('filterModalidade')) document.getElementById('filterModalidade').value = '';
+      saidasPagina = 1;
+      renderSaidas();
+    });
+
+
+
+    /* ─── MODAL REGISTRAR SAÍDA ─── */
+    const modalSaida = new bootstrap.Modal(document.getElementById('modalRegistrarSaidaInsumo'));
+
+    /* ══════════════════════════════════════
+           EVENTO PARA ABRIR O MODAL DE SAÍDA 
+        ══════════════════════════════════════ */
+    document.getElementById('btnRegistrarSaidaInsumo').addEventListener('click', async () => {
+      // 1. Atualiza o select de insumos com os dados e estoques locais reais
+      carregarSelectSaidas();
+
+      // 2. Busca e renderiza os agricultores reais vindos do Laravel
+      const cooperativaId = "{{ $id }}";
+      const selectAgricultor = document.getElementById('insumoSaidaAgricultor');
+
+      if (selectAgricultor) {
+        selectAgricultor.innerHTML = '<option value="">Carregando agricultores...</option>';
+        try {
+          const response = await fetch(`/cooperativa/${cooperativaId}/agricultores`);
+          if (response.ok) {
+            const agricultores = await response.json();
+            selectAgricultor.innerHTML = '<option value="">Selecione um agricultor</option>' +
+              agricultores.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
+          } else {
+            selectAgricultor.innerHTML = '<option value="">Erro ao carregar agricultores</option>';
+          }
+        } catch (error) {
+          console.error('Erro ao buscar agricultores:', error);
+          selectAgricultor.innerHTML = '<option value="">Erro de conexão</option>';
+        }
+      }
+
+      // 3. Reseta o formulário e define a data de hoje por padrão
+      document.getElementById('formRegistrarSaidaInsumo').reset();
+      document.getElementById('insumoSaidaData').valueAsDate = new Date();
+
+      // 4. Exibe o modal (usa a tua variável modalSaida)
+      modalSaida.show();
+    });
+
+
+    /* ══════════════════════════════════════
+       LOGICA DE EXCLUSÃO DE SAÍDAS (AJAX)
+       ══════════════════════════════════════ */
+    const modalExcluirSaida = new bootstrap.Modal(document.getElementById('modalExcluirSaida'));
+
+    // Função que o botão da tabela vai chamar para abrir o modal
+    function excluirSaida(id, nomeInsumo) {
+      document.getElementById('excluirSaidaNome').textContent = nomeInsumo;
+      document.getElementById('excluirSaidaId').value = id;
+      modalExcluirSaida.show();
+    }
+
+    // Escutador do botão de confirmação dentro do modal
+// Escutador do botão de confirmação dentro do modal
+    document.getElementById('btnConfirmarExcluirSaida').addEventListener('click', async function (e) {
+      e.preventDefault(); 
+
+      const id = parseInt(document.getElementById('excluirSaidaId').value);
+      const token = document.querySelector('input[name="_token"]')?.value || document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+      if (!id) return;
+
+      this.disabled = true; 
+
+      // Captura o ID de forma inteligente se a URL tiver 'cooperativa' ou 'cooperativas'
+      const urlParts = window.location.pathname.split('/');
+      let idx = urlParts.indexOf('cooperativa');
+      if (idx === -1) idx = urlParts.indexOf('cooperativas');
+      
+      // Se achar na URL usa, caso contrário tenta usar a variável injetada pelo Blade
+      let cooperativaId = idx !== -1 ? urlParts[idx + 1] : '';
+      if (!cooperativaId) {
+          cooperativaId = "{{ $cooperativa->id ?? ($id ?? '') }}";
+      }
+
+      // Validação extra de segurança
+      if (!cooperativaId) {
+          showToast('Erro', 'Não foi possível identificar o ID da cooperativa.', 'danger');
+          this.disabled = false;
+          return;
+      }
+
+      try {
+        // Monta a URL garantindo que não existem barras duplas
+        const urlFinal = `/cooperativa/${cooperativaId}/movimentos/saidas/${id}`;
+
+        const response = await fetch(urlFinal, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.redirected) {
+            showToast('Erro de Sessão', 'A sessão expirou, por favor recarregue a página.', 'danger');
+            this.disabled = false;
+            return;
+        }
+
+        const resultado = await response.json();
+
+        if (response.ok && resultado.success) {
+          // Remove localmente do array global para atualizar a tabela instantaneamente
+          const idxData = saidasData.findIndex(s => s.id === id);
+          if (idxData !== -1) {
+            saidasData.splice(idxData, 1);
+            
+            modalExcluirSaida.hide(); // Fecha o modal
+            renderSaidas(); // Re-renderiza a tabela
+            
+            showToast('Saída Excluída', resultado.message || 'O registo foi removido com sucesso.', 'danger');
+          }
+        } else {
+          showToast('Erro ao excluir', resultado.message || 'Não foi possível remover o registo.', 'danger');
+        }
+      } catch (error) {
+        console.error('Erro na requisição de exclusão:', error);
+        showToast('Erro de Conexão', 'Não foi possível comunicar com o servidor.', 'danger');
+      } finally {
+        this.disabled = false; 
+      }
+    });
+   
+    /* ══════════════════════════════════════════════════════════
+        PROCESSAR E ENVIAR MOVIMENTO DE SAÍDA PARA O LARAVEL
+     ══════════════════════════════════════════════════════════ */
+    document.getElementById('btnSalvarSaidaInsumo').addEventListener('click', async function (e) {
+      e.preventDefault(); // <-- Garante a interrupção de qualquer submit nativo residual
+
+      const insumoId = document.getElementById('insumoSaidaInsumo').value;
+      const agricultorId = document.getElementById('insumoSaidaAgricultor').value;
+
+      const selectAgro = document.getElementById('insumoSaidaAgricultor');
+      const agricultorNome = selectAgro.options[selectAgro.selectedIndex]?.text || '';
+
+      const data = document.getElementById('insumoSaidaData').value;
+      const quantidade = parseInt(document.getElementById('insumoSaidaQuantidade').value);
+      const modalidade = document.getElementById('insumoSaidaModalidade').value;
+      const estado = document.getElementById('insumoSaidaEstado').value;
+
+      if (!insumoId || !agricultorId || !data || isNaN(quantidade) || quantidade <= 0) {
+        showToast('Campos inválidos', 'Preencha todos os campos obrigatórios.', 'danger');
+        return;
+      }
+
+      const insumo = insumosData.find(i => i.id == insumoId);
+      if (!insumo) {
+        showToast('Erro', 'Insumo não encontrado.', 'danger');
+        return;
+      }
+
+      if (quantidade > insumo.stock_atual) {
+        showToast('Erro', 'Quantidade insuficiente em estoque.', 'danger');
+        return;
+      }
+
+      this.disabled = true;
+
+      try {
+        const token = document.querySelector('#formRegistrarSaidaInsumo input[name="_token"]').value;
+
+        // GARANTA A BARRA "/" ANTES DE ESTOQUE PARA TER UMA ROTA ABSOLUTA
+        const response = await fetch('/estoque/movimentar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token,
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            cooperativa_id: "{{ $id }}",
+            insumo_id: parseInt(insumoId),
+            agricultor_id: parseInt(agricultorId),
+            tipo: 'Saída',
+            quantidade: quantidade,
+            modalidade: modalidade,
+            estado: estado
+          })
+        });
+
+        const resultado = await response.json();
+
+        if (response.ok) {
+          // Lógica local de atualização do ecrã
+          insumo.stock_atual -= quantidade;
+
+          saidasData.unshift({
+            id: resultado.movimento_id || (typeof nextSaidaId !== 'undefined' ? nextSaidaId++ : 1),
+            insumo_id: parseInt(insumoId),
+            insumo_nome: insumo.nome,
+            agricultor_nome: agricultorNome,
+            tipo: insumo.tipo,
+            quantidade: quantidade,
+            modalidade: modalidade,
+            estado: estado,
+            data: data
+          });
+
+          movimentos.push({
+            id: typeof nextMovimentoId !== 'undefined' ? nextMovimentoId++ : 1,
+            insumo_id: parseInt(insumoId),
+            tipo_movimento: 'Saída',
+            quantidade: quantidade,
+            stock_anterior: insumo.stock_atual + quantidade,
+            stock_atual: insumo.stock_atual,
+            data: data,
+            utilizador: 'Sistema',
+            observacao: `Saída para ${agricultorNome} - ${modalidade}`
+          });
+
+          modalSaida.hide();
+          renderSaidas();
+          renderInsumos();
+          if (typeof carregarSelectInsumos === 'function') carregarSelectInsumos();
+          if (typeof carregarSelectHistorico === 'function') carregarSelectHistorico();
+
+          showToast('Sucesso', `Saída de ${quantidade} ${insumo.unidade} de ${insumo.nome} registada com sucesso.`);
+        } else {
+          showToast('Erro no Servidor', resultado.message || 'Erro ao processar a movimentação.', 'danger');
+        }
+      } catch (error) {
+        console.error('Erro na requisição:', error);
+        showToast('Erro de Conexão', 'Não foi possível conectar com o servidor.', 'danger');
+      } finally {
+        this.disabled = false;
+      }
+    });
+
 
     /* ══════════════════════════════════════
        TAB HISTÓRICO — Renderização
@@ -2970,7 +3609,6 @@ function abrirModalEdicao(id) {
         return true;
       });
 
-      // Ordenar
       const col = historicoOrdenacao.col;
       const dir = historicoOrdenacao.dir;
       historicoFiltrados.sort((a, b) => {
@@ -2983,7 +3621,6 @@ function abrirModalEdicao(id) {
         return 0;
       });
 
-      // Paginar
       const total = historicoFiltrados.length;
       const totalPages = Math.ceil(total / historicoPorPagina) || 1;
       if (historicoPagina > totalPages) historicoPagina = totalPages;
@@ -2991,10 +3628,10 @@ function abrirModalEdicao(id) {
       const end = Math.min(start + historicoPorPagina, total);
       const pageItems = historicoFiltrados.slice(start, end);
 
-      // Tabela
       const tbody = document.getElementById('tabelaHistoricoBody');
       if (pageItems.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
+        tbody.innerHTML =
+          `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
       <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma movimentação encontrada.</td></tr>`;
       } else {
         tbody.innerHTML = pageItems.map(m => {
@@ -3015,15 +3652,18 @@ function abrirModalEdicao(id) {
         }).join('');
       }
 
-      // Info e paginação
-      document.getElementById('infoHistorico').textContent = `Mostrando ${total === 0 ? 0 : start + 1} - ${end} de ${total} registos`;
+      document.getElementById('infoHistorico').textContent =
+        `Mostrando ${total === 0 ? 0 : start + 1} - ${end} de ${total} registos`;
       const pagContainer = document.getElementById('paginacaoHistorico');
       let pagHtml = '';
-      pagHtml += `<button class="page-btn" ${historicoPagina <= 1 ? 'disabled' : ''} onclick="historicoPagina--;renderHistorico();"><i class="bi bi-chevron-left"></i></button>`;
+      pagHtml +=
+        `<button class="page-btn" ${historicoPagina <= 1 ? 'disabled' : ''} onclick="historicoPagina--;renderHistorico();"><i class="bi bi-chevron-left"></i></button>`;
       for (let p = 1; p <= totalPages; p++) {
-        pagHtml += `<button class="page-btn ${p === historicoPagina ? 'active' : ''}" onclick="historicoPagina=${p};renderHistorico();">${p}</button>`;
+        pagHtml +=
+          `<button class="page-btn ${p === historicoPagina ? 'active' : ''}" onclick="historicoPagina=${p};renderHistorico();">${p}</button>`;
       }
-      pagHtml += `<button class="page-btn" ${historicoPagina >= totalPages ? 'disabled' : ''} onclick="historicoPagina++;renderHistorico();"><i class="bi bi-chevron-right"></i></button>`;
+      pagHtml +=
+        `<button class="page-btn" ${historicoPagina >= totalPages ? 'disabled' : ''} onclick="historicoPagina++;renderHistorico();"><i class="bi bi-chevron-right"></i></button>`;
       pagContainer.innerHTML = pagHtml;
 
       document.getElementById('countHistorico').textContent = historicoData.length;
@@ -3086,19 +3726,26 @@ function abrirModalEdicao(id) {
     document.addEventListener('DOMContentLoaded', () => {
       carregarSelectInsumos();
       carregarSelectHistorico();
+      carregarSelectSaidas();
+      carregarAgricultoresSaida();
+      carregarSaidasDoServidor()
       renderInsumos();
+      renderSaidas();
       renderHistorico();
     });
+
+
+
+
+
   </script>
 
 
 
   <script>
     function movimentarEstoque(tipoMovimentacao) {
-      // 1. Captura o ID da cooperativa diretamente da URL atual da página
-      // Ex: se a URL for /cooperativas/14/estoque, o match pega o "14"
       const urlParts = window.location.pathname.split('/');
-      const cooperativaId = urlParts[urlParts.indexOf('cooperativas') + 1];
+      const cooperativaId = urlParts[urlParts.indexOf('cooperativa') + 1];
 
       if (!cooperativaId) {
         alert("Erro: Não foi possível identificar o ID da cooperativa.");
@@ -3112,10 +3759,8 @@ function abrirModalEdicao(id) {
       const formData = new FormData(form);
       const dados = Object.fromEntries(formData.entries());
 
-      // 2. Monta a rota dinâmica com o ID capturado
-      const url = `/cooperativas/${cooperativaId}/estoque/${tipoMovimentacao}`;
+      const url = `/cooperativa/${cooperativaId}/estoque/${tipoMovimentacao}`;
 
-      // ... resto do teu fetch igual ...
       fetch(url, {
         method: 'POST',
         headers: {

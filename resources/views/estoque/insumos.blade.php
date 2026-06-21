@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -1916,9 +1915,9 @@
                 </div>
                 <select class="filter-select" id="filterTipo">
                   <option value="">Todos os tipos</option>
-                  <option value="Semente">Semente</option>
-                  <option value="Fertilizante">Fertilizante</option>
-                  <option value="Mecânico">Mecânico</option>
+                  <option value="semente">Semente</option>
+                  <option value="fertilizante">Fertilizante</option>
+                  <option value="mecânico">Mecânico</option>
                 </select>
                 <button class="btn-green" id="btnAplicarFiltros" style="padding:8px 18px;"><i class="bi bi-search"></i>
                   Filtrar</button>
@@ -1979,7 +1978,8 @@
               <div class="action-bar">
                 <div class="search-wrap">
                   <i class="bi bi-search"></i>
-                  <input type="text" class="search-input" id="searchSaida" placeholder="Pesquisar por insumo ou agricultor...">
+                  <input type="text" class="search-input" id="searchSaida"
+                    placeholder="Pesquisar por insumo ou agricultor...">
                 </div>
                 <select class="filter-select" id="filterSaidaEstado">
                   <option value="">Todos os estados</option>
@@ -1990,13 +1990,15 @@
                 </select>
                 <select class="filter-select" id="filterSaidaModalidade">
                   <option value="">Todas as modalidades</option>
-                  <option value="Vendido">Vendido</option>
-                  <option value="Oferta">Oferta</option>
-                  <option value="Troca">Troca</option>
-                  <option value="Crédito">Crédito</option>
+                  <option value="vendido">Vendido</option>
+                  <option value="oferta">Oferta</option>
+                  <option value="troca">Troca</option>
+                  <option value="crédito">Crédito</option>
                 </select>
-                <button class="btn-green" id="btnFiltrarSaidas" style="padding:8px 18px;"><i class="bi bi-search"></i> Filtrar</button>
-                <button class="btn-outline-green" id="btnLimparFiltrosSaidas" style="padding:8px 18px;"><i class="bi bi-eraser"></i> Limpar</button>
+                <button class="btn-green" id="btnFiltrarSaidas" style="padding:8px 18px;"><i class="bi bi-search"></i>
+                  Filtrar</button>
+                <button class="btn-outline-green" id="btnLimparFiltrosSaidas" style="padding:8px 18px;"><i
+                    class="bi bi-eraser"></i> Limpar</button>
               </div>
 
               <!-- Tabela Saídas -->
@@ -2109,6 +2111,132 @@
      MODALS
 ══════════════════════════════════════ -->
 
+
+
+  <!-- ─── MODAL INSUMOS: REGISTRAR SAÍDA ─── -->
+  <div class="modal fade modal-coop" id="modalRegistrarSaidaInsumo" tabindex="-1" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div style="display:flex;align-items:center;gap:14px;flex:1;">
+            <div class="modal-header-icon"><i class="bi bi-box-seam-fill"></i></div>
+            <div>
+              <div class="modal-title" id="modalSaidaTitulo">Distribuição de Insumos</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="modalSaidaSubtitulo">Registar
+                saída ou distribuição de insumos</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formRegistrarSaidaInsumo">
+            @csrf
+            <input type="hidden" id="editarSaidaId" name="id">
+
+            <div class="modal-form-card">
+              <div class="modal-section-title"><i class="bi bi-box-seam-fill"></i> Dados da Saída</div>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="cfg-label">Insumo *</label>
+                  <select class="cfg-select" id="insumoSaidaInsumo" name="insumo_id" required>
+                    <option value="">Selecione um insumo</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="cfg-label">Agricultor *</label>
+                  <select class="cfg-select" id="insumoSaidaAgricultor" name="agricultor_id">
+                    <option value="">Selecione um agricultor</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Data de Saída *</label>
+                  <input type="date" class="cfg-input" id="insumoSaidaData" name="data_movimento" required>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Quantidade *</label>
+                  <input type="number" class="cfg-input" id="insumoSaidaQuantidade" name="quantidade" required
+                    placeholder="0">
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Modalidade *</label>
+                  <select class="cfg-select" id="insumoSaidaModalidade" name="modalidade">
+                    <option value="vendido">Vendido</option>
+                    <option value="oferta">Oferta</option>
+                    <option value="troca">Troca</option>
+                    <option value="crédito">Crédito</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Estado *</label>
+                  <select class="cfg-select" id="insumoSaidaEstado" name="estado">
+                    <option value="pago">Pago</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="oferecido">Oferecido</option>
+                    <option value="liquidado">Liquidado</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <div
+            style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
+            <div style="font-size:12px;color:var(--text-light);">
+              <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
+            </div>
+            <div style="display:flex;gap:10px;">
+              <button type="button" class="btn-outline-green" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>
+                Cancelar</button>
+              <button type="button" class="btn-green" id="btnSalvarSaidaInsumo"><i class="bi bi-check2-circle"></i>
+                <span id="btnSalvarSaidaTexto">Registrar</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL INSUMOS: APAGAR SAÍDA ─── -->
+  <div class="modal fade" id="modalExcluirSaida" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
+      <div class="modal-content">
+        <div class="modal-header" style="background:linear-gradient(135deg, #7f0000, #C62828);">
+          <div style="display:flex;align-items:center;gap:14px;flex:1;">
+            <div class="modal-header-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <div>
+              <div class="modal-title">Confirmar Exclusão</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Esta acção é irreversível</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body" style="background:#fff;padding:28px;">
+          <p style="font-size:13.5px;color:var(--text-mid);margin-bottom:10px;">
+            Tem a certeza que deseja excluir o registo de saída do insumo:
+          </p>
+          <div
+            style="background:#FFF8F8;border:1px solid #FFCDD2;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:#C62828;"
+              id="excluirSaidaNome">—</div>
+            <div style="font-size:12px;color:var(--text-light);margin-top:3px;">O histórico de movimentação desta
+              distribuição será removido permanentemente.</div>
+          </div>
+          <input type="hidden" id="excluirSaidaId">
+        </div>
+        <div class="modal-footer" style="border-top:1px solid #FFCDD2;">
+          <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn-green" id="btnConfirmarExcluirSaida"
+            style="background:#C62828;box-shadow:none;">
+            <i class="bi bi-trash-fill"></i> Excluir Definitivamente
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ─── MODAL ADICIONAR INSUMO ─── -->
   <div class="modal fade modal-coop" id="modalAdicionarInsumo" tabindex="-1" data-bs-backdrop="static"
     data-bs-keyboard="false">
@@ -2185,88 +2313,6 @@
                 Cancelar</button>
               <button type="button" class="btn-green" id="btnSalvarInsumo"><i class="bi bi-check2-circle"></i>
                 Salvar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── MODAL INSUMOS: Registrar Saída ─── -->
-  <div class="modal fade modal-coop" id="modalRegistrarSaidaInsumo" tabindex="-1" data-bs-backdrop="static"
-    data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div style="display:flex;align-items:center;gap:14px;flex:1;">
-            <div class="modal-header-icon"><i class="bi bi-box-seam-fill"></i></div>
-            <div>
-              <div class="modal-title">Movimentação de Insumos</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Registar saída ou distribuição de
-                insumos</div>
-            </div>
-          </div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-        </div>
-        <div class="modal-body">
-          <form id="formRegistrarSaidaInsumo">
-            @csrf
-            <div class="modal-form-card">
-              <div class="modal-section-title"><i class="bi bi-box-seam-fill"></i> Dados da Saída</div>
-              <div class="row g-3">
-                <div class="col-12">
-                  <label class="cfg-label">Insumo *</label>
-                  <select class="cfg-select" id="insumoSaidaInsumo" required>
-                    <option value="">Selecione um insumo</option>
-                  </select>
-                </div>
-                <div class="col-12">
-                  <label class="cfg-label">Agricultor *</label>
-                  <select class="cfg-select" id="insumoSaidaAgricultor">
-                    <option value="">Selecione um agricultor</option>
-                  </select>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Data de Saída *</label>
-                  <input type="date" class="cfg-input" id="insumoSaidaData" required>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Quantidade *</label>
-                  <input type="number" class="cfg-input" id="insumoSaidaQuantidade" required placeholder="0">
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Modalidade *</label>
-                  <select class="cfg-select" id="insumoSaidaModalidade">
-                    <option value="Vendido">Vendido</option>
-                    <option value="Oferta">Oferta</option>
-                    <option value="Troca">Troca</option>
-                    <option value="Crédito">Crédito</option>
-                  </select>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Estado *</label>
-                  <select class="cfg-select" id="insumoSaidaEstado">
-                    <option value="Pago">Pago</option>
-                    <option value="Pendente">Pendente</option>
-                    <option value="Oferecido">Oferecido</option>
-                    <option value="Liquidado">Liquidado</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <div
-            style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
-            <div style="font-size:12px;color:var(--text-light);">
-              <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
-            </div>
-            <div style="display:flex;gap:10px;">
-              <button type="button" class="btn-outline-green" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>
-                Cancelar</button>
-              <button type="button" class="btn-green" id="btnSalvarSaidaInsumo"><i class="bi bi-check2-circle"></i>
-                Registrar</button>
             </div>
           </div>
         </div>
@@ -2429,7 +2475,9 @@
   <!-- ══════════════════════════════════════
      SCRIPT PRINCIPAL
 ══════════════════════════════════════ -->
+
   <script>
+
     /* ══════════════════════════════════════
        SIDEBAR TOGGLE
     ══════════════════════════════════════ */
@@ -2469,7 +2517,7 @@
     const themeLabel = document.getElementById('themeLabel');
     let darkMode = false;
 
-    themeToggle.addEventListener('click', function(e) {
+    themeToggle.addEventListener('click', function (e) {
       e.preventDefault();
       darkMode = !darkMode;
       body.classList.toggle('dark-mode', darkMode);
@@ -2542,17 +2590,16 @@
     });
 
     // Dados de Saídas (mockados - substituir com dados reais do backend)
-    let saidasData = [
-      { id: 1, insumo_id: 1, insumo_nome: 'Ureia 46%', agricultor_nome: 'João Ferreira', tipo: 'Fertilizante', quantidade: 50, modalidade: 'Vendido', estado: 'Pago', data: '2025-01-15' },
-      { id: 2, insumo_id: 2, insumo_nome: 'Semente de Milho Híbrida', agricultor_nome: 'Maria Silva', tipo: 'Semente', quantidade: 20, modalidade: 'Oferta', estado: 'Oferecido', data: '2025-01-20' },
-      { id: 3, insumo_id: 4, insumo_nome: 'Fertilizante NPK 12-24-12', agricultor_nome: 'António Costa', tipo: 'Fertilizante', quantidade: 100, modalidade: 'Crédito', estado: 'Pendente', data: '2025-02-01' },
-    ];
 
     let movimentos = [
-      { id: 1, insumo_id: 1, tipo_movimento: 'Entrada', quantidade: 50, stock_anterior: 100, stock_atual: 150,
-        data: '2025-01-10', utilizador: 'João Silva', observacao: 'Compra realizada' },
-      { id: 2, insumo_id: 2, tipo_movimento: 'Saída', quantidade: 20, stock_anterior: 100, stock_atual: 80,
-        data: '2025-01-12', utilizador: 'Maria Santos', observacao: 'Distribuição para agricultores' }
+      {
+        id: 1, insumo_id: 1, tipo_movimento: 'Entrada', quantidade: 50, stock_anterior: 100, stock_atual: 150,
+        data: '2025-01-10', utilizador: 'João Silva', observacao: 'Compra realizada'
+      },
+      {
+        id: 2, insumo_id: 2, tipo_movimento: 'Saída', quantidade: 20, stock_anterior: 100, stock_atual: 80,
+        data: '2025-01-12', utilizador: 'Maria Santos', observacao: 'Distribuição para agricultores'
+      }
     ];
 
     let nextInsumoId = insumosData.length > 0 ? Math.max(...insumosData.map(i => i.id)) + 1 : 1;
@@ -2624,7 +2671,6 @@
             <div style="display:flex;gap:6px;justify-content:center;">
               <button class="action-btn view" title="Visualizar" onclick="visualizarInsumo(${i.id})"><i class="bi bi-eye-fill"></i></button>
               <button class="action-btn edit" title="Editar" onclick="abrirModalEdicao(${i.id})"> <i class="bi bi-pencil-fill"></i> </button>
-              <button class="action-btn move" title="Movimentar" onclick="movimentarInsumo(${i.id})"><i class="bi bi-arrow-left-right"></i></button>
               <button class="action-btn delete" title="Excluir" onclick="excluirInsumo(${i.id}, '${i.nome}')"><i class="bi bi-trash-fill"></i></button>
             </div>
           </td>
@@ -2696,7 +2742,7 @@
     /* ══════════════════════════════════════
        SALVAR INSUMO (CADASTRO / EDIÇÃO) — UNIFICADO
     ══════════════════════════════════════ */
-    document.getElementById('btnSalvarInsumo').addEventListener('click', async function() {
+    document.getElementById('btnSalvarInsumo').addEventListener('click', async function () {
       const id = document.getElementById('insumoId').value;
 
       const nome = document.getElementById('insumoNome').value.trim();
@@ -2822,7 +2868,7 @@
     }
 
 
-    document.getElementById('btnSalvarMovimento').addEventListener('click', async function() {
+    document.getElementById('btnSalvarMovimento').addEventListener('click', async function () {
       const insumoId = document.getElementById('movInsumo').value;
       const tipo = document.getElementById('movTipo').value;
       const qtd = parseInt(document.getElementById('movQuantidade').value);
@@ -2972,7 +3018,7 @@
       modalExcluir.show();
     }
 
-    document.getElementById('btnConfirmarExcluir').addEventListener('click', async function() {
+    document.getElementById('btnConfirmarExcluir').addEventListener('click', async function () {
       const id = parseInt(document.getElementById('excluirInsumoId').value);
       const token = document.querySelector('input[name="_token"]').value;
 
@@ -3020,7 +3066,8 @@
     /* ══════════════════════════════════════
        TABELA SAÍDAS
     ══════════════════════════════════════ */
-    let saidasFiltrados = [...saidasData];
+    let saidasData = [];
+    let saidasFiltrados = [];
     let saidasPagina = 1;
     const saidasPorPagina = 10;
     let saidasOrdenacao = { col: 'id', dir: 'desc' };
@@ -3032,19 +3079,93 @@
         insumosData.map(i => `<option value="${i.id}">${i.nome} (${i.stock_atual} ${i.unidade})</option>`).join('');
     }
 
+    async function carregarAgricultoresSaida() {
+      const cooperativaId = "{{$id}}"; // ID da cooperativa passado de forma segura pelo Blade
+      const select = document.getElementById('insumoSaidaAgricultor');
+      if (!select) return;
+
+      try {
+        const response = await fetch(`/cooperativa/${cooperativaId}/agricultores`);
+        if (response.ok) {
+          const agricultores = await response.json();
+          select.innerHTML = '<option value="">Selecione um agricultor</option>' +
+            agricultores.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar agricultores:', error);
+      }
+    }
+
+    function abrirModalSaidaInsumo() {
+      const form = document.getElementById('formRegistrarSaidaInsumo');
+      if (form) form.reset();
+
+      const inputData = document.getElementById('insumoSaidaData');
+      if (inputData) inputData.valueAsDate = new Date();
+
+      // Recarrega o select de saídas para garantir saldos em tempo real
+      carregarSelectSaidas();
+
+      const modalElement = document.getElementById('modalRegistrarSaidaInsumo');
+      const modalInstancia = bootstrap.Modal.getOrCreateInstance(modalElement);
+      modalInstancia.show();
+    }
+
+
+    /* ══════════════════════════════════════════════════════════
+       CARREGAR SAÍDAS DIRETAMENTE DA ROTA DO LARAVEL (AJAX)
+    ══════════════════════════════════════════════════════════ */
+    async function carregarSaidasDoServidor() {
+      const urlParts = window.location.pathname.split('/');
+      // Compatível tanto se sua URL contiver /cooperativa/ ou /cooperativas/
+      let idx = urlParts.indexOf('cooperativa');
+      if (idx === -1) idx = urlParts.indexOf('cooperativas');
+
+      const cooperativaId = idx !== -1 ? urlParts[idx + 1] : "{{ $id }}";
+
+      if (!cooperativaId) return;
+
+      try {
+        const response = await fetch(`/cooperativa/${cooperativaId}/movimentos/saidas`);
+        if (response.ok) {
+          saidasData = await response.json();
+          // Sincroniza a cópia de filtragem inicial sem estourar o erro de inicialização
+          saidasFiltrados = [...saidasData];
+          renderSaidas();
+        }
+      } catch (error) {
+        console.error("Erro ao carregar saídas do banco de dados:", error);
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       RENDERIZAR TABELA DE SAÍDAS COM OS IDS CORRIGIDOS DO HTML
+    ══════════════════════════════════════════════════════════ */
+
     function renderSaidas() {
-      const search = document.getElementById('searchSaida').value.toLowerCase().trim();
-      const estado = document.getElementById('filterSaidaEstado').value;
-      const modalidade = document.getElementById('filterSaidaModalidade').value;
+      // Captura EXACTAMENTE os IDs do teu HTML real
+      const inputSearch = document.getElementById('searchSaida');
+      const selectEstado = document.getElementById('filterSaidaEstado');
+      const selectModalidade = document.getElementById('filterSaidaModalidade');
+
+      const search = inputSearch ? inputSearch.value.toLowerCase().trim() : '';
+      const estado = selectEstado ? selectEstado.value.toLowerCase() : '';
+      const modalidade = selectModalidade ? selectModalidade.value.toLowerCase() : '';
 
       saidasFiltrados = saidasData.filter(s => {
-        const matchSearch = s.insumo_nome.toLowerCase().includes(search) ||
-          s.agricultor_nome.toLowerCase().includes(search);
-        const matchEstado = estado ? s.estado === estado : true;
-        const matchModalidade = modalidade ? s.modalidade === modalidade : true;
+        const insumoNome = s.insumo_nome ? s.insumo_nome.toLowerCase() : '';
+        const agricultorNome = s.agricultor_nome ? s.agricultor_nome.toLowerCase() : '';
+        const estadoItem = s.estado ? s.estado.toLowerCase() : '';
+        const modalidadeItem = s.modalidade ? s.modalidade.toLowerCase() : '';
+
+        const matchSearch = insumoNome.includes(search) || agricultorNome.includes(search);
+        const matchEstado = estado ? estadoItem === estado : true;
+        const matchModalidade = modalidade ? modalidadeItem === modalidade : true;
+
         return matchSearch && matchEstado && matchModalidade;
       });
 
+      // Ordenação Dinâmica
       const col = saidasOrdenacao.col;
       const dir = saidasOrdenacao.dir;
       saidasFiltrados.sort((a, b) => {
@@ -3057,6 +3178,7 @@
         return 0;
       });
 
+      // Paginação
       const total = saidasFiltrados.length;
       const totalPages = Math.ceil(total / saidasPorPagina) || 1;
       if (saidasPagina > totalPages) saidasPagina = totalPages;
@@ -3065,50 +3187,66 @@
       const pageItems = saidasFiltrados.slice(start, end);
 
       const tbody = document.getElementById('tabelaSaidasBody');
+      if (!tbody) return;
+
       if (pageItems.length === 0) {
         tbody.innerHTML =
           `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
-      <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma saída registada.</td></tr>`;
+        <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma saída registada.</td></tr>`;
       } else {
         tbody.innerHTML = pageItems.map(s => {
-          const estadoClass = s.estado.toLowerCase();
+          const estadoClass = s.estado ? s.estado.toLowerCase() : 'pendente';
+          const tipoClass = s.tipo ? s.tipo.toLowerCase() : 'default';
+          const formatarTexto = (txt) => txt ? txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase() : '';
+
           return `
-        <tr>
-          <td>${s.id}</td>
-          <td><strong>${s.insumo_nome}</strong></td>
-          <td>${s.agricultor_nome}</td>
-          <td><span class="badge-tipo ${s.tipo.toLowerCase()}">${s.tipo}</span></td>
-          <td>${s.quantidade}</td>
-          <td>${s.modalidade}</td>
-          <td><span class="badge-status ${estadoClass}"><span class="dot"></span> ${s.estado}</span></td>
-          <td style="text-align:center;">
-            <div style="display:flex;gap:6px;justify-content:center;">
-              <button class="action-btn view" title="Visualizar" onclick="showToast('Detalhes da Saída', 'Saída #${s.id} - ${s.insumo_nome}')"><i class="bi bi-eye-fill"></i></button>
-              <button class="action-btn edit" title="Editar" onclick="showToast('Editar Saída', 'Funcionalidade em desenvolvimento.')"><i class="bi bi-pencil-fill"></i></button>
-              <button class="action-btn delete" title="Excluir" onclick="showToast('Excluir Saída', 'Funcionalidade em desenvolvimento.', 'danger')"><i class="bi bi-trash-fill"></i></button>
-            </div>
-          </td>
-        </tr>
-      `;
+            <tr>
+              <td>${s.id}</td>
+              <td><strong>${s.insumo_nome}</strong></td>
+              <td>${s.agricultor_nome || 'Não Associado'}</td>
+              <td><span class="badge-tipo ${tipoClass}">${formatarTexto(s.tipo)}</span></td>
+              <td>${s.quantidade}</td>
+              <td>${formatarTexto(s.modalidade)}</td>
+              <td><span class="badge-status ${estadoClass}"><span class="dot"></span> ${formatarTexto(s.estado)}</span></td>
+              <td style="text-align:center;">
+                <div style="display:flex;gap:6px;justify-content:center;">
+                  
+                  <button class="action-btn view" title="Visualizar" onclick="showToast('Detalhes da Saída', 'Saída #${s.id} - ${s.insumo_nome}')"><i class="bi bi-eye-fill"></i></button>
+                 
+                  <button class="action-btn edit" title="Editar" onclick="abrirEditarSaida(${s.id})">
+                     <i class="bi bi-pencil-fill"></i>
+                  </button>   
+
+                  <button class="action-btn delete" title="Excluir" onclick="excluirSaida(${s.id}, '${s.insumo_nome}')">
+                      <i class="bi bi-trash-fill"></i>
+                  </button>
+              
+                  </div>
+              </td>
+            </tr>
+          `;
         }).join('');
       }
 
       document.getElementById('infoSaidas').textContent =
         `Mostrando ${total === 0 ? 0 : start + 1} - ${end} de ${total} registos`;
-      const pagContainer = document.getElementById('paginacaoSaidas');
-      let pagHtml = '';
-      pagHtml +=
-        `<button class="page-btn" ${saidasPagina <= 1 ? 'disabled' : ''} onclick="saidasPagina--;renderSaidas();"><i class="bi bi-chevron-left"></i></button>`;
-      for (let p = 1; p <= totalPages; p++) {
-        pagHtml +=
-          `<button class="page-btn ${p === saidasPagina ? 'active' : ''}" onclick="saidasPagina=${p};renderSaidas();">${p}</button>`;
-      }
-      pagHtml +=
-        `<button class="page-btn" ${saidasPagina >= totalPages ? 'disabled' : ''} onclick="saidasPagina++;renderSaidas();"><i class="bi bi-chevron-right"></i></button>`;
-      pagContainer.innerHTML = pagHtml;
 
-      document.getElementById('countSaidas').textContent = saidasData.length;
+      const pagContainer = document.getElementById('paginacaoSaidas');
+      if (pagContainer) {
+
+        let pagHtml = '';
+        pagHtml += `<button class="page-btn" ${saidasPagina <= 1 ? 'disabled' : ''} onclick="saidasPagina--;renderSaidas();"><i class="bi bi-chevron-left"></i></button>`;
+        for (let p = 1; p <= totalPages; p++) {
+          pagHtml += `<button class="page-btn ${p === saidasPagina ? 'active' : ''}" onclick="saidasPagina=${p};renderSaidas();">${p}</button>`;
+        }
+        pagHtml += `<button class="page-btn" ${saidasPagina >= totalPages ? 'disabled' : ''} onclick="saidasPagina++;renderSaidas();"><i class="bi bi-chevron-right"></i></button>`;
+        pagContainer.innerHTML = pagHtml;
+      }
+
+      const countSaidasEl = document.getElementById('countSaidas');
+      if (countSaidasEl) countSaidasEl.textContent = saidasData.length;
     }
+
 
     /* Ordenação Saídas */
     document.querySelectorAll('#tabelaSaidas thead th[data-col]').forEach(th => {
@@ -3129,6 +3267,7 @@
       saidasPagina = 1;
       renderSaidas();
     });
+
     document.getElementById('btnLimparFiltrosSaidas').addEventListener('click', () => {
       document.getElementById('searchSaida').value = '';
       document.getElementById('filterSaidaEstado').value = '';
@@ -3136,45 +3275,179 @@
       saidasPagina = 1;
       renderSaidas();
     });
-    document.getElementById('searchSaida').addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') {
-        saidasPagina = 1;
-        renderSaidas();
-      }
+
+    document.getElementById('btnLimparFiltrosSaidas').addEventListener('click', () => {
+      if (document.getElementById('searchSaidas')) document.getElementById('searchSaidas').value = '';
+      if (document.getElementById('filterEstado')) document.getElementById('filterEstado').value = '';
+      if (document.getElementById('filterModalidade')) document.getElementById('filterModalidade').value = '';
+      saidasPagina = 1;
+      renderSaidas();
     });
 
-    /* ─── MODAL REGISTRAR SAÍDA ─── */
-    const modalSaida = new bootstrap.Modal(document.getElementById('modalRegistrarSaidaInsumo'));
 
-    document.getElementById('btnRegistrarSaidaInsumo').addEventListener('click', () => {
+
+    /* ══════════════════════════════════════
+       EVENTO PARA ABRIR O MODAL DE SAÍDA (CRIAÇÃO)
+       ══════════════════════════════════════ */
+    document.getElementById('btnRegistrarSaidaInsumo').addEventListener('click', async () => {
+      // Ajusta os textos do Modal para o Modo de Criação
+      if (document.getElementById('modalSaidaTitulo')) document.getElementById('modalSaidaTitulo').textContent = "Distribuição de Insumos";
+      if (document.getElementById('modalSaidaSubtitulo')) document.getElementById('modalSaidaSubtitulo').textContent = "Registar saída ou distribuição de insumos";
+      if (document.getElementById('btnSalvarSaidaTexto')) document.getElementById('btnSalvarSaidaTexto').textContent = "Registrar";
+
+      // Garante que o ID de edição está limpo
+      if (document.getElementById('editarSaidaId')) document.getElementById('editarSaidaId').value = '';
+
       carregarSelectSaidas();
-      // Carregar agricultores mockados (substituir com dados reais)
+
+      const cooperativaId = "{{ $id }}";
       const selectAgricultor = document.getElementById('insumoSaidaAgricultor');
-      selectAgricultor.innerHTML = `
-        <option value="">Selecione um agricultor</option>
-        <option value="João Ferreira">João Ferreira</option>
-        <option value="Maria Silva">Maria Silva</option>
-        <option value="António Costa">António Costa</option>
-        <option value="Rosa Neto">Rosa Neto</option>
-        <option value="Paulo Dias">Paulo Dias</option>
-      `;
+
+      if (selectAgricultor) {
+        selectAgricultor.innerHTML = '<option value="">Carregando agricultores...</option>';
+        try {
+          const response = await fetch(`/cooperativa/${cooperativaId}/agricultores`);
+          if (response.ok) {
+            const agricultores = await response.json();
+            selectAgricultor.innerHTML = '<option value="">Selecione um agricultor</option>' +
+              agricultores.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
+          } else {
+            selectAgricultor.innerHTML = '<option value="">Erro ao carregar agricultores</option>';
+          }
+        } catch (error) {
+          console.error('Erro ao buscar agricultores:', error);
+          selectAgricultor.innerHTML = '<option value="">Erro de conexão</option>';
+        }
+      }
+
       document.getElementById('formRegistrarSaidaInsumo').reset();
       document.getElementById('insumoSaidaData').valueAsDate = new Date();
-      modalSaida.show();
+
+      // INICIALIZAÇÃO DINÂMICA: Pega ou cria a instância do modal e abre
+      const modalEl = document.getElementById('modalRegistrarSaidaInsumo');
+      const modalInstancia = bootstrap.Modal.getOrCreateInstance(modalEl);
+      modalInstancia.show();
     });
 
-    document.getElementById('btnSalvarSaidaInsumo').addEventListener('click', () => {
-      const insumoId = document.getElementById('insumoSaidaInsumo').value;
-      const agricultor = document.getElementById('insumoSaidaAgricultor').value;
-      const data = document.getElementById('insumoSaidaData').value;
-      const quantidade = parseInt(document.getElementById('insumoSaidaQuantidade').value);
-      const modalidade = document.getElementById('insumoSaidaModalidade').value;
-      const estado = document.getElementById('insumoSaidaEstado').value;
+    /* ══════════════════════════════════════
+       LOGICA DE EXCLUSÃO DE SAÍDAS (AJAX)
+       ══════════════════════════════════════ */
+    const modalExcluirSaida = new bootstrap.Modal(document.getElementById('modalExcluirSaida'));
 
-      if (!insumoId || !agricultor || !data || isNaN(quantidade) || quantidade <= 0) {
-        showToast('Campos inválidos', 'Preencha todos os campos obrigatórios.', 'danger');
+    // Função que o botão da tabela vai chamar para abrir o modal
+    function excluirSaida(id, nomeInsumo) {
+      document.getElementById('excluirSaidaNome').textContent = nomeInsumo;
+      document.getElementById('excluirSaidaId').value = id;
+      modalExcluirSaida.show();
+    }
+
+
+    document.getElementById('btnConfirmarExcluirSaida').addEventListener('click', async function (e) {
+
+      e.preventDefault();
+
+
+      const id = parseInt(document.getElementById('excluirSaidaId').value);
+      const token = document.querySelector('input[name="_token"]')?.value || document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+      if (!id) return;
+
+      this.disabled = true;
+
+      // Captura o ID de forma inteligente se a URL tiver 'cooperativa' ou 'cooperativas'
+      const urlParts = window.location.pathname.split('/');
+      let idx = urlParts.indexOf('cooperativa');
+      if (idx === -1) idx = urlParts.indexOf('cooperativas');
+
+      // Se achar na URL usa, caso contrário tenta usar a variável injetada pelo Blade
+      let cooperativaId = idx !== -1 ? urlParts[idx + 1] : '';
+      if (!cooperativaId) {
+        cooperativaId = "{{ $cooperativa->id ?? ($id ?? '') }}";
+      }
+
+      // Validação extra de segurança
+      if (!cooperativaId) {
+        showToast('Erro', 'Não foi possível identificar o ID da cooperativa.', 'danger');
+        this.disabled = false;
         return;
       }
+
+      try {
+        // Monta a URL garantindo que não existem barras duplas
+        const urlFinal = `/cooperativa/${cooperativaId}/movimentos/saidas/${id}`;
+
+        const response = await fetch(urlFinal, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.redirected) {
+          showToast('Erro de Sessão', 'A sessão expirou, por favor recarregue a página.', 'danger');
+          this.disabled = false;
+          return;
+        }
+
+        const resultado = await response.json();
+
+        if (response.ok && resultado.success) {
+          // Remove localmente do array global para atualizar a tabela instantaneamente
+          const idxData = saidasData.findIndex(s => s.id === id);
+          if (idxData !== -1) {
+            saidasData.splice(idxData, 1);
+
+            modalExcluirSaida.hide(); // Fecha o modal
+            renderSaidas(); // Re-renderiza a tabela
+
+            showToast('Saída Excluída', resultado.message || 'O registo foi removido com sucesso.', 'danger');
+          }
+        } else {
+          showToast('Erro ao excluir', resultado.message || 'Não foi possível remover o registo.', 'danger');
+        }
+      } catch (error) {
+        console.error('Erro na requisição de exclusão:', error);
+        showToast('Erro de Conexão', 'Não foi possível comunicar com o servidor.', 'danger');
+      } finally {
+        this.disabled = false;
+      }
+    });
+
+    /* ══════════════════════════════════════════════════════════
+        PROCESSAR E ENVIAR MOVIMENTO DE SAÍDA PARA O LARAVEL
+     ══════════════════════════════════════════════════════════ */
+
+    document.getElementById('btnSalvarSaidaInsumo').addEventListener('click', async function (e) {
+      e.preventDefault();
+
+      const form = document.getElementById('formRegistrarSaidaInsumo');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const id = document.getElementById('editarSaidaId').value;
+      const isEditing = id !== '';
+
+      const token = document.querySelector('input[name="_token"]')?.value || document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+      const urlParts = window.location.pathname.split('/');
+      let idx = urlParts.indexOf('cooperativa');
+      if (idx === -1) idx = urlParts.indexOf('cooperativas');
+      const cooperativaId = idx !== -1 ? urlParts[idx + 1] : "{{ $id }}";
+
+      const insumoId = document.getElementById('insumoSaidaInsumo').value;
+      const agricultorId = document.getElementById('insumoSaidaAgricultor').value;
+
+      const selectAgro = document.getElementById('insumoSaidaAgricultor');
+      const agricultorNome = selectAgro.options[selectAgro.selectedIndex]?.text || '';
+
+      const data = document.getElementById('insumoSaidaData').value;
+      const quantidade = parseFloat(document.getElementById('insumoSaidaQuantidade').value);
+      const modalidade = document.getElementById('insumoSaidaModalidade').value;
+      const estado = document.getElementById('insumoSaidaEstado').value;
 
       const insumo = insumosData.find(i => i.id == insumoId);
       if (!insumo) {
@@ -3182,47 +3455,152 @@
         return;
       }
 
-      if (quantidade > insumo.stock_atual) {
+      if (!isEditing && quantidade > insumo.quantidade) {
         showToast('Erro', 'Quantidade insuficiente em estoque.', 'danger');
         return;
       }
 
-      // Atualizar estoque
-      insumo.stock_atual -= quantidade;
+      let url = '';
+      let method = '';
 
-      // Registrar saída
-      saidasData.unshift({
-        id: nextSaidaId++,
+      if (isEditing) {
+        url = `/cooperativa/${cooperativaId}/movimentos/saidas/${id}`;
+        method = 'PUT';
+      } else {
+        url = `/cooperativa/${cooperativaId}/movimentos/saidas/${insumoId}`;
+        method = 'POST';
+      }
+
+      const dados = {
+        cooperativa_id: cooperativaId,
         insumo_id: parseInt(insumoId),
-        insumo_nome: insumo.nome,
-        agricultor_nome: agricultor,
-        tipo: insumo.tipo,
+        agricultor_id: parseInt(agricultorId),
+        data_movimento: data,
         quantidade: quantidade,
         modalidade: modalidade,
         estado: estado,
-        data: data
-      });
+        tipo: 'Saída'
+      };
 
-      // Registrar no histórico
-      movimentos.push({
-        id: nextMovimentoId++,
-        insumo_id: parseInt(insumoId),
-        tipo_movimento: 'Saída',
-        quantidade: quantidade,
-        stock_anterior: insumo.stock_atual + quantidade,
-        stock_atual: insumo.stock_atual,
-        data: data,
-        utilizador: 'Sistema',
-        observacao: `Saída para ${agricultor} - ${modalidade}`
-      });
+      this.disabled = true;
 
-      modalSaida.hide();
-      renderSaidas();
-      renderInsumos();
-      carregarSelectInsumos();
-      carregarSelectHistorico();
-      showToast('Sucesso', `Saída de ${quantidade} ${insumo.unidade} de ${insumo.nome} registada com sucesso.`);
+      try {
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            'X-CSRF-TOKEN': token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dados)
+        });
+
+        const resultado = await response.json();
+
+        // ─── CORREÇÃO DA VALIDAÇÃO DA RESPOSTA ───
+        if (response.ok) {
+
+          if (isEditing) {
+            const mId = parseInt(id);
+            const saidaAntiga = { ...saidasData.find(s => s.id == mId) };
+            const indexSaida = saidasData.findIndex(s => s.id == mId);
+
+            if (indexSaida !== -1) {
+              if (saidaAntiga.insumo_id == insumoId) {
+                insumo.quantidade = (insumo.quantidade + saidaAntiga.quantidade) - quantidade;
+              } else {
+                const insumoAntigo = insumosData.find(i => i.id == saidaAntiga.insumo_id);
+                if (insumoAntigo) insumoAntigo.quantidade += saidaAntiga.quantidade;
+                insumo.quantidade -= quantidade;
+              }
+
+              saidasData[indexSaida] = {
+                id: mId,
+                insumo_id: parseInt(insumoId),
+                insumo_nome: insumo.nome,
+                agricultor_name: agricultorNome,
+                tipo: insumo.tipo,
+                quantidade: quantidade,
+                modalidade: modalidade,
+                estado: estado,
+                data_movimento: data
+              };
+            }
+          } else {
+            // Desconta do estoque local
+            insumo.quantidade -= quantidade;
+
+            // Adiciona no topo do array de saídas
+            saidasData.unshift({
+              id: resultado.movimento_id || Date.now(),
+              insumo_id: parseInt(insumoId),
+              insumo_nome: insumo.nome,
+              agricultor_nome: agricultorNome,
+              tipo: 'Saída',
+              quantidade: quantidade,
+              modalidade: modalidade,
+              estado: estado,
+              data_movimento: data
+            });
+          }
+
+          // ─── FECHO SEGURO E DEFINITIVO DO MODAL ───
+          const modalEl = document.getElementById('modalRegistrarSaidaInsumo');
+          const modalInstancia = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+          modalInstancia.hide();
+
+          // Força a remoção visual do backdrop escuro caso o Bootstrap bloqueie
+          const backdrop = document.querySelector('.modal-backdrop');
+          if (backdrop) backdrop.remove();
+          document.body.classList.remove('modal-open');
+          document.body.style.paddingRight = '';
+
+          // ─── RENDERIZAÇÃO EM TEMPO REAL ───
+          renderSaidas();
+          renderInsumos();
+
+          if (typeof carregarSelectInsumos === 'function') carregarSelectInsumos();
+          if (typeof carregarSelectHistorico === 'function') carregarSelectHistorico();
+          if (typeof carregarSelectSaidas === 'function') carregarSelectSaidas();
+
+          showToast('Sucesso', resultado.message || 'Operação realizada com sucesso.', 'success');
+
+        } else {
+          showToast('Erro na Operação', resultado.message || 'Ocorreu um erro inesperado.', 'danger');
+        }
+      } catch (error) {
+        console.error('Erro na requisição:', error);
+        showToast('Erro de Conexão', 'Não foi possível comunicar com o servidor.', 'danger');
+      } finally {
+        this.disabled = false;
+      }
     });
+
+    // modal editar 
+    function abrirEditarSaida(id) {
+      const saida = saidasData.find(s => s.id === id);
+      if (!saida) return;
+
+      document.getElementById('modalSaidaTitulo').textContent = "Editar Distribuição";
+      document.getElementById('modalSaidaSubtitulo').textContent = "Modificar dados do registo de saída";
+      document.getElementById('btnSalvarSaidaTexto').textContent = "Salvar Alterações";
+
+      document.getElementById('editarSaidaId').value = saida.id;
+      document.getElementById('insumoSaidaInsumo').value = saida.insumo_id || '';
+      document.getElementById('insumoSaidaAgricultor').value = saida.agricultor_id || '';
+      document.getElementById('insumoSaidaQuantidade').value = saida.quantidade || 0;
+      document.getElementById('insumoSaidaModalidade').value = saida.modalidade ? saida.modalidade.toLowerCase() : 'vendido';
+      document.getElementById('insumoSaidaEstado').value = saida.estado ? saida.estado.toLowerCase() : 'pendente';
+
+      if (saida.data_movimento) {
+        document.getElementById('insumoSaidaData').value = saida.data_movimento.split(' ')[0];
+      }
+
+      // INICIALIZAÇÃO DINÂMICA: Pega ou cria a instância do modal e abre
+      const modalEl = document.getElementById('modalRegistrarSaidaInsumo');
+      const modalInstancia = bootstrap.Modal.getOrCreateInstance(modalEl);
+      modalInstancia.show();
+    }
 
 
     /* ══════════════════════════════════════
@@ -3347,7 +3725,7 @@
        NAV ACTIVE SIDEBAR
     ══════════════════════════════════════ */
     document.querySelectorAll('.nav-item-link').forEach(link => {
-      link.addEventListener('click', function(e) {
+      link.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
         if (!href || href === '#') {
           e.preventDefault();
@@ -3366,10 +3744,17 @@
       carregarSelectInsumos();
       carregarSelectHistorico();
       carregarSelectSaidas();
+      carregarAgricultoresSaida();
+      carregarSaidasDoServidor()
       renderInsumos();
       renderSaidas();
       renderHistorico();
     });
+
+
+
+
+
   </script>
 
 
@@ -3377,7 +3762,7 @@
   <script>
     function movimentarEstoque(tipoMovimentacao) {
       const urlParts = window.location.pathname.split('/');
-      const cooperativaId = urlParts[urlParts.indexOf('cooperativas') + 1];
+      const cooperativaId = urlParts[urlParts.indexOf('cooperativa') + 1];
 
       if (!cooperativaId) {
         alert("Erro: Não foi possível identificar o ID da cooperativa.");
@@ -3391,7 +3776,7 @@
       const formData = new FormData(form);
       const dados = Object.fromEntries(formData.entries());
 
-      const url = `/cooperativas/${cooperativaId}/estoque/${tipoMovimentacao}`;
+      const url = `/cooperativa/${cooperativaId}/estoque/${tipoMovimentacao}`;
 
       fetch(url, {
         method: 'POST',

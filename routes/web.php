@@ -86,7 +86,14 @@ Route::middleware('auth')->group(function () {
     // Movimento saida
     Route::resource('movimento-insumos', MovimentoInsumoController::class);
     Route::get('/cooperativa/{cooperativa}/agricultores', [MovimentoInsumoController::class, 'getAgricultores']);
-    Route::post('/estoque/movimentar', [MovimentoInsumoController::class, 'movimentarEstoque']); // entrada/saida
+    Route::get('/cooperativa/{cooperativa}/movimentos/saidas', [MovimentoInsumoController::class, 'getSaidas']);
+    Route::get('/cooperativa/{cooperativa}/estoque', [MovimentoInsumoController::class, 'index'])->name('movimento-insumos.index');
+    Route::delete('/cooperativa/{cooperativa}/movimentos/saidas/{id}', [MovimentoInsumoController::class, 'destroySaida']);
+    Route::post('/cooperativa/{cooperativa}/movimentos/saidas/{insumo_id}', [MovimentoInsumoController::class, 'movimentarEstoque']);
+    Route::put('/cooperativa/{cooperativa}/movimentos/saidas/{id}', [MovimentoInsumoController::class, 'updateSaida']);
+
+    // Rota para buscar o histórico global de estoque da cooperativa
+    Route::get('/cooperativa/{cooperativa}/estoque/historico', [HistoricoEstoqueController::class, 'getHistoricoGlobal']);
 
     // Insumos
     Route::get('/insumos', [InsumosController::class, 'index'])->name('insumos.index');
