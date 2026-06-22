@@ -1053,11 +1053,11 @@
 
       <div class="nav-section-title">Agrícola</div>
 
-      <a href="#" class="nav-item-link" data-label="Safras">
+      <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras">
         <i class="bi bi-flower2"></i>
         <span class="nav-label">Safras</span>
       </a>
-      <a href="#" class="nav-item-link" data-label="Talhões">
+      <a  href="{{route('talhoes.painel')}}" class="nav-item-link" data-label="Talhões">
         <i class="bi bi-map-fill"></i>
         <span class="nav-label">Talhões</span>
       </a>

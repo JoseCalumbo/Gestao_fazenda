@@ -672,7 +672,7 @@
       width: 86px;
       height: 86px;
       border-radius: 50%;
-      background: var(--primary);
+
       color: #fff;
       display: flex;
       align-items: center;
@@ -1418,12 +1418,14 @@
     </button>
     <div class="topbar-title-wrap">
       <span class="topbar-title" id="topbarCoopNome">{{ $cooperativa->nome ?? 'Cooperativa Exemplo' }}</span>
-      <span class="topbar-subtitle" id="topbarCoopLocal">{{ $cooperativa->municipio ?? 'Viana' }}, {{ $cooperativa->provincia ?? 'Luanda' }}</span>
+      <span class="topbar-subtitle" id="topbarCoopLocal">{{ $cooperativa->municipio ?? 'Viana' }},
+        {{ $cooperativa->provincia ?? 'Luanda' }}</span>
     </div>
     <nav aria-label="breadcrumb" class="d-none d-md-flex ms-3">
       <ol class="breadcrumb mb-0" style="font-size:12.5px;">
         <li class="breadcrumb-item"><a href="#" style="color:var(--primary);text-decoration:none;">SIAG</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('cooperativas') }}" style="color:var(--primary);text-decoration:none;">Cooperativas</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('cooperativas') }}"
+            style="color:var(--primary);text-decoration:none;">Cooperativas</a></li>
         <li class="breadcrumb-item active" style="color:var(--text-light);">Perfil</li>
       </ol>
     </nav>
@@ -1510,17 +1512,19 @@
             <i class="bi bi-building"></i>
           @endif
         </div>
-
         <div class="profile-main">
           <div class="p-name">
             <span id="profileNome">{{ $cooperativa->nome ?? 'Cooperativa Exemplo' }}</span>
-            <span class="badge-status {{ $cooperativa->estado == 'activo' ? 'activo' : ($cooperativa->estado == 'pendente' ? 'pendente' : 'inactivo') }}" id="profileEstado">
+            <span
+              class="badge-status {{ $cooperativa->estado == 'activo' ? 'activo' : ($cooperativa->estado == 'pendente' ? 'pendente' : 'inactivo') }}"
+              id="profileEstado">
               <span class="dot"></span>{{ ucfirst($cooperativa->estado) }}
             </span>
           </div>
           <div class="p-coop">
             <i class="bi bi-geo-alt" style="font-size:13px;"></i>
-            {{ $cooperativa->municipio ?? 'Viana' }}, {{ $cooperativa->provincia ?? 'Luanda' }} - {{ $cooperativa->endereco ?? '' }}
+            {{ $cooperativa->municipio ?? 'Viana' }}, {{ $cooperativa->provincia ?? 'Luanda' }} -
+            {{ $cooperativa->endereco ?? '' }}
           </div>
 
           <div class="profile-meta">
@@ -1594,8 +1598,10 @@
             <div class="stat-icon amber"><i class="bi bi-box-seam-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Produção Total (kg)</div>
-              <div class="s-value" id="statProducao">{{ number_format($cooperativa->producao_estimada ?? 0, 0, ',', '.') }}</div>
-              <span class="stat-badge up"><i class="bi bi-arrow-up"></i> Safra {{ $cooperativa->safra ?? '2024/25' }}</span>
+              <div class="s-value" id="statProducao">
+                {{ number_format($cooperativa->producao_estimada ?? 0, 0, ',', '.') }}</div>
+              <span class="stat-badge up"><i class="bi bi-arrow-up"></i> Safra
+                {{ $cooperativa->safra ?? '2024/25' }}</span>
             </div>
           </div>
         </div>
@@ -1604,7 +1610,8 @@
             <div class="stat-icon blue"><i class="bi bi-cart-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Vendas (Kz)</div>
-              <div class="s-value" id="statVendas">{{ number_format($cooperativa->vendas_totais ?? 0, 0, ',', '.') }}</div>
+              <div class="s-value" id="statVendas">{{ number_format($cooperativa->vendas_totais ?? 0, 0, ',', '.') }}
+              </div>
               <span class="stat-badge info"><i class="bi bi-info-circle"></i> Total de vendas</span>
             </div>
           </div>
@@ -1627,7 +1634,8 @@
         <!-- ── VERTICAL NAV ── -->
         <nav class="settings-nav">
           <button class="settings-nav-item active" data-tab="agricultores">
-            <i class="bi bi-person-fill"></i> Agricultores <span class="nav-count">{{ $cooperativa->numero_socios ?? 0 }}</span>
+            <i class="bi bi-person-fill"></i> Agricultores <span
+              class="nav-count">{{ $cooperativa->numero_socios ?? 0 }}</span>
           </button>
           <button class="settings-nav-item" data-tab="colheitas">
             <i class="bi bi-flower2"></i> Colheitas <span class="nav-count">{{ $totalColheitas ?? 0 }}</span>
@@ -1645,10 +1653,12 @@
             <i class="bi bi-cash-coin"></i> Receitas <span class="nav-count">{{ $totalReceitas ?? 0 }}</span>
           </button>
           <button class="settings-nav-item" data-tab="contas-receber">
-            <i class="bi bi-arrow-up-circle-fill"></i> Contas a Receber <span class="nav-count">{{ $totalContasReceber ?? 0 }}</span>
+            <i class="bi bi-arrow-up-circle-fill"></i> Contas a Receber <span
+              class="nav-count">{{ $totalContasReceber ?? 0 }}</span>
           </button>
           <button class="settings-nav-item" data-tab="contas-pagar">
-            <i class="bi bi-arrow-down-circle-fill"></i> Contas a Pagar <span class="nav-count">{{ $totalContasPagar ?? 0 }}</span>
+            <i class="bi bi-arrow-down-circle-fill"></i> Contas a Pagar <span
+              class="nav-count">{{ $totalContasPagar ?? 0 }}</span>
           </button>
         </nav>
 
@@ -1687,34 +1697,36 @@
                   </thead>
                   <tbody>
                     @forelse($agricultores ?? [] as $agricultor)
-                    <tr>
-                      <td><i class="bi bi-person-fill me-1" style="color:var(--primary);"></i> {{ $agricultor->nome_completo }}</td>
-                      <td>{{ $agricultor->bilhete }}</td>
-                      <td>{{ $agricultor->telefone_principal }}</td>
-                      <td>{{ $agricultor->numero_talhoes ?? 0 }}</td>
-                      <td><strong>{{ number_format($agricultor->producao_total ?? 0, 0, ',', '.') }}</strong></td>
-                      <td>
-                        <span class="badge-status {{ $agricultor->estado == 'activo' ? 'activo' : 'inactivo' }}">
-                          <span class="dot"></span>{{ ucfirst($agricultor->estado) }}
-                        </span>
-                      </td>
-                      <td style="text-align:center;">
-                        <div style="display:flex;gap:6px;justify-content:center;">
-                          <a href="{{ route('agricultores.show', $agricultor->id) }}" class="action-btn view" title="Ver Perfil"><i class="bi bi-eye-fill"></i></a>
-                          <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                          <button class="action-btn delete" title="Remover"><i class="bi bi-trash-fill"></i></button>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td><i class="bi bi-person-fill me-1" style="color:var(--primary);"></i>
+                          {{ $agricultor->nome_completo }}</td>
+                        <td>{{ $agricultor->bilhete }}</td>
+                        <td>{{ $agricultor->telefone_principal }}</td>
+                        <td>{{ $agricultor->numero_talhoes ?? 0 }}</td>
+                        <td><strong>{{ number_format($agricultor->producao_total ?? 0, 0, ',', '.') }}</strong></td>
+                        <td>
+                          <span class="badge-status {{ $agricultor->estado == 'activo' ? 'activo' : 'inactivo' }}">
+                            <span class="dot"></span>{{ ucfirst($agricultor->estado) }}
+                          </span>
+                        </td>
+                        <td style="text-align:center;">
+                          <div style="display:flex;gap:6px;justify-content:center;">
+                            <a href="{{ route('agricultores.show', $agricultor->id) }}" class="action-btn view"
+                              title="Ver Perfil"><i class="bi bi-eye-fill"></i></a>
+                            <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="action-btn delete" title="Remover"><i class="bi bi-trash-fill"></i></button>
+                          </div>
+                        </td>
+                      </tr>
                     @empty
-                    <tr>
-                      <td colspan="7" class="text-center py-4">
-                        <div class="mini-empty">
-                          <i class="bi bi-person-x-fill"></i>
-                          <p>Nenhum agricultor associado a esta cooperativa.</p>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td colspan="7" class="text-center py-4">
+                          <div class="mini-empty">
+                            <i class="bi bi-person-x-fill"></i>
+                            <p>Nenhum agricultor associado a esta cooperativa.</p>
+                          </div>
+                        </td>
+                      </tr>
                     @endforelse
                   </tbody>
                 </table>
@@ -1755,29 +1767,31 @@
                   </thead>
                   <tbody>
                     @forelse($colheitas ?? [] as $colheita)
-                    <tr>
-                      <td><i class="bi bi-person-fill me-1" style="color:var(--primary);"></i> {{ $colheita->agricultor->nome_completo ?? 'N/A' }}</td>
-                      <td>{{ $colheita->cultura }}</td>
-                      <td>{{ $colheita->talhao }}</td>
-                      <td>{{ $colheita->data_colheita }}</td>
-                      <td><strong>{{ number_format($colheita->quantidade, 0, ',', '.') }} kg</strong></td>
-                      <td><span class="badge-status {{ $colheita->qualidade == 'Boa' ? 'activo' : 'pendente' }}"><span class="dot"></span>{{ $colheita->qualidade }}</span></td>
-                      <td style="text-align:center;">
-                        <div style="display:flex;gap:6px;justify-content:center;">
-                          <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                          <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td><i class="bi bi-person-fill me-1" style="color:var(--primary);"></i>
+                          {{ $colheita->agricultor->nome_completo ?? 'N/A' }}</td>
+                        <td>{{ $colheita->cultura }}</td>
+                        <td>{{ $colheita->talhao }}</td>
+                        <td>{{ $colheita->data_colheita }}</td>
+                        <td><strong>{{ number_format($colheita->quantidade, 0, ',', '.') }} kg</strong></td>
+                        <td><span class="badge-status {{ $colheita->qualidade == 'Boa' ? 'activo' : 'pendente' }}"><span
+                              class="dot"></span>{{ $colheita->qualidade }}</span></td>
+                        <td style="text-align:center;">
+                          <div style="display:flex;gap:6px;justify-content:center;">
+                            <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
+                          </div>
+                        </td>
+                      </tr>
                     @empty
-                    <tr>
-                      <td colspan="7" class="text-center py-4">
-                        <div class="mini-empty">
-                          <i class="bi bi-flower2"></i>
-                          <p>Nenhuma colheita registada.</p>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td colspan="7" class="text-center py-4">
+                          <div class="mini-empty">
+                            <i class="bi bi-flower2"></i>
+                            <p>Nenhuma colheita registada.</p>
+                          </div>
+                        </td>
+                      </tr>
                     @endforelse
                   </tbody>
                 </table>
@@ -1796,7 +1810,7 @@
                   <div class="cfg-card-icon amber"><i class="bi bi-box-seam-fill"></i></div>
                   <div>
                     <div class="cfg-card-title">Insumos Atribuídos</div>
-                    <div class="cfg-card-sub">Lista de insumos distribuídos aos agricultores da cooperativa</div>
+                    <div class="cfg-card-sub"> Histórico completo de entradas, saídas e distribuição de insumos da cooperativa</div>
                   </div>
                 </div>
                 <button class="btn-green" style="padding:8px 14px;font-size:12.5px;" id="btnNovoInsumo">
@@ -1804,6 +1818,7 @@
                 </button>
               </div>
               <div class="mini-table-wrap">
+
                 <table class="mini-table">
                   <thead>
                     <tr>
@@ -1818,36 +1833,38 @@
                   </thead>
                   <tbody>
                     @forelse($insumos ?? [] as $insumo)
-                    <tr>
-                      <td><i class="bi bi-seedling me-1" style="color:var(--primary);"></i> {{ $insumo->nome }}</td>
-                      <td>{{ $insumo->agricultor->nome_completo ?? 'N/A' }}</td>
-                      <td>{{ $insumo->categoria }}</td>
-                      <td>{{ $insumo->data_entrada }}</td>
-                      <td><strong>{{ $insumo->quantidade }}</strong></td>
-                      <td>
-                        <span class="badge-status {{ $insumo->estado == 'disponivel' ? 'disponivel' : ($insumo->estado == 'baixo' ? 'baixo' : 'esgotado') }}">
-                          <span class="dot"></span>{{ ucfirst($insumo->estado) }}
-                        </span>
-                      </td>
-                      <td style="text-align:center;">
-                        <div style="display:flex;gap:6px;justify-content:center;">
-                          <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                          <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td><i class="bi bi-seedling me-1" style="color:var(--primary);"></i> {{ $insumo->nome }}</td>
+                        <td>{{ $insumo->agricultor->nome_completo ?? 'N/A' }}</td>
+                        <td>{{ $insumo->categoria }}</td>
+                        <td>{{ $insumo->data_entrada }}</td>
+                        <td><strong>{{ $insumo->quantidade }}</strong></td>
+                        <td>
+                          <span
+                            class="badge-status {{ $insumo->estado == 'disponivel' ? 'disponivel' : ($insumo->estado == 'baixo' ? 'baixo' : 'esgotado') }}">
+                            <span class="dot"></span>{{ ucfirst($insumo->estado) }}
+                          </span>
+                        </td>
+                        <td style="text-align:center;">
+                          <div style="display:flex;gap:6px;justify-content:center;">
+                            <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
+                          </div>
+                        </td>
+                      </tr>
                     @empty
-                    <tr>
-                      <td colspan="7" class="text-center py-4">
-                        <div class="mini-empty">
-                          <i class="bi bi-box-seam-fill"></i>
-                          <p>Nenhum insumo registado.</p>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td colspan="7" class="text-center py-4">
+                          <div class="mini-empty">
+                            <i class="bi bi-box-seam-fill"></i>
+                            <p>Nenhum insumo registado.</p>
+                          </div>
+                        </td>
+                      </tr>
                     @endforelse
                   </tbody>
                 </table>
+
               </div>
             </div>
           </div>
@@ -1884,32 +1901,33 @@
                   </thead>
                   <tbody>
                     @forelse($produtos ?? [] as $produto)
-                    <tr>
-                      <td><i class="bi bi-basket-fill me-1" style="color:var(--primary);"></i> {{ $produto->nome }}</td>
-                      <td>{{ $produto->agricultor->nome_completo ?? 'N/A' }}</td>
-                      <td><strong>{{ $produto->quantidade }} {{ $produto->unidade ?? '' }}</strong></td>
-                      <td>{{ number_format($produto->preco_unitario, 0, ',', '.') }}</td>
-                      <td>
-                        <span class="badge-status {{ $produto->estado == 'disponivel' ? 'disponivel' : ($produto->estado == 'baixo' ? 'baixo' : 'esgotado') }}">
-                          <span class="dot"></span>{{ ucfirst($produto->estado) }}
-                        </span>
-                      </td>
-                      <td style="text-align:center;">
-                        <div style="display:flex;gap:6px;justify-content:center;">
-                          <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                          <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td><i class="bi bi-basket-fill me-1" style="color:var(--primary);"></i> {{ $produto->nome }}</td>
+                        <td>{{ $produto->agricultor->nome_completo ?? 'N/A' }}</td>
+                        <td><strong>{{ $produto->quantidade }} {{ $produto->unidade ?? '' }}</strong></td>
+                        <td>{{ number_format($produto->preco_unitario, 0, ',', '.') }}</td>
+                        <td>
+                          <span
+                            class="badge-status {{ $produto->estado == 'disponivel' ? 'disponivel' : ($produto->estado == 'baixo' ? 'baixo' : 'esgotado') }}">
+                            <span class="dot"></span>{{ ucfirst($produto->estado) }}
+                          </span>
+                        </td>
+                        <td style="text-align:center;">
+                          <div style="display:flex;gap:6px;justify-content:center;">
+                            <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
+                          </div>
+                        </td>
+                      </tr>
                     @empty
-                    <tr>
-                      <td colspan="6" class="text-center py-4">
-                        <div class="mini-empty">
-                          <i class="bi bi-basket-fill"></i>
-                          <p>Nenhum produto em stock.</p>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td colspan="6" class="text-center py-4">
+                          <div class="mini-empty">
+                            <i class="bi bi-basket-fill"></i>
+                            <p>Nenhum produto em stock.</p>
+                          </div>
+                        </td>
+                      </tr>
                     @endforelse
                   </tbody>
                 </table>
@@ -1950,33 +1968,34 @@
                   </thead>
                   <tbody>
                     @forelse($talhoes ?? [] as $talhao)
-                    <tr>
-                      <td><i class="bi bi-map-fill me-1" style="color:var(--primary);"></i> {{ $talhao->designacao }}</td>
-                      <td>{{ $talhao->agricultor->nome_completo ?? 'N/A' }}</td>
-                      <td><strong>{{ $talhao->area }} ha</strong></td>
-                      <td>{{ $talhao->cultura_actual ?? 'N/A' }}</td>
-                      <td>{{ $talhao->localizacao }}</td>
-                      <td>
-                        <span class="badge-status {{ $talhao->estado == 'em_cultivo' ? 'activo' : 'pendente' }}">
-                          <span class="dot"></span>{{ ucfirst($talhao->estado) }}
-                        </span>
-                      </td>
-                      <td style="text-align:center;">
-                        <div style="display:flex;gap:6px;justify-content:center;">
-                          <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                          <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td><i class="bi bi-map-fill me-1" style="color:var(--primary);"></i> {{ $talhao->designacao }}
+                        </td>
+                        <td>{{ $talhao->agricultor->nome_completo ?? 'N/A' }}</td>
+                        <td><strong>{{ $talhao->area }} ha</strong></td>
+                        <td>{{ $talhao->cultura_actual ?? 'N/A' }}</td>
+                        <td>{{ $talhao->localizacao }}</td>
+                        <td>
+                          <span class="badge-status {{ $talhao->estado == 'em_cultivo' ? 'activo' : 'pendente' }}">
+                            <span class="dot"></span>{{ ucfirst($talhao->estado) }}
+                          </span>
+                        </td>
+                        <td style="text-align:center;">
+                          <div style="display:flex;gap:6px;justify-content:center;">
+                            <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
+                          </div>
+                        </td>
+                      </tr>
                     @empty
-                    <tr>
-                      <td colspan="7" class="text-center py-4">
-                        <div class="mini-empty">
-                          <i class="bi bi-map-fill"></i>
-                          <p>Nenhum talhão registado.</p>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td colspan="7" class="text-center py-4">
+                          <div class="mini-empty">
+                            <i class="bi bi-map-fill"></i>
+                            <p>Nenhum talhão registado.</p>
+                          </div>
+                        </td>
+                      </tr>
                     @endforelse
                   </tbody>
                 </table>
@@ -2017,33 +2036,34 @@
                   </thead>
                   <tbody>
                     @forelse($receitas ?? [] as $receita)
-                    <tr>
-                      <td><i class="bi bi-person-fill me-1" style="color:var(--primary);"></i> {{ $receita->agricultor->nome_completo ?? 'N/A' }}</td>
-                      <td>{{ $receita->descricao }}</td>
-                      <td>{{ $receita->origem }}</td>
-                      <td>{{ $receita->data }}</td>
-                      <td><strong>{{ number_format($receita->valor, 0, ',', '.') }}</strong></td>
-                      <td>
-                        <span class="badge-status {{ $receita->estado == 'pago' ? 'pago' : 'pendente' }}">
-                          <span class="dot"></span>{{ ucfirst($receita->estado) }}
-                        </span>
-                      </td>
-                      <td style="text-align:center;">
-                        <div style="display:flex;gap:6px;justify-content:center;">
-                          <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                          <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td><i class="bi bi-person-fill me-1" style="color:var(--primary);"></i>
+                          {{ $receita->agricultor->nome_completo ?? 'N/A' }}</td>
+                        <td>{{ $receita->descricao }}</td>
+                        <td>{{ $receita->origem }}</td>
+                        <td>{{ $receita->data }}</td>
+                        <td><strong>{{ number_format($receita->valor, 0, ',', '.') }}</strong></td>
+                        <td>
+                          <span class="badge-status {{ $receita->estado == 'pago' ? 'pago' : 'pendente' }}">
+                            <span class="dot"></span>{{ ucfirst($receita->estado) }}
+                          </span>
+                        </td>
+                        <td style="text-align:center;">
+                          <div style="display:flex;gap:6px;justify-content:center;">
+                            <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
+                          </div>
+                        </td>
+                      </tr>
                     @empty
-                    <tr>
-                      <td colspan="7" class="text-center py-4">
-                        <div class="mini-empty">
-                          <i class="bi bi-cash-coin"></i>
-                          <p>Nenhuma receita registada.</p>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td colspan="7" class="text-center py-4">
+                          <div class="mini-empty">
+                            <i class="bi bi-cash-coin"></i>
+                            <p>Nenhuma receita registada.</p>
+                          </div>
+                        </td>
+                      </tr>
                     @endforelse
                   </tbody>
                 </table>
@@ -2083,32 +2103,34 @@
                   </thead>
                   <tbody>
                     @forelse($contasReceber ?? [] as $conta)
-                    <tr>
-                      <td><i class="bi bi-person-fill me-1" style="color:var(--primary);"></i> {{ $conta->agricultor->nome_completo ?? 'N/A' }}</td>
-                      <td>{{ $conta->descricao }}</td>
-                      <td>{{ $conta->data_vencimento }}</td>
-                      <td><strong>{{ number_format($conta->valor, 0, ',', '.') }}</strong></td>
-                      <td>
-                        <span class="badge-status {{ $conta->estado == 'pago' ? 'pago' : ($conta->estado == 'vencido' ? 'esgotado' : 'pendente') }}">
-                          <span class="dot"></span>{{ ucfirst($conta->estado) }}
-                        </span>
-                      </td>
-                      <td style="text-align:center;">
-                        <div style="display:flex;gap:6px;justify-content:center;">
-                          <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                          <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td><i class="bi bi-person-fill me-1" style="color:var(--primary);"></i>
+                          {{ $conta->agricultor->nome_completo ?? 'N/A' }}</td>
+                        <td>{{ $conta->descricao }}</td>
+                        <td>{{ $conta->data_vencimento }}</td>
+                        <td><strong>{{ number_format($conta->valor, 0, ',', '.') }}</strong></td>
+                        <td>
+                          <span
+                            class="badge-status {{ $conta->estado == 'pago' ? 'pago' : ($conta->estado == 'vencido' ? 'esgotado' : 'pendente') }}">
+                            <span class="dot"></span>{{ ucfirst($conta->estado) }}
+                          </span>
+                        </td>
+                        <td style="text-align:center;">
+                          <div style="display:flex;gap:6px;justify-content:center;">
+                            <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
+                          </div>
+                        </td>
+                      </tr>
                     @empty
-                    <tr>
-                      <td colspan="6" class="text-center py-4">
-                        <div class="mini-empty">
-                          <i class="bi bi-arrow-up-circle-fill"></i>
-                          <p>Nenhuma conta a receber registada.</p>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td colspan="6" class="text-center py-4">
+                          <div class="mini-empty">
+                            <i class="bi bi-arrow-up-circle-fill"></i>
+                            <p>Nenhuma conta a receber registada.</p>
+                          </div>
+                        </td>
+                      </tr>
                     @endforelse
                   </tbody>
                 </table>
@@ -2148,32 +2170,34 @@
                   </thead>
                   <tbody>
                     @forelse($contasPagar ?? [] as $conta)
-                    <tr>
-                      <td><i class="bi bi-building me-1" style="color:var(--primary);"></i> {{ $conta->fornecedor }}</td>
-                      <td>{{ $conta->descricao }}</td>
-                      <td>{{ $conta->data_vencimento }}</td>
-                      <td><strong>{{ number_format($conta->valor, 0, ',', '.') }}</strong></td>
-                      <td>
-                        <span class="badge-status {{ $conta->estado == 'pago' ? 'pago' : ($conta->estado == 'vencido' ? 'esgotado' : 'pendente') }}">
-                          <span class="dot"></span>{{ ucfirst($conta->estado) }}
-                        </span>
-                      </td>
-                      <td style="text-align:center;">
-                        <div style="display:flex;gap:6px;justify-content:center;">
-                          <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
-                          <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td><i class="bi bi-building me-1" style="color:var(--primary);"></i> {{ $conta->fornecedor }}
+                        </td>
+                        <td>{{ $conta->descricao }}</td>
+                        <td>{{ $conta->data_vencimento }}</td>
+                        <td><strong>{{ number_format($conta->valor, 0, ',', '.') }}</strong></td>
+                        <td>
+                          <span
+                            class="badge-status {{ $conta->estado == 'pago' ? 'pago' : ($conta->estado == 'vencido' ? 'esgotado' : 'pendente') }}">
+                            <span class="dot"></span>{{ ucfirst($conta->estado) }}
+                          </span>
+                        </td>
+                        <td style="text-align:center;">
+                          <div style="display:flex;gap:6px;justify-content:center;">
+                            <button class="action-btn edit" title="Editar"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="action-btn delete" title="Apagar"><i class="bi bi-trash-fill"></i></button>
+                          </div>
+                        </td>
+                      </tr>
                     @empty
-                    <tr>
-                      <td colspan="6" class="text-center py-4">
-                        <div class="mini-empty">
-                          <i class="bi bi-arrow-down-circle-fill"></i>
-                          <p>Nenhuma conta a pagar registada.</p>
-                        </div>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td colspan="6" class="text-center py-4">
+                          <div class="mini-empty">
+                            <i class="bi bi-arrow-down-circle-fill"></i>
+                            <p>Nenhuma conta a pagar registada.</p>
+                          </div>
+                        </td>
+                      </tr>
                     @endforelse
                   </tbody>
                 </table>
@@ -2196,7 +2220,8 @@
     style="position:fixed;bottom:28px;right:28px;z-index:9999;background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 20px;box-shadow:0 12px 36px rgba(0,0,0,.12);display:flex;align-items:center;gap:12px;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;">
     <div class="toast-icon success" id="toastIcon"
       style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#E8F5E9;color:#2E7D32;">
-      <i class="bi bi-check-lg" id="toastIconI"></i></div>
+      <i class="bi bi-check-lg" id="toastIconI"></i>
+    </div>
     <div class="toast-text">
       <div class="t-title" id="toastTitle" style="font-size:13.5px;font-weight:600;color:var(--text-dark);">Operação
         concluída</div>

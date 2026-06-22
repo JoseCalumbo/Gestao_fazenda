@@ -352,6 +352,25 @@ class InsumosController extends Controller
         ]);
     }
 
+
+
+    
+    public function historicoPorAgricultor($cooperativaId, $agricultorId)
+{
+    // 1. Procura os insumos associados ou mantém a listagem padrão da cooperativa
+    $insumos = \App\Models\Insumo::where('cooperativa_id', $cooperativaId)->paginate(10);
+
+    // 2. FILTRO ESTRITO: Puxa apenas o histórico onde o agricultor_id corresponde ao selecionado
+    $historicos = \App\Models\HistoricoEstoque::with(['insumo', 'agricultor'])
+        ->where('cooperativa_id', $cooperativaId)
+        ->where('agricultor_id', $agricultorId) // <-- Filtra apenas este agricultor
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    // 3. Envia para a View
+    return view('cooperativas.insumos', compact('insumos', 'historicos'));
+}
+
    
 
 }

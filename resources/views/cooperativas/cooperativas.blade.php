@@ -2146,7 +2146,8 @@
                   <td style="text-align:center;">
                     <div style="display:flex;gap:6px;justify-content:center;">
 
-                      <a href="{{ route('cooperativas.show', $cooperador->id) }}" class="action-btn view" title="Ver detalhes">
+                      <a href="{{ route('cooperativas.show', $cooperador->id) }}" class="action-btn view"
+                        title="Ver detalhes">
                         <i class="bi bi-eye-fill"></i>
                       </a>
 
@@ -2314,7 +2315,7 @@
                     <label class="cfg-label" for="estadoCoop">Estado *</label>
                     <select class="cfg-select" id="estadoCoop" name="estado">
                       <option value="activa">Activa</option>
-                      <option value="inactiva">Inactiva</option>
+                      <option value="inactiva" selected>Inactiva</option>
                       <option value="pendente">Pendente</option>
                     </select>
                   </div>
@@ -3231,112 +3232,6 @@
         reader.readAsDataURL(file);
       });
     }
-
-    /* ══════════════════════════════════════
-       BOTÃO SALVAR COOPERATIVA (SUBMIT FORM DATA)
-    ══════════════════════════════════════ */
-
-
-    // document.getElementById('btnSalvarCoop').addEventListener('click', () => {
-    //   const id = document.getElementById('coopId').value;
-    //   const nome = document.getElementById('nomeCooperativa').value.trim();
-    //   const nif = document.getElementById('nifCooperativa').value.trim();
-    //   const data_fundacao = document.getElementById('dateFundacao') ? document.getElementById('dateFundacao').value : '';
-    //   const num_socios = document.getElementById('numSocios').value;
-    //   const estado = document.getElementById('estadoCoop').value;
-    //   const descricao = document.getElementById('missaoCoop').value.trim();
-
-    //   const provincia = document.getElementById('provinciaCoop').value;
-    //   const comuna = document.getElementById('comunaCoop').value.trim();
-    //   const municipio = document.getElementById('municipioCoop').value.trim();
-    //   const endereco = document.getElementById('enderecoCoop').value.trim();
-    //   const telefone = document.getElementById('telefCoop').value.trim();
-    //   const email = document.getElementById('emailCoop').value.trim();
-    //   const website = document.getElementById('websiteCoop').value.trim();
-
-    //   const area_total_cultivada = document.getElementById('areaTotal').value;
-    //   const principal_cultura = document.getElementById('principalCultura').value;
-    //   const numero_talhoes = document.getElementById('numTalhoes').value;
-    //   const producao_estimada = document.getElementById('producaoEstimada').value;
-
-    //   const logoInput = document.getElementById('coopLogoInput');
-    //   const fotoFile = logoInput && logoInput.files.length > 0 ? logoInput.files[0] : null;
-
-    //   if (!nome || !nif || !municipio || !provincia || !telefone || !estado) {
-    //     showToast('Campos obrigatórios em falta', 'Por favor, preencha todos os campos obrigatórios (*).', 'danger');
-    //     return;
-    //   }
-
-    //   const btn = document.getElementById('btnSalvarCoop');
-    //   const labelBtn = document.getElementById('btnSalvarLabel');
-    //   const origText = labelBtn.innerHTML;
-
-    //   labelBtn.innerText = 'A guardar…';
-    //   btn.disabled = true;
-
-    //   const url = id ? `/cooperativas/${id}` : '/cooperativas';
-    //   const formData = new FormData();
-
-    //   if (id) {
-    //     formData.append('_method', 'PUT');
-    //   }
-
-    //   formData.append('nome', nome);
-    //   formData.append('nif', nif);
-    //   formData.append('data_fundacao', data_fundacao);
-    //   formData.append('descricao', descricao);
-    //   formData.append('telefone', telefone);
-    //   formData.append('email', email);
-    //   formData.append('website', website);
-    //   formData.append('provincia', provincia);
-    //   formData.append('municipio', municipio);
-    //   formData.append('comuna', comuna);
-    //   formData.append('endereco', endereco);
-    //   formData.append('numero_socios', num_socios || 0);
-    //   formData.append('principal_cultura', principal_cultura);
-    //   formData.append('numero_talhoes', numero_talhoes || 0);
-    //   formData.append('producao_estimada', producao_estimada || 0);
-    //   formData.append('area_total_cultivada', area_total_cultivada || 0);
-    //   formData.append('estado', estado);
-
-    //   if (fotoFile) formData.append('foto', fotoFile);
-
-    //   // Captura os membros dinâmicos mapeados nas linhas geradas pelo HTML
-    //   document.querySelectorAll('#memberList .coop-member-row').forEach(row => {
-    //     const agId = row.getAttribute('data-agricultor-id');
-    //     const agCargo = row.getAttribute('data-cargo') || 'Nenhum';
-    //     if (agId) {
-    //       formData.append('agricultores[]', agId);
-    //       formData.append('cargos[]', agCargo);
-    //     }
-    //   });
-
-    //   fetch(url, {
-    //     method: 'POST',
-    //     headers: {
-    //       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-    //       'Accept': 'application/json'
-    //     },
-    //     body: formData
-    //   })
-    //     .then(r => r.json())
-    //     .then(data => {
-    //       labelBtn.innerHTML = origText;
-    //       btn.disabled = false;
-    //       if (data.success) {
-    //         location.reload();
-    //       } else {
-    //         showToast('Erro ao guardar', data.message || 'Verifique as informações introduzidas.', 'danger');
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //       labelBtn.innerHTML = origText;
-    //       btn.disabled = false;
-    //       showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
-    //     });
-    // });
-
 
     document.getElementById('btnSalvarCoop').addEventListener('click', () => {
 

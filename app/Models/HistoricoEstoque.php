@@ -40,6 +40,12 @@ public function agricultor()
     {
         return $this->belongsTo(Cooperativa::class, 'cooperativa_id');
     }
+
+    // ─── ADICIONA ESTA RELAÇÃO COM O MOVIMENTO ───
+    public function movimento()
+    {
+        return $this->belongsTo(MovimentoInsumo::class, 'movimento_id');
+    }
 }
 
 

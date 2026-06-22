@@ -79,6 +79,7 @@ class CooperativaController extends Controller
         ));
     }
 
+    //pega os dados da cooperativa
     public function edit($id)
     {
         // Aqui filtramos para trazer apenas membros onde activo = 1
@@ -137,9 +138,7 @@ class CooperativaController extends Controller
         ]);
     }
 
-    /**
-     * Regista uma nova cooperativa.
-     */
+    // salva a cooperativa
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -201,6 +200,7 @@ class CooperativaController extends Controller
         }
     }
 
+    // alterar
     public function update(Request $request, $id)
     {
         $cooperativa = Cooperativa::find($id);
@@ -305,9 +305,7 @@ class CooperativaController extends Controller
         }
     }
 
-    /**
-     * Remove a cooperativa, as suas relações e limpa o ficheiro de imagem.
-     */
+    // Remove a cooperativa, as suas relações e limpa o ficheiro de imagem.
     public function destroy($id)
     {
         $cooperativa = Cooperativa::find($id);
@@ -361,7 +359,7 @@ class CooperativaController extends Controller
         // $totalInsumos = Insumo::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
         // ... etc
 
-        return view('cooperativas.perfil3', compact(
+        return view('cooperativas.cooperativa_show', compact(
             'cooperativa',
             // 'agricultores',
             // 'colheitas',

@@ -5,31 +5,116 @@ namespace App\Http\Controllers;
 use App\Models\Agricultor;
 use App\Models\Cooperativa;
 use App\Models\CooperativaMembro;
+use App\Models\HistoricoEstoque;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class AgricultoresController extends Controller
 {
-    /**
-     * Exibir os detalhes de um Agricultor específico
-     */
-    public function show($id)
+    // Exibir os detalhes de um Agricultor específico
+
+    public function getHistoricoJson($id)
     {
-        // Busca o agricultor com a árvore de relações ativa carregada
-        $agricultor = Agricultor::with(['associacoes.cooperativa'])->findOrFail($id);
+        try {
+            // Puxamos o insumo e o movimento associado para extrair a modalidade
+            $historico = HistoricoEstoque::with(['insumo', 'movimento'])
+                ->where('agricultor_id', $id)
+                ->orderBy('created_at', 'desc')
+                ->get();
 
-        // Extrai os dados da associação para passar de forma amigável para a view
-        $vinculoAtivo = $agricultor->associacoes->where('activo', true)->first();
-        $cooperativaNome = $vinculoAtivo && $vinculoAtivo->cooperativa ? $vinculoAtivo->cooperativa->nome : 'Sem cooperativa';
-        $cargoCooperativa = $vinculoAtivo ? $vinculoAtivo->cargo : 'Nenhum';
+            $dadosFormatados = $historico->map(function ($item) {
+                $movimento = $item->movimento;
 
-        $stats =[];
-        
-        return view('agricultores.agricultor_perfil', compact('agricultor', 'cooperativaNome', 'cargoCooperativa','stats'));
+                return [
+                    'id' => $item->id,
+                    'data' => $item->created_at->format('d/m/Y H:i'),
+                    'insumo_nome' => $item->insumo ? $item->insumo->nome : 'Insumo Removido',
+                    'insumo_tipo' => $item->insumo ? ucfirst($item->insumo->tipo) : 'N/A', // Tipo do Insumo
+                    'tipo_movimento' => $item->tipo_movimento,
+                    'quantidade' => (float) $item->quantidade,
+                    'stock_anterior' => (float) $item->stock_anterior,
+                    'stock_atual' => (float) $item->stock_atual,
+                    'utilizador' => $item->utilizador ?? 'Sistema',
+                    'modalidade' => $movimento ? ucfirst($movimento->modalidade) : 'N/A', // Modalidade
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'data' => $dadosFormatados,
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao carregar histórico: '.$e->getMessage(),
+            ], 500);
+        }
     }
 
-    
+    // public function show($id)
+    // {
+    //     // Busca o agricultor com a árvore de relações ativa carregada
+    //     $agricultor = Agricultor::with(['associacoes.cooperativa'])->findOrFail($id);
 
+    //     // Extrai os dados da associação para passar de forma amigável para a view
+    //     $vinculoAtivo = $agricultor->associacoes->where('activo', true)->first();
+    //     $cooperativaNome = $vinculoAtivo && $vinculoAtivo->cooperativa ? $vinculoAtivo->cooperativa->nome : 'Sem cooperativa';
+    //     $cargoCooperativa = $vinculoAtivo ? $vinculoAtivo->cargo : 'Nenhum';
+
+    //     // 2. CALCULAR O TOTAL GERAL RECEBIDO (Apenas saídas para o agricultor)
+    //     $totalInsumosRecebidos = HistoricoEstoque::where('agricultor_id', $id)
+    //         ->where('tipo_movimento', 'Saída')
+    //         ->sum('quantidade');
+
+    //     // ─── NOVA BUSCA: Histórico exclusivo deste Agricultor ───
+    //     $historicos = HistoricoEstoque::with(['insumo'])
+    //         ->where('agricultor_id', $id)
+    //         ->orderBy('created_at', 'desc')
+    //         ->take(10) // Traz os 10 movimentos mais recentes dele
+    //         ->get();
+
+    //     $stats = [];
+
+    //     // Passa a variável $historicos para a view
+    //     return view('agricultores.show', compact('agricultor', 'cooperativaNome', 'cargoCooperativa', 'stats', 'historicos'));
+    // }
+
+   
+   public function show($id)
+{
+    // 1. Procura o agricultor e associações (O teu código)
+    $agricultor = Agricultor::with(['associacoes.cooperativa'])->findOrFail($id);
+
+    $vinculoAtivo = $agricultor->associacoes->where('activo', true)->first();
+    $cooperativaNome = $vinculoAtivo && $vinculoAtivo->cooperativa ? $vinculoAtivo->cooperativa->nome : 'Sem cooperativa';
+    $cargoCooperativa = $vinculoAtivo ? $vinculoAtivo->cargo : 'Nenhum';
+
+$totalInsumosRecebidos = \App\Models\HistoricoEstoque::where('agricultor_id', $id)->count();
+
+    // 3. OPCIONAL: Agrupado por tipo de insumo para os teus blocos de estatísticas
+    $resumoPorTipo = \App\Models\HistoricoEstoque::join('insumos', 'historico_estoques.insumo_id', '=', 'insumos.id')
+        ->where('historico_estoques.agricultor_id', $id)
+        ->where('historico_estoques.tipo_movimento', 'Saída')
+        ->selectRaw('insumos.tipo, SUM(historico_estoques.quantidade) as total')
+        ->groupBy('insumos.tipo')
+        ->pluck('total', 'tipo')
+        ->toArray();
+
+    $stats = [
+        'total_geral'   => $totalInsumosRecebidos,
+        'fertilizantes' => $resumoPorTipo['fertilizante'] ?? 0,
+        'sementes'      => $resumoPorTipo['semente'] ?? 0,
+        'mecanico'      => $resumoPorTipo['mecanico'] ?? 0,
+    ];
+    
+    return view('agricultores.show', compact('agricultor', 'cooperativaNome', 'cargoCooperativa', 'stats'));
+}
+   
+   
+
+
+    
     public function index(Request $request)
     {
         // 1. Lista de cooperativas para preencher o <select> no Blade
@@ -277,8 +362,6 @@ class AgricultoresController extends Controller
             ], 500);
         }
     }
-
-    
 
     /**
      * Eliminar Agricultor

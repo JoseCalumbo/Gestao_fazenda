@@ -74,10 +74,15 @@ class Cooperativa extends Model
     {
         return $this->hasMany(Insumo::class);
     }
-    
+
     // relacionamento com tabela movimento
     public function movimentoInsumos()
     {
         return $this->hasMany(MovimentoInsumo::class);
+    }
+
+    public function safras()
+    {
+        return $this->hasMany(Safra::class);
     }
 }

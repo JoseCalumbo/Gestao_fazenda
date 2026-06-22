@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -1768,7 +1767,7 @@
           class="bi bi-person-badge-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
-      <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
+      <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
           class="nav-label">Safras</span></a>
       <a href="#" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
           class="nav-label">Talhões</span></a>
@@ -2005,18 +2004,19 @@
               <div class="cfg-card-body">
                 <div style="display:flex;align-items:center;gap:24px;margin-bottom:24px;flex-wrap:wrap;">
                   <!-- Logomarca -->
-                  <div class="profile-logo-icon" id="coopLogo"
+                  <div class="profile-logo-i" id="coopLogo"
                     style="width:86px;height:86px;border-radius:18px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;flex-shrink:0;overflow:hidden;border:3px solid var(--accent-lt);letter-spacing:-1px;font-family:'Sora',sans-serif;">
-                    @if(!empty($cooperativa->foto ?? null))
-                      <img src="{{ asset('storage/cooperativas/' . $cooperativa->foto) }}" alt="Logo"
-                        style="width:100%;height:100%;object-fit:cover;">
+                    @if($cooperativa->foto)
+                      <img src="{{ asset('storage/' . $cooperativa->foto) }}" alt="Logo da Cooperativa">
                     @else
-                      CAV
+                      <i class="bi bi-building"></i>
                     @endif
+
                   </div>
                   <div>
                     <div style="font-size:18px;font-weight:700;color:var(--text-dark);font-family:'Sora',sans-serif;">
-                      {{ $cooperativa->nome ?? 'Cooperativa Agrícola de Viana' }}</div>
+                      {{ $cooperativa->nome ?? 'Cooperativa Agrícola de Viana' }}
+                    </div>
                     <div style="font-size:12.5px;color:var(--text-light);">
                       <span class="badge-estado activa" id="coopEstadoBadge"
                         style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;background:#E8F5E9;color:#2E7D32;">
@@ -2032,13 +2032,15 @@
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
                       Nome da Cooperativa</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->nome ?? 'Cooperativa Agrícola de Viana' }}</div>
+                      {{ $cooperativa->nome ?? 'Cooperativa Agrícola de Viana' }}
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
                       NIF</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->nif ?? '5401234567' }}</div>
+                      {{ $cooperativa->nif ?? '5401234567' }}
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
@@ -2051,49 +2053,57 @@
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
                       Safra Actual</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->safra ?? '2024/2025' }}</div>
+                      {{ $cooperativa->safra ?? '2024/2025' }}
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
                       Município</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->municipio ?? 'Viana' }}</div>
+                      {{ $cooperativa->municipio ?? 'Viana' }}
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
                       Província</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->provincia ?? 'Luanda' }}</div>
+                      {{ $cooperativa->provincia ?? 'Luanda' }}
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
                       Endereço</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->endereco ?? 'Km 12, Estrada de Viana, Luanda Sul' }}</div>
+                      {{ $cooperativa->endereco ?? 'Km 12, Estrada de Viana, Luanda Sul' }}
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
                       Principal Cultura</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->principal_cultura ?? 'Milho' }}</div>
+                      {{ $cooperativa->principal_cultura ?? 'Milho' }}
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
                       Área Cultivável (ha)</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->area_total_cultivada ?? '1.240' }} ha</div>
+                      {{ $cooperativa->area_total_cultivada ?? '1.240' }} ha
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">Nº
                       de Talhões</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->numero_talhoes ?? '86' }}</div>
+                      {{ $cooperativa->numero_talhoes ?? '86' }}
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
                       Telefone</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->telefone ?? '+244 923 456 789' }}</div>
+                      {{ $cooperativa->telefone ?? '+244 923 456 789' }}
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
@@ -2105,7 +2115,8 @@
                     <div style="font-size:12px;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">
                       Website</div>
                     <div style="font-size:15px;font-weight:600;color:var(--text-dark);">
-                      {{ $cooperativa->website ?? 'coop-viana.ao' }}</div>
+                      {{ $cooperativa->website ?? 'coop-viana.ao' }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2130,7 +2141,7 @@
                 </button>
               </div>
 
-              <!-- Filtros -->
+              <!-- Filtros  zz -->
               <div class="filter-bar" id="agricultoresFiltros">
                 <div class="search-wrap">
                   <i class="bi bi-search"></i>
@@ -2171,6 +2182,7 @@
                   <ul class="pagination" id="paginacaoLinksAgricultores"></ul>
                 </nav>
               </div>
+              
             </div>
           </div>
 
@@ -2272,17 +2284,15 @@
                   <div class="cfg-card-icon amber"><i class="bi bi-box-seam-fill"></i></div>
                   <div>
                     <div class="cfg-card-title">Movimentação de Insumos</div>
-                    <div class="cfg-card-sub">Saída e distribuição de insumos pelos agricultores da cooperativa</div>
+                    <div class="cfg-card-sub">Histórico completo de entradas, saídas e distribuição de insumos da
+                      cooperativa </div>
                   </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                  <a href="{{ route('cooperativas.insumos.index',$cooperativa->id) }}" class="btn-outline-green"
+                  <a href="{{ route('cooperativas.insumos.index', $cooperativa->id) }}" class="btn-outline-green"
                     style="padding:8px 14px;font-size:12.5px;text-decoration:none;">
                     <i class="bi bi-box-seam-fill"></i> Gerenciar Estoque
                   </a>
-                  <button class="btn-green" style="padding:8px 14px;font-size:12.5px;" id="btnRegistrarSaidaInsumo">
-                    <i class="bi bi-plus-lg"></i> Registrar Saída
-                  </button>
                 </div>
               </div>
 
@@ -2295,10 +2305,10 @@
                 </div>
                 <select class="filter-select" id="filtroInsumoEstado">
                   <option value="">Todos os estados</option>
-                  <option value="Pago">Pago</option>
-                  <option value="Pendente">Pendente</option>
-                  <option value="Oferecido">Oferecido</option>
-                  <option value="Liquidado">Liquidado</option>
+                  <option value="pago">Pago</option>
+                  <option value="pendente">Pendente</option>
+                  <option value="oferecido">Oferecido</option>
+                  <option value="liquidado">Liquidado</option>
                 </select>
                 <button class="btn-green btn-filter" id="btnFiltrarInsumos" style="padding:8px 18px;"><i
                     class="bi bi-search"></i> Filtrar</button>
@@ -2316,7 +2326,6 @@
                       <th>Quantidade</th>
                       <th>Modalidade</th>
                       <th>Estado</th>
-                      <th style="text-align:center;">Acções</th>
                     </tr>
                   </thead>
                   <tbody id="corpoTabelaInsumos">
@@ -2330,6 +2339,7 @@
                   <ul class="pagination" id="paginacaoLinksInsumos"></ul>
                 </nav>
               </div>
+
             </div>
           </div>
 
@@ -2581,6 +2591,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
+
           <form id="formAssociarAgricultor">
             @csrf
             <div class="modal-form-card">
@@ -2619,6 +2630,7 @@
               </div>
             </div>
           </form>
+
         </div>
         <div class="modal-footer">
           <div
@@ -3580,21 +3592,31 @@
       showToast('Editar Dados', 'Funcionalidade em desenvolvimento.');
     });
 
-    /* ══════════════════════════════════════
-       ─── CRUD AGRICULTORES ───
-    ══════════════════════════════════════ */
+
+
+
+
+
+
+
+
+
+
+    /* ══════════════════════════════════=============================================================════
+       ─── CRUD AGRICULTORES  zz ───
+    ══════════════════════════════════=================================================================════ */
     let agricultoresPage = 1;
     let agricultoresFiltros = { nome: '', estado: '' };
 
     function carregarAgricultores(page = 1) {
       agricultoresPage = page;
-      const params = new URLSearchParams({
+      const cooperativaId1 = new URLSearchParams({
         page: page,
         nome: agricultoresFiltros.nome,
         estado: agricultoresFiltros.estado
       });
 
-      fetch(`/api/cooperativa/agricultores?${params}`)
+      fetch(`/cooperativas/${cooperativaId}/membros/json`)
         .then(res => res.json())
         .then(data => {
           renderTabelaAgricultores(data.data);
@@ -3761,9 +3783,17 @@
         });
     });
 
-    /* ══════════════════════════════════════
+
+
+
+
+
+
+
+
+    /* ════════════════════════════==============================================================══════════
        ─── CRUD TALHÕES ───
-    ══════════════════════════════════════ */
+    ═══════════════════════════════=================================================================═══════ */
     let talhoesPage = 1;
 
     function carregarTalhoes(page = 1) {
@@ -3876,9 +3906,22 @@
         });
     });
 
-    /* ══════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ═════════════════════════════==================================================================═════════
        ─── CRUD COLHEITAS ───
-    ══════════════════════════════════════ */
+    ══════════════════════════=====================================================================════════════ */
     let colheitasPage = 1;
 
     function carregarColheitas(page = 1) {
@@ -3992,236 +4035,197 @@
         });
     });
 
-    /* ══════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ════════════════════════════════===========================================================══════
        ─── CRUD INSUMOS (Saída) ───
-    ══════════════════════════════════════ */
+    ════════════════════════════════============================================================══════ */
+    // Variáveis Globais de Controlo
+    let historicoData = [];      // Guarda todos os registos originais vindos do servidor
+    let historicoFiltrado = [];  // Guarda os registos após aplicar os filtros
     let insumosPage = 1;
-    let insumosFiltros = { categoria: '', estado: '' };
+    const insumosPorPagina = 10;
 
-    function carregarInsumos(page = 1) {
-      insumosPage = page;
-      const params = new URLSearchParams({
-        page,
-        categoria: insumosFiltros.categoria,
-        estado: insumosFiltros.estado
-      });
+    // Captura o ID da cooperativa dinamicamente da URL do Laravel
+    const urlParts = window.location.pathname.split('/');
+    let idx = urlParts.indexOf('cooperativa');
+    if (idx === -1) idx = urlParts.indexOf('cooperativas');
+    const cooperativaId = idx !== -1 ? urlParts[idx + 1] : "{{ $cooperativa->id ?? '' }}";
 
-      fetch(`/api/cooperativa/insumos?${params}`)
+    // Inicializa os Eventos quando a página carrega
+    document.addEventListener('DOMContentLoaded', function () {
+      carregarHistorico();
+
+      // Eventos de Clique nos botões de Filtrar e Limpar
+      document.getElementById('btnFiltrarInsumos')?.addEventListener('click', aplicarFiltrosHistorico);
+      document.getElementById('btnLimparFiltrosInsumos')?.addEventListener('click', limparFiltrosHistorico);
+    });
+
+    // 1. Função para procurar os dados na Rota que definiste
+    function carregarHistorico() {
+      if (!cooperativaId) return;
+
+      fetch(`/cooperativa/${cooperativaId}/estoque/historico`)
         .then(res => res.json())
-        .then(data => {
-          renderTabelaInsumos(data.data);
-          renderPaginacaoInsumos(data);
+        .then(res => {
+          if (res.success) {
+            historicoData = res.data;
+            historicoFiltrado = [...historicoData]; // Cópia inicial
+            renderTabelaHistorico();
+          } else {
+            showToast('Erro', res.message || 'Falha ao carregar histórico.', 'danger');
+          }
         })
         .catch(err => {
-          showToast('Erro', 'Falha ao carregar insumos.', 'danger');
+          showToast('Erro', 'Não foi possível conectar ao servidor.', 'danger');
           console.error(err);
         });
     }
 
-    function renderTabelaInsumos(insumos) {
+    // 2. Função de Processamento dos Filtros do teu HTML
+    function aplicarFiltrosHistorico() {
+      const buscaCategoria = document.getElementById('filtroInsumoCategoria')?.value.toLowerCase().trim() || '';
+      const buscaEstado = document.getElementById('filtroInsumoEstado')?.value.toLowerCase() || '';
+
+      historicoFiltrado = historicoData.filter(item => {
+        // Filtra por Categoria / Nome do Insumo
+        const matchCategoria = item.insumo_nome.toLowerCase().includes(buscaCategoria);
+        // Filtra pelo Estado (Pago, Pendente, etc.)
+        const matchEstado = buscaEstado ? item.estado.toLowerCase() === buscaEstado : true;
+
+        return matchCategoria && matchEstado;
+      });
+
+      insumosPage = 1; // Volta para a primeira página após filtrar
+      renderTabelaHistorico();
+    }
+
+    // 3. Função para Limpar os Inputs e restaurar os dados
+    function limparFiltrosHistorico() {
+      const inputCat = document.getElementById('filtroInsumoCategoria');
+      const selectEst = document.getElementById('filtroInsumoEstado');
+
+      if (inputCat) inputCat.value = '';
+      if (selectEst) selectEst.value = '';
+
+      historicoFiltrado = [...historicoData];
+      insumosPage = 1;
+      renderTabelaHistorico();
+    }
+
+    // 4. Desenha as linhas da tabela no HTML (Corpo da Tabela)
+    function renderTabelaHistorico() {
       const tbody = document.getElementById('corpoTabelaInsumos');
-      if (!insumos || insumos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
-      <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma movimentação registada.</td></tr>`;
+      if (!tbody) return;
+
+      // Lógica interna de paginação frontend
+      const total = historicoFiltrado.length;
+      const totalPages = Math.ceil(total / insumosPorPagina) || 1;
+
+      if (insumosPage > totalPages) insumosPage = totalPages;
+      const start = (insumosPage - 1) * insumosPorPagina;
+      const end = Math.min(start + insumosPorPagina, total);
+      const itensPagina = historicoFiltrado.slice(start, end);
+
+      if (itensPagina.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px;color:gray;">
+            <i class="bi bi-inbox" style="font-size:24px;display:block;"></i> Nenhum movimento encontrado.</td></tr>`;
+        renderPaginacaoLinks(totalPages);
         return;
       }
 
-      tbody.innerHTML = insumos.map(i => `
-    <tr>
-      <td>${i.categoria || 'N/A'}</td>
-      <td>${i.agricultor_nome || '--'}</td>
-      <td>${i.data_saida ? new Date(i.data_saida).toLocaleDateString('pt-PT') : '--'}</td>
-      <td><strong>${i.quantidade || 0}</strong></td>
-      <td>${i.modalidade || '--'}</td>
-      <td><span class="badge-status ${(i.estado || 'Pendente').toLowerCase()}"><span class="dot"></span>${i.estado || 'Pendente'}</span></td>
-      <td style="text-align:center;">
-        <div style="display:flex;gap:6px;justify-content:center;">
-          <button class="action-btn edit" title="Editar" onclick="abrirModalEditarInsumo(${i.id})"><i class="bi bi-pencil-fill"></i></button>
-          <button class="action-btn revert" title="Reverter" onclick="reverterInsumo(${i.id})"><i class="bi bi-arrow-counterclockwise"></i></button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+      tbody.innerHTML = itensPagina.map(item => {
+        const estadoClass = item.estado ? item.estado.toLowerCase() : 'pendente';
+        const tipoMovClass = item.tipo_movimento === 'Saída' ? 'danger' : 'success';
+        const formatarTexto = (txt) => txt ? txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase() : '';
+
+        return `
+            <tr>
+                <td><strong>${item.insumo_nome}</strong><br><small style="color:var(--text-light);">${item.data}</small></td>
+                <td>${item.agricultor_nome}</td>
+                <td><span class="badge bg-${tipoMovClass}">${item.tipo_movimento}</span></td>
+                <td><strong>${item.quantidade}</strong></td>
+                <td>${formatarTexto(item.modalidade)}</td>
+                <td><span class="badge-status ${estadoClass}"><span class="dot"></span> ${formatarTexto(item.estado)}</span></td>
+            </tr>
+        `;
+      }).join('');
+
+      // Atualiza o texto informativo da paginação (Ex: Mostrando 1 - 10 de 25)
+      const infoContainer = document.getElementById('infoInsumos');
+      if (infoContainer) {
+        infoContainer.textContent = `Mostrando ${total === 0 ? 0 : start + 1} - ${end} de ${total} movimentos`;
+      }
+
+      renderPaginacaoLinks(totalPages);
     }
 
-    function renderPaginacaoInsumos(data) {
-      const info = document.getElementById('infoInsumos');
-      const links = document.getElementById('paginacaoLinksInsumos');
-      info.textContent = `Mostrando ${data.from || 0} - ${data.to || 0} de ${data.total || 0} registos`;
-
-      if (data.last_page <= 1) { links.innerHTML = ''; return; }
+    // 5. Gera os botões numéricos da paginação
+    function renderPaginacaoLinks(totalPages) {
+      const pagUl = document.getElementById('paginacaoLinksInsumos');
+      if (!pagUl) return;
 
       let html = '';
-      html += `<li class="page-item ${data.prev_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarInsumos(${data.current_page - 1});return false;">«</a></li>`;
-      for (let i = 1; i <= data.last_page; i++) {
-        html += `<li class="page-item ${i === data.current_page ? 'active' : ''}">
-      <a class="page-link" href="#" onclick="carregarInsumos(${i});return false;">${i}</a></li>`;
+      // Botão Anterior
+      html += `<li class="page-item ${insumosPage <= 1 ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="event.preventDefault(); mudarPaginaInsumos(${insumosPage - 1})"><i class="bi bi-chevron-left"></i></a>
+    </li>`;
+
+      // Páginas numéricas
+      for (let i = 1; i <= totalPages; i++) {
+        html += `<li class="page-item ${i === insumosPage ? 'active' : ''}">
+            <a class="page-link" href="#" onclick="event.preventDefault(); mudarPaginaInsumos(${i})">${i}</a>
+        </li>`;
       }
-      html += `<li class="page-item ${data.next_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarInsumos(${data.current_page + 1});return false;">»</a></li>`;
-      links.innerHTML = html;
+
+      // Botão Próximo
+      html += `<li class="page-item ${insumosPage >= totalPages ? 'disabled' : ''}">
+        <a class="page-link" href="#" onclick="event.preventDefault(); mudarPaginaInsumos(${insumosPage + 1})"><i class="bi bi-chevron-right"></i></a>
+    </li>`;
+
+      pagUl.innerHTML = html;
     }
 
-    /* Filtros Insumos */
-    document.getElementById('btnFiltrarInsumos').addEventListener('click', () => {
-      insumosFiltros.categoria = document.getElementById('filtroInsumoCategoria').value;
-      insumosFiltros.estado = document.getElementById('filtroInsumoEstado').value;
-      carregarInsumos(1);
-    });
-
-    document.getElementById('btnLimparFiltrosInsumos').addEventListener('click', () => {
-      document.getElementById('filtroInsumoCategoria').value = '';
-      document.getElementById('filtroInsumoEstado').value = '';
-      insumosFiltros = { categoria: '', estado: '' };
-      carregarInsumos(1);
-    });
-
-    /* Modal Registrar Saída Insumo */
-    const modalInsumo = new bootstrap.Modal(document.getElementById('modalRegistrarSaidaInsumo'));
-
-    document.getElementById('btnRegistrarSaidaInsumo').addEventListener('click', () => {
-      fetch('/api/cooperativa/agricultores?per_page=1000')
-        .then(res => res.json())
-        .then(data => {
-          const select = document.getElementById('insumoSaidaAgricultor');
-          select.innerHTML = '<option value="">Selecione um agricultor</option>' +
-            data.data.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
-        });
-      document.getElementById('formRegistrarSaidaInsumo').reset();
-      document.getElementById('insumoSaidaData').valueAsDate = new Date();
-      modalInsumo.show();
-    });
-
-    document.getElementById('btnSalvarSaidaInsumo').addEventListener('click', () => {
-      const data = {
-        categoria: document.getElementById('insumoSaidaCategoria').value,
-        agricultor_id: document.getElementById('insumoSaidaAgricultor').value,
-        data_saida: document.getElementById('insumoSaidaData').value,
-        quantidade: document.getElementById('insumoSaidaQuantidade').value,
-        modalidade: document.getElementById('insumoSaidaModalidade').value,
-        estado: document.getElementById('insumoSaidaEstado').value
-      };
-
-      fetch('/api/cooperativa/insumos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            showToast('Sucesso', 'Saída de insumo registada com sucesso!');
-            modalInsumo.hide();
-            carregarInsumos(insumosPage);
-          } else {
-            showToast('Erro', result.message || 'Falha ao registrar saída.', 'danger');
-          }
-        })
-        .catch(err => {
-          showToast('Erro', 'Erro ao processar requisição.', 'danger');
-          console.error(err);
-        });
-    });
-
-    /* Reverter Insumo */
-    function reverterInsumo(id) {
-      if (!confirm('Tem certeza que deseja reverter esta movimentação?')) return;
-
-      fetch(`/api/cooperativa/insumos/${id}/reverter`, {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        }
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            showToast('Sucesso', 'Movimentação revertida com sucesso!');
-            carregarInsumos(insumosPage);
-          } else {
-            showToast('Erro', result.message || 'Falha ao reverter.', 'danger');
-          }
-        })
-        .catch(err => {
-          showToast('Erro', 'Erro ao processar requisição.', 'danger');
-          console.error(err);
-        });
+    // Controla a mudança de página
+    function mudarPaginaInsumos(novaPagina) {
+      insumosPage = novaPagina;
+      renderTabelaHistorico();
     }
 
-    /* Editar Insumo */
-    const modalEditarInsumo = new bootstrap.Modal(document.getElementById('modalEditarInsumoSaida'));
 
-    function abrirModalEditarInsumo(id) {
-      fetch(`/api/cooperativa/insumos/${id}`)
-        .then(res => res.json())
-        .then(data => {
-          const i = data.data;
-          document.getElementById('editarInsumoSaidaId').value = i.id;
-          document.getElementById('editarInsumoSaidaCategoria').value = i.categoria || '';
-          document.getElementById('editarInsumoSaidaData').value = i.data_saida || '';
-          document.getElementById('editarInsumoSaidaQuantidade').value = i.quantidade || '';
-          document.getElementById('editarInsumoSaidaModalidade').value = i.modalidade || 'Vendido';
-          document.getElementById('editarInsumoSaidaEstado').value = i.estado || 'Pendente';
+    function carregarInsumos() {
+    aplicarFiltrosHistorico();
+}
 
-          fetch('/api/cooperativa/agricultores?per_page=1000')
-            .then(res => res.json())
-            .then(agData => {
-              const select = document.getElementById('editarInsumoSaidaAgricultor');
-              select.innerHTML = '<option value="">Selecione um agricultor</option>' +
-                agData.data.map(a =>
-                  `<option value="${a.id}" ${a.id == i.agricultor_id ? 'selected' : ''}>${a.nome}</option>`
-                ).join('');
-              modalEditarInsumo.show();
-            });
-        })
-        .catch(err => {
-          showToast('Erro', 'Falha ao carregar dados do insumo.', 'danger');
-          console.error(err);
-        });
-    }
 
-    document.getElementById('btnSalvarEditarInsumoSaida').addEventListener('click', () => {
-      const id = document.getElementById('editarInsumoSaidaId').value;
-      const data = {
-        categoria: document.getElementById('editarInsumoSaidaCategoria').value,
-        agricultor_id: document.getElementById('editarInsumoSaidaAgricultor').value,
-        data_saida: document.getElementById('editarInsumoSaidaData').value,
-        quantidade: document.getElementById('editarInsumoSaidaQuantidade').value,
-        modalidade: document.getElementById('editarInsumoSaidaModalidade').value,
-        estado: document.getElementById('editarInsumoSaidaEstado').value
-      };
 
-      fetch(`/api/cooperativa/insumos/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            showToast('Sucesso', 'Insumo atualizado com sucesso!');
-            modalEditarInsumo.hide();
-            carregarInsumos(insumosPage);
-          } else {
-            showToast('Erro', result.message || 'Falha ao atualizar.', 'danger');
-          }
-        })
-        .catch(err => {
-          showToast('Erro', 'Erro ao processar requisição.', 'danger');
-          console.error(err);
-        });
-    });
 
-    /* ══════════════════════════════════════
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ═════════════════════════════════===============================================================═════
        ─── CRUD RECEITAS ───
-    ══════════════════════════════════════ */
+    ═══════════════════════════════════============================================================═══ */
     let receitasPage = 1;
     let receitasFiltros = { nome: '', estado: '' };
 
@@ -4421,9 +4425,17 @@
         });
     });
 
-    /* ══════════════════════════════════════
+
+
+
+
+
+
+
+
+    /* ════════════════════════════=========================================================══════════
        ─── CRUD VENDAS ───
-    ══════════════════════════════════════ */
+    ═════════════════════════===============================================================═════════════ */
     let vendasPage = 1;
     let vendasFiltros = { nome: '', estado: '' };
 
@@ -4627,9 +4639,15 @@
         });
     });
 
-    /* ══════════════════════════════════════
+
+
+
+
+
+
+    /* ══════════════════════════════════===========================================================════
        ─── CRUD SAÍDAS / DESPESAS ───
-    ══════════════════════════════════════ */
+    ══════════════════════════════════=============================================================════ */
     let saidasPage = 1;
     let saidasFiltros = { nome: '', estado: '' };
 
@@ -4847,7 +4865,7 @@
        INICIALIZAÇÃO
     ══════════════════════════════════════ */
     document.addEventListener('DOMContentLoaded', () => {
-      carregarAgricultores(1);
+    //  carregarAgricultores(1);
     });
   </script>
 

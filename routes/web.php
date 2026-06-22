@@ -1,14 +1,17 @@
 <?php
 
 use App\Http\Controllers\AgricultoresController;
+use App\Http\Controllers\CooperativaMembroController;;
 use App\Http\Controllers\AnoAgricolaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfiguracaoController;
 use App\Http\Controllers\CooperativaController;
+use App\Http\Controllers\HistoricoEstoqueController;
 use App\Http\Controllers\InsumosController;
 use App\Http\Controllers\MovimentoInsumoController;
 use App\Http\Controllers\TalhoesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SafraController;
 use Illuminate\Support\Facades\Route;
 
 // Rotas Públicas (Sem Login)
@@ -50,6 +53,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/agricultores/{id}', [AgricultoresController::class, 'show'])->name('agricultores.show');
     Route::put('/agricultores/{id}', [AgricultoresController::class, 'update'])->name('agricultores.update');
     Route::delete('/agricultores/{id}', [AgricultoresController::class, 'destroy'])->name('agricultores.destroy');
+    Route::get('/agricultores/{id}/historico-json', [AgricultoresController::class, 'getHistoricoJson']);
+
+    // associar o agricltoresa uma coooerativa
+    Route::prefix('cooperativas/{cooperativaId}/membros')->group(function () {
+        Route::get('/json', [CooperativaMembroController::class, 'indexJson']);
+        Route::post('/associar', [CooperativaMembroController::class, 'store']);
+        Route::post('/{id}/alternar-estado', [CooperativaMembroController::class, 'toggleStatus']);
+        Route::delete('/{id}/remover', [CooperativaMembroController::class, 'destroy']);
+    });
 
     // Cooperativas (Web tradicionais e exportação)
     Route::get('/cooperativas/exportar-pdf', [CooperativaController::class, 'exportarPdf'])->name('cooperativas.pdf');
@@ -101,12 +113,33 @@ Route::middleware('auth')->group(function () {
     Route::get('/insumos/{id}', [InsumosController::class, 'show'])->name('insumos.show');
     Route::put('/insumos/{id}', [InsumosController::class, 'updateGeral'])->name('insumos.update');
     Route::delete('/insumos/{id}', [InsumosController::class, 'destroyGeral'])->name('insumos.destroy');
+    Route::get('/cooperativa/{cooperativa}/agricultor/{agricultor}/historico', [InsumosController::class, 'historicoPorAgricultor']);
 
     // Talhões
-    Route::get('/talhoes', [TalhoesController::class, 'index'])->name('talhoes.index');
+    Route::get('/talhoes', [TalhoesController::class, 'painel'])->name('talhoes.painel');
     Route::post('/talhoes', [TalhoesController::class, 'store'])->name('talhoes.store');
     Route::get('/talhoes/{id}', [TalhoesController::class, 'show'])->name('talhoes.show');
     Route::put('/talhoes/{id}', [TalhoesController::class, 'update'])->name('talhoes.update');
     Route::delete('/talhoes/{id}', [TalhoesController::class, 'destroy'])->name('talhoes.destroy');
 
+    //safras
+    Route::prefix('cooperativas/{cooperativa}')
+    ->group(function () {
+
+        Route::get('/safras', [SafraController::class, 'index']) ->name('safras.index');
+        Route::get('/safras', [SafraController::class, 'index']) ->name('safras.index');
+        Route::post('/safras', [SafraController::class, 'store'])->name('safras.store');
+        Route::put('/safras/{safra}', [SafraController::class, 'update'])  ->name('safras.update');
+        Route::delete('/safras/{safra}', [SafraController::class, 'destroy']) ->name('safras.destroy');
+    });
+        //safra geral
+    Route::get('/safras', [SafraController::class, 'painel'])
+    ->name('safras.painel');
+
+    // Rota para o painel administrativo ver o histórico global de todas as cooperativas
+    // Route::get('/admin/estoque/historico-global', [HistoricoEstoqueController::class, 'exibirHistoricoAdmin'])->name('admin.historico.global');
+
+
+
+    Route::get('/api/cooperativa/agricultores', [CooperativaMembroController::class, 'index']);
 });
