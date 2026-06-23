@@ -1057,7 +1057,7 @@
         <i class="bi bi-flower2"></i>
         <span class="nav-label">Safras</span>
       </a>
-      <a  href="{{route('talhoes.painel')}}" class="nav-item-link" data-label="Talhões">
+      <a  href="{{route('talhoes.index')}}" class="nav-item-link" data-label="Talhões">
         <i class="bi bi-map-fill"></i>
         <span class="nav-label">Talhões</span>
       </a>

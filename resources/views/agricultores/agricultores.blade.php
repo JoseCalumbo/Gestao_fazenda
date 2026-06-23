@@ -1641,7 +1641,7 @@
       <div class="nav-section-title">Agrícola</div>
       <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
           class="nav-label">Safras</span></a>
-      <a href="#" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
+      <a href="{{route('talhoes.index')}}" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
           class="nav-label">Talhões</span></a>
       <a href="#" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
           class="nav-label">Insumos</span></a>

@@ -1,3 +1,5 @@
+[file name]: vendas.blade.php
+[file content begin]
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -5,7 +7,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>SIAG – Safras</title>
+  <title>SIAG – Vendas</title>
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -345,7 +347,6 @@
       color: #fff;
     }
 
-    /* Ícones Bootstrap — cor verde primária por defeito */
     .bi {
       color: var(--primary);
     }
@@ -372,7 +373,6 @@
     }
 
     .badge-status .bi,
-    .badge-cargo .bi,
     .stat-badge .bi {
       color: inherit;
     }
@@ -808,13 +808,13 @@
       box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
     }
 
-    /* Safras Table */
-    .safra-table {
+    /* Vendas Table */
+    .venda-table {
       width: 100%;
       border-collapse: collapse;
     }
 
-    .safra-table th {
+    .venda-table th {
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
@@ -827,7 +827,7 @@
       white-space: nowrap;
     }
 
-    .safra-table td {
+    .venda-table td {
       font-size: 13.5px;
       color: var(--text-dark);
       padding: 14px 20px;
@@ -835,15 +835,14 @@
       vertical-align: middle;
     }
 
-    .safra-table tr:last-child td {
+    .venda-table tr:last-child td {
       border-bottom: none;
     }
 
-    .safra-table tbody tr:hover td {
+    .venda-table tbody tr:hover td {
       background: #F8FBF8;
     }
 
-    /* Badges */
     .badge-status {
       font-size: 12px;
       font-weight: 500;
@@ -855,20 +854,16 @@
       gap: 4px;
     }
 
-    .badge-status.activa {
+    .badge-status.pago {
       color: #2E7D32;
-    }
-
-    .badge-status.inactiva {
-      color: #C62828;
     }
 
     .badge-status.pendente {
       color: #F57F17;
     }
 
-    .badge-status.concluida {
-      color: #1565C0;
+    .badge-status.cancelado {
+      color: #C62828;
     }
 
     .badge-status .dot {
@@ -878,23 +873,19 @@
       display: inline-block;
     }
 
-    .badge-status.activa .dot {
+    .badge-status.pago .dot {
       background: #2E7D32;
-    }
-
-    .badge-status.inactiva .dot {
-      background: #C62828;
     }
 
     .badge-status.pendente .dot {
       background: #F57F17;
     }
 
-    .badge-status.concluida .dot {
-      background: #1565C0;
+    .badge-status.cancelado .dot {
+      background: #C62828;
     }
 
-    /* Action buttons in table */
+    /* Action buttons */
     .action-btn {
       width: 32px;
       height: 32px;
@@ -916,6 +907,16 @@
 
     .action-btn.view:hover {
       background: #6A1B9A;
+      color: #fff;
+    }
+
+    .action-btn.print {
+      background: #E3F2FD;
+      color: #1565C0;
+    }
+
+    .action-btn.print:hover {
+      background: #1565C0;
       color: #fff;
     }
 
@@ -969,38 +970,116 @@
     }
 
     /* ═══════════════════════════════════════════
-       EMPTY STATE
+       CARRINHO DE COMPRAS (Painel lateral)
     ═══════════════════════════════════════════ */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
+    .cart-panel {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      position: sticky;
+      top: calc(var(--topbar-h) + 28px);
     }
 
-    .empty-state i {
-      font-size: 52px;
-      color: var(--accent);
-      opacity: .5;
-      display: block;
+    .cart-panel .cart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .empty-state h6 {
+    .cart-panel .cart-header h6 {
       font-family: 'Sora', sans-serif;
-      font-size: 16px;
+      font-weight: 600;
       color: var(--text-dark);
-      margin-bottom: 6px;
+      margin: 0;
     }
 
-    .empty-state p {
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
       font-size: 13px;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item .item-info {
+      flex: 1;
+    }
+
+    .cart-item .item-info .item-name {
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+
+    .cart-item .item-info .item-detail {
+      font-size: 12px;
       color: var(--text-light);
     }
 
+    .cart-item .item-qty {
+      margin: 0 12px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .cart-item .item-price {
+      font-weight: 600;
+      color: var(--primary);
+      min-width: 80px;
+      text-align: right;
+    }
+
+    .cart-item .btn-remove-item {
+      background: none;
+      border: none;
+      color: var(--danger);
+      cursor: pointer;
+      padding: 0 4px;
+      font-size: 16px;
+    }
+
+    .cart-item .btn-remove-item:hover {
+      color: #b71c1c;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 12px;
+      margin-top: 12px;
+      border-top: 2px solid var(--border);
+      font-family: 'Sora', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .cart-empty {
+      text-align: center;
+      padding: 30px 0;
+      color: var(--text-light);
+    }
+
+    .cart-empty i {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 12px;
+      opacity: .4;
+    }
+
     /* ═══════════════════════════════════════════
-       MODAL — VISUALIZAR SAFRA
+       MODAL — VER VENDA
     ═══════════════════════════════════════════ */
     .modal-coop {
-      max-width: 600px;
+      max-width: 700px;
     }
 
     .modal-content {
@@ -1048,7 +1127,7 @@
 
     .modal-body {
       background: #fff;
-      padding: 28px;
+      padding: 24px;
     }
 
     .modal-footer {
@@ -1179,11 +1258,11 @@
       background: rgba(102, 187, 106, .12);
     }
 
-    body.dark-mode .safra-table th {
+    body.dark-mode .venda-table th {
       background: #172518;
     }
 
-    body.dark-mode .safra-table tbody tr:hover td {
+    body.dark-mode .venda-table tbody tr:hover td {
       background: #1a2a1c;
     }
 
@@ -1204,6 +1283,13 @@
     }
 
     /* Responsive */
+    @media (max-width: 992px) {
+      .cart-panel {
+        position: static;
+        margin-top: 20px;
+      }
+    }
+
     @media (max-width: 768px) {
       :root {
         --sidebar-w: 240px;
@@ -1294,23 +1380,15 @@
           class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
-      <a href="#" class="nav-item-link active" data-label="Safras"><i class="bi bi-flower2"></i><span
+      <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
           class="nav-label">Safras</span></a>
-      <a href="{{route('talhoes.index')}}" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
+      <a href="#" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
           class="nav-label">Talhões</span></a>
-      <a href="{{ route('insumos.index')}}" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
+      <a href="#" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
           class="nav-label">Insumos</span></a>
 
-      <div class="nav-section-title">Financeiro</div>
-      <a href="#" class="nav-item-link" data-label="Contas a Pagar"><i class="bi bi-arrow-down-circle-fill"></i><span
-          class="nav-label">Contas a Pagar</span></a>
-      <a href="#" class="nav-item-link" data-label="Contas a Receber"><i class="bi bi-arrow-up-circle-fill"></i><span
-          class="nav-label">Contas a Receber</span></a>
-      <a href="#" class="nav-item-link" data-label="Fluxo de Caixa"><i class="bi bi-cash-stack"></i><span
-          class="nav-label">Fluxo de Caixa</span></a>
-
       <div class="nav-section-title">Comercial</div>
-      <a href="#" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
+      <a href="#" class="nav-item-link active" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
           class="nav-label">Vendas</span></a>
       <a href="#" class="nav-item-link" data-label="Contratos"><i class="bi bi-file-earmark-text-fill"></i><span
           class="nav-label">Contratos</span></a>
@@ -1346,11 +1424,11 @@
     <button class="topbar-toggle" id="sidebarToggle" title="Toggle Sidebar">
       <i class="bi bi-list"></i>
     </button>
-    <span class="topbar-title">Safras</span>
+    <span class="topbar-title">Vendas</span>
     <nav aria-label="breadcrumb" class="d-none d-md-flex ms-3">
       <ol class="breadcrumb mb-0" style="font-size:12.5px;">
         <li class="breadcrumb-item"><a href="#" style="color:var(--primary);text-decoration:none;">SIAG</a></li>
-        <li class="breadcrumb-item active" style="color:var(--text-light);">Safras</li>
+        <li class="breadcrumb-item active" style="color:var(--text-light);">Vendas</li>
       </ol>
     </nav>
     <div class="topbar-right">
@@ -1411,12 +1489,15 @@
       <!-- Page Header -->
       <div class="page-header anim">
         <div>
-          <h1>Gestão de Safras</h1>
-          <p>Registo e administração das safras agrícolas da cooperativa</p>
+          <h1>Gestão de Vendas</h1>
+          <p>Registo e administração das vendas de produtos agrícolas</p>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <button class="btn-outline-green" id="btnExportar">
             <i class="bi bi-download"></i> Exportar
+          </button>
+          <button class="btn-green" id="btnNovaVenda">
+            <i class="bi bi-cart-plus-fill"></i> Nova Venda
           </button>
         </div>
       </div>
@@ -1425,10 +1506,10 @@
       <div class="row g-3 mb-4 anim anim-d1">
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon green"><i class="bi bi-flower2"></i></div>
+            <div class="stat-icon green"><i class="bi bi-cart-fill"></i></div>
             <div class="stat-info">
-              <div class="s-label">Total de Safras</div>
-              <div class="s-value">{{ $totalSafras ?? 0 }}</div>
+              <div class="s-label">Total de Vendas</div>
+              <div class="s-value">{{ $totalVendas ?? 0 }}</div>
             </div>
           </div>
         </div>
@@ -1436,8 +1517,8 @@
           <div class="stat-card">
             <div class="stat-icon blue"><i class="bi bi-check-circle-fill"></i></div>
             <div class="stat-info">
-              <div class="s-label">Safras Activas</div>
-              <div class="s-value">{{ $safrasActivas ?? 0 }}</div>
+              <div class="s-label">Vendas Pagas</div>
+              <div class="s-value">{{ $vendasPagas ?? 0 }}</div>
             </div>
           </div>
         </div>
@@ -1446,198 +1527,398 @@
             <div class="stat-icon amber"><i class="bi bi-clock-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Pendentes</div>
-              <div class="s-value">{{ $safrasPendentes ?? 0 }}</div>
+              <div class="s-value">{{ $vendasPendentes ?? 0 }}</div>
             </div>
           </div>
         </div>
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon purple"><i class="bi bi-check-all"></i></div>
+            <div class="stat-icon purple"><i class="bi bi-cash-stack"></i></div>
             <div class="stat-info">
-              <div class="s-label">Concluídas</div>
-              <div class="s-value">{{ $safrasConcluidas ?? 0 }}</div>
+              <div class="s-label">Total Faturado (Kz)</div>
+              <div class="s-value">{{ number_format($totalFaturado ?? 0, 0, ',', '.') }}</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Table Card -->
-      <div class="table-card anim anim-d2">
+      <!-- Layout: Lista de Produtos + Carrinho -->
+      <div class="row g-4 anim anim-d2">
 
-        <!-- Header -->
+        <!-- Coluna Esquerda: Produtos Disponíveis -->
+        <div class="col-lg-8">
+          <div class="table-card">
+
+            <!-- Header -->
+            <div class="table-card-header">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <h5><i class="bi bi-box-seam-fill me-2" style="color:var(--primary);"></i>Produtos Disponíveis</h5>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:12.5px;color:var(--text-light);">{{ $produtos->total() ?? 0 }} produtos</span>
+              </div>
+            </div>
+
+            <div class="search-filter-bar">
+              <div class="search-wrap">
+                <i class="bi bi-search"></i>
+                <input type="text" class="search-input" id="searchProduto" placeholder="Pesquisar por produto...">
+              </div>
+              <select class="filter-select" id="filterCategoria">
+                <option value="">Todas as categorias</option>
+                <option value="Graos">Grãos</option>
+                <option value="Legumes">Legumes</option>
+                <option value="Frutas">Frutas</option>
+                <option value="Outros">Outros</option>
+              </select>
+              <button class="btn-green" id="btnFiltrar" style="padding:8px 18px;"><i class="bi bi-search"></i> Filtrar</button>
+              <button class="btn-outline-green" id="btnLimparFiltros" style="padding:8px 18px;"><i class="bi bi-eraser"></i> Limpar</button>
+            </div>
+
+            <!-- Tabela de Produtos -->
+            <div style="overflow-x:auto;">
+              <table class="venda-table" id="produtoTable">
+                <thead>
+                  <tr>
+                    <th style="width:40px;">
+                      <input type="checkbox" id="selectAll"
+                        style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
+                    </th>
+                    <th>Produto</th>
+                    <th>Categoria</th>
+                    <th>Stock</th>
+                    <th>Preço Unit. (Kz)</th>
+                    <th style="text-align:center;">Qtd</th>
+                    <th style="text-align:center;">Acção</th>
+                  </tr>
+                </thead>
+                <tbody id="produtoTableBody">
+                  @forelse($produtos as $produto)
+                    <tr id="produto-row-{{ $produto->id }}" data-nome="{{ $produto->nome }}"
+                      data-preco="{{ $produto->preco_unitario }}" data-stock="{{ $produto->quantidade }}">
+                      <td>
+                        <input type="checkbox" class="row-check produto-check"
+                          style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
+                      </td>
+                      <td>
+                        <div style="font-weight:600;font-size:14px;">{{ $produto->nome }}</div>
+                      </td>
+                      <td>{{ $produto->categoria ?? '—' }}</td>
+                      <td>{{ $produto->quantidade }} {{ $produto->unidade ?? '' }}</td>
+                      <td><strong>{{ number_format($produto->preco_unitario, 0, ',', '.') }}</strong></td>
+                      <td style="text-align:center;">
+                        <input type="number" class="form-control form-control-sm qtd-input"
+                          style="width:70px;display:inline-block;text-align:center;" value="1" min="1"
+                          max="{{ $produto->quantidade }}">
+                      </td>
+                      <td style="text-align:center;">
+                        <button class="btn btn-sm btn-success btn-add-cart" data-id="{{ $produto->id }}"
+                          data-nome="{{ $produto->nome }}" data-preco="{{ $produto->preco_unitario }}"
+                          data-stock="{{ $produto->quantidade }}">
+                          <i class="bi bi-cart-plus"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  @empty
+                    <tr>
+                      <td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
+                        <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>
+                        Nenhum produto disponível.
+                      </td>
+                    </tr>
+                  @endforelse
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-footer">
+              <span id="tableCount">
+                Mostrando {{ $produtos->firstItem() ?? 0 }} até {{ $produtos->lastItem() ?? 0 }} de
+                {{ $produtos->total() }} produtos
+              </span>
+              <div class="pagination-btns">
+                @if ($produtos->onFirstPage())
+                  <button class="page-btn" disabled><i class="bi bi-chevron-left"></i></button>
+                @else
+                  <a href="{{ $produtos->previousPageUrl() }}" class="page-btn"><i class="bi bi-chevron-left"></i></a>
+                @endif
+
+                @foreach ($produtos->getUrlRange(1, $produtos->lastPage()) as $page => $url)
+                  @if ($page == $produtos->currentPage())
+                    <button class="page-btn active">{{ $page }}</button>
+                  @else
+                    <a href="{{ $url }}" class="page-btn">{{ $page }}</a>
+                  @endif
+                @endforeach
+
+                @if ($produtos->hasMorePages())
+                  <a href="{{ $produtos->nextPageUrl() }}" class="page-btn"><i class="bi bi-chevron-right"></i></a>
+                @else
+                  <button class="page-btn" disabled><i class="bi bi-chevron-right"></i></button>
+                @endif
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coluna Direita: Carrinho de Compras -->
+        <div class="col-lg-4">
+          <div class="cart-panel">
+            <div class="cart-header">
+              <h6><i class="bi bi-cart-fill me-2" style="color:var(--primary);"></i>Carrinho</h6>
+              <span style="font-size:12px;color:var(--text-light);" id="cartCount">0 itens</span>
+            </div>
+
+            <div id="cartItems">
+              <div class="cart-empty">
+                <i class="bi bi-cart"></i>
+                <p>Seu carrinho está vazio</p>
+                <p style="font-size:12px;">Selecione produtos e clique em adicionar</p>
+              </div>
+            </div>
+
+            <div id="cartSummary" style="display:none;">
+              <!-- Itens serão renderizados via JS -->
+            </div>
+
+            <div class="cart-total">
+              <span>Total:</span>
+              <span id="cartTotal">0 Kz</span>
+            </div>
+
+            <div class="mt-3">
+              <button class="btn-green w-100" id="btnFinalizarVenda" disabled>
+                <i class="bi bi-check2-circle"></i> Finalizar Venda
+              </button>
+            </div>
+            <div class="mt-2">
+              <button class="btn-outline-green w-100" id="btnLimparCarrinho">
+                <i class="bi bi-trash"></i> Limpar Carrinho
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Histórico de Vendas -->
+      <div class="table-card anim anim-d3 mt-4">
         <div class="table-card-header">
           <div style="display:flex;align-items:center;gap:12px;">
-            <h5><i class="bi bi-flower2 me-2" style="color:var(--primary);"></i>Lista de Safras</h5>
+            <h5><i class="bi bi-clock-history me-2" style="color:var(--primary);"></i>Histórico de Vendas</h5>
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
-            <span style="font-size:12.5px;color:var(--text-light);">{{ $safras->total() ?? 0 }} registos</span>
+            <span style="font-size:12.5px;color:var(--text-light);">{{ $vendas->total() ?? 0 }} registos</span>
           </div>
         </div>
 
         <div class="search-filter-bar">
           <div class="search-wrap">
             <i class="bi bi-search"></i>
-            <input type="text" class="search-input" id="searchSafra" placeholder="Pesquisar por nome da safra...">
+            <input type="text" class="search-input" id="searchVenda" placeholder="Pesquisar por cliente ou produto...">
           </div>
-          <select class="filter-select" id="filterEstado">
-            <option value="">Todos os estados</option>
-            <option value="activa">Activa</option>
-            <option value="inactiva">Inactiva</option>
+          <select class="filter-select" id="filterVendaStatus">
+            <option value="">Todos os status</option>
+            <option value="pago">Pago</option>
             <option value="pendente">Pendente</option>
-            <option value="concluida">Concluída</option>
+            <option value="cancelado">Cancelado</option>
           </select>
-          <select class="filter-select" id="filterCooperativa">
-            <option value="">Todas as cooperativas</option>
-            {{-- @foreach($cooperativas as $coop)
-              <option value="{{ $coop->id }}">{{ $coop->nome }}</option>
-            @endforeach --}}
-          </select>
-          <button class="btn-green" id="btnFiltrar" style="padding:8px 18px;"><i class="bi bi-search"></i> Filtrar</button>
-          <button class="btn-outline-green" id="btnLimparFiltros" style="padding:8px 18px;"><i class="bi bi-eraser"></i> Limpar</button>
+          <button class="btn-green" id="btnFiltrarVendas" style="padding:8px 18px;"><i class="bi bi-search"></i> Filtrar</button>
+          <button class="btn-outline-green" id="btnLimparFiltrosVendas" style="padding:8px 18px;"><i class="bi bi-eraser"></i> Limpar</button>
         </div>
 
-        <!-- Table -->
         <div style="overflow-x:auto;">
-          <table class="safra-table" id="safraTable">
+          <table class="venda-table" id="vendaTable">
             <thead>
               <tr>
-                <th style="width:40px;">
-                  <input type="checkbox" id="selectAll"
-                    style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
-                </th>
-                <th>Nome</th>
-                <th>Ano</th>
-                <th>Data Início</th>
-                <th>Data Fim</th>
-                <th>Cooperativa</th>
-                <th>Estado</th>
+                <th>Nº Venda</th>
+                <th>Data</th>
+                <th>Cliente</th>
+                <th>Produtos</th>
+                <th>Total (Kz)</th>
+                <th>Status</th>
                 <th style="text-align:center;">Acções</th>
               </tr>
             </thead>
-
-            <tbody id="safraTableBody">
-              @forelse($safras as $safra)
-                <tr id="safra-row-{{ $safra->id }}" data-estado="{{ $safra->estado }}"
-                  data-cooperativa="{{ $safra->cooperativa->nome ?? 'Sem cooperativa' }}">
+            <tbody id="vendaTableBody">
+              @forelse($vendas as $venda)
+                <tr id="venda-row-{{ $venda->id }}" data-status="{{ $venda->status }}">
+                  <td><strong>#{{ str_pad($venda->id, 6, '0', STR_PAD_LEFT) }}</strong></td>
+                  <td>{{ $venda->created_at->format('d/m/Y H:i') }}</td>
+                  <td>{{ $venda->cliente_nome ?? '—' }}</td>
+                  <td>{{ $venda->itens_count ?? 0 }} itens</td>
+                  <td><strong>{{ number_format($venda->total, 0, ',', '.') }}</strong></td>
                   <td>
-                    <input type="checkbox" class="row-check"
-                      style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
-                  </td>
-                  <td>
-                    <div>
-                      <div style="font-weight:600;font-size:14px;">{{ $safra->nome }}</div>
-                      @if($safra->descricao)
-                        <div style="font-size:11.5px;color:var(--text-light);">{{ Str::limit($safra->descricao, 50) }}</div>
-                      @endif
-                    </div>
-                  </td>
-                  <td><strong>{{ $safra->ano }}</strong></td>
-                  <td>{{ isset($safra->data_inicio) ? \Carbon\Carbon::parse($safra->data_inicio)->format('d/m/Y') : '--' }}
-                  </td>
-                  <td>{{ isset($safra->data_fim) ? \Carbon\Carbon::parse($safra->data_fim)->format('d/m/Y') : '--' }}</td>
-                  <td>{{ $safra->cooperativa->nome ?? 'Sem cooperativa' }}</td>
-                  <td>
-                    <span class="badge-status {{ $safra->estado }}">
+                    <span class="badge-status {{ $venda->status }}">
                       <span class="dot"></span>
-                      {{ ucfirst($safra->estado) }}
+                      {{ ucfirst($venda->status) }}
                     </span>
                   </td>
                   <td style="text-align:center;">
                     <div style="display:flex;gap:6px;justify-content:center;">
-                      <button class="action-btn view btn-ver-safra" title="Ver detalhes"
-                        data-id="{{ $safra->id }}" data-nome="{{ $safra->nome }}"
-                        data-ano="{{ $safra->ano }}" data-data_inicio="{{ $safra->data_inicio }}"
-                        data-data_fim="{{ $safra->data_fim }}" data-estado="{{ $safra->estado }}"
-                        data-descricao="{{ $safra->descricao }}"
-                        data-cooperativa_nome="{{ $safra->cooperativa->nome ?? 'Sem cooperativa' }}">
+                      <button class="action-btn view btn-ver-venda" title="Ver detalhes"
+                        data-id="{{ $venda->id }}" data-cliente="{{ $venda->cliente_nome ?? '—' }}"
+                        data-total="{{ $venda->total }}" data-status="{{ $venda->status }}"
+                        data-itens="{{ json_encode($venda->itens ?? []) }}">
                         <i class="bi bi-eye-fill"></i>
+                      </button>
+                      <button class="action-btn print btn-imprimir-venda" title="Imprimir Fatura"
+                        data-id="{{ $venda->id }}">
+                        <i class="bi bi-printer-fill"></i>
                       </button>
                     </div>
                   </td>
                 </tr>
               @empty
                 <tr>
-                  <td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
+                  <td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
                     <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>
-                    Nenhuma safra encontrada.
+                    Nenhuma venda registada.
                   </td>
                 </tr>
               @endforelse
             </tbody>
-
           </table>
         </div>
 
         <div class="table-footer">
-          <span id="tableCount">
-            Mostrando {{ $safras->firstItem() ?? 0 }} até {{ $safras->lastItem() ?? 0 }} de
-            {{ $safras->total() }} safras
+          <span id="vendaCount">
+            Mostrando {{ $vendas->firstItem() ?? 0 }} até {{ $vendas->lastItem() ?? 0 }} de
+            {{ $vendas->total() }} vendas
           </span>
-
           <div class="pagination-btns">
-
-            {{-- Botão Anterior --}}
-            @if ($safras->onFirstPage())
+            @if ($vendas->onFirstPage())
               <button class="page-btn" disabled><i class="bi bi-chevron-left"></i></button>
             @else
-              <a href="{{ $safras->previousPageUrl() }}" class="page-btn"><i class="bi bi-chevron-left"></i></a>
+              <a href="{{ $vendas->previousPageUrl() }}" class="page-btn"><i class="bi bi-chevron-left"></i></a>
             @endif
 
-            {{-- Números das Páginas --}}
-            @foreach ($safras->getUrlRange(1, $safras->lastPage()) as $page => $url)
-              @if ($page == $safras->currentPage())
+            @foreach ($vendas->getUrlRange(1, $vendas->lastPage()) as $page => $url)
+              @if ($page == $vendas->currentPage())
                 <button class="page-btn active">{{ $page }}</button>
               @else
                 <a href="{{ $url }}" class="page-btn">{{ $page }}</a>
               @endif
             @endforeach
 
-            {{-- Botão Próximo --}}
-            @if ($safras->hasMorePages())
-              <a href="{{ $safras->nextPageUrl() }}" class="page-btn"><i class="bi bi-chevron-right"></i></a>
+            @if ($vendas->hasMorePages())
+              <a href="{{ $vendas->nextPageUrl() }}" class="page-btn"><i class="bi bi-chevron-right"></i></a>
             @else
               <button class="page-btn" disabled><i class="bi bi-chevron-right"></i></button>
             @endif
-
           </div>
         </div>
-
       </div>
-      <!-- /table-card -->
 
     </div><!-- /content-inner -->
   </main>
 
-
   <!-- ══════════════════════════════════════
-     MODAL — VER SAFRA
+     MODAL — VER VENDA
 ══════════════════════════════════════ -->
-  <div class="modal fade modal-coop" id="modalVerSafra" tabindex="-1" aria-hidden="true">
+  <div class="modal fade modal-coop" id="modalVerVenda" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <div style="display:flex;align-items:center;gap:14px;flex:1;">
-            <div class="modal-header-icon"><i class="bi bi-eye-fill"></i></div>
+            <div class="modal-header-icon"><i class="bi bi-receipt"></i></div>
             <div>
-              <div class="modal-title">Detalhes da Safra</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="verSafraNome">—</div>
+              <div class="modal-title">Detalhes da Venda</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="verVendaNumero">#000000</div>
             </div>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
-          <div class="row g-3">
-            <div class="col-6"><strong>ID:</strong> <span id="verSafraId">—</span></div>
-            <div class="col-6"><strong>Ano:</strong> <span id="verSafraAno">—</span></div>
-            <div class="col-6"><strong>Data Início:</strong> <span id="verSafraDataInicio">—</span></div>
-            <div class="col-6"><strong>Data Fim:</strong> <span id="verSafraDataFim">—</span></div>
-            <div class="col-6"><strong>Estado:</strong> <span id="verSafraEstado">—</span></div>
-            <div class="col-6"><strong>Cooperativa:</strong> <span id="verSafraCooperativa">—</span></div>
-            <div class="col-12"><strong>Descrição:</strong> <span id="verSafraDescricao">—</span></div>
+          <div class="row g-3 mb-3">
+            <div class="col-6"><strong>Data:</strong> <span id="verVendaData">—</span></div>
+            <div class="col-6"><strong>Cliente:</strong> <span id="verVendaCliente">—</span></div>
+            <div class="col-12"><strong>Status:</strong> <span id="verVendaStatus">—</span></div>
+          </div>
+          <hr>
+          <h6 style="font-family:'Sora',sans-serif;font-weight:600;margin-bottom:12px;">Itens da Venda</h6>
+          <div id="verVendaItens">
+            <p style="color:var(--text-light);">Carregando...</p>
+          </div>
+          <hr>
+          <div style="text-align:right;font-size:18px;font-weight:700;color:var(--text-dark);">
+            Total: <span id="verVendaTotal">0 Kz</span>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Fechar</button>
+          <button type="button" class="btn-green btn-imprimir-fatura" id="btnImprimirFatura">
+            <i class="bi bi-printer-fill"></i> Imprimir Fatura
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+     MODAL — FINALIZAR VENDA
+══════════════════════════════════════ -->
+  <div class="modal fade modal-coop" id="modalFinalizarVenda" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div style="display:flex;align-items:center;gap:14px;flex:1;">
+            <div class="modal-header-icon"><i class="bi bi-cart-check-fill"></i></div>
+            <div>
+              <div class="modal-title">Finalizar Venda</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Confirme os dados da venda</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formFinalizarVenda">
+            @csrf
+            <div class="modal-form-card" style="background:var(--card-bg);border-radius:14px;border:1px solid var(--border);padding:20px 22px;margin-bottom:16px;">
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="cfg-label" style="display:block;font-size:12px;font-weight:600;color:var(--text-mid);margin-bottom:5px;">Nome do Cliente *</label>
+                  <input type="text" class="cfg-input" id="clienteNome" required
+                    style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;font-size:13.5px;color:var(--text-dark);background:#FAFAF9;outline:none;"
+                    placeholder="Ex: Mercado de Viana">
+                </div>
+                <div class="col-12">
+                  <label class="cfg-label" style="display:block;font-size:12px;font-weight:600;color:var(--text-mid);margin-bottom:5px;">Forma de Pagamento</label>
+                  <select class="cfg-select" id="formaPagamento"
+                    style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 32px 10px 13px;font-size:13.5px;color:var(--text-dark);background:#FAFAF9;appearance:none;cursor:pointer;outline:none;">
+                    <option value="dinheiro">Dinheiro</option>
+                    <option value="transferencia">Transferência Bancária</option>
+                    <option value="credito">Crédito</option>
+                    <option value="cheque">Cheque</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="cfg-label" style="display:block;font-size:12px;font-weight:600;color:var(--text-mid);margin-bottom:5px;">Status da Venda</label>
+                  <select class="cfg-select" id="vendaStatus"
+                    style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 32px 10px 13px;font-size:13.5px;color:var(--text-dark);background:#FAFAF9;appearance:none;cursor:pointer;outline:none;">
+                    <option value="pago">Pago</option>
+                    <option value="pendente">Pendente</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:var(--accent-lt);border-radius:12px;padding:16px 20px;margin-bottom:16px;">
+              <div style="display:flex;justify-content:space-between;font-size:14px;">
+                <span style="color:var(--text-mid);">Total de Itens:</span>
+                <span style="font-weight:600;" id="finalizarTotalItens">0</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:18px;font-weight:700;color:var(--text-dark);margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.1);">
+                <span>Total a Pagar:</span>
+                <span id="finalizarTotalValor">0 Kz</span>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn-green" id="btnConfirmarVenda">
+            <i class="bi bi-check2-circle"></i> Confirmar Venda
+          </button>
         </div>
       </div>
     </div>
@@ -1735,107 +2016,345 @@
     }
 
     /* ══════════════════════════════════════
-       FILTROS (apenas front-end)
+       CARRINHO DE COMPRAS
+    ══════════════════════════════════════ */
+    let cart = [];
+
+    function renderCart() {
+      const container = document.getElementById('cartItems');
+      const summary = document.getElementById('cartSummary');
+      const totalSpan = document.getElementById('cartTotal');
+      const countSpan = document.getElementById('cartCount');
+      const btnFinalizar = document.getElementById('btnFinalizarVenda');
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="cart-empty">
+            <i class="bi bi-cart"></i>
+            <p>Seu carrinho está vazio</p>
+            <p style="font-size:12px;">Selecione produtos e clique em adicionar</p>
+          </div>
+        `;
+        summary.style.display = 'none';
+        totalSpan.textContent = '0 Kz';
+        countSpan.textContent = '0 itens';
+        btnFinalizar.disabled = true;
+        return;
+      }
+
+      summary.style.display = 'block';
+      let html = '';
+      let total = 0;
+      let totalItens = 0;
+
+      cart.forEach((item, index) => {
+        const subtotal = item.preco * item.quantidade;
+        total += subtotal;
+        totalItens += item.quantidade;
+        html += `
+          <div class="cart-item">
+            <div class="item-info">
+              <div class="item-name">${item.nome}</div>
+              <div class="item-detail">${item.quantidade} x ${Number(item.preco).toLocaleString('pt-AO')} Kz</div>
+            </div>
+            <div class="item-price">${subtotal.toLocaleString('pt-AO')} Kz</div>
+            <button class="btn-remove-item" onclick="removeFromCart(${index})">
+              <i class="bi bi-x-circle-fill"></i>
+            </button>
+          </div>
+        `;
+      });
+
+      summary.innerHTML = html;
+      totalSpan.textContent = total.toLocaleString('pt-AO') + ' Kz';
+      countSpan.textContent = totalItens + ' itens';
+      btnFinalizar.disabled = false;
+    }
+
+    function addToCart(id, nome, preco, stock) {
+      const qtdInput = document.querySelector(`#produto-row-${id} .qtd-input`);
+      const qtd = parseInt(qtdInput ? qtdInput.value : 1);
+
+      if (qtd < 1 || qtd > stock) {
+        showToast('Quantidade inválida', 'Verifique a quantidade disponível.', 'danger');
+        return;
+      }
+
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        const newQtd = existing.quantidade + qtd;
+        if (newQtd > stock) {
+          showToast('Quantidade excedida', 'Não há stock suficiente.', 'danger');
+          return;
+        }
+        existing.quantidade = newQtd;
+      } else {
+        cart.push({ id, nome, preco: parseFloat(preco), quantidade: qtd });
+      }
+
+      renderCart();
+      showToast('Produto adicionado', `${nome} adicionado ao carrinho.`);
+    }
+
+    function removeFromCart(index) {
+      const item = cart[index];
+      cart.splice(index, 1);
+      renderCart();
+      showToast('Produto removido', `${item.nome} removido do carrinho.`);
+    }
+
+    document.getElementById('btnLimparCarrinho').addEventListener('click', () => {
+      if (cart.length === 0) return;
+      if (confirm('Tem certeza que deseja limpar o carrinho?')) {
+        cart = [];
+        renderCart();
+        showToast('Carrinho limpo', 'Todos os itens foram removidos.');
+      }
+    });
+
+    /* ══════════════════════════════════════
+       ADICIONAR PRODUTOS AO CARRINHO
+    ══════════════════════════════════════ */
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.btn-add-cart');
+      if (!btn) return;
+
+      const id = parseInt(btn.dataset.id);
+      const nome = btn.dataset.nome;
+      const preco = parseFloat(btn.dataset.preco);
+      const stock = parseInt(btn.dataset.stock);
+
+      addToCart(id, nome, preco, stock);
+    });
+
+    /* ══════════════════════════════════════
+       FINALIZAR VENDA
+    ══════════════════════════════════════ */
+    const modalFinalizar = new bootstrap.Modal(document.getElementById('modalFinalizarVenda'));
+
+    document.getElementById('btnFinalizarVenda').addEventListener('click', () => {
+      if (cart.length === 0) {
+        showToast('Carrinho vazio', 'Adicione produtos antes de finalizar.', 'warning');
+        return;
+      }
+
+      const total = cart.reduce((sum, item) => sum + (item.preco * item.quantidade), 0);
+      const totalItens = cart.reduce((sum, item) => sum + item.quantidade, 0);
+
+      document.getElementById('finalizarTotalItens').textContent = totalItens;
+      document.getElementById('finalizarTotalValor').textContent = total.toLocaleString('pt-AO') + ' Kz';
+      document.getElementById('formFinalizarVenda').reset();
+
+      modalFinalizar.show();
+    });
+
+    document.getElementById('btnConfirmarVenda').addEventListener('click', function() {
+      const cliente = document.getElementById('clienteNome').value.trim();
+      if (!cliente) {
+        showToast('Campo obrigatório', 'Informe o nome do cliente.', 'danger');
+        return;
+      }
+
+      // Simular envio da venda
+      const btn = this;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Processando...';
+
+      const dadosVenda = {
+        cliente: cliente,
+        pagamento: document.getElementById('formaPagamento').value,
+        status: document.getElementById('vendaStatus').value,
+        itens: cart
+      };
+
+      // Simular requisição AJAX
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check2-circle"></i> Confirmar Venda';
+
+        // Gerar número de venda
+        const numVenda = String(Math.floor(Math.random() * 900000) + 100000);
+
+        // Adicionar ao histórico
+        const tbody = document.getElementById('vendaTableBody');
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+          <td><strong>#${numVenda}</strong></td>
+          <td>${new Date().toLocaleDateString('pt-PT')}</td>
+          <td>${cliente}</td>
+          <td>${cart.length} itens</td>
+          <td><strong>${cart.reduce((sum, i) => sum + (i.preco * i.quantidade), 0).toLocaleString('pt-AO')}</strong></td>
+          <td><span class="badge-status ${document.getElementById('vendaStatus').value}"><span class="dot"></span>${document.getElementById('vendaStatus').value === 'pago' ? 'Pago' : 'Pendente'}</span></td>
+          <td style="text-align:center;">
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button class="action-btn view btn-ver-venda" title="Ver detalhes"><i class="bi bi-eye-fill"></i></button>
+              <button class="action-btn print btn-imprimir-venda" title="Imprimir Fatura"><i class="bi bi-printer-fill"></i></button>
+            </div>
+          </td>
+        `;
+        tbody.prepend(newRow);
+
+        // Limpar carrinho
+        cart = [];
+        renderCart();
+
+        modalFinalizar.hide();
+        showToast('Venda realizada', `Venda #${numVenda} registada com sucesso!`);
+
+        // Atualizar estatísticas
+        const totalVendasSpan = document.querySelector('.stat-card:first-child .s-value');
+        if (totalVendasSpan) {
+          totalVendasSpan.textContent = parseInt(totalVendasSpan.textContent || 0) + 1;
+        }
+      }, 1500);
+    });
+
+    /* ══════════════════════════════════════
+       VER VENDA
+    ══════════════════════════════════════ */
+    const modalVerVenda = new bootstrap.Modal(document.getElementById('modalVerVenda'));
+
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.btn-ver-venda');
+      if (!btn) return;
+
+      const id = btn.dataset.id || '000001';
+      const cliente = btn.dataset.cliente || '—';
+      const total = parseFloat(btn.dataset.total) || 0;
+      const status = btn.dataset.status || 'pago';
+
+      document.getElementById('verVendaNumero').textContent = '#' + String(id).padStart(6, '0');
+      document.getElementById('verVendaData').textContent = new Date().toLocaleDateString('pt-PT');
+      document.getElementById('verVendaCliente').textContent = cliente;
+      document.getElementById('verVendaStatus').innerHTML = `<span class="badge-status ${status}"><span class="dot"></span>${status.charAt(0).toUpperCase() + status.slice(1)}</span>`;
+      document.getElementById('verVendaTotal').textContent = total.toLocaleString('pt-AO') + ' Kz';
+
+      // Itens simulados
+      const itensDiv = document.getElementById('verVendaItens');
+      itensDiv.innerHTML = `
+        <table class="table table-sm" style="font-size:13px;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);">
+              <th>Produto</th>
+              <th style="text-align:center;">Qtd</th>
+              <th style="text-align:right;">Preço</th>
+              <th style="text-align:right;">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Milho (saco 50kg)</td>
+              <td style="text-align:center;">2</td>
+              <td style="text-align:right;">12.000 Kz</td>
+              <td style="text-align:right;">24.000 Kz</td>
+            </tr>
+            <tr>
+              <td>Feijão (saco 25kg)</td>
+              <td style="text-align:center;">1</td>
+              <td style="text-align:right;">18.500 Kz</td>
+              <td style="text-align:right;">18.500 Kz</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+
+      modalVerVenda.show();
+    });
+
+    /* ══════════════════════════════════════
+       NOVA VENDA (botão)
+    ══════════════════════════════════════ */
+    document.getElementById('btnNovaVenda').addEventListener('click', () => {
+      // Rolagem para o topo da página
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast('Nova Venda', 'Selecione os produtos e adicione ao carrinho.');
+    });
+
+    /* ══════════════════════════════════════
+       FILTROS PRODUTOS (front-end)
     ══════════════════════════════════════ */
     document.getElementById('btnFiltrar').addEventListener('click', function() {
-      const search = document.getElementById('searchSafra').value.toLowerCase().trim();
-      const estado = document.getElementById('filterEstado').value;
-      const cooperativa = document.getElementById('filterCooperativa').value;
+      const search = document.getElementById('searchProduto').value.toLowerCase().trim();
+      const categoria = document.getElementById('filterCategoria').value;
 
-      const rows = document.querySelectorAll('#safraTableBody tr');
+      const rows = document.querySelectorAll('#produtoTableBody tr');
       let visibleCount = 0;
 
       rows.forEach(row => {
-        const nome = row.querySelector('td:nth-child(2) div div:first-child')?.textContent?.toLowerCase() || '';
-        const rowEstado = row.dataset.estado || '';
-        const rowCooperativa = row.dataset.cooperativa || '';
+        const nome = row.querySelector('td:nth-child(2) div')?.textContent?.toLowerCase() || '';
+        const rowCategoria = row.querySelector('td:nth-child(3)')?.textContent || '';
 
         let show = true;
-
         if (search && !nome.includes(search)) show = false;
-        if (estado && rowEstado !== estado) show = false;
-        if (cooperativa && rowCooperativa !== cooperativa) show = false;
+        if (categoria && rowCategoria !== categoria) show = false;
 
         row.style.display = show ? '' : 'none';
         if (show) visibleCount++;
       });
 
-      // Atualizar contagem
-      const total = rows.length;
       const info = document.getElementById('tableCount');
       if (info) {
-        info.textContent = `Mostrando ${visibleCount} de ${total} safras`;
-      }
-
-      // Mostrar/ocultar mensagem vazia
-      const emptyMsg = document.querySelector('.empty-state');
-      if (visibleCount === 0 && rows.length > 0) {
-        if (!document.querySelector('.empty-state-visible')) {
-          const empty = document.createElement('tr');
-          empty.className = 'empty-state-visible';
-          empty.innerHTML = `
-            <td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
-              <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>
-              Nenhuma safra encontrada com os filtros aplicados.
-            </td>
-          `;
-          document.getElementById('safraTableBody').appendChild(empty);
-        }
-      } else {
-        const empty = document.querySelector('.empty-state-visible');
-        if (empty) empty.remove();
+        const total = rows.length;
+        info.textContent = `Mostrando ${visibleCount} de ${total} produtos`;
       }
     });
 
     document.getElementById('btnLimparFiltros').addEventListener('click', function() {
-      document.getElementById('searchSafra').value = '';
-      document.getElementById('filterEstado').value = '';
-      document.getElementById('filterCooperativa').value = '';
-
-      const rows = document.querySelectorAll('#safraTableBody tr');
-      rows.forEach(row => {
-        row.style.display = '';
-      });
-
+      document.getElementById('searchProduto').value = '';
+      document.getElementById('filterCategoria').value = '';
+      document.querySelectorAll('#produtoTableBody tr').forEach(row => row.style.display = '');
       const info = document.getElementById('tableCount');
       if (info) {
-        const total = document.querySelectorAll('#safraTableBody tr:not(.empty-state-visible)').length;
-        info.textContent = `Mostrando ${total} de ${total} safras`;
+        const total = document.querySelectorAll('#produtoTableBody tr').length;
+        info.textContent = `Mostrando ${total} de ${total} produtos`;
       }
-
-      const empty = document.querySelector('.empty-state-visible');
-      if (empty) empty.remove();
     });
 
     /* ══════════════════════════════════════
-       SAFRA — botão ver (visualizar)
+       FILTROS VENDAS (front-end)
     ══════════════════════════════════════ */
-    document.addEventListener('click', function(e) {
-      const btn = e.target.closest('.btn-ver-safra');
-      if (!btn) return;
+    document.getElementById('btnFiltrarVendas').addEventListener('click', function() {
+      const search = document.getElementById('searchVenda').value.toLowerCase().trim();
+      const status = document.getElementById('filterVendaStatus').value;
 
-      document.getElementById('verSafraNome').textContent = btn.dataset.nome || '—';
-      document.getElementById('verSafraId').textContent = btn.dataset.id || '—';
-      document.getElementById('verSafraAno').textContent = btn.dataset.ano || '—';
-      document.getElementById('verSafraDataInicio').textContent = btn.dataset.data_inicio ?
-        new Date(btn.dataset.data_inicio).toLocaleDateString('pt-PT') : '—';
-      document.getElementById('verSafraDataFim').textContent = btn.dataset.data_fim ?
-        new Date(btn.dataset.data_fim).toLocaleDateString('pt-PT') : '—';
-      document.getElementById('verSafraEstado').textContent = btn.dataset.estado ?
-        btn.dataset.estado.charAt(0).toUpperCase() + btn.dataset.estado.slice(1) : '—';
-      document.getElementById('verSafraCooperativa').textContent = btn.dataset.cooperativa_nome || '—';
-      document.getElementById('verSafraDescricao').textContent = btn.dataset.descricao || '—';
+      const rows = document.querySelectorAll('#vendaTableBody tr');
+      let visibleCount = 0;
 
-      const modalEl = document.getElementById('modalVerSafra');
-      const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
-      modalInstance.show();
+      rows.forEach(row => {
+        const cliente = row.querySelector('td:nth-child(3)')?.textContent?.toLowerCase() || '';
+        const rowStatus = row.dataset.status || '';
+
+        let show = true;
+        if (search && !cliente.includes(search)) show = false;
+        if (status && rowStatus !== status) show = false;
+
+        row.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
+      });
+
+      const info = document.getElementById('vendaCount');
+      if (info) {
+        const total = rows.length;
+        info.textContent = `Mostrando ${visibleCount} de ${total} vendas`;
+      }
+    });
+
+    document.getElementById('btnLimparFiltrosVendas').addEventListener('click', function() {
+      document.getElementById('searchVenda').value = '';
+      document.getElementById('filterVendaStatus').value = '';
+      document.querySelectorAll('#vendaTableBody tr').forEach(row => row.style.display = '');
+      const info = document.getElementById('vendaCount');
+      if (info) {
+        const total = document.querySelectorAll('#vendaTableBody tr').length;
+        info.textContent = `Mostrando ${total} de ${total} vendas`;
+      }
     });
 
     /* ══════════════════════════════════════
-       SELECT ALL CHECKBOXES
+       SELECT ALL
     ══════════════════════════════════════ */
     document.getElementById('selectAll').addEventListener('change', function() {
-      document.querySelectorAll('.row-check').forEach(cb => cb.checked = this.checked);
+      document.querySelectorAll('.produto-check').forEach(cb => cb.checked = this.checked);
     });
 
     /* ══════════════════════════════════════
@@ -1846,21 +2365,20 @@
     });
 
     /* ══════════════════════════════════════
-       PESQUISA EM TEMPO REAL (filtro por digitação)
+       IMPRIMIR FATURA
     ══════════════════════════════════════ */
-    document.getElementById('searchSafra').addEventListener('input', function() {
-      document.getElementById('btnFiltrar').click();
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.btn-imprimir-venda');
+      if (!btn) return;
+      showToast('Imprimir Fatura', 'A fatura será gerada para impressão.');
     });
 
-    document.getElementById('filterEstado').addEventListener('change', function() {
-      document.getElementById('btnFiltrar').click();
-    });
-
-    document.getElementById('filterCooperativa').addEventListener('change', function() {
-      document.getElementById('btnFiltrar').click();
+    document.getElementById('btnImprimirFatura').addEventListener('click', function() {
+      showToast('Imprimir Fatura', 'A fatura será gerada para impressão.');
     });
   </script>
 
 </body>
 
 </html>
+[file content end]

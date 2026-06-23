@@ -14,15 +14,21 @@ class Talhao extends Model
         'cultura_actual',
         'localizacao',
         'estado',
-        'agricultor_id'
+        'agricultor_id',
+        'cooperativa_id',
     ];
 
     protected $casts = [
-        'area' => 'decimal:2'
+        'area' => 'decimal:2',
     ];
 
     public function agricultor()
     {
         return $this->belongsTo(Agricultor::class);
+    }
+
+    public function cooperativa()
+    {
+        return $this->belongsTo(Cooperativa::class, 'cooperativa_id');
     }
 }

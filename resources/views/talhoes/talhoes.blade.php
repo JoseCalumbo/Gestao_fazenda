@@ -1000,7 +1000,7 @@
        MODAL — VISUALIZAR TALHÃO
     ═══════════════════════════════════════════ */
     .modal-coop {
-      max-width: 600px;
+      max-width: 2000px;
     }
 
     .modal-content {
@@ -1294,11 +1294,11 @@
           class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
-      <a href="#" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
+      <a  href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
           class="nav-label">Safras</span></a>
       <a href="#" class="nav-item-link active" data-label="Talhões"><i class="bi bi-map-fill"></i><span
           class="nav-label">Talhões</span></a>
-      <a href="#" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
+      <a href="{{route('insumos.index')}}" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
           class="nav-label">Insumos</span></a>
 
       <div class="nav-section-title">Financeiro</div>
@@ -1428,7 +1428,7 @@
             <div class="stat-icon green"><i class="bi bi-map-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Total de Talhões</div>
-              <div class="s-value">{{ $totalTalhoes ?? 0 }}</div>
+              <div class="s-value">{{ $stats['total'] ?? 0}}</div>
             </div>
           </div>
         </div>
@@ -1437,7 +1437,7 @@
             <div class="stat-icon blue"><i class="bi bi-check-circle-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Em Cultivo</div>
-              <div class="s-value">{{ $emCultivo ?? 0 }}</div>
+              <div class="s-value">{{ $stats['em_cultivo'] ?? 0}}</div>
             </div>
           </div>
         </div>
@@ -1446,7 +1446,7 @@
             <div class="stat-icon amber"><i class="bi bi-clock-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Pousio</div>
-              <div class="s-value">{{ $pousio ?? 0 }}</div>
+              <div class="s-value">{{ $stats['pousio'] ?? 0}}</div>
             </div>
           </div>
         </div>
@@ -1454,8 +1454,8 @@
           <div class="stat-card">
             <div class="stat-icon purple"><i class="bi bi-tools"></i></div>
             <div class="stat-info">
-              <div class="s-label">Preparação</div>
-              <div class="s-value">{{ $preparacao ?? 0 }}</div>
+              <div class="s-label">Colhido</div>
+              <div class="s-value">{{ $stats['colhido'] }}</div>
             </div>
           </div>
         </div>
@@ -1481,19 +1481,24 @@
           </div>
           <select class="filter-select" id="filterEstado">
             <option value="">Todos os estados</option>
-            <option value="em_cultivo">Em Cultivo</option>
-            <option value="pousio">Pousio</option>
-            <option value="preparacao">Preparação</option>
+            <option value="Em cultivo">Em Cultivo</option>
+            <option value="Pousio">Pousio</option>
+            <option value="Colhido">Colhido</option>
+            <option value="activo">Activo</option>
             <option value="inactivo">Inactivo</option>
           </select>
           <select class="filter-select" id="filterAgricultor">
             <option value="">Todos os agricultores</option>
-            {{-- @foreach($agricultores as $ag)
-              <option value="{{ $ag->id }}">{{ $ag->nome_completo }}</option>
-            @endforeach --}}
+            @foreach($agricultores as $ag)
+              <option value="{{ $ag->id }}" {{ request('filterAgricultor') == $ag->id ? 'selected' : '' }}>
+                {{ $ag->nome_completo }}
+              </option>
+            @endforeach
           </select>
-          <button class="btn-green" id="btnFiltrar" style="padding:8px 18px;"><i class="bi bi-search"></i> Filtrar</button>
-          <button class="btn-outline-green" id="btnLimparFiltros" style="padding:8px 18px;"><i class="bi bi-eraser"></i> Limpar</button>
+          <button class="btn-green" id="btnFiltrar" style="padding:8px 18px;"><i class="bi bi-search"></i>
+            Filtrar</button>
+          <button class="btn-outline-green" id="btnLimparFiltros" style="padding:8px 18px; display: none;"><i class="bi bi-eraser"></i>
+            Limpar</button>
         </div>
 
         <!-- Table -->
@@ -1525,7 +1530,10 @@
                   </td>
                   <td>
                     <div>
-                      <div style="font-weight:600;font-size:14px;">{{ $talhao->designacao }}</div>
+                      <div style="font-weight:600;font-size:14px;">
+                        {{ $talhao->designacao }}
+                        <p style="color: #16a34a; font-size: 12px; font-weight: 500;">{{ $talhao->cooperativa->nome }}</p>
+                      </div>
                     </div>
                   </td>
                   <td>{{ $talhao->agricultor->nome_completo ?? 'Sem agricultor' }}</td>
@@ -1540,12 +1548,9 @@
                   </td>
                   <td style="text-align:center;">
                     <div style="display:flex;gap:6px;justify-content:center;">
-                      <button class="action-btn view btn-ver-talhao" title="Ver detalhes"
-                        data-id="{{ $talhao->id }}"
-                        data-designacao="{{ $talhao->designacao }}"
-                        data-area="{{ $talhao->area }}"
-                        data-cultura="{{ $talhao->cultura_actual }}"
-                        data-localizacao="{{ $talhao->localizacao }}"
+                      <button class="action-btn view btn-ver-talhao" title="Ver detalhes" data-id="{{ $talhao->id }}"
+                        data-designacao="{{ $talhao->designacao }}" data-area="{{ $talhao->area }}"
+                        data-cultura="{{ $talhao->cultura_actual }}" data-localizacao="{{ $talhao->localizacao }}"
                         data-estado="{{ $talhao->estado }}"
                         data-agricultor="{{ $talhao->agricultor->nome_completo ?? 'Sem agricultor' }}">
                         <i class="bi bi-eye-fill"></i>
@@ -1693,7 +1698,7 @@
     const themeLabel = document.getElementById('themeLabel');
     let darkMode = false;
 
-    themeToggle.addEventListener('click', function(e) {
+    themeToggle.addEventListener('click', function (e) {
       e.preventDefault();
       darkMode = !darkMode;
       body.classList.toggle('dark-mode', darkMode);
@@ -1705,7 +1710,7 @@
        NAV ACTIVE SIDEBAR
     ══════════════════════════════════════ */
     document.querySelectorAll('.nav-item-link').forEach(link => {
-      link.addEventListener('click', function(e) {
+      link.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
         if (!href || href === '#') {
           e.preventDefault();
@@ -1735,7 +1740,7 @@
     /* ══════════════════════════════════════
        FILTROS (apenas front-end)
     ══════════════════════════════════════ */
-    document.getElementById('btnFiltrar').addEventListener('click', function() {
+    document.getElementById('btnFiltrar').addEventListener('click', function () {
       const search = document.getElementById('searchTalhao').value.toLowerCase().trim();
       const estado = document.getElementById('filterEstado').value;
       const agricultorId = document.getElementById('filterAgricultor').value;
@@ -1782,7 +1787,7 @@
       }
     });
 
-    document.getElementById('btnLimparFiltros').addEventListener('click', function() {
+    document.getElementById('btnLimparFiltros').addEventListener('click', function () {
       document.getElementById('searchTalhao').value = '';
       document.getElementById('filterEstado').value = '';
       document.getElementById('filterAgricultor').value = '';
@@ -1805,7 +1810,7 @@
     /* ══════════════════════════════════════
        TALHÃO — botão ver (visualizar)
     ══════════════════════════════════════ */
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn-ver-talhao');
       if (!btn) return;
 
@@ -1816,7 +1821,7 @@
       document.getElementById('verTalhaoArea').textContent = btn.dataset.area ? Number(btn.dataset.area).toFixed(1) + ' ha' : '—';
       document.getElementById('verTalhaoCultura').textContent = btn.dataset.cultura || '—';
       document.getElementById('verTalhaoLocalizacao').textContent = btn.dataset.localizacao || '—';
-      
+
       const estadoMap = {
         'em_cultivo': 'Em Cultivo',
         'pousio': 'Pousio',
@@ -1833,7 +1838,7 @@
     /* ══════════════════════════════════════
        SELECT ALL CHECKBOXES
     ══════════════════════════════════════ */
-    document.getElementById('selectAll').addEventListener('change', function() {
+    document.getElementById('selectAll').addEventListener('change', function () {
       document.querySelectorAll('.row-check').forEach(cb => cb.checked = this.checked);
     });
 
@@ -1847,15 +1852,15 @@
     /* ══════════════════════════════════════
        PESQUISA EM TEMPO REAL (filtro por digitação)
     ══════════════════════════════════════ */
-    document.getElementById('searchTalhao').addEventListener('input', function() {
+    document.getElementById('searchTalhao').addEventListener('input', function () {
       document.getElementById('btnFiltrar').click();
     });
 
-    document.getElementById('filterEstado').addEventListener('change', function() {
+    document.getElementById('filterEstado').addEventListener('change', function () {
       document.getElementById('btnFiltrar').click();
     });
 
-    document.getElementById('filterAgricultor').addEventListener('change', function() {
+    document.getElementById('filterAgricultor').addEventListener('change', function () {
       document.getElementById('btnFiltrar').click();
     });
   </script>

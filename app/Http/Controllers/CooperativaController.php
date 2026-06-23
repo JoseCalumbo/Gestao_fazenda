@@ -359,7 +359,7 @@ class CooperativaController extends Controller
         // $totalInsumos = Insumo::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
         // ... etc
 
-        return view('cooperativas.cooperativa_show', compact(
+        return view('cooperativas.cooperativa_show4', compact(
             'cooperativa',
             // 'agricultores',
             // 'colheitas',

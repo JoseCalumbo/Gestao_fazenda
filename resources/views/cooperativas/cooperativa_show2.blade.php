@@ -1,3 +1,5 @@
+[file name: cooperativa_show.blade.php]
+[file content start]
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -11,8 +13,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap"
     rel="stylesheet" />
-
-
 
   <style>
     :root {
@@ -1767,9 +1767,9 @@
           class="bi bi-person-badge-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
-      <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
+      <a href="{{ route('safras.painel') }}" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
           class="nav-label">Safras</span></a>
-      <a href="{{route('talhoes.index')}}" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
+      <a href="#" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
           class="nav-label">Talhões</span></a>
       <a href="{{ route('insumos.index') }}" class="nav-item-link" data-label="Insumos"><i
           class="bi bi-box-seam-fill"></i><span class="nav-label">Insumos</span></a>
@@ -1970,6 +1970,9 @@
           <button class="settings-nav-item" data-tab="insumos">
             <i class="bi bi-box-seam-fill"></i> Insumos <span class="nav-count">142</span>
           </button>
+          <button class="settings-nav-item" data-tab="produtos">
+            <i class="bi bi-basket-fill"></i> Produtos <span class="nav-count">0</span>
+          </button>
           <button class="settings-nav-item" data-tab="receitas">
             <i class="bi bi-cash-coin"></i> Receitas <span class="nav-count">38</span>
           </button>
@@ -2004,14 +2007,14 @@
               <div class="cfg-card-body">
                 <div style="display:flex;align-items:center;gap:24px;margin-bottom:24px;flex-wrap:wrap;">
                   <!-- Logomarca -->
-                  <div class="profile-logo-i" id="coopLogo"
+                  <div class="profile-logo-icon" id="coopLogo"
                     style="width:86px;height:86px;border-radius:18px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;flex-shrink:0;overflow:hidden;border:3px solid var(--accent-lt);letter-spacing:-1px;font-family:'Sora',sans-serif;">
                     @if($cooperativa->foto)
-                      <img src="{{ asset('storage/' . $cooperativa->foto) }}" alt="Logo da Cooperativa">
+                      <img src="{{ asset('storage/' . $cooperativa->foto) }}" alt="Logo da Cooperativa"
+                        style="width:100%;height:100%;object-fit:cover;">
                     @else
                       <i class="bi bi-building"></i>
                     @endif
-
                   </div>
                   <div>
                     <div style="font-size:18px;font-weight:700;color:var(--text-dark);font-family:'Sora',sans-serif;">
@@ -2141,7 +2144,7 @@
                 </button>
               </div>
 
-              <!-- Filtros  zz -->
+              <!-- Filtros -->
               <div class="filter-bar" id="agricultoresFiltros">
                 <div class="search-wrap">
                   <i class="bi bi-search"></i>
@@ -2182,7 +2185,6 @@
                   <ul class="pagination" id="paginacaoLinksAgricultores"></ul>
                 </nav>
               </div>
-
             </div>
           </div>
 
@@ -2285,7 +2287,7 @@
                   <div>
                     <div class="cfg-card-title">Movimentação de Insumos</div>
                     <div class="cfg-card-sub">Histórico completo de entradas, saídas e distribuição de insumos da
-                      cooperativa </div>
+                      cooperativa</div>
                   </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -2339,12 +2341,73 @@
                   <ul class="pagination" id="paginacaoLinksInsumos"></ul>
                 </nav>
               </div>
-
             </div>
           </div>
 
           <!-- ════════════════════════
-             TAB 6 — RECEITAS
+             TAB 6 — PRODUTOS
+        ════════════════════════ -->
+          <div class="settings-panel" id="tab-produtos">
+            <div class="cfg-card anim">
+              <div class="cfg-card-header">
+                <div class="cfg-card-header-left">
+                  <div class="cfg-card-icon teal"><i class="bi bi-basket-fill"></i></div>
+                  <div>
+                    <div class="cfg-card-title">Produtos da Cooperativa</div>
+                    <div class="cfg-card-sub">Registo de produtos agrícolas disponíveis para venda</div>
+                  </div>
+                </div>
+                <button class="btn-green" style="padding:8px 14px;font-size:12.5px;" id="btnNovoProduto">
+                  <i class="bi bi-plus-lg"></i> Novo Produto
+                </button>
+              </div>
+
+              <!-- Filtros -->
+              <div class="filter-bar" id="produtosFiltros">
+                <div class="search-wrap">
+                  <i class="bi bi-search"></i>
+                  <input type="text" class="search-input" id="filtroProdutoNome" placeholder="Filtrar por nome...">
+                </div>
+                <select class="filter-select" id="filtroProdutoEstado">
+                  <option value="">Todos os estados</option>
+                  <option value="disponivel">Disponível</option>
+                  <option value="esgotado">Esgotado</option>
+                </select>
+                <button class="btn-green btn-filter" id="btnFiltrarProdutos" style="padding:8px 18px;"><i
+                    class="bi bi-search"></i> Filtrar</button>
+                <button class="btn-outline-green btn-filter" id="btnLimparFiltrosProdutos"
+                  style="padding:8px 18px;"><i class="bi bi-eraser"></i> Limpar</button>
+              </div>
+
+              <div class="table-wrap">
+                <table class="mini-table" id="tabelaProdutos">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Categoria</th>
+                      <th>Quantidade</th>
+                      <th>Unidade</th>
+                      <th>Preço Unitário</th>
+                      <th>Estado</th>
+                      <th style="text-align:center;">Acções</th>
+                    </tr>
+                  </thead>
+                  <tbody id="corpoTabelaProdutos">
+                    <!-- Carregado via AJAX -->
+                  </tbody>
+                </table>
+              </div>
+              <div class="pagination-wrapper" id="paginacaoProdutos">
+                <div class="pagination-info" id="infoProdutos">Carregando...</div>
+                <nav>
+                  <ul class="pagination" id="paginacaoLinksProdutos"></ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+          <!-- ════════════════════════
+             TAB 7 — RECEITAS
         ════════════════════════ -->
           <div class="settings-panel" id="tab-receitas">
             <div class="cfg-card anim">
@@ -2374,8 +2437,8 @@
                 </select>
                 <button class="btn-green btn-filter" id="btnFiltrarReceitas" style="padding:8px 18px;"><i
                     class="bi bi-search"></i> Filtrar</button>
-                <button class="btn-outline-green btn-filter" id="btnLimparFiltrosReceitas" style="padding:8px 18px;"><i
-                    class="bi bi-eraser"></i> Limpar</button>
+                <button class="btn-outline-green btn-filter" id="btnLimparFiltrosReceitas"
+                  style="padding:8px 18px;"><i class="bi bi-eraser"></i> Limpar</button>
               </div>
 
               <div class="table-wrap">
@@ -2406,7 +2469,7 @@
           </div>
 
           <!-- ════════════════════════
-             TAB 7 — VENDAS
+             TAB 8 — VENDAS
         ════════════════════════ -->
           <div class="settings-panel" id="tab-vendas">
             <div class="cfg-card anim">
@@ -2470,7 +2533,7 @@
           </div>
 
           <!-- ════════════════════════
-             TAB 8 — SAÍDAS / DESPESAS
+             TAB 9 — SAÍDAS / DESPESAS
         ════════════════════════ -->
           <div class="settings-panel" id="tab-saidas">
             <div class="cfg-card anim">
@@ -2591,24 +2654,17 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
-
           <form id="formAssociarAgricultor">
             @csrf
             <div class="modal-form-card">
               <div class="modal-section-title"><i class="bi bi-person-vcard-fill"></i> Dados do Agricultor</div>
               <div class="row g-3">
                 <div class="col-12">
-                  <label class="cfg-label">Nome do Agricultor *</label>
-                  <input type="text" class="cfg-input" id="agricultorNome" required
-                    placeholder="Ex: João Manuel Ferreira">
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">BI *</label>
-                  <input type="text" class="cfg-input" id="agricultorBI" required placeholder="004512378LA041">
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Contacto *</label>
-                  <input type="text" class="cfg-input" id="agricultorContacto" required placeholder="+244 923 111 222">
+                  <label class="cfg-label">Agricultor *</label>
+                  <select class="cfg-select" id="selectAgricultor" required>
+                    <option value="">Selecione um agricultor</option>
+                    <!-- Preenchido via JS -->
+                  </select>
                 </div>
                 <div class="col-12 col-md-6">
                   <label class="cfg-label">Cargo</label>
@@ -2630,7 +2686,6 @@
               </div>
             </div>
           </form>
-
         </div>
         <div class="modal-footer">
           <div
@@ -2835,64 +2890,67 @@
     </div>
   </div>
 
-  <!-- ─── MODAL INSUMOS: Registrar Saída ─── -->
-  <div class="modal fade modal-coop" id="modalRegistrarSaidaInsumo" tabindex="-1" data-bs-backdrop="static"
+  <!-- ─── MODAL PRODUTOS: Novo Produto ─── -->
+  <div class="modal fade modal-coop" id="modalNovoProduto" tabindex="-1" data-bs-backdrop="static"
     data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <div style="display:flex;align-items:center;gap:14px;flex:1;">
-            <div class="modal-header-icon"><i class="bi bi-box-seam-fill"></i></div>
+            <div class="modal-header-icon"><i class="bi bi-basket-fill"></i></div>
             <div>
-              <div class="modal-title">Movimentação de Insumos</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Registar saída ou distribuição de
-                insumos</div>
+              <div class="modal-title">Registrar Produto</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Adicionar novo produto ao estoque
+              </div>
             </div>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
-          <form id="formRegistrarSaidaInsumo">
+          <form id="formNovoProduto">
             @csrf
             <div class="modal-form-card">
-              <div class="modal-section-title"><i class="bi bi-box-seam-fill"></i> Dados da Saída</div>
+              <div class="modal-section-title"><i class="bi bi-basket-fill"></i> Dados do Produto</div>
               <div class="row g-3">
                 <div class="col-12">
-                  <label class="cfg-label">Categoria *</label>
-                  <input type="text" class="cfg-input" id="insumoSaidaCategoria" required
-                    placeholder="Ex: Sementes, Fertilizantes...">
+                  <label class="cfg-label">Nome do Produto *</label>
+                  <input type="text" class="cfg-input" id="produtoNome" required
+                    placeholder="Ex: Milho Grão, Feijão Manteiga">
                 </div>
-                <div class="col-12">
-                  <label class="cfg-label">Agricultor *</label>
-                  <select class="cfg-select" id="insumoSaidaAgricultor">
-                    <option value="">Selecione um agricultor</option>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Categoria *</label>
+                  <select class="cfg-select" id="produtoCategoria" required>
+                    <option value="">Selecione</option>
+                    <option value="Grãos">Grãos</option>
+                    <option value="Legumes">Legumes</option>
+                    <option value="Frutas">Frutas</option>
+                    <option value="Outros">Outros</option>
                   </select>
                 </div>
                 <div class="col-12 col-md-6">
-                  <label class="cfg-label">Data de Saída *</label>
-                  <input type="date" class="cfg-input" id="insumoSaidaData" required>
+                  <label class="cfg-label">Unidade de Medida *</label>
+                  <input type="text" class="cfg-input" id="produtoUnidade" required placeholder="Ex: kg, saco, L">
                 </div>
                 <div class="col-12 col-md-6">
                   <label class="cfg-label">Quantidade *</label>
-                  <input type="number" class="cfg-input" id="insumoSaidaQuantidade" required placeholder="0">
+                  <input type="number" class="cfg-input" id="produtoQuantidade" required placeholder="0" step="1">
                 </div>
                 <div class="col-12 col-md-6">
-                  <label class="cfg-label">Modalidade *</label>
-                  <select class="cfg-select" id="insumoSaidaModalidade">
-                    <option value="Vendido">Vendido</option>
-                    <option value="Oferta">Oferta</option>
-                    <option value="Troca">Troca</option>
-                    <option value="Crédito">Crédito</option>
-                  </select>
+                  <label class="cfg-label">Preço Unitário (Kz) *</label>
+                  <input type="number" class="cfg-input" id="produtoPreco" required placeholder="0" step="0.01">
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12">
                   <label class="cfg-label">Estado *</label>
-                  <select class="cfg-select" id="insumoSaidaEstado">
-                    <option value="Pago">Pago</option>
-                    <option value="Pendente">Pendente</option>
-                    <option value="Oferecido">Oferecido</option>
-                    <option value="Liquidado">Liquidado</option>
+                  <select class="cfg-select" id="produtoEstado" required>
+                    <option value="disponivel">Disponível</option>
+                    <option value="esgotado">Esgotado</option>
                   </select>
+                  <div class="cfg-helper">Define se o produto está disponível para venda</div>
+                </div>
+                <div class="col-12">
+                  <label class="cfg-label">Descrição</label>
+                  <textarea class="cfg-textarea" id="produtoDescricao" rows="2"
+                    placeholder="Descrição opcional do produto"></textarea>
                 </div>
               </div>
             </div>
@@ -2907,8 +2965,8 @@
             <div style="display:flex;gap:10px;">
               <button type="button" class="btn-outline-green" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>
                 Cancelar</button>
-              <button type="button" class="btn-green" id="btnSalvarSaidaInsumo"><i class="bi bi-check2-circle"></i>
-                Registrar</button>
+              <button type="button" class="btn-green" id="btnSalvarProduto"><i class="bi bi-check2-circle"></i>
+                Salvar</button>
             </div>
           </div>
         </div>
@@ -2916,8 +2974,8 @@
     </div>
   </div>
 
-  <!-- ─── MODAL INSUMOS: Editar Saída ─── -->
-  <div class="modal fade modal-coop" id="modalEditarInsumoSaida" tabindex="-1" data-bs-backdrop="static"
+  <!-- ─── MODAL PRODUTOS: Editar Produto ─── -->
+  <div class="modal fade modal-coop" id="modalEditarProduto" tabindex="-1" data-bs-backdrop="static"
     data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -2925,54 +2983,55 @@
           <div style="display:flex;align-items:center;gap:14px;flex:1;">
             <div class="modal-header-icon"><i class="bi bi-pencil-fill"></i></div>
             <div>
-              <div class="modal-title">Editar Saída de Insumo</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Atualizar dados da movimentação
-              </div>
+              <div class="modal-title">Editar Produto</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Atualizar dados do produto</div>
             </div>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
-          <form id="formEditarInsumoSaida">
+          <form id="formEditarProduto">
             @csrf
             @method('PUT')
-            <input type="hidden" id="editarInsumoSaidaId">
+            <input type="hidden" id="editarProdutoId">
             <div class="modal-form-card">
-              <div class="modal-section-title"><i class="bi bi-pencil-fill"></i> Editar Saída</div>
+              <div class="modal-section-title"><i class="bi bi-pencil-fill"></i> Editar Produto</div>
               <div class="row g-3">
                 <div class="col-12">
-                  <label class="cfg-label">Categoria *</label>
-                  <input type="text" class="cfg-input" id="editarInsumoSaidaCategoria" required>
-                </div>
-                <div class="col-12">
-                  <label class="cfg-label">Agricultor *</label>
-                  <select class="cfg-select" id="editarInsumoSaidaAgricultor"></select>
+                  <label class="cfg-label">Nome do Produto *</label>
+                  <input type="text" class="cfg-input" id="editarProdutoNome" required>
                 </div>
                 <div class="col-12 col-md-6">
-                  <label class="cfg-label">Data de Saída *</label>
-                  <input type="date" class="cfg-input" id="editarInsumoSaidaData" required>
+                  <label class="cfg-label">Categoria *</label>
+                  <select class="cfg-select" id="editarProdutoCategoria" required>
+                    <option value="Grãos">Grãos</option>
+                    <option value="Legumes">Legumes</option>
+                    <option value="Frutas">Frutas</option>
+                    <option value="Outros">Outros</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="cfg-label">Unidade de Medida *</label>
+                  <input type="text" class="cfg-input" id="editarProdutoUnidade" required>
                 </div>
                 <div class="col-12 col-md-6">
                   <label class="cfg-label">Quantidade *</label>
-                  <input type="number" class="cfg-input" id="editarInsumoSaidaQuantidade" required>
+                  <input type="number" class="cfg-input" id="editarProdutoQuantidade" required step="1">
                 </div>
                 <div class="col-12 col-md-6">
-                  <label class="cfg-label">Modalidade *</label>
-                  <select class="cfg-select" id="editarInsumoSaidaModalidade">
-                    <option value="Vendido">Vendido</option>
-                    <option value="Oferta">Oferta</option>
-                    <option value="Troca">Troca</option>
-                    <option value="Crédito">Crédito</option>
-                  </select>
+                  <label class="cfg-label">Preço Unitário (Kz) *</label>
+                  <input type="number" class="cfg-input" id="editarProdutoPreco" required step="0.01">
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12">
                   <label class="cfg-label">Estado *</label>
-                  <select class="cfg-select" id="editarInsumoSaidaEstado">
-                    <option value="Pago">Pago</option>
-                    <option value="Pendente">Pendente</option>
-                    <option value="Oferecido">Oferecido</option>
-                    <option value="Liquidado">Liquidado</option>
+                  <select class="cfg-select" id="editarProdutoEstado" required>
+                    <option value="disponivel">Disponível</option>
+                    <option value="esgotado">Esgotado</option>
                   </select>
+                </div>
+                <div class="col-12">
+                  <label class="cfg-label">Descrição</label>
+                  <textarea class="cfg-textarea" id="editarProdutoDescricao" rows="2"></textarea>
                 </div>
               </div>
             </div>
@@ -2987,10 +3046,48 @@
             <div style="display:flex;gap:10px;">
               <button type="button" class="btn-outline-green" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>
                 Cancelar</button>
-              <button type="button" class="btn-green" id="btnSalvarEditarInsumoSaida"><i
-                  class="bi bi-check2-circle"></i> Salvar</button>
+              <button type="button" class="btn-green" id="btnSalvarEditarProduto"><i class="bi bi-check2-circle"></i>
+                Salvar</button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MODAL PRODUTOS: Excluir Produto ─── -->
+  <div class="modal fade" id="modalExcluirProduto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
+      <div class="modal-content">
+        <div class="modal-header" style="background:linear-gradient(135deg, #7f0000, #C62828);">
+          <div style="display:flex;align-items:center;gap:14px;flex:1;">
+            <div class="modal-header-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <div>
+              <div class="modal-title">Confirmar Exclusão</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Esta acção é irreversível</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body" style="background:#fff;padding:28px;">
+          <p style="font-size:13.5px;color:var(--text-mid);margin-bottom:10px;">
+            Tem a certeza que deseja excluir o produto:
+          </p>
+          <div
+            style="background:#FFF8F8;border:1px solid #FFCDD2;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:#C62828;"
+              id="excluirProdutoNome">—</div>
+            <div style="font-size:12px;color:var(--text-light);margin-top:3px;">Todos os dados associados serão
+              removidos permanentemente.</div>
+          </div>
+          <input type="hidden" id="excluirProdutoId">
+        </div>
+        <div class="modal-footer" style="border-top:1px solid #FFCDD2;">
+          <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn-green" id="btnConfirmarExcluirProduto"
+            style="background:#C62828;box-shadow:none;">
+            <i class="bi bi-trash-fill"></i> Excluir Definitivamente
+          </button>
         </div>
       </div>
     </div>
@@ -3522,7 +3619,7 @@
     const themeLabel = document.getElementById('themeLabel');
     let darkMode = false;
 
-    themeToggle.addEventListener('click', function (e) {
+    themeToggle.addEventListener('click', function(e) {
       e.preventDefault();
       darkMode = !darkMode;
       body.classList.toggle('dark-mode', darkMode);
@@ -3540,7 +3637,8 @@
       document.getElementById('toastTitle').textContent = title;
       document.getElementById('toastSub').textContent = sub;
       icon.className = 'toast-icon ' + type;
-      iconI.className = type === 'danger' ? 'bi bi-x-lg' : type === 'warning' ? 'bi bi-exclamation-triangle-fill' : 'bi bi-check-lg';
+      iconI.className = type === 'danger' ? 'bi bi-x-lg' : type === 'warning' ?
+        'bi bi-exclamation-triangle-fill' : 'bi bi-check-lg';
       toast.classList.add('show');
       clearTimeout(toast._timeout);
       toast._timeout = setTimeout(() => toast.classList.remove('show'), 3500);
@@ -3573,6 +3671,7 @@
         else if (tab === 'talhoes') carregarTalhoes();
         else if (tab === 'colheitas') carregarColheitas();
         else if (tab === 'insumos') carregarInsumos();
+        else if (tab === 'produtos') carregarProdutos();
         else if (tab === 'receitas') carregarReceitas();
         else if (tab === 'vendas') carregarVendas();
         else if (tab === 'saidas') carregarSaidas();
@@ -3592,51 +3691,33 @@
       showToast('Editar Dados', 'Funcionalidade em desenvolvimento.');
     });
 
+    /* ══════════════════════════════════════
+       VARIÁVEL GLOBAL: ID da Cooperativa
+    ══════════════════════════════════════ */
+    const cooperativaId = '{{ $cooperativa->id }}';
 
-
-
-
-
-
-
-
-
-
-    /* ══════════════════════════════════=============================================================════
-       ─── CRUD AGRICULTORES  zz ───
-    ══════════════════════════════════=================================================================════ */
+    /* ══════════════════════════════════════
+       ─── CRUD AGRICULTORES ───
+    ══════════════════════════════════════ */
     let agricultoresPage = 1;
     let agricultoresFiltros = { nome: '', estado: '' };
 
     function carregarAgricultores(page = 1) {
       agricultoresPage = page;
-
-      // Captura o ID da cooperativa dinamicamente a partir da URL atual da página
-      const urlParts = window.location.pathname.split('/');
-      const idCooperativaAtual = urlParts.find(p => !isNaN(p) && p !== "");
-
-      // Gera os parâmetros corretos para filtrar via backend
       const params = new URLSearchParams({
         page: page,
         nome: agricultoresFiltros.nome,
         estado: agricultoresFiltros.estado
       });
 
-      // Fetch usando rigorosamente o padrão de rota estipulado
-      fetch(`/cooperativas/${idCooperativaAtual}/membros/json?${params.toString()}`)
+      fetch(`/api/cooperativa/${cooperativaId}/agricultores?${params}`)
         .then(res => res.json())
         .then(data => {
-          if (data.success) {
-            renderTabelaAgricultores(data.data);
-            renderPaginacaoAgricultores(data);
-
-            // Atualiza contadores na Blade
-            if (document.getElementById('totalAgricultores')) {
-              document.getElementById('totalAgricultores').textContent = data.total || 0;
-            }
-            const navCount = document.querySelector('[data-tab="agricultores"] .nav-count');
-            if (navCount) navCount.textContent = data.total || 0;
-          }
+          renderTabelaAgricultores(data.data);
+          renderPaginacaoAgricultores(data);
+          document.getElementById('totalAgricultores').textContent = data.total || 0;
+          const navCount = document.querySelector('[data-tab="agricultores"] .nav-count');
+          if (navCount) navCount.textContent = data.total || 0;
         })
         .catch(err => {
           showToast('Erro', 'Falha ao carregar agricultores.', 'danger');
@@ -3646,183 +3727,180 @@
 
     function renderTabelaAgricultores(agricultores) {
       const tbody = document.getElementById('corpoTabelaAgricultores');
-      if (!tbody) return;
-
       if (!agricultores || agricultores.length === 0) {
         tbody.innerHTML = `
-      <tr>
-        <td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);">
-          <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>
-          Nenhum agricultor associado.
-        </td>
-      </tr>
-    `;
+          <tr>
+            <td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);">
+              <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>
+              Nenhum agricultor associado.
+            </td>
+          </tr>
+        `;
         return;
       }
 
-      // Renderização limpa, sem cores excessivas, apenas preto/cinza
-      tbody.innerHTML = agricultores.map(a => `
-    <tr>
-      <td>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div class="ag-avatar-sm" style="background:#e0e0e0; color:#000; font-weight:600; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center;">
-            ${a.nome ? a.nome.substring(0, 2).toUpperCase() : '??'}
-          </div>
-          <div>
-            <div style="font-weight:600; color:#000;">${a.nome || 'N/A'}</div>
-            <div style="font-size:11px;color:var(--text-light);">Assoc. desde ${a.created_at ? new Date(a.created_at).toLocaleDateString('pt-PT') : '--'}</div>
-          </div>
-        </div>
-      </td>
-      <td>
-        <div style="font-size:13px; color:#000;">${a.bi || '--'}</div>
-        <div style="font-size:11.5px;color:var(--text-light);">${a.contacto || '--'}</div>
-      </td>
-      <td><span style="font-size:12px;font-weight:500;color:#000;">${a.cargo || 'Agricultor'}</span></td>
-      <td><strong style="color:#000;">${a.talhoes_count || 0}</strong> talões</td>
-      <td>
-        <span style="color:#000; font-weight:600; cursor:pointer;" onclick="alternarEstadoMembro(${a.id})">
-          <i class="bi ${a.estado === 'Activo' ? 'bi-circle-fill' : 'bi-circle'}" style="font-size:9px; margin-right:5px; color:#000;"></i>${a.estado}
-        </span>
-      </td>
-      <td style="text-align:center;">
-        <div style="display:flex;gap:6px;justify-content:center;">
-          <a class="action-btn view" title="Ver perfil" href="/agricultores/${a.agricultor_id}" style="color:#000; padding:4px 8px;"><i class="bi bi-eye-fill"></i></a>
-          <button class="action-btn delete" title="Remover" onclick="abrirModalRemoverAgricultor(${a.id}, '${a.nome}')" style="background:none; border:none; color:#000; cursor:pointer;"><i class="bi bi-person-dash-fill"></i></button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+      const cores = ['#1B5E20', '#1565C0', '#F57F17', '#6A1B9A', '#C62828', '#00695C'];
+      tbody.innerHTML = agricultores.map((a, i) => `
+        <tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="ag-avatar-sm" style="background:${cores[i % cores.length]};">${a.nome ? a.nome.substring(0,2).toUpperCase() : '??'}</div>
+              <div>
+                <div style="font-weight:600;">${a.nome || 'N/A'}</div>
+                <div style="font-size:11px;color:var(--text-light);">Assoc. desde ${a.created_at ? new Date(a.created_at).toLocaleDateString('pt-PT') : '--'}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-size:13px;">${a.bi || '--'}</div>
+            <div style="font-size:11.5px;color:var(--text-light);">${a.contacto || '--'}</div>
+          </td>
+          <td><span style="font-size:12px;font-weight:500;color:var(--text-mid);">${a.cargo || 'Agricultor'}</span></td>
+          <td><strong>${a.talhoes_count || 0}</strong> talhões</td>
+          <td><span class="badge-status ${(a.estado || 'Activo').toLowerCase()}"><span class="dot"></span>${a.estado || 'Activo'}</span></td>
+          <td style="text-align:center;">
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button class="action-btn view" title="Ver perfil" onclick="showToast('Perfil do Agricultor','Navegue até ao perfil completo do agricultor.')"><i class="bi bi-eye-fill"></i></button>
+              <button class="action-btn delete" title="Remover" onclick="abrirModalRemoverAgricultor(${a.id}, '${a.nome}')"><i class="bi bi-person-dash-fill"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
     }
 
     function renderPaginacaoAgricultores(data) {
       const info = document.getElementById('infoAgricultores');
       const links = document.getElementById('paginacaoLinksAgricultores');
-      if (!links) return;
 
-      if (info) {
-        info.textContent = `Mostrando ${data.from || 0} - ${data.to || 0} de ${data.total || 0} registos`;
+      info.textContent = `Mostrando ${data.from || 0} - ${data.to || 0} de ${data.total || 0} registos`;
+
+      if (data.last_page <= 1) {
+        links.innerHTML = '';
+        return;
       }
-
-      if (data.last_page <= 1) { links.innerHTML = ''; return; }
 
       let html = '';
       html += `<li class="page-item ${data.prev_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarAgricultores(${data.current_page - 1});return false;" style="color:#000;">«</a></li>`;
+        <a class="page-link" href="#" onclick="carregarAgricultores(${data.current_page - 1});return false;">«</a>
+      </li>`;
 
       for (let i = 1; i <= data.last_page; i++) {
         html += `<li class="page-item ${i === data.current_page ? 'active' : ''}">
-      <a class="page-link" href="#" onclick="carregarAgricultores(${i});return false;" style="${i === data.current_page ? 'background:#000; border-color:#000; color:#fff;' : 'color:#000;'}">${i}</a></li>`;
+          <a class="page-link" href="#" onclick="carregarAgricultores(${i});return false;">${i}</a>
+        </li>`;
       }
 
       html += `<li class="page-item ${data.next_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarAgricultores(${data.current_page + 1});return false;" style="color:#000;">»</a></li>`;
+        <a class="page-link" href="#" onclick="carregarAgricultores(${data.current_page + 1});return false;">»</a>
+      </li>`;
 
       links.innerHTML = html;
     }
 
-    /* Eventos para Filtros */
-    document.getElementById('btnFiltrarAgricultores')?.addEventListener('click', () => {
+    /* Filtros Agricultores */
+    document.getElementById('btnFiltrarAgricultores').addEventListener('click', () => {
       agricultoresFiltros.nome = document.getElementById('filtroAgricultorNome').value;
       agricultoresFiltros.estado = document.getElementById('filtroAgricultorEstado').value;
       carregarAgricultores(1);
     });
 
-    document.getElementById('btnLimparFiltrosAgricultores')?.addEventListener('click', () => {
+    document.getElementById('btnLimparFiltrosAgricultores').addEventListener('click', () => {
       document.getElementById('filtroAgricultorNome').value = '';
       document.getElementById('filtroAgricultorEstado').value = '';
       agricultoresFiltros = { nome: '', estado: '' };
       carregarAgricultores(1);
     });
 
-    /* Envio do Formulário de Associação (Salvar) */
-    document.getElementById('btnSalvarAgricultor')?.addEventListener('click', () => {
-      const urlParts = window.location.pathname.split('/');
-      const idCooperativaAtual = urlParts.find(p => !isNaN(p) && p !== "");
+    /* Associar Agricultor */
+    const modalAssociar = new bootstrap.Modal(document.getElementById('modalAssociarAgricultor'));
 
+    document.getElementById('btnNovoAgricultor').addEventListener('click', () => {
+      // Carregar lista de agricultores disponíveis
+      fetch(`/api/cooperativa/${cooperativaId}/agricultores/disponiveis`)
+        .then(res => res.json())
+        .then(data => {
+          const select = document.getElementById('selectAgricultor');
+          select.innerHTML = '<option value="">Selecione um agricultor</option>' +
+            data.data.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
+        });
+      document.getElementById('formAssociarAgricultor').reset();
+      modalAssociar.show();
+    });
+
+    document.getElementById('btnSalvarAgricultor').addEventListener('click', () => {
       const data = {
         agricultor_id: document.getElementById('selectAgricultor').value,
-        cargo: document.getElementById('agricultorCargo').value
+        cargo: document.getElementById('agricultorCargo').value,
+        estado: document.getElementById('agricultorEstado').value
       };
 
-      fetch(`/cooperativas/${idCooperativaAtual}/membros/associar`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
+      fetch(`/api/cooperativa/${cooperativaId}/agricultores`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
-            showToast('Sucesso', 'Membro associado com sucesso!');
-            bootstrap.Modal.getInstance(document.getElementById('modalAssociarAgricultor')).hide();
-            carregarAgricultores(1);
+            showToast('Sucesso', 'Agricultor associado com sucesso!');
+            modalAssociar.hide();
+            carregarAgricultores(agricultoresPage);
           } else {
-            showToast('Erro', result.message || 'Falha ao associar.', 'danger');
+            showToast('Erro', result.message || 'Falha ao associar agricultor.', 'danger');
           }
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+          showToast('Erro', 'Erro ao processar requisição.', 'danger');
+          console.error(err);
+        });
     });
 
-    /* Alternar Estado via AJAX */
-    function alternarEstadoMembro(id) {
-      const urlParts = window.location.pathname.split('/');
-      const idCooperativaAtual = urlParts.find(p => !isNaN(p) && p !== "");
+    /* Remover Agricultor */
+    let removerAgricultorId = null;
 
-      fetch(`/cooperativas/${idCooperativaAtual}/membros/${id}/alternar-estado`, {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        }
-      })
-        .then(res => res.json())
-        .then(() => carregarAgricultores(agricultoresPage));
+    function abrirModalRemoverAgricultor(id, nome) {
+      removerAgricultorId = id;
+      document.getElementById('removerAgricultorNome').textContent = nome;
+      document.getElementById('removerAgricultorId').value = id;
+      new bootstrap.Modal(document.getElementById('modalRemoverAgricultor')).show();
     }
 
-    /* Remover Membro da Cooperativa */
-    document.getElementById('btnConfirmarRemover')?.addEventListener('click', () => {
-      const urlParts = window.location.pathname.split('/');
-      const idCooperativaAtual = urlParts.find(p => !isNaN(p) && p !== "");
+    document.getElementById('btnConfirmarRemover').addEventListener('click', () => {
       const id = document.getElementById('removerAgricultorId').value;
 
-      fetch(`/cooperativas/${idCooperativaAtual}/membros/${id}/remover`, {
-        method: 'DELETE',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        }
-      })
+      fetch(`/api/cooperativa/${cooperativaId}/agricultores/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
             showToast('Sucesso', 'Agricultor removido com sucesso!');
             bootstrap.Modal.getInstance(document.getElementById('modalRemoverAgricultor')).hide();
-            carregarAgricultores(1);
+            carregarAgricultores(agricultoresPage);
+          } else {
+            showToast('Erro', result.message || 'Falha ao remover agricultor.', 'danger');
           }
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+          showToast('Erro', 'Erro ao processar requisição.', 'danger');
+          console.error(err);
+        });
     });
 
-    // Inicialização Automática
-    document.addEventListener('DOMContentLoaded', () => {
-      carregarAgricultores(1);
-    });
-
-
-
-
-    /* ════════════════════════════==============================================================══════════
+    /* ══════════════════════════════════════
        ─── CRUD TALHÕES ─── tt
-    ═══════════════════════════════=================================================================═══════ */
-  
+    ══════════════════════════════════════ */
     let talhoesPage = 1;
 
     function carregarTalhoes(page = 1) {
       talhoesPage = page;
       const params = new URLSearchParams({ page });
-      
 
       fetch(`/api/cooperativas/${cooperativaId}/talhoes?${params}`)
         .then(res => res.json())
@@ -3839,27 +3917,28 @@
     function renderTabelaTalhoes(talhoes) {
       const tbody = document.getElementById('corpoTabelaTalhoes');
       if (!talhoes || talhoes.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
+        tbody.innerHTML =
+          `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
       <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhum talhão registado.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = talhoes.map(t => `
-    <tr>
-      <td><i class="bi bi-map-fill me-1" style="color:var(--primary);"></i>${t.designacao || 'N/A'}</td>
-      <td>${t.agricultor?.nome_completo || '--'}</td>
-      <td><strong>${t.area || 0} ha</strong></td>
-      <td>${t.cultura_actual || '--'}</td>
-      <td>${t.localizacao || '--'}</td>
-      <td><span class="badge-status ${(t.estado || 'Em Cultivo').toLowerCase().replace(/\s/g, '_')}"><span class="dot"></span>${t.estado || 'Em Cultivo'}</span></td>
-      <td style="text-align:center;">
-        <div style="display:flex;gap:6px;justify-content:center;">
-          <button class="action-btn edit" title="Editar" onclick="showToast('Editar Talhão','Funcionalidade em desenvolvimento.')"><i class="bi bi-pencil-fill"></i></button>
-          <button class="action-btn delete" title="Apagar" onclick="showToast('Apagar Talhão','Funcionalidade em desenvolvimento.','danger')"><i class="bi bi-trash-fill"></i></button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+        <tr>
+          <td><i class="bi bi-map-fill me-1" style="color:var(--primary);"></i>${t.designacao || 'N/A'}</td>
+          <td>${t.agricultor?.nome_completo || '--'}</td>
+          <td><strong>${t.area || 0} ha</strong></td>
+          <td>${t.cultura_actual || '--'}</td>
+          <td>${t.localizacao || '--'}</td>
+          <td><span class="badge-status ${(t.estado || 'Em Cultivo').toLowerCase().replace(/\s/g,'_')}"><span class="dot"></span>${t.estado || 'Em Cultivo'}</span></td>
+          <td style="text-align:center;">
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button class="action-btn edit" title="Editar" onclick="abrirModalEditarTalhao(${t.id})"><i class="bi bi-pencil-fill"></i></button>
+              <button class="action-btn delete" title="Apagar" onclick="excluirTalhao(${t.id}, '${t.designacao}')"><i class="bi bi-trash-fill"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
     }
 
     function renderPaginacaoTalhoes(data) {
@@ -3871,13 +3950,13 @@
 
       let html = '';
       html += `<li class="page-item ${data.prev_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarTalhoes(${data.current_page - 1});return false;">«</a></li>`;
+        <a class="page-link" href="#" onclick="carregarTalhoes(${data.current_page - 1});return false;">«</a></li>`;
       for (let i = 1; i <= data.last_page; i++) {
         html += `<li class="page-item ${i === data.current_page ? 'active' : ''}">
-      <a class="page-link" href="#" onclick="carregarTalhoes(${i});return false;">${i}</a></li>`;
+          <a class="page-link" href="#" onclick="carregarTalhoes(${i});return false;">${i}</a></li>`;
       }
       html += `<li class="page-item ${data.next_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarTalhoes(${data.current_page + 1});return false;">»</a></li>`;
+        <a class="page-link" href="#" onclick="carregarTalhoes(${data.current_page + 1});return false;">»</a></li>`;
       links.innerHTML = html;
     }
 
@@ -3885,7 +3964,7 @@
     const modalTalhao = new bootstrap.Modal(document.getElementById('modalNovoTalhao'));
 
     document.getElementById('btnNovoTalhao').addEventListener('click', () => {
-      fetch('/api/cooperativa/agricultores?per_page=1000')
+      fetch(`/api/cooperativa/${cooperativaId}/agricultores/associados`)
         .then(res => res.json())
         .then(data => {
           const select = document.getElementById('talhaoAgricultor');
@@ -3906,14 +3985,14 @@
         estado: document.getElementById('talhaoEstado').value
       };
 
-      fetch('/api/cooperativa/talhoes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
+      fetch(`/api/cooperativa/${cooperativaId}/talhoes`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
@@ -3930,29 +4009,44 @@
         });
     });
 
+    function abrirModalEditarTalhao(id) {
+      showToast('Editar Talhão', 'Funcionalidade em desenvolvimento.');
+    }
 
+    function excluirTalhao(id, nome) {
+      if (!confirm(`Tem certeza que deseja excluir o talhão "${nome}"?`)) return;
 
+      fetch(`/api/cooperativa/${cooperativaId}/talhoes/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            showToast('Sucesso', 'Talhão excluído com sucesso!');
+            carregarTalhoes(talhoesPage);
+          } else {
+            showToast('Erro', result.message || 'Falha ao excluir talhão.', 'danger');
+          }
+        })
+        .catch(err => {
+          showToast('Erro', 'Erro ao processar requisição.', 'danger');
+          console.error(err);
+        });
+    }
 
-
-
-
-
-
-
-
-
-
-
-    /* ═════════════════════════════==================================================================═════════
+    /* ══════════════════════════════════════
        ─── CRUD COLHEITAS ─── cc
-    ══════════════════════════=====================================================================════════════ */
+    ══════════════════════════════════════ */
     let colheitasPage = 1;
 
     function carregarColheitas(page = 1) {
       colheitasPage = page;
       const params = new URLSearchParams({ page });
 
-      fetch(`/api/cooperativa/colheitas?${params}`)
+      fetch(`/api/cooperativa/${cooperativaId}/colheitas?${params}`)
         .then(res => res.json())
         .then(data => {
           renderTabelaColheitas(data.data);
@@ -3967,27 +4061,28 @@
     function renderTabelaColheitas(colheitas) {
       const tbody = document.getElementById('corpoTabelaColheitas');
       if (!colheitas || colheitas.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
+        tbody.innerHTML =
+          `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
       <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma colheita registada.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = colheitas.map(c => `
-    <tr>
-      <td><i class="bi bi-flower2 me-1" style="color:var(--primary);"></i>${c.cultura || 'N/A'}</td>
-      <td>${c.agricultor_nome || '--'}</td>
-      <td>${c.talhao || '--'}</td>
-      <td>${c.data ? new Date(c.data).toLocaleDateString('pt-PT') : '--'}</td>
-      <td><strong>${c.quantidade || 0} kg</strong></td>
-      <td><span class="badge-status ${(c.qualidade || 'Boa').toLowerCase()}"><span class="dot"></span>${c.qualidade || 'Boa'}</span></td>
-      <td style="text-align:center;">
-        <div style="display:flex;gap:6px;justify-content:center;">
-          <button class="action-btn edit" title="Editar" onclick="showToast('Editar Colheita','Funcionalidade em desenvolvimento.')"><i class="bi bi-pencil-fill"></i></button>
-          <button class="action-btn delete" title="Apagar" onclick="showToast('Apagar Colheita','Funcionalidade em desenvolvimento.','danger')"><i class="bi bi-trash-fill"></i></button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+        <tr>
+          <td><i class="bi bi-flower2 me-1" style="color:var(--primary);"></i>${c.cultura || 'N/A'}</td>
+          <td>${c.agricultor_nome || '--'}</td>
+          <td>${c.talhao || '--'}</td>
+          <td>${c.data ? new Date(c.data).toLocaleDateString('pt-PT') : '--'}</td>
+          <td><strong>${c.quantidade || 0} kg</strong></td>
+          <td><span class="badge-status ${(c.qualidade || 'Boa').toLowerCase()}"><span class="dot"></span>${c.qualidade || 'Boa'}</span></td>
+          <td style="text-align:center;">
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button class="action-btn edit" title="Editar" onclick="showToast('Editar Colheita','Funcionalidade em desenvolvimento.')"><i class="bi bi-pencil-fill"></i></button>
+              <button class="action-btn delete" title="Apagar" onclick="excluirColheita(${c.id}, '${c.cultura}')"><i class="bi bi-trash-fill"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
     }
 
     function renderPaginacaoColheitas(data) {
@@ -3999,13 +4094,13 @@
 
       let html = '';
       html += `<li class="page-item ${data.prev_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarColheitas(${data.current_page - 1});return false;">«</a></li>`;
+        <a class="page-link" href="#" onclick="carregarColheitas(${data.current_page - 1});return false;">«</a></li>`;
       for (let i = 1; i <= data.last_page; i++) {
         html += `<li class="page-item ${i === data.current_page ? 'active' : ''}">
-      <a class="page-link" href="#" onclick="carregarColheitas(${i});return false;">${i}</a></li>`;
+          <a class="page-link" href="#" onclick="carregarColheitas(${i});return false;">${i}</a></li>`;
       }
       html += `<li class="page-item ${data.next_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarColheitas(${data.current_page + 1});return false;">»</a></li>`;
+        <a class="page-link" href="#" onclick="carregarColheitas(${data.current_page + 1});return false;">»</a></li>`;
       links.innerHTML = html;
     }
 
@@ -4013,7 +4108,7 @@
     const modalColheita = new bootstrap.Modal(document.getElementById('modalNovaColheita'));
 
     document.getElementById('btnNovaColheita').addEventListener('click', () => {
-      fetch('/api/cooperativa/agricultores?per_page=1000')
+      fetch(`/api/cooperativa/${cooperativaId}/agricultores/associados`)
         .then(res => res.json())
         .then(data => {
           const select = document.getElementById('colheitaAgricultor');
@@ -4035,14 +4130,14 @@
         qualidade: document.getElementById('colheitaQualidade').value
       };
 
-      fetch('/api/cooperativa/colheitas', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
+      fetch(`/api/cooperativa/${cooperativaId}/colheitas`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
@@ -4059,197 +4154,331 @@
         });
     });
 
+    function excluirColheita(id, nome) {
+      if (!confirm(`Tem certeza que deseja excluir a colheita "${nome}"?`)) return;
 
-
-
-
-
-
-
-
-
-
-
-
-
-    /* ════════════════════════════════===========================================================══════
-       ─── CRUD INSUMOS (Saída) ─── ii
-    ════════════════════════════════============================================================══════ */
-    // Variáveis Globais de Controlo
-    let historicoData = [];      // Guarda todos os registos originais vindos do servidor
-    let historicoFiltrado = [];  // Guarda os registos após aplicar os filtros
-    let insumosPage = 1;
-    const insumosPorPagina = 10;
-
-    // Captura o ID da cooperativa dinamicamente da URL do Laravel
-    const urlParts = window.location.pathname.split('/');
-    let idx = urlParts.indexOf('cooperativa');
-    if (idx === -1) idx = urlParts.indexOf('cooperativas');
-    const cooperativaId = idx !== -1 ? urlParts[idx + 1] : "{{ $cooperativa->id ?? '' }}";
-
-    // Inicializa os Eventos quando a página carrega
-    document.addEventListener('DOMContentLoaded', function () {
-      carregarHistorico();
-
-      // Eventos de Clique nos botões de Filtrar e Limpar
-      document.getElementById('btnFiltrarInsumos')?.addEventListener('click', aplicarFiltrosHistorico);
-      document.getElementById('btnLimparFiltrosInsumos')?.addEventListener('click', limparFiltrosHistorico);
-    });
-
-    // 1. Função para procurar os dados na Rota que definiste
-    function carregarHistorico() {
-      if (!cooperativaId) return;
-
-      fetch(`/cooperativa/${cooperativaId}/estoque/historico`)
+      fetch(`/api/cooperativa/${cooperativaId}/colheitas/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
         .then(res => res.json())
-        .then(res => {
-          if (res.success) {
-            historicoData = res.data;
-            historicoFiltrado = [...historicoData]; // Cópia inicial
-            renderTabelaHistorico();
+        .then(result => {
+          if (result.success) {
+            showToast('Sucesso', 'Colheita excluída com sucesso!');
+            carregarColheitas(colheitasPage);
           } else {
-            showToast('Erro', res.message || 'Falha ao carregar histórico.', 'danger');
+            showToast('Erro', result.message || 'Falha ao excluir colheita.', 'danger');
           }
         })
         .catch(err => {
-          showToast('Erro', 'Não foi possível conectar ao servidor.', 'danger');
+          showToast('Erro', 'Erro ao processar requisição.', 'danger');
           console.error(err);
         });
     }
 
-    // 2. Função de Processamento dos Filtros do teu HTML
-    function aplicarFiltrosHistorico() {
-      const buscaCategoria = document.getElementById('filtroInsumoCategoria')?.value.toLowerCase().trim() || '';
-      const buscaEstado = document.getElementById('filtroInsumoEstado')?.value.toLowerCase() || '';
+    /* ══════════════════════════════════════
+       ─── CRUD INSUMOS (Saída) ─── ii
+    ══════════════════════════════════════ */
+    let insumosPage = 1;
+    let insumosFiltros = { categoria: '', estado: '' };
 
-      historicoFiltrado = historicoData.filter(item => {
-        // Filtra por Categoria / Nome do Insumo
-        const matchCategoria = item.insumo_nome.toLowerCase().includes(buscaCategoria);
-        // Filtra pelo Estado (Pago, Pendente, etc.)
-        const matchEstado = buscaEstado ? item.estado.toLowerCase() === buscaEstado : true;
-
-        return matchCategoria && matchEstado;
+    function carregarInsumos(page = 1) {
+      insumosPage = page;
+      const params = new URLSearchParams({
+        page,
+        categoria: insumosFiltros.categoria,
+        estado: insumosFiltros.estado
       });
 
-      insumosPage = 1; // Volta para a primeira página após filtrar
-      renderTabelaHistorico();
+      fetch(`/cooperativa/${cooperativaId}/estoque/historico?${params}`)
+        .then(res => res.json())
+        .then(data => {
+          renderTabelaInsumos(data.data);
+          renderPaginacaoInsumos(data);
+        })
+        .catch(err => {
+          showToast('Erro', 'Falha ao carregar insumos.', 'danger');
+          console.error(err);
+        });
     }
 
-    // 3. Função para Limpar os Inputs e restaurar os dados
-    function limparFiltrosHistorico() {
-      const inputCat = document.getElementById('filtroInsumoCategoria');
-      const selectEst = document.getElementById('filtroInsumoEstado');
-
-      if (inputCat) inputCat.value = '';
-      if (selectEst) selectEst.value = '';
-
-      historicoFiltrado = [...historicoData];
-      insumosPage = 1;
-      renderTabelaHistorico();
-    }
-
-    // 4. Desenha as linhas da tabela no HTML (Corpo da Tabela)
-    function renderTabelaHistorico() {
+    function renderTabelaInsumos(insumos) {
       const tbody = document.getElementById('corpoTabelaInsumos');
-      if (!tbody) return;
-
-      // Lógica interna de paginação frontend
-      const total = historicoFiltrado.length;
-      const totalPages = Math.ceil(total / insumosPorPagina) || 1;
-
-      if (insumosPage > totalPages) insumosPage = totalPages;
-      const start = (insumosPage - 1) * insumosPorPagina;
-      const end = Math.min(start + insumosPorPagina, total);
-      const itensPagina = historicoFiltrado.slice(start, end);
-
-      if (itensPagina.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px;color:gray;">
-            <i class="bi bi-inbox" style="font-size:24px;display:block;"></i> Nenhum movimento encontrado.</td></tr>`;
-        renderPaginacaoLinks(totalPages);
+      if (!insumos || insumos.length === 0) {
+        tbody.innerHTML =
+          `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);">
+      <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma movimentação registada.</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = itensPagina.map(item => {
-        const estadoClass = item.estado ? item.estado.toLowerCase() : 'pendente';
-        const tipoMovClass = item.tipo_movimento === 'Saída' ? 'danger' : 'success';
-        const formatarTexto = (txt) => txt ? txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase() : '';
-
-        return `
-            <tr>
-                <td><strong>${item.insumo_nome}</strong><br><small style="color:var(--text-light);">${item.data}</small></td>
-                <td>${item.agricultor_nome}</td>
-                <td><span class="badge bg-${tipoMovClass}">${item.tipo_movimento}</span></td>
-                <td><strong>${item.quantidade}</strong></td>
-                <td>${formatarTexto(item.modalidade)}</td>
-                <td><span class="badge-status ${estadoClass}"><span class="dot"></span> ${formatarTexto(item.estado)}</span></td>
-            </tr>
-        `;
-      }).join('');
-
-      // Atualiza o texto informativo da paginação (Ex: Mostrando 1 - 10 de 25)
-      const infoContainer = document.getElementById('infoInsumos');
-      if (infoContainer) {
-        infoContainer.textContent = `Mostrando ${total === 0 ? 0 : start + 1} - ${end} de ${total} movimentos`;
-      }
-
-      renderPaginacaoLinks(totalPages);
+      tbody.innerHTML = insumos.map(i => `
+        <tr>
+          <td>${i.insumo_nome || 'N/A'}</td>
+          <td>${i.agricultor_nome || '--'}</td>
+          <td>${i.data }</td>
+          <td><strong>${i.quantidade || 0}</strong></td>
+          <td>${i.modalidade || '--'}</td>
+          <td><span class="badge-status ${(i.estado || 'Pendente').toLowerCase()}"><span class="dot"></span>${i.estado || 'Pendente'}</span></td>
+        </tr>
+      `).join('');
     }
 
-    // 5. Gera os botões numéricos da paginação
-    function renderPaginacaoLinks(totalPages) {
-      const pagUl = document.getElementById('paginacaoLinksInsumos');
-      if (!pagUl) return;
+    function renderPaginacaoInsumos(data) {
+      const info = document.getElementById('infoInsumos');
+      const links = document.getElementById('paginacaoLinksInsumos');
+      info.textContent = `Mostrando ${data.from || 0} - ${data.to || 0} de ${data.total || 0} registos`;
+
+      if (data.last_page <= 1) { links.innerHTML = ''; return; }
 
       let html = '';
-      // Botão Anterior
-      html += `<li class="page-item ${insumosPage <= 1 ? 'disabled' : ''}">
-        <a class="page-link" href="#" onclick="event.preventDefault(); mudarPaginaInsumos(${insumosPage - 1})"><i class="bi bi-chevron-left"></i></a>
-    </li>`;
+      html += `<li class="page-item ${data.prev_page_url ? '' : 'disabled'}">
+        <a class="page-link" href="#" onclick="carregarInsumos(${data.current_page - 1});return false;">«</a></li>`;
+      for (let i = 1; i <= data.last_page; i++) {
+        html += `<li class="page-item ${i === data.current_page ? 'active' : ''}">
+          <a class="page-link" href="#" onclick="carregarInsumos(${i});return false;">${i}</a></li>`;
+      }
+      html += `<li class="page-item ${data.next_page_url ? '' : 'disabled'}">
+        <a class="page-link" href="#" onclick="carregarInsumos(${data.current_page + 1});return false;">»</a></li>`;
+      links.innerHTML = html;
+    }
 
-      // Páginas numéricas
-      for (let i = 1; i <= totalPages; i++) {
-        html += `<li class="page-item ${i === insumosPage ? 'active' : ''}">
-            <a class="page-link" href="#" onclick="event.preventDefault(); mudarPaginaInsumos(${i})">${i}</a>
-        </li>`;
+    /* Filtros Insumos */
+    document.getElementById('btnFiltrarInsumos').addEventListener('click', () => {
+      insumosFiltros.categoria = document.getElementById('filtroInsumoCategoria').value;
+      insumosFiltros.estado = document.getElementById('filtroInsumoEstado').value;
+      carregarInsumos(1);
+    });
+
+    document.getElementById('btnLimparFiltrosInsumos').addEventListener('click', () => {
+      document.getElementById('filtroInsumoCategoria').value = '';
+      document.getElementById('filtroInsumoEstado').value = '';
+      insumosFiltros = { categoria: '', estado: '' };
+      carregarInsumos(1);
+    });
+
+
+    
+
+    /* ══════════════════════════════════════
+       ─── CRUD PRODUTOS ───
+    ══════════════════════════════════════ */
+    let produtosPage = 1;
+    let produtosFiltros = { nome: '', estado: '' };
+
+    function carregarProdutos(page = 1) {
+      produtosPage = page;
+      const params = new URLSearchParams({
+        page,
+        nome: produtosFiltros.nome,
+        estado: produtosFiltros.estado
+      });
+
+      fetch(`/api/cooperativa/${cooperativaId}/produtos?${params}`)
+        .then(res => res.json())
+        .then(data => {
+          renderTabelaProdutos(data.data);
+          renderPaginacaoProdutos(data);
+          const navCount = document.querySelector('[data-tab="produtos"] .nav-count');
+          if (navCount) navCount.textContent = data.total || 0;
+        })
+        .catch(err => {
+          showToast('Erro', 'Falha ao carregar produtos.', 'danger');
+          console.error(err);
+        });
+    }
+
+    function renderTabelaProdutos(produtos) {
+      const tbody = document.getElementById('corpoTabelaProdutos');
+      if (!produtos || produtos.length === 0) {
+        tbody.innerHTML =
+          `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
+      <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhum produto registado.</td></tr>`;
+        return;
       }
 
-      // Botão Próximo
-      html += `<li class="page-item ${insumosPage >= totalPages ? 'disabled' : ''}">
-        <a class="page-link" href="#" onclick="event.preventDefault(); mudarPaginaInsumos(${insumosPage + 1})"><i class="bi bi-chevron-right"></i></a>
-    </li>`;
-
-      pagUl.innerHTML = html;
+      tbody.innerHTML = produtos.map(p => `
+        <tr>
+          <td><i class="bi bi-basket-fill me-1" style="color:var(--primary);"></i>${p.nome || 'N/A'}</td>
+          <td>${p.categoria || '--'}</td>
+          <td><strong>${p.quantidade || 0}</strong></td>
+          <td>${p.unidade || '--'}</td>
+          <td>${(p.preco_unitario || 0).toLocaleString('pt-AO')} Kz</td>
+          <td><span class="badge-status ${(p.estado || 'disponivel').toLowerCase()}"><span class="dot"></span>${p.estado || 'Disponível'}</span></td>
+          <td style="text-align:center;">
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button class="action-btn edit" title="Editar" onclick="abrirModalEditarProduto(${p.id})"><i class="bi bi-pencil-fill"></i></button>
+              <button class="action-btn delete" title="Excluir" onclick="excluirProduto(${p.id}, '${p.nome}')"><i class="bi bi-trash-fill"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
     }
 
-    // Controla a mudança de página
-    function mudarPaginaInsumos(novaPagina) {
-      insumosPage = novaPagina;
-      renderTabelaHistorico();
+    function renderPaginacaoProdutos(data) {
+      const info = document.getElementById('infoProdutos');
+      const links = document.getElementById('paginacaoLinksProdutos');
+      info.textContent = `Mostrando ${data.from || 0} - ${data.to || 0} de ${data.total || 0} registos`;
+
+      if (data.last_page <= 1) { links.innerHTML = ''; return; }
+
+      let html = '';
+      html += `<li class="page-item ${data.prev_page_url ? '' : 'disabled'}">
+        <a class="page-link" href="#" onclick="carregarProdutos(${data.current_page - 1});return false;">«</a></li>`;
+      for (let i = 1; i <= data.last_page; i++) {
+        html += `<li class="page-item ${i === data.current_page ? 'active' : ''}">
+          <a class="page-link" href="#" onclick="carregarProdutos(${i});return false;">${i}</a></li>`;
+      }
+      html += `<li class="page-item ${data.next_page_url ? '' : 'disabled'}">
+        <a class="page-link" href="#" onclick="carregarProdutos(${data.current_page + 1});return false;">»</a></li>`;
+      links.innerHTML = html;
     }
 
+    /* Filtros Produtos */
+    document.getElementById('btnFiltrarProdutos').addEventListener('click', () => {
+      produtosFiltros.nome = document.getElementById('filtroProdutoNome').value;
+      produtosFiltros.estado = document.getElementById('filtroProdutoEstado').value;
+      carregarProdutos(1);
+    });
 
-    function carregarInsumos() {
-      aplicarFiltrosHistorico();
+    document.getElementById('btnLimparFiltrosProdutos').addEventListener('click', () => {
+      document.getElementById('filtroProdutoNome').value = '';
+      document.getElementById('filtroProdutoEstado').value = '';
+      produtosFiltros = { nome: '', estado: '' };
+      carregarProdutos(1);
+    });
+
+    /* Modal Novo Produto */
+    const modalProduto = new bootstrap.Modal(document.getElementById('modalNovoProduto'));
+
+    document.getElementById('btnNovoProduto').addEventListener('click', () => {
+      document.getElementById('formNovoProduto').reset();
+      modalProduto.show();
+    });
+
+    document.getElementById('btnSalvarProduto').addEventListener('click', () => {
+      const data = {
+        nome: document.getElementById('produtoNome').value,
+        categoria: document.getElementById('produtoCategoria').value,
+        unidade: document.getElementById('produtoUnidade').value,
+        quantidade: document.getElementById('produtoQuantidade').value,
+        preco_unitario: document.getElementById('produtoPreco').value,
+        estado: document.getElementById('produtoEstado').value,
+        descricao: document.getElementById('produtoDescricao').value
+      };
+
+      fetch(`/api/cooperativa/${cooperativaId}/produtos`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            showToast('Sucesso', 'Produto registado com sucesso!');
+            modalProduto.hide();
+            carregarProdutos(produtosPage);
+          } else {
+            showToast('Erro', result.message || 'Falha ao registrar produto.', 'danger');
+          }
+        })
+        .catch(err => {
+          showToast('Erro', 'Erro ao processar requisição.', 'danger');
+          console.error(err);
+        });
+    });
+
+    /* Modal Editar Produto */
+    const modalEditarProduto = new bootstrap.Modal(document.getElementById('modalEditarProduto'));
+
+    function abrirModalEditarProduto(id) {
+      fetch(`/api/cooperativa/${cooperativaId}/produtos/${id}`)
+        .then(res => res.json())
+        .then(data => {
+          const p = data.data;
+          document.getElementById('editarProdutoId').value = p.id;
+          document.getElementById('editarProdutoNome').value = p.nome || '';
+          document.getElementById('editarProdutoCategoria').value = p.categoria || 'Grãos';
+          document.getElementById('editarProdutoUnidade').value = p.unidade || '';
+          document.getElementById('editarProdutoQuantidade').value = p.quantidade || 0;
+          document.getElementById('editarProdutoPreco').value = p.preco_unitario || 0;
+          document.getElementById('editarProdutoEstado').value = p.estado || 'disponivel';
+          document.getElementById('editarProdutoDescricao').value = p.descricao || '';
+          modalEditarProduto.show();
+        })
+        .catch(err => {
+          showToast('Erro', 'Falha ao carregar dados do produto.', 'danger');
+          console.error(err);
+        });
     }
 
+    document.getElementById('btnSalvarEditarProduto').addEventListener('click', () => {
+      const id = document.getElementById('editarProdutoId').value;
+      const data = {
+        nome: document.getElementById('editarProdutoNome').value,
+        categoria: document.getElementById('editarProdutoCategoria').value,
+        unidade: document.getElementById('editarProdutoUnidade').value,
+        quantidade: document.getElementById('editarProdutoQuantidade').value,
+        preco_unitario: document.getElementById('editarProdutoPreco').value,
+        estado: document.getElementById('editarProdutoEstado').value,
+        descricao: document.getElementById('editarProdutoDescricao').value
+      };
 
+      fetch(`/api/cooperativa/${cooperativaId}/produtos/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            showToast('Sucesso', 'Produto atualizado com sucesso!');
+            modalEditarProduto.hide();
+            carregarProdutos(produtosPage);
+          } else {
+            showToast('Erro', result.message || 'Falha ao atualizar produto.', 'danger');
+          }
+        })
+        .catch(err => {
+          showToast('Erro', 'Erro ao processar requisição.', 'danger');
+          console.error(err);
+        });
+    });
 
+    function excluirProduto(id, nome) {
+      if (!confirm(`Tem certeza que deseja excluir o produto "${nome}"?`)) return;
 
+      fetch(`/api/cooperativa/${cooperativaId}/produtos/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            showToast('Sucesso', 'Produto excluído com sucesso!');
+            carregarProdutos(produtosPage);
+          } else {
+            showToast('Erro', result.message || 'Falha ao excluir produto.', 'danger');
+          }
+        })
+        .catch(err => {
+          showToast('Erro', 'Erro ao processar requisição.', 'danger');
+          console.error(err);
+        });
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-    /* ═════════════════════════════════===============================================================═════
+    /* ══════════════════════════════════════
        ─── CRUD RECEITAS ───
-    ═══════════════════════════════════============================================================═══ */
+    ══════════════════════════════════════ */
     let receitasPage = 1;
     let receitasFiltros = { nome: '', estado: '' };
 
@@ -4261,7 +4490,7 @@
         estado: receitasFiltros.estado
       });
 
-      fetch(`/api/cooperativa/receitas?${params}`)
+      fetch(`/api/cooperativa/${cooperativaId}/receitas?${params}`)
         .then(res => res.json())
         .then(data => {
           renderTabelaReceitas(data.data);
@@ -4276,27 +4505,28 @@
     function renderTabelaReceitas(receitas) {
       const tbody = document.getElementById('corpoTabelaReceitas');
       if (!receitas || receitas.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
+        tbody.innerHTML =
+          `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
       <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma receita registada.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = receitas.map(r => `
-    <tr>
-      <td><i class="bi bi-cash-coin me-1" style="color:var(--primary);"></i>${r.descricao || 'N/A'}</td>
-      <td>${r.origem || '--'}</td>
-      <td>${r.agricultor_nome || 'Cooperativa (Geral)'}</td>
-      <td>${r.data ? new Date(r.data).toLocaleDateString('pt-PT') : '--'}</td>
-      <td><strong>${(r.valor || 0).toLocaleString('pt-AO')}</strong></td>
-      <td><span class="badge-status ${(r.estado || 'Pendente').toLowerCase()}"><span class="dot"></span>${r.estado || 'Pendente'}</span></td>
-      <td style="text-align:center;">
-        <div style="display:flex;gap:6px;justify-content:center;">
-          <button class="action-btn edit" title="Editar" onclick="abrirModalEditarReceita(${r.id})"><i class="bi bi-pencil-fill"></i></button>
-          <button class="action-btn delete" title="Apagar" onclick="showToast('Apagar Receita','Funcionalidade em desenvolvimento.','danger')"><i class="bi bi-trash-fill"></i></button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+        <tr>
+          <td><i class="bi bi-cash-coin me-1" style="color:var(--primary);"></i>${r.descricao || 'N/A'}</td>
+          <td>${r.origem || '--'}</td>
+          <td>${r.agricultor_nome || 'Cooperativa (Geral)'}</td>
+          <td>${r.data ? new Date(r.data).toLocaleDateString('pt-PT') : '--'}</td>
+          <td><strong>${(r.valor || 0).toLocaleString('pt-AO')}</strong></td>
+          <td><span class="badge-status ${(r.estado || 'Pendente').toLowerCase()}"><span class="dot"></span>${r.estado || 'Pendente'}</span></td>
+          <td style="text-align:center;">
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button class="action-btn edit" title="Editar" onclick="abrirModalEditarReceita(${r.id})"><i class="bi bi-pencil-fill"></i></button>
+              <button class="action-btn delete" title="Apagar" onclick="excluirReceita(${r.id}, '${r.descricao}')"><i class="bi bi-trash-fill"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
     }
 
     function renderPaginacaoReceitas(data) {
@@ -4308,13 +4538,13 @@
 
       let html = '';
       html += `<li class="page-item ${data.prev_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarReceitas(${data.current_page - 1});return false;">«</a></li>`;
+        <a class="page-link" href="#" onclick="carregarReceitas(${data.current_page - 1});return false;">«</a></li>`;
       for (let i = 1; i <= data.last_page; i++) {
         html += `<li class="page-item ${i === data.current_page ? 'active' : ''}">
-      <a class="page-link" href="#" onclick="carregarReceitas(${i});return false;">${i}</a></li>`;
+          <a class="page-link" href="#" onclick="carregarReceitas(${i});return false;">${i}</a></li>`;
       }
       html += `<li class="page-item ${data.next_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarReceitas(${data.current_page + 1});return false;">»</a></li>`;
+        <a class="page-link" href="#" onclick="carregarReceitas(${data.current_page + 1});return false;">»</a></li>`;
       links.innerHTML = html;
     }
 
@@ -4336,7 +4566,7 @@
     const modalReceita = new bootstrap.Modal(document.getElementById('modalNovaReceita'));
 
     document.getElementById('btnNovaReceita').addEventListener('click', () => {
-      fetch('/api/cooperativa/agricultores?per_page=1000')
+      fetch(`/api/cooperativa/${cooperativaId}/agricultores/associados`)
         .then(res => res.json())
         .then(data => {
           const select = document.getElementById('receitaAgricultor');
@@ -4358,14 +4588,14 @@
         estado: document.getElementById('receitaEstado').value
       };
 
-      fetch('/api/cooperativa/receitas', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
+      fetch(`/api/cooperativa/${cooperativaId}/receitas`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
@@ -4386,7 +4616,7 @@
     const modalEditarReceita = new bootstrap.Modal(document.getElementById('modalEditarReceita'));
 
     function abrirModalEditarReceita(id) {
-      fetch(`/api/cooperativa/receitas/${id}`)
+      fetch(`/api/cooperativa/${cooperativaId}/receitas/${id}`)
         .then(res => res.json())
         .then(data => {
           const r = data.data;
@@ -4397,7 +4627,7 @@
           document.getElementById('editarReceitaValor').value = r.valor || '';
           document.getElementById('editarReceitaEstado').value = r.estado || 'Pendente';
 
-          fetch('/api/cooperativa/agricultores?per_page=1000')
+          fetch(`/api/cooperativa/${cooperativaId}/agricultores/associados`)
             .then(res => res.json())
             .then(agData => {
               const select = document.getElementById('editarReceitaAgricultor');
@@ -4425,14 +4655,14 @@
         estado: document.getElementById('editarReceitaEstado').value
       };
 
-      fetch(`/api/cooperativa/receitas/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
+      fetch(`/api/cooperativa/${cooperativaId}/receitas/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
@@ -4449,17 +4679,33 @@
         });
     });
 
+    function excluirReceita(id, descricao) {
+      if (!confirm(`Tem certeza que deseja excluir a receita "${descricao}"?`)) return;
 
+      fetch(`/api/cooperativa/${cooperativaId}/receitas/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            showToast('Sucesso', 'Receita excluída com sucesso!');
+            carregarReceitas(receitasPage);
+          } else {
+            showToast('Erro', result.message || 'Falha ao excluir receita.', 'danger');
+          }
+        })
+        .catch(err => {
+          showToast('Erro', 'Erro ao processar requisição.', 'danger');
+          console.error(err);
+        });
+    }
 
-
-
-
-
-
-
-    /* ════════════════════════════=========================================================══════════
+    /* ══════════════════════════════════════
        ─── CRUD VENDAS ───
-    ═════════════════════════===============================================================═════════════ */
+    ══════════════════════════════════════ */
     let vendasPage = 1;
     let vendasFiltros = { nome: '', estado: '' };
 
@@ -4471,7 +4717,7 @@
         estado: vendasFiltros.estado
       });
 
-      fetch(`/api/cooperativa/vendas?${params}`)
+      fetch(`/api/cooperativa/${cooperativaId}/vendas?${params}`)
         .then(res => res.json())
         .then(data => {
           renderTabelaVendas(data.data);
@@ -4486,28 +4732,29 @@
     function renderTabelaVendas(vendas) {
       const tbody = document.getElementById('corpoTabelaVendas');
       if (!vendas || vendas.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
+        tbody.innerHTML =
+          `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
       <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma venda registada.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = vendas.map(v => `
-    <tr>
-      <td><i class="bi bi-basket-fill me-1" style="color:var(--primary);"></i>${v.produto || 'N/A'}</td>
-      <td>${v.agricultor_nome || '--'}</td>
-      <td>${v.comprador || '--'}</td>
-      <td>${v.data ? new Date(v.data).toLocaleDateString('pt-PT') : '--'}</td>
-      <td>${v.quantidade || '--'}</td>
-      <td><strong>${(v.valor || 0).toLocaleString('pt-AO')}</strong></td>
-      <td><span class="badge-status ${(v.estado || 'Pendente').toLowerCase()}"><span class="dot"></span>${v.estado || 'Pendente'}</span></td>
-      <td style="text-align:center;">
-        <div style="display:flex;gap:6px;justify-content:center;">
-          <button class="action-btn edit" title="Editar" onclick="abrirModalEditarVenda(${v.id})"><i class="bi bi-pencil-fill"></i></button>
-          <button class="action-btn delete" title="Apagar" onclick="showToast('Apagar Venda','Funcionalidade em desenvolvimento.','danger')"><i class="bi bi-trash-fill"></i></button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+        <tr>
+          <td><i class="bi bi-basket-fill me-1" style="color:var(--primary);"></i>${v.produto || 'N/A'}</td>
+          <td>${v.agricultor_nome || '--'}</td>
+          <td>${v.comprador || '--'}</td>
+          <td>${v.data ? new Date(v.data).toLocaleDateString('pt-PT') : '--'}</td>
+          <td>${v.quantidade || '--'}</td>
+          <td><strong>${(v.valor || 0).toLocaleString('pt-AO')}</strong></td>
+          <td><span class="badge-status ${(v.estado || 'Pendente').toLowerCase()}"><span class="dot"></span>${v.estado || 'Pendente'}</span></td>
+          <td style="text-align:center;">
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button class="action-btn edit" title="Editar" onclick="abrirModalEditarVenda(${v.id})"><i class="bi bi-pencil-fill"></i></button>
+              <button class="action-btn delete" title="Apagar" onclick="excluirVenda(${v.id}, '${v.produto}')"><i class="bi bi-trash-fill"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
     }
 
     function renderPaginacaoVendas(data) {
@@ -4519,13 +4766,13 @@
 
       let html = '';
       html += `<li class="page-item ${data.prev_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarVendas(${data.current_page - 1});return false;">«</a></li>`;
+        <a class="page-link" href="#" onclick="carregarVendas(${data.current_page - 1});return false;">«</a></li>`;
       for (let i = 1; i <= data.last_page; i++) {
         html += `<li class="page-item ${i === data.current_page ? 'active' : ''}">
-      <a class="page-link" href="#" onclick="carregarVendas(${i});return false;">${i}</a></li>`;
+          <a class="page-link" href="#" onclick="carregarVendas(${i});return false;">${i}</a></li>`;
       }
       html += `<li class="page-item ${data.next_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarVendas(${data.current_page + 1});return false;">»</a></li>`;
+        <a class="page-link" href="#" onclick="carregarVendas(${data.current_page + 1});return false;">»</a></li>`;
       links.innerHTML = html;
     }
 
@@ -4547,7 +4794,7 @@
     const modalVenda = new bootstrap.Modal(document.getElementById('modalNovaVenda'));
 
     document.getElementById('btnNovaVenda').addEventListener('click', () => {
-      fetch('/api/cooperativa/agricultores?per_page=1000')
+      fetch(`/api/cooperativa/${cooperativaId}/agricultores/associados`)
         .then(res => res.json())
         .then(data => {
           const select = document.getElementById('vendaAgricultor');
@@ -4570,14 +4817,14 @@
         estado: document.getElementById('vendaEstado').value
       };
 
-      fetch('/api/cooperativa/vendas', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
+      fetch(`/api/cooperativa/${cooperativaId}/vendas`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
@@ -4598,7 +4845,7 @@
     const modalEditarVenda = new bootstrap.Modal(document.getElementById('modalEditarVenda'));
 
     function abrirModalEditarVenda(id) {
-      fetch(`/api/cooperativa/vendas/${id}`)
+      fetch(`/api/cooperativa/${cooperativaId}/vendas/${id}`)
         .then(res => res.json())
         .then(data => {
           const v = data.data;
@@ -4610,7 +4857,7 @@
           document.getElementById('editarVendaValor').value = v.valor || '';
           document.getElementById('editarVendaEstado').value = v.estado || 'Pendente';
 
-          fetch('/api/cooperativa/agricultores?per_page=1000')
+          fetch(`/api/cooperativa/${cooperativaId}/agricultores/associados`)
             .then(res => res.json())
             .then(agData => {
               const select = document.getElementById('editarVendaAgricultor');
@@ -4639,14 +4886,14 @@
         estado: document.getElementById('editarVendaEstado').value
       };
 
-      fetch(`/api/cooperativa/vendas/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
+      fetch(`/api/cooperativa/${cooperativaId}/vendas/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
@@ -4663,15 +4910,33 @@
         });
     });
 
+    function excluirVenda(id, produto) {
+      if (!confirm(`Tem certeza que deseja excluir a venda do produto "${produto}"?`)) return;
 
+      fetch(`/api/cooperativa/${cooperativaId}/vendas/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            showToast('Sucesso', 'Venda excluída com sucesso!');
+            carregarVendas(vendasPage);
+          } else {
+            showToast('Erro', result.message || 'Falha ao excluir venda.', 'danger');
+          }
+        })
+        .catch(err => {
+          showToast('Erro', 'Erro ao processar requisição.', 'danger');
+          console.error(err);
+        });
+    }
 
-
-
-
-
-    /* ══════════════════════════════════===========================================================════
+    /* ══════════════════════════════════════
        ─── CRUD SAÍDAS / DESPESAS ───
-    ══════════════════════════════════=============================================================════ */
+    ══════════════════════════════════════ */
     let saidasPage = 1;
     let saidasFiltros = { nome: '', estado: '' };
 
@@ -4683,7 +4948,7 @@
         estado: saidasFiltros.estado
       });
 
-      fetch(`/api/cooperativa/saidas?${params}`)
+      fetch(`/api/cooperativa/${cooperativaId}/saidas?${params}`)
         .then(res => res.json())
         .then(data => {
           renderTabelaSaidas(data.data);
@@ -4699,27 +4964,28 @@
     function renderTabelaSaidas(saidas) {
       const tbody = document.getElementById('corpoTabelaSaidas');
       if (!saidas || saidas.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
+        tbody.innerHTML =
+          `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
       <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma despesa registada.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = saidas.map(s => `
-    <tr>
-      <td><i class="bi bi-arrow-down-circle-fill me-1" style="color:#C62828;"></i>${s.descricao || 'N/A'}</td>
-      <td>${s.categoria || '--'}</td>
-      <td>${s.fornecedor || '--'}</td>
-      <td>${s.data ? new Date(s.data).toLocaleDateString('pt-PT') : '--'}</td>
-      <td><strong>${(s.valor || 0).toLocaleString('pt-AO')}</strong></td>
-      <td><span class="badge-status ${(s.estado || 'Pendente').toLowerCase().replace(/\s/g, '_')}"><span class="dot"></span>${s.estado || 'Pendente'}</span></td>
-      <td style="text-align:center;">
-        <div style="display:flex;gap:6px;justify-content:center;">
-          <button class="action-btn edit" title="Editar" onclick="abrirModalEditarSaida(${s.id})"><i class="bi bi-pencil-fill"></i></button>
-          <button class="action-btn delete" title="Apagar" onclick="showToast('Apagar Despesa','Funcionalidade em desenvolvimento.','danger')"><i class="bi bi-trash-fill"></i></button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+        <tr>
+          <td><i class="bi bi-arrow-down-circle-fill me-1" style="color:#C62828;"></i>${s.descricao || 'N/A'}</td>
+          <td>${s.categoria || '--'}</td>
+          <td>${s.fornecedor || '--'}</td>
+          <td>${s.data ? new Date(s.data).toLocaleDateString('pt-PT') : '--'}</td>
+          <td><strong>${(s.valor || 0).toLocaleString('pt-AO')}</strong></td>
+          <td><span class="badge-status ${(s.estado || 'Pendente').toLowerCase().replace(/\s/g,'_')}"><span class="dot"></span>${s.estado || 'Pendente'}</span></td>
+          <td style="text-align:center;">
+            <div style="display:flex;gap:6px;justify-content:center;">
+              <button class="action-btn edit" title="Editar" onclick="abrirModalEditarSaida(${s.id})"><i class="bi bi-pencil-fill"></i></button>
+              <button class="action-btn delete" title="Apagar" onclick="excluirSaida(${s.id}, '${s.descricao}')"><i class="bi bi-trash-fill"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
     }
 
     function renderPaginacaoSaidas(data) {
@@ -4731,18 +4997,20 @@
 
       let html = '';
       html += `<li class="page-item ${data.prev_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarSaidas(${data.current_page - 1});return false;">«</a></li>`;
+        <a class="page-link" href="#" onclick="carregarSaidas(${data.current_page - 1});return false;">«</a></li>`;
       for (let i = 1; i <= data.last_page; i++) {
         html += `<li class="page-item ${i === data.current_page ? 'active' : ''}">
-      <a class="page-link" href="#" onclick="carregarSaidas(${i});return false;">${i}</a></li>`;
+          <a class="page-link" href="#" onclick="carregarSaidas(${i});return false;">${i}</a></li>`;
       }
       html += `<li class="page-item ${data.next_page_url ? '' : 'disabled'}">
-    <a class="page-link" href="#" onclick="carregarSaidas(${data.current_page + 1});return false;">»</a></li>`;
+        <a class="page-link" href="#" onclick="carregarSaidas(${data.current_page + 1});return false;">»</a></li>`;
       links.innerHTML = html;
     }
 
     function atualizarResumoDespesas(saidas) {
-      let totalPago = 0, totalPendente = 0, totalEmAtraso = 0;
+      let totalPago = 0,
+        totalPendente = 0,
+        totalEmAtraso = 0;
       saidas.forEach(s => {
         const valor = parseFloat(s.valor) || 0;
         if (s.estado === 'Pago') totalPago += valor;
@@ -4787,14 +5055,14 @@
         estado: document.getElementById('saidaEstado').value
       };
 
-      fetch('/api/cooperativa/saidas', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
+      fetch(`/api/cooperativa/${cooperativaId}/saidas`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
@@ -4815,7 +5083,7 @@
     const modalEditarSaida = new bootstrap.Modal(document.getElementById('modalEditarSaida'));
 
     function abrirModalEditarSaida(id) {
-      fetch(`/api/cooperativa/saidas/${id}`)
+      fetch(`/api/cooperativa/${cooperativaId}/saidas/${id}`)
         .then(res => res.json())
         .then(data => {
           const s = data.data;
@@ -4845,14 +5113,14 @@
         estado: document.getElementById('editarSaidaEstado').value
       };
 
-      fetch(`/api/cooperativa/saidas/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
+      fetch(`/api/cooperativa/${cooperativaId}/saidas/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          },
+          body: JSON.stringify(data)
+        })
         .then(res => res.json())
         .then(result => {
           if (result.success) {
@@ -4869,11 +5137,35 @@
         });
     });
 
+    function excluirSaida(id, descricao) {
+      if (!confirm(`Tem certeza que deseja excluir a despesa "${descricao}"?`)) return;
+
+      fetch(`/api/cooperativa/${cooperativaId}/saidas/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            showToast('Sucesso', 'Despesa excluída com sucesso!');
+            carregarSaidas(saidasPage);
+          } else {
+            showToast('Erro', result.message || 'Falha ao excluir despesa.', 'danger');
+          }
+        })
+        .catch(err => {
+          showToast('Erro', 'Erro ao processar requisição.', 'danger');
+          console.error(err);
+        });
+    }
+
     /* ══════════════════════════════════════
        NAV ACTIVE SIDEBAR
     ══════════════════════════════════════ */
     document.querySelectorAll('.nav-item-link').forEach(link => {
-      link.addEventListener('click', function (e) {
+      link.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
         if (!href || href === '#') {
           e.preventDefault();
@@ -4889,7 +5181,14 @@
        INICIALIZAÇÃO
     ══════════════════════════════════════ */
     document.addEventListener('DOMContentLoaded', () => {
-      //  carregarAgricultores(1);
+      carregarAgricultores(1);
+      carregarTalhoes(1);
+      carregarColheitas(1);
+      carregarInsumos(1);
+      carregarProdutos(1);
+      carregarReceitas(1);
+      carregarVendas(1);
+      carregarSaidas(1);
     });
   </script>
 

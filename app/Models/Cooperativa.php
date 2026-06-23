@@ -85,4 +85,9 @@ class Cooperativa extends Model
     {
         return $this->hasMany(Safra::class);
     }
+
+    public function talhoes()
+    {
+        return $this->hasMany(Talhao::class, 'cooperativa_id');
+    }
 }
