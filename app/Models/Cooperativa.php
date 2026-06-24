@@ -88,6 +88,24 @@ class Cooperativa extends Model
 
     public function talhoes()
     {
-        return $this->hasMany(Talhao::class, 'cooperativa_id');
+        return $this->hasMany(Talhao::class);
+    }
+
+    /**
+     * Uma cooperativa tem muitos agricultores. importante
+     */
+    public function agricultores()
+    {
+        return $this->belongsToMany(
+            Agricultor::class,
+            'cooperativa_membros',
+            'cooperativa_id',
+            'agricultor_id'
+        )->withPivot('cargo', 'activo');
+    }
+
+    public function produtos()
+    {
+        return $this->hasMany(Produto::class, 'cooperativa_id');
     }
 }

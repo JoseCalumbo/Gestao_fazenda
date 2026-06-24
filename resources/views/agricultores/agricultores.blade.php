@@ -2207,7 +2207,7 @@
                   <div class="col-12 col-md-6 ag-coop-field" style="display:none;">
                     <label class="cfg-label" for="agCargoCooperativa">Cargo</label>
                     <select class="cfg-select" id="agCargoCooperativa" name="cargo_cooperativa">
-                      <option value="Nenhum">Nenhum - Apenas Membro</option>
+                      <option value="Nenhum">Sem Cargo</option>
                       <option value="Presidente">Presidente</option>
                       <option value="Vice-Presidente">Vice-Presidente</option>
                       <option value="Secretário">Secretário</option>

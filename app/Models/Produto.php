@@ -3,8 +3,52 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Produto extends Model
 {
-    //
+    use HasFactory;
+
+    protected $table = 'produtos';
+
+    protected $fillable = [
+        'cooperativa_id',
+        'agricultor_id',
+        'talhao_id',
+        'nome',
+        'categoria',
+        'quantidade',
+        'unidade',
+        'preco_venda',
+        'estado',
+    ];
+
+    protected $casts = [
+        'quantidade'  => 'decimal:2',
+        'preco_venda' => 'decimal:2',
+    ];
+
+    /**
+     * Relacionamento: Um produto pertence a uma Cooperativa
+     */
+    public function cooperativa()
+    {
+        return $this->belongsTo(Cooperativa::class, 'cooperativa_id');
+    }
+
+    /**
+     * Relacionamento: Um produto pertence a um Agricultor
+     */
+    public function agricultor()
+    {
+        return $this->belongsTo(Agricultor::class, 'agricultor_id');
+    }
+
+    /**
+     * Relacionamento: Um produto provém de um Talhão específico
+     */
+    public function talhao()
+    {
+        return $this->belongsTo(Talhao::class, 'talhao_id');
+    }
 }

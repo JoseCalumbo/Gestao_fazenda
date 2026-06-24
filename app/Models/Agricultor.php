@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Agricultor extends Model
 {
     protected $table = 'agricultores';
@@ -74,45 +75,17 @@ class Agricultor extends Model
         return strtoupper(substr($this->nome_completo, 0, 1));
     }
 
-    public function getFotoUrlAttribute()
-    {
-        if ($this->foto) {
-            return asset('storage/'.$this->foto);
-        }
-
-        return asset('images/user-default.png');
+  public function getFotoUrlAttribute()
+{
+    if (!$this->foto) {
+        return asset('image/user-default.png');
     }
 
+    return asset('storage/' . $this->foto);
+}
 
+public function produtos() {
+    return $this->hasMany(Produto::class, 'agricultor_id');
+}
 
-
-
-
-
-
-
-
-    /**
-     * Accessor para idade
-     */
-    public function getIdadeAttribute1()
-    {
-        if ($this->data_nascimento) {
-            return Carbon::parse($this->data_nascimento)->age;
-        }
-
-        return null;
-    }
-
-    /**
-     * Accessor para tempo de associação
-     */
-    public function getTempoAssociacaoAttribute()
-    {
-        if ($this->created_at) {
-            return Carbon::parse($this->created_at)->diffForHumans();
-        }
-
-        return null;
-    }
 }

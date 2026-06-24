@@ -31,4 +31,9 @@ class Talhao extends Model
     {
         return $this->belongsTo(Cooperativa::class, 'cooperativa_id');
     }
+
+    public function produtos()
+    {
+        return $this->hasMany(Produto::class, 'talhao_id');
+    }
 }

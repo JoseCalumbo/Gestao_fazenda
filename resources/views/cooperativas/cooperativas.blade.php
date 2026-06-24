@@ -2014,7 +2014,7 @@
           <div class="stat-card">
             <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
             <div class="stat-info">
-              <div class="s-label">Cooperados Totais</div>
+              <div class="s-label">Agricultores Associados</div>
               <div class="s-value">{{ $totalGeralAssociados ?? 0 }}</div>
               <span class="stat-badge up"><i class="bi bi-arrow-up"></i> +18 este mês</span>
             </div>
@@ -2478,7 +2478,7 @@
                   <div style="width:160px;">
                     <label class="cfg-label">Cargo</label>
                     <select class="cfg-select" id="novoMemberFuncao">
-                      <option value="Nenhum">Nenhum - Apenas Membro</option>
+                      <option value="Nenhum">Sem Cargo</option>
                       <option value="Presidente">Presidente</option>
                       <option value="Secretário">Secretário</option>
                       <option value="Tesoureiro">Tesoureiro</option>

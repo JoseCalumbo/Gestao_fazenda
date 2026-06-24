@@ -2520,7 +2520,6 @@
                 </div>
                 <select id="filtroNivel" class="cfg-select" style="width:160px;">
                   <option value="">Todos os níveis</option>
-                  <option value="admin">Administrador</option>
                   <option value="gestor">Gestor</option>
                   <option value="tecnico">Técnico</option>
                 </select>

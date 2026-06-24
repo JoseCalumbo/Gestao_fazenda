@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agricultor;
 use App\Models\Cooperativa;
 use App\Models\CooperativaMembro;
+use App\Models\Talhao;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -79,7 +80,7 @@ class CooperativaController extends Controller
         ));
     }
 
-    //pega os dados da cooperativa
+    // pega os dados da cooperativa
     public function edit($id)
     {
         // Aqui filtramos para trazer apenas membros onde activo = 1
@@ -348,19 +349,20 @@ class CooperativaController extends Controller
         }
     }
 
-
     public function show($id)
     {
         // $cooperativa = Cooperativa::with('agricultores')->findOrFail($id);
         $cooperativa = Cooperativa::find($id);
+        $totalTalhoes = Talhao::where('cooperativa_id', $cooperativa->id)->count();
 
         // Dados agregados
         // $totalColheitas = Colheita::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
         // $totalInsumos = Insumo::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
         // ... etc
 
-        return view('cooperativas.cooperativa_show4', compact(
+        return view('cooperativas.cooperativa_show', compact(
             'cooperativa',
+            'totalTalhoes',
             // 'agricultores',
             // 'colheitas',
             // 'insumos',
@@ -377,6 +379,119 @@ class CooperativaController extends Controller
             // 'totalContasReceber',
             // 'totalContasPagar'
         ));
+    }
+
+    // Busca os agricultores associados a uma cooperativa específica
+    public function agricultoresAssociados(Cooperativa $cooperativa)
+    {
+        $agricultores = $cooperativa->agricultores()
+            ->select(
+                'agricultores.id',
+                'agricultores.nome_completo',
+                'agricultores.telefone_principal',
+                'agricultores.estado'
+            )
+            ->orderBy('nome_completo')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $agricultores,
+        ]);
+    }
+
+    // Busca os agricultores que não estão associados a uma cooperativa específica
+    public function agricultoresDisponiveis($cooperativa)
+    {
+        // IDs dos agricultores já associados a esta cooperativa
+        $associadosIds = CooperativaMembro::where('cooperativa_id', $cooperativa)
+            ->pluck('agricultor_id');
+
+        // Buscar agricultores que NÃO estão associados
+        $agricultores = Agricultor::whereNotIn('id', $associadosIds)
+            ->orderBy('nome_completo')
+            ->get()
+            ->map(function ($a) {
+                return [
+                    'id' => $a->id,
+                    'nome_completo' => $a->nome_completo,
+                    'telefone' => $a->telefone_principal,
+                    'bi' => $a->bilhete,
+                    'estado' => $a->estado,
+                    'foto_url' => $a->foto_url,
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'data' => $agricultores,
+        ]);
+    }
+
+    // Busca os agricultores SEM cooperativa (não associados a nenhuma cooperativa)
+    public function agricultoresSemCooperativa($cooperativa)
+{
+    // TODOS os agricultores que estão em qualquer cooperativa
+    $idsAssociados = CooperativaMembro::pluck('agricultor_id')
+        ->unique();
+
+    // Apenas os que NÃO estão em nenhuma cooperativa
+    $agricultores = Agricultor::whereNotIn('id', $idsAssociados)
+        ->orderBy('nome_completo')
+        ->get()
+        ->map(function ($a) {
+            return [
+                'id' => $a->id,
+                'nome_completo' => $a->nome_completo,
+                'telefone' => $a->telefone_principal,
+                'bi' => $a->bilhete,
+                'estado' => $a->estado,
+                'foto_url' => $a->foto_url,
+            ];
+        });
+
+    return response()->json([
+        'success' => true,
+        'data' => $agricultores
+    ]);
+}
+
+    // Busca os agricultores associados a uma cooperativa específica que estão activos
+    public function agricultoresActivos(Cooperativa $cooperativa)
+    {
+        $agricultores = $cooperativa->agricultores()
+            ->wherePivot('activo', true)
+            ->select(
+                'agricultores.id',
+                'agricultores.nome_completo',
+                'agricultores.telefone_principal',
+                'agricultores.estado'
+            )
+            ->orderBy('agricultores.nome_completo')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $agricultores,
+        ]);
+    }
+
+    public function estatisticas(Cooperativa $cooperativa)
+    {
+        $totalTalhoes = $cooperativa->talhoes()->count();
+
+        $totalArea = $cooperativa->talhoes()->sum('area');
+
+        $totalAgricultores = $cooperativa->membrosAtivos()->count();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'total_talhoes' => $totalTalhoes,
+                'total_agricultores' => $totalAgricultores,
+                'area_total' => number_format($totalArea, 2),
+            ],
+        ]);
     }
 
     public function exportarPdf(Request $request)
@@ -421,8 +536,4 @@ class CooperativaController extends Controller
         // 3. Fazer o download automático do ficheiro
         return $pdf->download('relatorio-cooperativas.pdf');
     }
-
-    
-    public function  list(){}
-    public function  selectOptions(){}
 }

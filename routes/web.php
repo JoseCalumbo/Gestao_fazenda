@@ -9,6 +9,7 @@ use App\Http\Controllers\CooperativaMembroController;
 use App\Http\Controllers\HistoricoEstoqueController;
 use App\Http\Controllers\InsumosController;
 use App\Http\Controllers\MovimentoInsumoController;
+use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\SafraController;
 use App\Http\Controllers\TalhoesController;
 use App\Http\Controllers\UserController;
@@ -56,13 +57,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/agricultores/{id}', [AgricultoresController::class, 'destroy'])->name('agricultores.destroy');
     Route::get('/agricultores/{id}/historico-json', [AgricultoresController::class, 'getHistoricoJson']);
 
-    // associar o agricltoresa uma coooerativa
+    // associar o agricltores a uma coooerativa
     Route::prefix('cooperativas/{cooperativaId}/membros')->group(function () {
-        Route::get('/json', [CooperativaMembroController::class, 'indexJson']);
         Route::post('/associar', [CooperativaMembroController::class, 'store']);
         Route::post('/{id}/alternar-estado', [CooperativaMembroController::class, 'toggleStatus']);
         Route::delete('/{id}/remover', [CooperativaMembroController::class, 'destroy']);
+        Route::get('/json', [CooperativaMembroController::class, 'membrosJson']);
     });
+
+    // ==================================================================================================================================
 
     // Cooperativas (Web tradicionais e exportação)
     Route::get('/cooperativas/exportar-pdf', [CooperativaController::class, 'exportarPdf'])->name('cooperativas.pdf');
@@ -73,16 +76,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cooperativas/{id}', [CooperativaController::class, 'destroy'])->name('cooperativas.destroy');
 
     // Cooperativas (Rotas AJAX / Alternativas - Nomes alterados para evitar conflito)
+    Route::get('api/cooperativas/{cooperativa}/agricultores/associados', [CooperativaController::class, 'agricultoresAssociados']); // seleciona os agricultores associados a uma cooperativa
+    Route::get('api/cooperativas/{cooperativa}/agricultores/associados/activo', [CooperativaController::class, 'agricultoresActivos']); // seleciona os agricultores associados a uma cooperativa que estão activos
+    Route::get('/cooperativas/{cooperativa}/agricultores/disponiveis', [CooperativaController::class, 'agricultoresDisponiveis']); // via ajax seleciona os agricultores que não estão associados a uma cooperativa
+    Route::get('/cooperativas/{cooperativa}/agricultores/sem-cooperativa', [CooperativaController::class, 'agricultoresSemCooperativa']);
+
     Route::post('/cooperativas/store', [CooperativaController::class, 'store'])->name('cooperativas.ajax.store');
     Route::get('/cooperativas/{id}/edit', [CooperativaController::class, 'edit'])->name('cooperativas.ajax.edit');
     Route::put('/cooperativas/{id}/update', [CooperativaController::class, 'update'])->name('cooperativas.ajax.update');
     Route::delete('/cooperativas/{id}/destroy', [CooperativaController::class, 'destroy'])->name('cooperativas.ajax.destroy');
 
-    // Cooperativas (Listagens adicionais agora protegidas por login)
-    Route::prefix('cooperativas')->name('cooperativas.')->group(function () {
-        Route::get('/list', [CooperativaController::class, 'list'])->name('list');
-        Route::get('/select-options', [CooperativaController::class, 'selectOptions'])->name('select-options');
-    });
+    // ==================================================================================================================================
 
     // Insumos estoque entrada
     Route::get('/cooperativas/{id}/estoque', [InsumosController::class, 'estoqueCooperativa'])->name('cooperativas.insumos.index');
@@ -117,12 +121,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/cooperativa/{cooperativa}/agricultor/{agricultor}/historico', [InsumosController::class, 'historicoPorAgricultor']);
 
     // Talhões
-    Route::get('/talhoes', [TalhoesController::class, 'index'])->name('talhoes.index'); //painel geral
-    Route::get('api/cooperativas/{cooperativa}/talhoes',[TalhoesController::class, 'apiIndex']);//pega os dados json
-    Route::post('/talhoes', [TalhoesController::class, 'store'])->name('talhoes.store');
-    Route::get('/talhoes/{id}', [TalhoesController::class, 'show'])->name('talhoes.show');
-    Route::put('/talhoes/{id}', [TalhoesController::class, 'update'])->name('talhoes.update');
-    Route::delete('/talhoes/{id}', [TalhoesController::class, 'destroy'])->name('talhoes.destroy');
+    Route::get('/talhoes', [TalhoesController::class, 'index'])->name('talhoes.index'); // painel geral
+    Route::get('api/cooperativas/{cooperativa}/list/talhoes', [TalhoesController::class, 'apiIndex']); // pega os dados json
+    Route::prefix('cooperativas/{cooperativa}')->group(function () {
+        // CRIAR
+        Route::post('/talhoes/store', [TalhoesController::class, 'store']);
+        // BUSCAR UM
+        Route::get('/talhoes/show/{id}', [TalhoesController::class, 'show']);
+        // EDITAR
+        Route::put('/talhoes/{id}/update', [TalhoesController::class, 'update']);
+        // APAGAR (opcional)
+        Route::delete('/talhoes/{id}/delete', [TalhoesController::class, 'destroy']);
+    });
 
     // safras
     Route::prefix('cooperativas/{cooperativa}')
@@ -158,4 +168,16 @@ Route::middleware('auth')->group(function () {
             Route::delete('/vendas/{venda}', [VendaController::class, 'destroy'])
                 ->name('vendas.destroy');
         });
+
+    // produtos
+    Route::prefix('cooperativas/{cooperativaId}/produtos')->group(function () {
+        // GET: Listar produtos da cooperativa via AJAX/JSON
+        Route::get('json/', [ProdutoController::class, 'indexJson']);
+
+        // POST: Salvar um novo produto na base de dados
+        Route::post('/salvar', [ProdutoController::class, 'store']);
+        Route::put('/{id}/editar', [ProdutoController::class, 'update']);
+        Route::delete('/{id}/eliminar', [ProdutoController::class, 'destroy']);
     });
+
+});
