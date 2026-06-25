@@ -13,7 +13,7 @@ return new class extends Migration
             
             // Chaves Estrangeiras (Relacionamentos)
             // O constrained() assume que as tabelas se chamam cooperativas, agricultores e talhoes
-            $table->foreignId('cooperativa_id')->constrained('cooperativas ')->onDelete('cascade');
+            $table->foreignId('cooperativa_id')->constrained('cooperativas')->onDelete('cascade');
             $table->foreignId('agricultor_id')->constrained('agricultores')->onDelete('cascade');
             $table->foreignId('talhao_id')->constrained('talhoes')->onDelete('cascade');
             

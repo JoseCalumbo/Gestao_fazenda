@@ -19,3 +19,12 @@ t.agricultor?.nome_completo
 </select>
 
 hp artisan cache:clearr php artisan cache:clearλ php artisan view:clearrphp artisan route:clear php artisan config:clear p
+
+
+// Adicione na migration da tabela vendas
+Schema::table('vendas', function (Blueprint $table) {
+    $table->string('status')->default('pendente');
+    $table->decimal('valor_entregue', 15, 2)->default(0);
+    $table->decimal('troco', 15, 2)->default(0);
+});
+

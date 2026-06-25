@@ -1083,7 +1083,7 @@
 
       <div class="nav-section-title">Comercial</div>
 
-      <a href="#" class="nav-item-link" data-label="Vendas">
+      <a href="{{route('vendas.index')}}"  class="nav-item-link" data-label="Vendas">
         <i class="bi bi-cart-fill"></i>
         <span class="nav-label">Vendas</span>
       </a>

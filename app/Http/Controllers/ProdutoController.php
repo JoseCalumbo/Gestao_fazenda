@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produto;
-use Illuminate\Http\Request;
 use App\Models\Cooperativa;
+use App\Models\Produto;
 use App\Models\Talhao;
-
+use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {
@@ -15,17 +14,10 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        //
+        $produtos = Produto::all(); // busca todos os produtos
+
+        return view('produtos.index', compact('produtos'));
     }
-
-
-
-
-  
-
-
-
- 
 
     // GET: /cooperativa/{cooperativaId}/produtos
     public function indexJson(Request $request, $cooperativaId)
@@ -54,26 +46,62 @@ class ProdutoController extends Controller
         // Formatação dos dados para o front-end
         $dadosFormatados = collect($produtosPaginados->items())->map(function ($produto) {
             return [
-                'id'          => $produto->id,
-                'nome'        => $produto->nome,
-                'categoria'   => $produto->categoria ?? '--',
-                'quantidade'  => $produto->quantidade,
-                'unidade'     => $produto->unidade,
+                'id' => $produto->id,
+                'nome' => $produto->nome,
+                'categoria' => $produto->categoria ?? '--',
+                'quantidade' => $produto->quantidade,
+                'unidade' => $produto->unidade,
                 'preco_venda' => $produto->preco_venda,
-                'estado'      => $produto->estado,
-                'agricultor'  => $produto->agricultor ? $produto->agricultor->nome_completo : 'N/A',
-                'talhao'      => $produto->talhao ? $produto->talhao->designacao : 'N/A',
+                'estado' => $produto->estado,
+                //  'agricultor' => $produto->agricultor ? $produto->agricultor->nome_completo : 'N/A',
+                'agricultor' => $produto->agricultor ? [
+                    'id' => $produto->agricultor->id,
+                    'nome_completo' => $produto->agricultor->nome_completo,
+                ] : null,
+                'talhao' => $produto->talhao ? $produto->talhao->designacao : 'N/A',
             ];
         });
 
         return response()->json([
-            'success'      => true,
-            'data'         => $dadosFormatados,
+            'success' => true,
+            'data' => $dadosFormatados,
             'current_page' => $produtosPaginados->currentPage(),
-            'last_page'    => $produtosPaginados->lastPage(),
-            'total'        => $produtosPaginados->total(),
-            'from'         => $produtosPaginados->firstItem(),
-            'to'           => $produtosPaginados->lastItem(),
+            'last_page' => $produtosPaginados->lastPage(),
+            'total' => $produtosPaginados->total(),
+            'from' => $produtosPaginados->firstItem(),
+            'to' => $produtosPaginados->lastItem(),
+        ]);
+    }
+
+    // Busca o produto específico de uma cooperativa
+    public function show($cooperativaId, $produtoId)
+    {
+        $produto = Produto::with([
+            'agricultor:id,nome_completo',
+            'talhao:id,designacao',
+        ])
+            ->where('cooperativa_id', $cooperativaId)
+            ->findOrFail($produtoId);
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $produto->id,
+                'nome' => $produto->nome,
+                'categoria' => $produto->categoria,
+                'quantidade' => $produto->quantidade,
+                'quantidade_minima' => $produto->quantidade_minima,
+                'unidade' => $produto->unidade,
+                'preco_venda' => $produto->preco_venda,
+                'estado' => $produto->estado,
+                'descricao' => $produto->descricao,
+
+                'agricultor_id' => $produto->agricultor_id,
+                'agricultor_nome' => $produto->agricultor?->nome_completo,
+
+                'talhao_id' => $produto->talhao_id,
+                'talhao_nome' => $produto->talhao?->designacao,
+            ],
         ]);
     }
 
@@ -83,13 +111,16 @@ class ProdutoController extends Controller
         // Validação rigorosa dos campos vindos do formulário
         $request->validate([
             'agricultor_id' => 'required|exists:agricultores,id',
-            'talhao_id'      => 'required|exists:talhoes,id',
-            'nome'           => 'required|string|max:255',
-            'categoria'      => 'nullable|string|max:100',
-            'quantidade'     => 'required|numeric|min:0',
-            'unidade'        => 'required|string|max:20', // ex: kg, litros
-            'preco_venda'    => 'nullable|numeric|min:0',
-            'estado'         => 'required|in:disponivel,esgotado',
+            'talhao_id' => 'required|exists:talhoes,id',
+            'nome' => 'required|string|max:255',
+            'categoria' => 'nullable|string|max:100',
+            'quantidade' => 'required|numeric|min:0',
+            'quantidade_minima' => 'nullable|numeric|min:0',
+            'unidade' => 'required|string|max:20', // ex: kg, litros
+            'preco_venda' => 'nullable|numeric|min:0',
+            'estado' => 'required|in:disponivel,esgotado,reservado,inactivo',
+            'descricao' => 'nullable|string',
+
         ]);
 
         // Verificação extra de segurança: Garantir que o talhão pertence mesmo a este agricultor
@@ -97,33 +128,34 @@ class ProdutoController extends Controller
             ->where('agricultor_id', $request->agricultor_id)
             ->exists();
 
-        if (!$talhaoValido) {
+        if (! $talhaoValido) {
             return response()->json([
-                'success' => false, 
-                'message' => 'O talhão selecionado não pertence ao agricultor escolhido.'
+                'success' => false,
+                'message' => 'O talhão selecionado não pertence ao agricultor escolhido.',
             ], 422);
         }
 
         // Criar o produto associado à cooperativa do escopo
         $produto = Produto::create([
             'cooperativa_id' => $cooperativaId,
-            'agricultor_id'  => $request->agricultor_id,
-            'talhao_id'      => $request->talhao_id,
-            'nome'           => $request->nome,
-            'categoria'      => $request->categoria,
-            'quantidade'     => $request->quantidade,
-            'unidade'        => $request->unidade,
-            'preco_venda'    => $request->preco_venda,
-            'estado'         => $request->estado,
+            'agricultor_id' => $request->agricultor_id,
+            'talhao_id' => $request->talhao_id,
+            'nome' => $request->nome,
+            'categoria' => $request->categoria,
+            'quantidade' => $request->quantidade,
+            'quantidade_minima' => $request->quantidade_minima,
+            'unidade' => $request->unidade,
+            'preco_venda' => $request->preco_venda,
+            'estado' => $request->estado,
+            'descricao' => $request->descricao,
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Produto registado e guardado com sucesso!',
-            'produto' => $produto
+            'produto' => $produto,
         ], 201);
     }
-
 
     public function update(Request $request, $cooperativaId, $id)
     {
@@ -133,13 +165,15 @@ class ProdutoController extends Controller
         // Validação idêntica à criação
         $request->validate([
             'agricultor_id' => 'required|exists:agricultores,id',
-            'talhao_id'      => 'required|exists:talhoes,id',
-            'nome'           => 'required|string|max:255',
-            'categoria'      => 'nullable|string|max:100',
-            'quantidade'     => 'required|numeric|min:0',
-            'unidade'        => 'required|string|max:20',
-            'preco_venda'    => 'nullable|numeric|min:0',
-            'estado'         => 'required|in:disponivel,esgotado',
+            'talhao_id' => 'required|exists:talhoes,id',
+            'nome' => 'required|string|max:255',
+            'categoria' => 'nullable|string|max:100',
+            'quantidade' => 'required|numeric|min:0',
+            'quantidade_minima' => 'nullable|numeric|min:0',
+            'unidade' => 'required|string|max:20', // ex: kg, litros
+            'preco_venda' => 'nullable|numeric|min:0',
+            'estado' => 'required|in:disponivel,esgotado,reservado,inactivo',
+            'descricao' => 'nullable|string',
         ]);
 
         // Validação de segurança: garantir que o talhão pertence ao agricultor
@@ -147,29 +181,31 @@ class ProdutoController extends Controller
             ->where('agricultor_id', $request->agricultor_id)
             ->exists();
 
-        if (!$talhaoValido) {
+        if (! $talhaoValido) {
             return response()->json([
-                'success' => false, 
-                'message' => 'O talhão selecionado não pertence ao agricultor escolhido.'
+                'success' => false,
+                'message' => 'O talhão selecionado não pertence ao agricultor escolhido.',
             ], 422);
         }
 
         // Atualizar os dados
         $produto->update([
             'agricultor_id' => $request->agricultor_id,
-            'talhao_id'      => $request->talhao_id,
-            'nome'           => $request->nome,
-            'categoria'      => $request->categoria,
-            'quantidade'     => $request->quantidade,
-            'unidade'        => $request->unidade,
-            'preco_venda'    => $request->preco_venda,
-            'estado'         => $request->estado,
+            'talhao_id' => $request->talhao_id,
+            'nome' => $request->nome,
+            'categoria' => $request->categoria,
+            'quantidade' => $request->quantidade,
+            'quantidade_minima' => $request->quantidade_minima,
+            'unidade' => $request->unidade,
+            'preco_venda' => $request->preco_venda,
+            'estado' => $request->estado,
+            'descricao' => $request->descricao,
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Produto atualizado com sucesso!',
-            'produto' => $produto
+            'produto' => $produto,
         ]);
     }
 
@@ -182,8 +218,7 @@ class ProdutoController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Produto removido com sucesso de forma permanente!'
+            'message' => 'Produto removido com sucesso de forma permanente!',
         ]);
     }
-
 }

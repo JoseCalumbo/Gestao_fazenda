@@ -979,10 +979,11 @@
       color: #C62828;
     }
 
+    .badge-status.reservado,
     .badge-status.pendente,
     .badge-status.baixo,
     .badge-status.pousio {
-      color: #F57F17;
+      color: #c26a1d;
     }
 
     .badge-status .dot {
@@ -1772,6 +1773,58 @@
         color: #000 !important;
       }
     }
+
+
+    /* Garantir que os painéis das tabs funcionem corretamente */
+    .modal-tab-panel {
+      display: none !important;
+    }
+
+    .modal-tab-panel.active {
+      display: block !important;
+    }
+
+    /* Estilo para os botões das tabs */
+    .modal-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-mid);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      transition: color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+
+    .modal-tab-btn .bi {
+      color: var(--text-light);
+      transition: color .15s;
+      font-size: 15px;
+    }
+
+    .modal-tab-btn:hover {
+      color: var(--primary);
+    }
+
+    .modal-tab-btn:hover .bi {
+      color: var(--primary);
+    }
+
+    .modal-tab-btn.active {
+      color: var(--primary);
+      font-weight: 600;
+      border-bottom-color: var(--primary);
+    }
+
+    .modal-tab-btn.active .bi {
+      color: var(--primary);
+    }
   </style>
 </head>
 
@@ -2223,6 +2276,7 @@
                 <table class="mini-table" id="tabelaAgricultores">
                   <thead>
                     <tr>
+                      <th>Nº</th>
                       <th>Agricultor</th>
                       <th>BI / Contacto</th>
                       <th>Cargo</th>
@@ -2379,7 +2433,7 @@
           </div>
 
           <!-- ════════════════════════
-             TAB 5 — PRODUTOS
+             TAB 5 — PRODUTOS TAB5
         ════════════════════════ -->
           <div class="settings-panel" id="tab-produtos">
             <div class="cfg-card anim">
@@ -2405,6 +2459,8 @@
                 <select class="filter-select" id="filtroProdutoEstado">
                   <option value="">Todos os estados</option>
                   <option value="disponivel">Disponível</option>
+                  <option value="reservado">Reservado</option>
+                  <option value="inactivo">Inativo</option>
                   <option value="esgotado">Esgotado</option>
                 </select>
                 <button class="btn-green btn-filter" id="btnFiltrarProdutos" style="padding:8px 18px;"><i
@@ -2418,6 +2474,7 @@
                   <thead>
                     <tr>
                       <th>Nome</th>
+                      <th>Agricultor</th>
                       <th>Categoria</th>
                       <th>Quantidade</th>
                       <th>Unidade</th>
@@ -2590,7 +2647,8 @@
             <div class="modal-header-icon"><i class="bi bi-person-plus-fill"></i></div>
             <div>
               <div class="modal-title" id="ModalAgricultorTitulo">Associar Agricultor</div>
-              <div id="ModalAgricultorSubTitulo" style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">Vincular agricultor à cooperativa
+              <div id="ModalAgricultorSubTitulo" style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;">
+                Vincular agricultor à cooperativa
               </div>
             </div>
           </div>
@@ -2795,89 +2853,213 @@
     </div>
   </div>
 
-  <!-- ─── MODAL PRODUTOS: Registrar/Editar Produto ─── -->
   <div class="modal fade modal-coop" id="modalNovoProduto" tabindex="-1" data-bs-backdrop="static"
     data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:780px;">
+      <div class="modal-content"
+        style="height:620px;display:flex;flex-direction:column;border:none;border-radius:18px;box-shadow:0 24px 64px rgba(0,0,0,.15);overflow:hidden;">
+
+        <!-- Modal Header -->
+        <div class="modal-header"
+          style="padding:11px 20px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--sidebar-bg) 0%,var(--primary) 100%);flex-shrink:0;">
           <div style="display:flex;align-items:center;gap:14px;flex:1;">
-            <div class="modal-header-icon"><i class="bi bi-basket-fill"></i></div>
+            <div class="modal-header-icon"
+              style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;">
+              <i class="bi bi-basket-fill"></i>
+            </div>
             <div>
-              <div class="modal-title" id="modalProdutoTitle">Registrar Produto</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="modalProdutoSub">Adicionar
-                novo produto ao estoque</div>
+              <div class="modal-title" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#fff;"
+                id="modalProdutoTitle">Registrar Produto</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="modalProdutoSub">
+                Adicionar novo produto ao estoque</div>
             </div>
           </div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"
+            style="filter:brightness(0) invert(1);opacity:.8;"></button>
         </div>
-        <div class="modal-body">
-          <form id="formNovoProduto">
+
+        <!-- Modal Tabs -->
+        <div class="modal-tabs"
+          style="display:flex;gap:0;border-bottom:2px solid var(--border);background:var(--page-bg);padding:0 24px;flex-shrink:0;">
+
+          <button class="modal-tab-btn active" data-modal-tab="dadosProdutos"
+            style="display:flex;align-items:center;gap:8px;padding:14px 18px;font-size:13px;font-weight:500;color:var(--text-mid);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;">
+            <i class="bi bi-basket-fill" style="font-size:15px;"></i> Dados do Produto
+          </button>
+
+          <button class="modal-tab-btn" data-modal-tab="estoqueProduto"
+            style="display:flex;align-items:center;gap:8px;padding:14px 18px;font-size:13px;font-weight:500;color:var(--text-mid);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;">
+            <i class="bi bi-box-seam-fill" style="font-size:15px;"></i> Estoque & Preços
+          </button>
+
+          <button class="modal-tab-btn" data-modal-tab="agricultorProdutor"
+            style="display:flex;align-items:center;gap:8px;padding:14px 18px;font-size:13px;font-weight:500;color:var(--text-mid);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;">
+            <i class="bi bi-person-fill" style="font-size:15px;"></i> Agricultor
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body"
+          style="flex:1;overflow-y:auto;overflow-x:hidden;padding:0;background:var(--page-bg);scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent;">
+
+          <form id="formNovoProduto" novalidate>
             @csrf
-            <input type="hidden" id="produtoId">
-            <div class="modal-form-card">
-              <div class="modal-section-title"><i class="bi bi-basket-fill"></i> Dados do Produto</div>
-              <div class="row g-3">
-                <div class="col-12">
-                  <label class="cfg-label">Nome do Produto *</label>
-                  <input type="text" class="cfg-input" id="produtoNome" required
-                    placeholder="Ex: Milho Grão, Feijão Manteiga">
+            <input type="hidden" id="produtoId" name="id" value="">
+
+            <!-- ═══ TAB 1: DADOS DO PRODUTO ═══ -->
+            <div class="modal-tab-panel active" id="mtab-dadosProdutos" style="display:block;padding:22px;">
+              <div class="modal-form-card"
+                style="background:var(--card-bg);border-radius:14px;border:1px solid var(--border);padding:20px 22px;margin-bottom:16px;">
+                <div class="modal-section-title"
+                  style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+                  <i class="bi bi-basket-fill" style="font-size:13px;color:var(--primary);"></i> Dados do
+                  Produto
                 </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Categoria *</label>
-                  <select class="cfg-select" id="produtoCategoria" required>
-                    <option value="">Selecione</option>
-                    <option value="Grãos">Grãos</option>
-                    <option value="Legumes">Legumes</option>
-                    <option value="Frutas">Frutas</option>
-                    <option value="Outros">Outros</option>
-                  </select>
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Unidade de Medida *</label>
-                  <input type="text" class="cfg-input" id="produtoUnidade" required placeholder="Ex: kg, saco, L">
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Quantidade *</label>
-                  <input type="number" class="cfg-input" id="produtoQuantidade" required placeholder="0" step="1">
-                </div>
-                <div class="col-12 col-md-6">
-                  <label class="cfg-label">Preço Unitário (Kz) *</label>
-                  <input type="number" class="cfg-input" id="produtoPreco" required placeholder="0" step="0.01">
-                </div>
-                <div class="col-12">
-                  <label class="cfg-label">Estado *</label>
-                  <select class="cfg-select" id="produtoEstado" required>
-                    <option value="disponivel">Disponível</option>
-                    <option value="esgotado">Esgotado</option>
-                  </select>
-                </div>
-                <div class="col-12">
-                  <label class="cfg-label">Descrição</label>
-                  <textarea class="cfg-textarea" id="produtoDescricao" rows="2"
-                    placeholder="Descrição opcional do produto"></textarea>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="cfg-label" for="produtoNome">Nome do Produto *</label>
+                    <input type="text" class="cfg-input" id="produtoNome" name="nome" required
+                      placeholder="Ex: Milho Grão, Feijão Manteiga">
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="produtoPreco">Preço Unitário (Kz) *</label>
+                    <input type="number" class="cfg-input" id="produtoPreco" name="preco_venda" required placeholder="0"
+                      step="0.01" min="0">
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="produtoCategoria">Categoria *</label>
+                    <select class="cfg-select" id="produtoCategoria" name="categoria" required>
+                      <option value="">Selecione</option>
+                      <option value="Grãos">Grãos</option>
+                      <option value="Legumes">Legumes</option>
+                      <option value="Frutas">Frutas</option>
+                      <option value="Hortícolas">Hortícolas</option>
+                      <option value="Raízes">Raízes</option>
+                      <option value="Outros">Outros</option>
+                    </select>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="cfg-label" for="produtoDescricao">Descrição</label>
+                    <textarea class="cfg-textarea" id="produtoDescricao" name="descricao" rows="2"
+                      placeholder="Descrição opcional do produto"></textarea>
+                  </div>
+
+
+
                 </div>
               </div>
             </div>
+
+            <!-- ═══ TAB 2: ESTOQUE & PREÇOS ═══ -->
+            <div class="modal-tab-panel" id="mtab-estoqueProduto" style="display:none;padding:22px;">
+              <div class="modal-form-card"
+                style="background:var(--card-bg);border-radius:14px;border:1px solid var(--border);padding:20px 22px;margin-bottom:16px;">
+                <div class="modal-section-title"
+                  style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+                  <i class="bi bi-box-seam-fill" style="font-size:13px;color:var(--primary);"></i>
+                  Controle de Estoque
+                </div>
+
+                <div class="row g-3">
+
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="produtoQuantidade">Quantidade Atual *</label>
+                    <input type="number" class="cfg-input" id="produtoQuantidade" name="quantidade" required
+                      placeholder="0" step="1" min="0">
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="produtoQuantidadeMinima">Quantidade Mínima</label>
+                    <input type="number" class="cfg-input" id="produtoQuantidadeMinima" name="quantidade_minima"
+                      placeholder="0" step="1" min="0">
+                    <div class="cfg-helper" style="font-size:11.5px;color:var(--text-light);margin-top:4px;">Abaixo
+                      deste
+                      valor, o sistema alertará</div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="produtoUnidade">Unidade de Medida *</label>
+                    <input type="text" class="cfg-input" id="produtoUnidade" name="unidade" required
+                      placeholder="Ex: kg, saco, L, un">
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="produtoEstado">Estado *</label>
+                    <select class="cfg-select" id="produtoEstado" name="estado" required>
+                      <option value="disponivel">Disponível</option>
+                      <option disabled value="esgotado">Esgotado</option>
+                      <option value="reservado">Reservado</option>
+                      <option value="inactivo">Inativo</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ═══ TAB 3: AGRICULTOR ═══ -->
+            <div class="modal-tab-panel" id="mtab-agricultorProdutor" style="display:none;padding:22px;">
+
+              <div class="modal-form-card"
+                style="background:var(--card-bg);border-radius:14px;border:1px solid var(--border);padding:20px 22px;margin-bottom:16px;">
+                <div class="modal-section-title"
+                  style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+                  <i class="bi bi-person-fill" style="font-size:13px;color:var(--primary);"></i> Dados do
+                  Agricultor
+                </div>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="cfg-label" for="modalProdutoAgricultor">Agricultor *</label>
+                    <select class="cfg-select" id="modalProdutoAgricultor" name="agricultor_id" required>
+                      <option value="">Selecione um agricultor...</option>
+                    </select>
+                    <div class="cfg-helper" style="font-size:11.5px;color:var(--text-light);margin-top:4px;">Selecione o
+                      agricultor responsável pelo produto</div>
+                  </div>
+                  <div class="col-12">
+                    <label class="cfg-label" for="modalProdutoTalhao">Talhão</label>
+                    <select class="cfg-select" id="modalProdutoTalhao" name="talhao_id" disabled>
+                      <option value="">Selecione primeiro um agricultor...</option>
+                    </select>
+                    <div class="cfg-helper" style="font-size:11.5px;color:var(--text-light);margin-top:4px;">Os talhões
+                      são
+                      carregados automaticamente com base no agricultor selecionado</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
           </form>
         </div>
-        <div class="modal-footer">
+
+        <!-- Modal Footer -->
+        <div class="modal-footer"
+          style="padding:14px 20px;border-top:1px solid var(--border);background:#fff;flex-shrink:0;">
           <div
             style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
             <div style="font-size:12px;color:var(--text-light);">
               <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
             </div>
             <div style="display:flex;gap:10px;">
-              <button type="button" class="btn-outline-green" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i>
-                Cancelar</button>
-              <button type="button" class="btn-green" id="btnSalvarProduto"><i class="bi bi-check2-circle"></i> <span
-                  id="btnProdutoLabel">Salvar</span></button>
+              <button type="button" class="btn-outline-green" data-bs-dismiss="modal"
+                style="background:transparent;color:var(--primary);border:1.5px solid var(--primary);border-radius:10px;padding:8px 16px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:background .2s,color .2s;">
+                <i class="bi bi-x-lg"></i> Cancelar
+              </button>
+              <button type="button" class="btn-green" id="btnSalvarProduto"
+                style="background:var(--primary);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:background .2s,transform .1s;">
+                <i class="bi bi-check2-circle"></i> <span id="btnProdutoLabel">Salvar</span>
+              </button>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
+
 
   <!-- ─── MODAL PRODUTOS: Confirmar Exclusão ─── -->
   <div class="modal fade" id="modalDeleteProduto" tabindex="-1" aria-hidden="true">
@@ -3329,18 +3511,11 @@
       const cores = ['#1B5E20', '#1565C0', '#F57F17', '#6A1B9A', '#C62828', '#00695C'];
       tbody.innerHTML = agricultores.map((a, i) => `
         <tr>
+          <td><span>${a.agricultor_id}</span></td>
           <td>
             <div style="display:flex;align-items:center;gap:10px;">
-                 <img
-            src="${a.foto_url}"
-            alt="${a.nome}"
-            style="
-                width:40px;
-                height:40px;
-                border-radius:50%;
-                object-fit:cover;
-            "
-               >
+              <img src="${a.foto_url}"  alt="${a.nome}"
+              style="  width:40px;  height:40px;  border-radius:50%;  object-fit:cover; ">
                
               <div>
                 <div style="font-weight:600;">${a.nome || 'N/A'}</div>
@@ -3348,6 +3523,7 @@
               </div>
             </div>
           </td>
+
           <td>
             <div style="font-size:13px;">${a.bi || '--'}</div>
             <div style="font-size:11.5px;color:var(--text-light);">${a.contacto || '--'}</div>
@@ -3425,7 +3601,7 @@
       modalAssociar.show();
     });
 
-    
+
     document.getElementById('btnSalvarAgricultor').addEventListener('click', () => {
       const data = {
         agricultor_id: document.getElementById('selectAgricultor').value,
@@ -3595,7 +3771,7 @@
     //     }); <<
     // }
 
-    /* Modal Talhão - Registrar/Editar */
+    /* Modal Talhão - Registrar/Editar  abb */
     const modalTalhao = new bootstrap.Modal(document.getElementById('modalNovoTalhao'));
     document.getElementById('btnNovoTalhao').addEventListener('click', () => {
       document.getElementById('talhaoId').value = '';
@@ -3641,6 +3817,7 @@
                 ).join('');
               modalTalhao.show();
             });
+
         })
         .catch(err => {
           showToast('Erro', 'Falha ao carregar dados do talhão.', 'danger');
@@ -3810,6 +3987,55 @@
     });
 
 
+    /* ══════════════════════════════════════
+   MODAL TABS - CORRIGIDO
+══════════════════════════════════════ */
+    function switchModalTab(tabName) {
+      // Remove active de todos os botões
+      document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Adiciona active ao botão clicado
+      document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+        if (btn.dataset.modalTab === tabName) {
+          btn.classList.add('active');
+        }
+      });
+
+      // Esconde todos os painéis
+      document.querySelectorAll('.modal-tab-panel').forEach(panel => {
+        panel.classList.remove('active');
+        panel.style.display = 'none';
+      });
+
+      // Mostra o painel correspondente
+      const targetPanel = document.getElementById('mtab-' + tabName);
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+        targetPanel.style.display = 'block';
+      }
+    }
+
+    // Event listeners para as tabs
+    document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const tab = this.dataset.modalTab;
+        if (tab) {
+          switchModalTab(tab);
+        }
+      });
+    });
+
+    // Reset para a primeira tab quando o modal abre
+    const modalCoop = document.getElementById('modalCooperativa');
+    if (modalCoop) {
+      modalCoop.addEventListener('show.bs.modal', function () {
+        // Força a primeira tab a ficar ativa
+        switchModalTab('identificacao');
+      });
+    }
 
 
 
@@ -3853,10 +4079,11 @@
       tbody.innerHTML = produtos.map(p => `
         <tr>
           <td><i class="bi bi-basket-fill me-1" style="color:var(--primary);"></i>${p.nome || 'N/A'}</td>
+          <td>${p.agricultor.nome_completo || 'N/A'}</td>
           <td>${p.categoria || '--'}</td>
           <td><strong>${p.quantidade || 0}</strong></td>
           <td>${p.unidade || '--'}</td>
-          <td>${(p.preco_unitario || 0).toLocaleString('pt-AO')} Kz</td>
+          <td>${(p.preco_venda || 0).toLocaleString('pt-AO')} Kz</td>
           <td><span class="badge-status ${(p.estado || 'disponivel').toLowerCase()}"><span class="dot"></span>${p.estado || 'Disponível'}</span></td>
           <td style="text-align:center;">
             <div style="display:flex;gap:6px;justify-content:center;">
@@ -3901,50 +4128,202 @@
       carregarProdutos(1);
     });
 
-    /* Modal Produto - Registrar/Editar */
+    /* Modal Produto - Registrar/Editar  abb */
     const modalProduto = new bootstrap.Modal(document.getElementById('modalNovoProduto'));
 
     document.getElementById('btnNovoProduto').addEventListener('click', () => {
       document.getElementById('produtoId').value = '';
       document.getElementById('modalProdutoTitle').textContent = 'Registrar Produto';
       document.getElementById('modalProdutoSub').textContent = 'Adicionar novo produto ao estoque';
-      document.getElementById('btnProdutoLabel').textContent = 'Salvar';
+      document.getElementById('btnProdutoLabel').textContent = 'Registrar';
+
+      fetch(`/api/cooperativas/${cooperativaId}/agricultores/associados/activo`)
+        .then(res => res.json())
+        .then(data => {
+
+          const selectAgricultor = document.getElementById('modalProdutoAgricultor');
+
+          selectAgricultor.innerHTML = '<option value="">Selecione um agricultor...</option>';
+
+          data.data.forEach(agricultor => {
+            selectAgricultor.innerHTML += `
+                    <option value="${agricultor.id}">
+                        ${agricultor.nome_completo}
+                    </option>
+                `;
+          });
+
+        });
+
       document.getElementById('formNovoProduto').reset();
       modalProduto.show();
     });
 
-    function abrirModalEditarProduto(id) {
-      fetch(`/api/cooperativa/${cooperativaId}/produtos/${id}`)
+    // Carreaga o select do talhão de acordo ao agricultor selecionado
+    document.getElementById('modalProdutoAgricultor').addEventListener('change', function () {
+
+      const agricultorId = this.value;
+      const selectTalhao = document.getElementById('modalProdutoTalhao');
+
+      if (!agricultorId) {
+
+        selectTalhao.disabled = true;
+        selectTalhao.innerHTML = '<option value="">Selecione primeiro um agricultor...</option>';
+        return;
+      }
+
+      selectTalhao.disabled = false;
+
+      selectTalhao.innerHTML = '<option value="">Carregando...</option>';
+
+      fetch(`/api/agricultores/${agricultorId}/talhoes`)
         .then(res => res.json())
         .then(data => {
+          selectTalhao.innerHTML = '<option value="">Selecione um talhão...</option>';
+
+          data.data.forEach(talhao => {
+            selectTalhao.innerHTML += `
+                        <option value="${talhao.id}">
+                            ${talhao.designacao}
+                            (${talhao.area} ha)
+                        </option>
+                    `;
+          });
+
+          if (data.data.length === 0) {
+
+            selectTalhao.innerHTML = '<option value="">Este agricultor não possui talhões</option>';
+            selectTalhao.disabled = true;
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          selectTalhao.innerHTML = '<option value="">Erro ao carregar talhões</option>';
+        });
+    });
+
+
+    // abb editar produtos
+    // function abrirModalEditarProduto(id) {
+    //   fetch(`/cooperativas/${cooperativaId}/produtos/${id}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //       const p = data.data;
+
+    //       document.getElementById('produtoId').value = p.id;
+    //       document.getElementById('modalProdutoTitle').textContent = 'Editar Produto';
+    //       document.getElementById('modalProdutoSub').textContent = 'Atualizar dados do produto';
+    //       document.getElementById('btnProdutoLabel').textContent = 'Salvar';
+
+    //       document.getElementById('produtoNome').value = p.nome || '';
+    //       document.getElementById('produtoCategoria').value = p.categoria || 'Grãos';
+    //       document.getElementById('produtoUnidade').value = p.unidade || '';
+    //       document.getElementById('produtoQuantidade').value = p.quantidade || 0;
+    //       document.getElementById('produtoQuantidadeMinima').value =p. quantidade_minima || 0;
+    //       document.getElementById('produtoPreco').value = p.preco_venda || 0;
+    //       document.getElementById('produtoEstado').value = p.estado || 'disponivel';
+    //       document.getElementById('produtoDescricao').value = p.descricao || '';
+
+    //       modalProduto.show();
+    //     })
+    //     .catch(err => {
+    //       showToast('Erro', 'Falha ao carregar dados do produto.', 'danger');
+    //       console.error(err);
+    //     });
+    // }
+
+
+    function abrirModalEditarProduto(id) {
+
+      fetch(`/cooperativas/${cooperativaId}/produtos/${id}`)
+        .then(res => res.json())
+        .then(data => {
+
           const p = data.data;
+
           document.getElementById('produtoId').value = p.id;
           document.getElementById('modalProdutoTitle').textContent = 'Editar Produto';
           document.getElementById('modalProdutoSub').textContent = 'Atualizar dados do produto';
           document.getElementById('btnProdutoLabel').textContent = 'Salvar';
+
           document.getElementById('produtoNome').value = p.nome || '';
           document.getElementById('produtoCategoria').value = p.categoria || 'Grãos';
           document.getElementById('produtoUnidade').value = p.unidade || '';
           document.getElementById('produtoQuantidade').value = p.quantidade || 0;
-          document.getElementById('produtoPreco').value = p.preco_unitario || 0;
+          document.getElementById('produtoQuantidadeMinima').value = p.quantidade_minima || 0;
+          document.getElementById('produtoPreco').value = p.preco_venda || 0;
           document.getElementById('produtoEstado').value = p.estado || 'disponivel';
           document.getElementById('produtoDescricao').value = p.descricao || '';
-          modalProduto.show();
+
+          // ==========================
+          // CARREGAR AGRICULTORES
+          // ==========================
+          fetch(`/api/cooperativas/${cooperativaId}/agricultores/associados/activo`)
+            .then(res => res.json())
+            .then(agData => {
+
+              const agricultorSelect =
+                document.getElementById('modalProdutoAgricultor');
+
+              agricultorSelect.innerHTML =
+                '<option value="">Selecione um agricultor</option>' +
+                agData.data.map(a => `
+                            <option value="${a.id}"
+                                ${a.id == p.agricultor_id ? 'selected' : ''}>
+                                ${a.nome_completo}
+                            </option>
+                        `).join('');
+
+              // ==========================
+              // CARREGAR TALHÕES
+              // ==========================
+              return fetch(
+                `/api/agricultores/${p.agricultor_id}/talhoes`
+              );
+            })
+            .then(res => res.json())
+            .then(talhaoData => {
+
+              const talhaoSelect =
+                document.getElementById('modalProdutoTalhao');
+
+              talhaoSelect.disabled = false;
+
+              talhaoSelect.innerHTML =
+                '<option value="">Selecione um talhão</option>' +
+                talhaoData.data.map(t => `
+                            <option value="${t.id}"
+                                ${t.id == p.talhao_id ? 'selected' : ''}>
+                                ${t.designacao}
+                            </option>
+                        `).join('');
+
+              modalProduto.show();
+            });
+
         })
         .catch(err => {
-          showToast('Erro', 'Falha ao carregar dados do produto.', 'danger');
+          showToast(
+            'Erro',
+            'Falha ao carregar dados do produto.',
+            'danger'
+          );
           console.error(err);
         });
     }
 
+    // Registar e Editar produtos
     document.getElementById('btnSalvarProduto').addEventListener('click', () => {
       const id = document.getElementById('produtoId').value;
       const data = {
+        agricultor_id: document.getElementById('modalProdutoAgricultor').value,
+        talhao_id: document.getElementById('modalProdutoTalhao').value,
         nome: document.getElementById('produtoNome').value,
         categoria: document.getElementById('produtoCategoria').value,
-        unidade: document.getElementById('produtoUnidade').value,
         quantidade: document.getElementById('produtoQuantidade').value,
-        preco_unitario: document.getElementById('produtoPreco').value,
+        quantidade_minima: document.getElementById('produtoQuantidadeMinima').value,
+        unidade: document.getElementById('produtoUnidade').value,
+        preco_venda: document.getElementById('produtoPreco').value,
         estado: document.getElementById('produtoEstado').value,
         descricao: document.getElementById('produtoDescricao').value
       };
@@ -3965,16 +4344,19 @@
           if (result.success) {
             showToast('Sucesso', id ? 'Produto atualizado com sucesso!' : 'Produto registado com sucesso!');
             modalProduto.hide();
+            document.body.focus();
             carregarProdutos(produtosPage);
           } else {
             showToast('Erro', result.message || 'Falha ao salvar produto.', 'danger');
           }
         })
         .catch(err => {
-          showToast('Erro', 'Erro ao processar requisição.', 'danger');
+          showToast('Erro', 'Erro ao processar requisição.', JSON.stringify(err), 'danger');
           console.error(err);
         });
     });
+
+
 
     /* Modal Delete Produto */
     const modalDeleteProduto = new bootstrap.Modal(document.getElementById('modalDeleteProduto'));

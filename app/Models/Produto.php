@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Produto extends Model
 {
@@ -18,13 +18,17 @@ class Produto extends Model
         'nome',
         'categoria',
         'quantidade',
+        'quantidade_minima',
         'unidade',
         'preco_venda',
         'estado',
+        'descricao',
+
     ];
 
     protected $casts = [
-        'quantidade'  => 'decimal:2',
+        'quantidade' => 'decimal:2',
+        'quantidade_minima' => 'decimal:2',
         'preco_venda' => 'decimal:2',
     ];
 
@@ -50,5 +54,11 @@ class Produto extends Model
     public function talhao()
     {
         return $this->belongsTo(Talhao::class, 'talhao_id');
+    }
+
+
+    public function vendaItens()
+    {
+        return $this->hasMany(VendaItem::class);
     }
 }

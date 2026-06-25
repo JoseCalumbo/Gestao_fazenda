@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
 
     // Configurações
     Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('configuracoes');
+    Route::get('/fluxo-caixa', [ConfiguracaoController::class, 'index'])->name('fluxo-caixa');
 
     // Usuários
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -123,6 +124,8 @@ Route::middleware('auth')->group(function () {
     // Talhões
     Route::get('/talhoes', [TalhoesController::class, 'index'])->name('talhoes.index'); // painel geral
     Route::get('api/cooperativas/{cooperativa}/list/talhoes', [TalhoesController::class, 'apiIndex']); // pega os dados json
+    Route::get('/api/agricultores/{agricultor}/talhoes', [TalhoesController::class, 'talhoesPorAgricultor']);
+
     Route::prefix('cooperativas/{cooperativa}')->group(function () {
         // CRIAR
         Route::post('/talhoes/store', [TalhoesController::class, 'store']);
@@ -153,22 +156,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/api/cooperativa/agricultores', [CooperativaMembroController::class, 'index']);
 
-    Route::prefix('cooperativas/{cooperativa}')
-        ->group(function () {
-
-            Route::get('/vendas', [VendaController::class, 'index'])
-                ->name('vendas.index');
-
-            Route::post('/vendas', [VendaController::class, 'store'])
-                ->name('vendas.store');
-
-            Route::put('/vendas/{venda}', [VendaController::class, 'update'])
-                ->name('vendas.update');
-
-            Route::delete('/vendas/{venda}', [VendaController::class, 'destroy'])
-                ->name('vendas.destroy');
-        });
-
     // produtos
     Route::prefix('cooperativas/{cooperativaId}/produtos')->group(function () {
         // GET: Listar produtos da cooperativa via AJAX/JSON
@@ -178,6 +165,87 @@ Route::middleware('auth')->group(function () {
         Route::post('/salvar', [ProdutoController::class, 'store']);
         Route::put('/{id}/editar', [ProdutoController::class, 'update']);
         Route::delete('/{id}/eliminar', [ProdutoController::class, 'destroy']);
+        Route::get('/{produto}', [ProdutoController::class, 'show']);
     });
 
+    // Vendas
+    // Route::get('/vendas', [VendaController::class, 'index'])->name('vendas.index');
+
+    // Route::prefix('cooperativas/{cooperativa}')
+    //     ->group(function () {
+    //         Route::get('/vendas', [VendaController::class, 'indexx'])
+    //             ->name('vendas.index');
+    //         Route::post('/vendas', [VendaController::class, 'store'])
+    //             ->name('vendas.store');
+    //         Route::put('/vendas/{venda}', [VendaController::class, 'update'])
+    //             ->name('vendas.update');
+    //         Route::delete('/vendas/{venda}', [VendaController::class, 'destroy'])
+    //             ->name('vendas.destroy');
+    //     });
+
+
+    // routes/web.php
+// Route::prefix('vendas')->group(function () {
+//     Route::get('/', [VendaController::class, 'index'])->name('vendas.index');
+//     Route::get('/produtos/{cooperativaId}', [VendaController::class, 'getProdutos'])->name('vendas.produtos');
+//     Route::post('/store', [VendaController::class, 'storeVenda'])->name('vendas.store');
+//     Route::get('/{id}', [VendaController::class, 'getVenda'])->name('vendas.show');
+// });
+
+Route::prefix('vendas')->group(function () {
+    Route::get('/', [VendaController::class, 'index'])->name('vendas.index');
+    Route::get('/produtos', [VendaController::class, 'getProdutos'])->name('vendas.produtos');
+    Route::post('/store', [VendaController::class, 'storeVenda'])->name('vendas.store');
+    Route::get('/{id}', [VendaController::class, 'getVenda'])->name('vendas.show');
 });
+
+});
+
+
+// // Rotas para Vendas
+// Route::prefix('vendas')->name('vendas.')->group(function () {
+//     // Página principal
+//     Route::get('/', [VendaController::class, 'index'])->name('index');
+
+//     // Store (criar nova venda)
+//     Route::post('/', [VendaController::class, 'store'])->name('store');
+
+//     // Show (detalhes da venda)
+//     Route::get('/{id}', [VendaController::class, 'show'])->name('show');
+
+//     // Update (editar venda)
+//     Route::put('/{id}', [VendaController::class, 'update'])->name('update');
+
+//     // Delete (remover venda)
+//     Route::delete('/{id}', [VendaController::class, 'destroy'])->name('destroy');
+
+//     // Detalhes para modal
+//     Route::get('/{id}/detalhes', [VendaController::class, 'getVendaDetails'])->name('detalhes');
+
+//     // Exportar
+//     Route::get('/exportar', [VendaController::class, 'exportar'])->name('exportar');
+
+//     // Estatísticas (AJAX)
+//     Route::get('/estatisticas', [VendaController::class, 'getEstatisticas'])->name('estatisticas');
+// });
+
+// // Rotas para Produtos (usadas no módulo de Vendas)
+// Route::prefix('produtos')->name('produtos.')->group(function () {
+//     // Listagem para AJAX
+//     Route::get('/list', [VendaController::class, 'getProdutos'])->name('list');
+
+//     // Página de produtos
+//     Route::get('/', [ProdutoController::class, 'index'])->name('index');
+
+//     // Store (criar novo produto)
+//     Route::post('/', [ProdutoController::class, 'store'])->name('store');
+
+//     // Show (detalhes do produto)
+//     Route::get('/{id}', [ProdutoController::class, 'show'])->name('show');
+
+//     // Update (editar produto)
+//     Route::put('/{id}', [ProdutoController::class, 'update'])->name('update');
+
+//     // Delete (remover produto)
+//     Route::delete('/{id}', [ProdutoController::class, 'destroy'])->name('destroy');
+// });

@@ -36,4 +36,9 @@ class Talhao extends Model
     {
         return $this->hasMany(Produto::class, 'talhao_id');
     }
+
+    public function cultura()
+    {
+        return $this->belongsTo(Cultura::class);
+    }
 }

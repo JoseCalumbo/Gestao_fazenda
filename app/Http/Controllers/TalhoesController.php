@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agricultor;
 use App\Models\Cooperativa;
 use App\Models\Talhao;
+
 use Illuminate\Http\Request;
 
 class TalhoesController extends Controller
@@ -80,6 +81,26 @@ class TalhoesController extends Controller
         );
     }
 
+    // Busca o talhão de um agricultor específico  
+    public function talhoesPorAgricultor(Agricultor $agricultor)
+    {
+        $talhoes = $agricultor->talhoes()
+            ->select(
+                'id',
+                'designacao',
+                'area',
+                'cultura_actual',
+                'estado'
+            )
+            ->orderBy('designacao')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $talhoes,
+        ]);
+    }
+
     // mostra os detalhes de um talhão específico de uma cooperativa
     public function show(Cooperativa $cooperativa, $id)
     {
@@ -137,6 +158,7 @@ class TalhoesController extends Controller
         ]);
     }
 
+    // Remove  a talhão deuma cooperativa específica
     public function destroy(Cooperativa $cooperativa, $id)
     {
         $talhao = Talhao::where('cooperativa_id', $cooperativa->id)

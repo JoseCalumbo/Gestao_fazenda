@@ -1,0 +1,380 @@
+<div class="modal fade modal-coop" id="modalNovoProduto" tabindex="-1" data-bs-backdrop="static"
+    data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:780px;">
+        <div class="modal-content"
+            style="height:620px;display:flex;flex-direction:column;border:none;border-radius:18px;box-shadow:0 24px 64px rgba(0,0,0,.15);overflow:hidden;">
+
+            <!-- Modal Header -->
+            <div class="modal-header"
+                style="padding:11px 20px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--sidebar-bg) 0%,var(--primary) 100%);flex-shrink:0;">
+                <div style="display:flex;align-items:center;gap:14px;flex:1;">
+                    <div class="modal-header-icon"
+                        style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;">
+                        <i class="bi bi-basket-fill"></i>
+                    </div>
+                    <div>
+                        <div class="modal-title"
+                            style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#fff;"
+                            id="modalProdutoTitle">Registrar Produto</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="modalProdutoSub">
+                            Adicionar novo produto ao estoque</div>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"
+                    style="filter:brightness(0) invert(1);opacity:.8;"></button>
+            </div>
+
+            <!-- Modal Tabs -->
+            <div class="modal-tabs"
+                style="display:flex;gap:0;border-bottom:2px solid var(--border);background:var(--page-bg);padding:0 24px;overflow-x:auto;flex-shrink:0;">
+                <button class="modal-tab-btn active" data-modal-tab="dados"
+                    style="display:flex;align-items:center;gap:8px;padding:14px 18px;font-size:13px;font-weight:500;color:var(--text-mid);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;">
+                    <i class="bi bi-basket-fill" style="font-size:15px;"></i> Dados do Produto
+                </button>
+                <button class="modal-tab-btn" data-modal-tab="estoque"
+                    style="display:flex;align-items:center;gap:8px;padding:14px 18px;font-size:13px;font-weight:500;color:var(--text-mid);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;">
+                    <i class="bi bi-box-seam-fill" style="font-size:15px;"></i> Estoque & Preços
+                </button>
+                <button class="modal-tab-btn" data-modal-tab="agricultor"
+                    style="display:flex;align-items:center;gap:8px;padding:14px 18px;font-size:13px;font-weight:500;color:var(--text-mid);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;">
+                    <i class="bi bi-person-fill" style="font-size:15px;"></i> Agricultor
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body"
+                style="flex:1;overflow-y:auto;overflow-x:hidden;padding:0;background:var(--page-bg);scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent;">
+
+                <form id="formNovoProduto" novalidate>
+                    @csrf
+                    <input type="hidden" id="produtoId" name="id" value="">
+
+                    <!-- ═══ TAB 1: DADOS DO PRODUTO ═══ -->
+                    <div class="modal-tab-panel active" id="mtab-dados" style="display:block;padding:22px;">
+                        <div class="modal-form-card"
+                            style="background:var(--card-bg);border-radius:14px;border:1px solid var(--border);padding:20px 22px;margin-bottom:16px;">
+                            <div class="modal-section-title"
+                                style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+                                <i class="bi bi-basket-fill" style="font-size:13px;color:var(--primary);"></i> Dados do
+                                Produto
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="cfg-label" for="produtoNome">Nome do Produto *</label>
+                                    <input type="text" class="cfg-input" id="produtoNome" name="nome" required
+                                        placeholder="Ex: Milho Grão, Feijão Manteiga">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="cfg-label" for="produtoCategoria">Categoria *</label>
+                                    <select class="cfg-select" id="produtoCategoria" name="categoria" required>
+                                        <option value="">Selecione</option>
+                                        <option value="Grãos">Grãos</option>
+                                        <option value="Legumes">Legumes</option>
+                                        <option value="Frutas">Frutas</option>
+                                        <option value="Hortícolas">Hortícolas</option>
+                                        <option value="Raízes">Raízes</option>
+                                        <option value="Outros">Outros</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="cfg-label" for="produtoUnidade">Unidade de Medida *</label>
+                                    <input type="text" class="cfg-input" id="produtoUnidade" name="unidade" required
+                                        placeholder="Ex: kg, saco, L, un">
+                                </div>
+                                <div class="col-12">
+                                    <label class="cfg-label" for="produtoDescricao">Descrição</label>
+                                    <textarea class="cfg-textarea" id="produtoDescricao" name="descricao" rows="2"
+                                        placeholder="Descrição opcional do produto"></textarea>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="cfg-label" for="produtoPreco">Preço Unitário (Kz) *</label>
+                                    <input type="number" class="cfg-input" id="produtoPreco" name="preco_venda" required
+                                        placeholder="0" step="0.01" min="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══ TAB 2: ESTOQUE & PREÇOS ═══ -->
+                    <div class="modal-tab-panel" id="mtab-estoque" style="display:none;padding:22px;">
+                        <div class="modal-form-card"
+                            style="background:var(--card-bg);border-radius:14px;border:1px solid var(--border);padding:20px 22px;margin-bottom:16px;">
+                            <div class="modal-section-title"
+                                style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+                                <i class="bi bi-box-seam-fill" style="font-size:13px;color:var(--primary);"></i>
+                                Controle de Estoque
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12 col-md-4">
+                                    <label class="cfg-label" for="produtoQuantidade">Quantidade Atual *</label>
+                                    <input type="number" class="cfg-input" id="produtoQuantidade" name="quantidade"
+                                        required placeholder="0" step="1" min="0">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label class="cfg-label" for="produtoQuantidadeMinima">Quantidade Mínima</label>
+                                    <input type="number" class="cfg-input" id="produtoQuantidadeMinima"
+                                        name="quantidade_minima" placeholder="0" step="1" min="0">
+                                    <div class="cfg-helper"
+                                        style="font-size:11.5px;color:var(--text-light);margin-top:4px;">Abaixo deste
+                                        valor, o sistema alertará</div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label class="cfg-label" for="produtoEstado">Estado *</label>
+                                    <select class="cfg-select" id="produtoEstado" name="estado" required>
+                                        <option value="disponivel">Disponível</option>
+                                        <option value="esgotado">Esgotado</option>
+                                        <option value="reservado">Reservado</option>
+                                        <option value="inativo">Inativo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══ TAB 3: AGRICULTOR ═══ -->
+                    <div class="modal-tab-panel" id="mtab-agricultor" style="display:none;padding:22px;">
+                        <div class="modal-form-card"
+                            style="background:var(--card-bg);border-radius:14px;border:1px solid var(--border);padding:20px 22px;margin-bottom:16px;">
+                            <div class="modal-section-title"
+                                style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+                                <i class="bi bi-person-fill" style="font-size:13px;color:var(--primary);"></i> Dados do
+                                Agricultor
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="cfg-label" for="modalProdutoAgricultor">Agricultor *</label>
+                                    <select class="cfg-select" id="modalProdutoAgricultor" name="agricultor_id"
+                                        required>
+                                        <option value="">Selecione um agricultor...</option>
+                                        @foreach($agricultores as $ag)
+                                        <option value="{{ $ag->id }}">{{ $ag->nome_completo }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="cfg-helper"
+                                        style="font-size:11.5px;color:var(--text-light);margin-top:4px;">Selecione o
+                                        agricultor responsável pelo produto</div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="cfg-label" for="modalProdutoTalhao">Talhão</label>
+                                    <select class="cfg-select" id="modalProdutoTalhao" name="talhao_id" disabled>
+                                        <option value="">Selecione primeiro um agricultor...</option>
+                                    </select>
+                                    <div class="cfg-helper"
+                                        style="font-size:11.5px;color:var(--text-light);margin-top:4px;">Os talhões são
+                                        carregados automaticamente com base no agricultor selecionado</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer"
+                style="padding:14px 20px;border-top:1px solid var(--border);background:#fff;flex-shrink:0;">
+                <div
+                    style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
+                    <div style="font-size:12px;color:var(--text-light);">
+                        <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
+                    </div>
+                    <div style="display:flex;gap:10px;">
+                        <button type="button" class="btn-outline-green" data-bs-dismiss="modal"
+                            style="background:transparent;color:var(--primary);border:1.5px solid var(--primary);border-radius:10px;padding:8px 16px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:background .2s,color .2s;">
+                            <i class="bi bi-x-lg"></i> Cancelar
+                        </button>
+                        <button type="button" class="btn-green" id="btnSalvarProduto"
+                            style="background:var(--primary);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;cursor:pointer;transition:background .2s,transform .1s;">
+                            <i class="bi bi-check2-circle"></i> <span id="btnProdutoLabel">Salvar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- ══════════════════════════════════════
+     MODAL — REGISTAR / EDITAR PRODUTO
+══════════════════════════════════════ -->
+<div class="modal fade modal-coop" id="modalNovoProduto" tabindex="-1" aria-labelledby="modalProdutoLabel"
+    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-coop modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div style="display:flex;align-items:center;gap:14px;flex:1;">
+                    <div class="modal-header-icon">
+                        <i class="bi bi-basket-fill" id="modalProdutoIcon"></i>
+                    </div>
+                    <div>
+                        <div class="modal-title" id="modalProdutoLabel">Registrar Produto</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="modalProdutoSub">
+                            Adicionar novo produto ao estoque</div>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <!-- Modal Tabs nav -->
+            <div class="modal-tabs" id="modalTabsNav">
+                <button class="modal-tab-btn active" data-modal-tab="dados">
+                    <i class="bi bi-basket-fill"></i> Dados do Produto
+                </button>
+                <button class="modal-tab-btn" data-modal-tab="estoque">
+                    <i class="bi bi-box-seam-fill"></i> Estoque & Preços
+                </button>
+                <button class="modal-tab-btn" data-modal-tab="agricultor">
+                    <i class="bi bi-person-fill"></i> Agricultor
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body" style="padding:0;background:var(--page-bg);">
+                <form id="formNovoProduto" novalidate enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" id="produtoId" name="id" value="">
+
+                    <!-- ═══ TAB 1: DADOS DO PRODUTO ═══ -->
+                    <div class="modal-tab-panel active" id="mtab-dados">
+                        <div class="modal-form-card">
+                            <div class="modal-section-title">
+                                <i class="bi bi-basket-fill"></i> Informações do Produto
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="cfg-label" for="produtoNome">Nome do Produto *</label>
+                                    <input class="cfg-input" type="text" id="produtoNome" name="nome"
+                                        placeholder="Ex: Milho Grão, Feijão Manteiga" required>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="cfg-label" for="produtoCategoria">Categoria *</label>
+                                    <select class="cfg-select" id="produtoCategoria" name="categoria" required>
+                                        <option value="">Selecione…</option>
+                                        <option value="Grãos">Grãos</option>
+                                        <option value="Legumes">Legumes</option>
+                                        <option value="Frutas">Frutas</option>
+                                        <option value="Hortícolas">Hortícolas</option>
+                                        <option value="Raízes">Raízes</option>
+                                        <option value="Cereais">Cereais</option>
+                                        <option value="Outros">Outros</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="cfg-label" for="produtoUnidade">Unidade de Medida *</label>
+                                    <input class="cfg-input" type="text" id="produtoUnidade" name="unidade"
+                                        placeholder="Ex: kg, saco, L, un" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="cfg-label" for="produtoDescricao">Descrição</label>
+                                    <textarea class="cfg-textarea" id="produtoDescricao" name="descricao" rows="2"
+                                        placeholder="Descrição opcional do produto…"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══ TAB 2: ESTOQUE & PREÇOS ═══ -->
+                    <div class="modal-tab-panel" id="mtab-estoque">
+                        <div class="modal-form-card">
+                            <div class="modal-section-title">
+                                <i class="bi bi-box-seam-fill"></i> Controle de Estoque
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12 col-md-4">
+                                    <label class="cfg-label" for="produtoQuantidade">Quantidade Atual *</label>
+                                    <input class="cfg-input" type="number" id="produtoQuantidade" name="quantidade"
+                                        placeholder="0" step="1" min="0" required>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label class="cfg-label" for="produtoQuantidadeMinima">Quantidade Mínima</label>
+                                    <input class="cfg-input" type="number" id="produtoQuantidadeMinima"
+                                        name="quantidade_minima" placeholder="0" step="1" min="0">
+                                    <div class="cfg-helper">Abaixo deste valor, o sistema alertará</div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label class="cfg-label" for="produtoEstado">Estado *</label>
+                                    <select class="cfg-select" id="produtoEstado" name="estado" required>
+                                        <option value="disponivel">Disponível</option>
+                                        <option value="esgotado">Esgotado</option>
+                                        <option value="reservado">Reservado</option>
+                                        <option value="inativo">Inativo</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="cfg-label" for="produtoPreco">Preço Unitário (Kz) *</label>
+                                    <input class="cfg-input" type="number" id="produtoPreco" name="preco_venda"
+                                        placeholder="0" step="0.01" min="0" required>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="cfg-label" for="produtoPrecoCusto">Preço de Custo (Kz)</label>
+                                    <input class="cfg-input" type="number" id="produtoPrecoCusto" name="preco_custo"
+                                        placeholder="0" step="0.01" min="0">
+                                    <div class="cfg-helper">Opcional - para controle de margem</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══ TAB 3: AGRICULTOR ═══ -->
+                    <div class="modal-tab-panel" id="mtab-agricultor">
+                        <div class="modal-form-card">
+                            <div class="modal-section-title">
+                                <i class="bi bi-person-fill"></i> Dados do Agricultor
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="cfg-label" for="modalProdutoAgricultor">Agricultor *</label>
+                                    <select class="cfg-select" id="modalProdutoAgricultor" name="agricultor_id"
+                                        required>
+                                        <option value="">Selecione um agricultor…</option>
+                                        @foreach($agricultores as $ag)
+                                        <option value="{{ $ag->id }}">{{ $ag->nome_completo }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="cfg-helper">Selecione o agricultor responsável pelo produto</div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="cfg-label" for="modalProdutoTalhao">Talhão</label>
+                                    <select class="cfg-select" id="modalProdutoTalhao" name="talhao_id" disabled>
+                                        <option value="">Selecione primeiro um agricultor…</option>
+                                    </select>
+                                    <div class="cfg-helper">Os talhões são carregados automaticamente com base no
+                                        agricultor selecionado</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <div
+                    style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
+                    <div style="font-size:12px;color:var(--text-light);">
+                        <i class="bi bi-info-circle me-1"></i> Os campos marcados com * são obrigatórios.
+                    </div>
+                    <div style="display:flex;gap:10px;">
+                        <button type="button" class="btn-outline-green" data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg"></i> Cancelar
+                        </button>
+                        <button type="button" class="btn-green" id="btnSalvarProduto">
+                            <i class="bi bi-check2-circle"></i> <span id="btnProdutoLabel">Registar Produto</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
