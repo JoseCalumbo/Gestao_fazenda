@@ -108,4 +108,6 @@ class Cooperativa extends Model
     {
         return $this->hasMany(Produto::class, 'cooperativa_id');
     }
+
+    
 }

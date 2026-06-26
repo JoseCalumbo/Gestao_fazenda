@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class VendaItem extends Model
 {
 
-protected $table = 'venda_itens';
+    protected $table = 'venda_itens';
     protected $fillable = [
         'venda_id',
         'produto_id',
@@ -24,5 +24,10 @@ protected $table = 'venda_itens';
     public function produto()
     {
         return $this->belongsTo(Produto::class);
+    }
+
+        public function produtoDeletado()
+    {
+        return $this->belongsTo(Produto::class)->withTrashed(); // Permite acessar produtos deletados
     }
 }

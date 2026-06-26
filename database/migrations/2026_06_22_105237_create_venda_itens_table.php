@@ -20,6 +20,8 @@ return new class extends Migration
                 ->constrained('produtos')
                 ->cascadeOnDelete();
 
+            
+
             $table->decimal('quantidade', 12, 2);
 
             $table->decimal('preco_unitario', 12, 2);

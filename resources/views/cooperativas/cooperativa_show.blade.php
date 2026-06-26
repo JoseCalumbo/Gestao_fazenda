@@ -2015,9 +2015,15 @@
           <p>Dados completos, agricultores, produção e histórico financeiro da cooperativa</p>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
+
           <button class="btn-outline-green" id="btnImprimirFicha">
             <i class="bi bi-printer-fill"></i> Imprimir Ficha
           </button>
+
+          <a href="{{ url('cooperativas/' . $cooperativa->id . '/vendas') }}" class="btn-green">
+            <i class="bi bi-cart-fill"></i> Vendas
+          </a>
+
 
         </div>
       </div>
@@ -2049,7 +2055,7 @@
             <div class="stat-icon blue"><i class="bi bi-cart-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Vendas Totais (Kz)</div>
-              <div class="s-value">4.2M</div>
+              <div class="s-value">{{ number_format($totalVendas, 0, ',', '.') }} Kz</div>
               <span class="stat-badge info"><i class="bi bi-info-circle"></i> Acumulado 24/25</span>
             </div>
           </div>
@@ -2059,7 +2065,7 @@
             <div class="stat-icon purple"><i class="bi bi-droplet-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Insumos Distribuídos</div>
-              <div class="s-value">22</div>
+              <div class="s-value">{{ $totalInsumos ?? 0 }}</div>
               <span class="stat-badge info"><i class="bi bi-box-arrow-in-down"></i> Última: 12 Mai</span>
             </div>
           </div>
@@ -2075,7 +2081,7 @@
             <i class="bi bi-building"></i> Dados da Cooperativa
           </button>
           <button class="settings-nav-item" data-tab="agricultores">
-            <i class="bi bi-person-badge-fill"></i> Agricultores <span class="nav-count">348</span>
+            <i class="bi bi-person-badge-fill"></i> Agricultores <span class="nav-count">0</span>
           </button>
           <button class="settings-nav-item" data-tab="talhoes">
             <i class="bi bi-map-fill"></i> Talhões <span
@@ -2083,16 +2089,18 @@
           </button>
           <button class="settings-nav-item" data-tab="insumos">
             <i class="bi bi-box-seam-fill"></i> Insumos <span
-              class="nav-count">{{ $totalTalhoes = $cooperativa->talhoes()->count() ?? 0}}</span>
+              class="nav-count">{{ $totalInsumos ?? 0}}</span>
           </button>
           <button class="settings-nav-item" data-tab="produtos">
             <i class="bi bi-basket-fill"></i> Produtos <span class="nav-count">0</span>
           </button>
+{{-- 
           <button class="settings-nav-item" data-tab="receitas">
             <i class="bi bi-cash-coin"></i> Receitas <span class="nav-count">38</span>
-          </button>
+          </button> --}}
+
           <button class="settings-nav-item" data-tab="vendas">
-            <i class="bi bi-cart-fill"></i> Vendas <span class="nav-count">52</span>
+            <i class="bi bi-cart-fill"></i> Vendas <span class="nav-count">{{ $totalRegistroVenda ?? 0 }}</span>
           </button>
         </nav>
 
@@ -2497,67 +2505,7 @@
             </div>
           </div>
 
-          <!-- ════════════════════════
-             TAB 6 — RECEITAS
-        ════════════════════════ -->
-          <div class="settings-panel" id="tab-receitas">
-            <div class="cfg-card anim">
-              <div class="cfg-card-header">
-                <div class="cfg-card-header-left">
-                  <div class="cfg-card-icon blue"><i class="bi bi-cash-coin"></i></div>
-                  <div>
-                    <div class="cfg-card-title">Receitas da Cooperativa</div>
-                    <div class="cfg-card-sub">Total de entradas financeiras — vendas, subsídios e apoios recebidos</div>
-                  </div>
-                </div>
-                <button class="btn-green" style="padding:8px 14px;font-size:12.5px;" id="btnNovaReceita">
-                  <i class="bi bi-plus-lg"></i> Nova Receita
-                </button>
-              </div>
 
-              <!-- Filtros -->
-              <div class="filter-bar" id="receitasFiltros">
-                <div class="search-wrap">
-                  <i class="bi bi-search"></i>
-                  <input type="text" class="search-input" id="filtroReceitaNome" placeholder="Filtrar por nome...">
-                </div>
-                <select class="filter-select" id="filtroReceitaEstado">
-                  <option value="">Todos os estados</option>
-                  <option value="Pago">Pago</option>
-                  <option value="Pendente">Pendente</option>
-                </select>
-                <button class="btn-green btn-filter" id="btnFiltrarReceitas" style="padding:8px 18px;"><i
-                    class="bi bi-search"></i> Filtrar</button>
-                <button class="btn-outline-green btn-filter" id="btnLimparFiltrosReceitas" style="padding:8px 18px;"><i
-                    class="bi bi-eraser"></i> Limpar</button>
-              </div>
-
-              <div class="table-wrap">
-                <table class="mini-table" id="tabelaReceitas">
-                  <thead>
-                    <tr>
-                      <th>Descrição</th>
-                      <th>Origem</th>
-                      <th>Agricultor</th>
-                      <th>Data</th>
-                      <th>Valor (Kz)</th>
-                      <th>Estado</th>
-                      <th style="text-align:center;">Acções</th>
-                    </tr>
-                  </thead>
-                  <tbody id="corpoTabelaReceitas">
-                    <!-- Carregado via AJAX -->
-                  </tbody>
-                </table>
-              </div>
-              <div class="pagination-wrapper" id="paginacaoReceitas">
-                <div class="pagination-info" id="infoReceitas">Carregando...</div>
-                <nav>
-                  <ul class="pagination" id="paginacaoLinksReceitas"></ul>
-                </nav>
-              </div>
-            </div>
-          </div>
 
           <!-- ════════════════════════
              TAB 7 — VENDAS
@@ -2574,9 +2522,9 @@
                       agricultores</div>
                   </div>
                 </div>
-                <button class="btn-green" style="padding:8px 14px;font-size:12.5px;" id="btnNovaVenda">
-                  <i class="bi bi-plus-lg"></i> Nova Venda
-                </button>
+                <a href="{{ url('cooperativas/' . $cooperativa->id . '/vendas') }}" class="btn-green">
+                  <i class="bi bi-cart-fill"></i>Novas Vendas
+                </a>
               </div>
 
               <!-- Filtros -->
@@ -2585,11 +2533,11 @@
                   <i class="bi bi-search"></i>
                   <input type="text" class="search-input" id="filtroVendaNome" placeholder="Filtrar por nome...">
                 </div>
-                <select class="filter-select" id="filtroVendaEstado">
+                {{-- <select class="filter-select" id="filtroVendaEstado">
                   <option value="">Todos os estados</option>
-                  <option value="Concluída">Concluída</option>
+                  <option value="Pago">Pago</option>
                   <option value="Pendente">Pendente</option>
-                </select>
+                </select> --}}
                 <button class="btn-green btn-filter" id="btnFiltrarVendas" style="padding:8px 18px;"><i
                     class="bi bi-search"></i> Filtrar</button>
                 <button class="btn-outline-green btn-filter" id="btnLimparFiltrosVendas" style="padding:8px 18px;"><i
@@ -2600,14 +2548,14 @@
                 <table class="mini-table" id="tabelaVendas">
                   <thead>
                     <tr>
-                      <th>Produto</th>
-                      <th>Agricultor</th>
+                      <th>Nº</th>
+                      <th>Produtos</th>
                       <th>Comprador</th>
                       <th>Data</th>
                       <th>Quantidade</th>
                       <th>Valor Total (Kz)</th>
                       <th>Estado</th>
-                      <th style="text-align:center;">Acções</th>
+                    
                     </tr>
                   </thead>
                   <tbody id="corpoTabelaVendas">
@@ -2615,12 +2563,14 @@
                   </tbody>
                 </table>
               </div>
+
               <div class="pagination-wrapper" id="paginacaoVendas">
                 <div class="pagination-info" id="infoVendas">Carregando...</div>
                 <nav>
                   <ul class="pagination" id="paginacaoLinksVendas"></ul>
                 </nav>
               </div>
+
             </div>
           </div>
 
@@ -2936,8 +2886,9 @@
                       <option value="Legumes">Legumes</option>
                       <option value="Frutas">Frutas</option>
                       <option value="Hortícolas">Hortícolas</option>
+                      <option value="Tubérculos">Tubérculos</option>
                       <option value="Raízes">Raízes</option>
-                      <option value="Outros">Outros</option>
+                      <option value="Verduras">Verduras</option>
                     </select>
                   </div>
 
@@ -3442,7 +3393,7 @@
         else if (tab === 'talhoes') carregarTalhoes();
         else if (tab === 'insumos') carregarInsumos();
         else if (tab === 'produtos') carregarProdutos();
-        else if (tab === 'receitas') carregarReceitas();
+       // else if (tab === 'receitas') carregarReceitas();
         else if (tab === 'vendas') carregarVendas();
       });
     });
@@ -4400,234 +4351,11 @@
 
 
 
-
-
-
     /* ══════════════════════════════════════
-       ─── CRUD RECEITAS ─── recc
+       ─── CRUD VENDAS ─── venn
     ══════════════════════════════════════ */
-    let receitasPage = 1;
-    let receitasFiltros = { nome: '', estado: '' };
-
-    function carregarReceitas(page = 1) {
-      receitasPage = page;
-      const params = new URLSearchParams({
-        page,
-        nome: receitasFiltros.nome,
-        estado: receitasFiltros.estado
-      });
-
-      fetch(`/api/cooperativa/${cooperativaId}/receitas?${params}`)
-        .then(res => res.json())
-        .then(data => {
-          renderTabelaReceitas(data.data);
-          renderPaginacaoReceitas(data);
-        })
-        .catch(err => {
-          showToast('Erro', 'Falha ao carregar receitas.', 'danger');
-          console.error(err);
-        });
-    }
-
-    function renderTabelaReceitas(receitas) {
-      const tbody = document.getElementById('corpoTabelaReceitas');
-      if (!receitas || receitas.length === 0) {
-        tbody.innerHTML =
-          `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-light);">
-      <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma receita registada.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = receitas.map(r => `
-        <tr>
-          <td><i class="bi bi-cash-coin me-1" style="color:var(--primary);"></i>${r.descricao || 'N/A'}</td>
-          <td>${r.origem || '--'}</td>
-          <td>${r.agricultor_nome || 'Cooperativa (Geral)'}</td>
-          <td>${r.data ? new Date(r.data).toLocaleDateString('pt-PT') : '--'}</td>
-          <td><strong>${(r.valor || 0).toLocaleString('pt-AO')}</strong></td>
-          <td><span class="badge-status ${(r.estado || 'Pendente').toLowerCase()}"><span class="dot"></span>${r.estado || 'Pendente'}</span></td>
-          <td style="text-align:center;">
-            <div style="display:flex;gap:6px;justify-content:center;">
-              <button class="action-btn edit" title="Editar" onclick="abrirModalEditarReceita(${r.id})"><i class="bi bi-pencil-fill"></i></button>
-              <button class="action-btn delete" title="Apagar" onclick="abrirModalDeleteReceita(${r.id}, '${r.descricao}')"><i class="bi bi-trash-fill"></i></button>
-            </div>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function renderPaginacaoReceitas(data) {
-      const info = document.getElementById('infoReceitas');
-      const links = document.getElementById('paginacaoLinksReceitas');
-      info.textContent = `Mostrando ${data.from || 0} - ${data.to || 0} de ${data.total || 0} registos`;
-
-      if (data.last_page <= 1) { links.innerHTML = ''; return; }
-
-      let html = '';
-      html += `<li class="page-item ${data.prev_page_url ? '' : 'disabled'}">
-        <a class="page-link" href="#" onclick="carregarReceitas(${data.current_page - 1});return false;">«</a></li>`;
-      for (let i = 1; i <= data.last_page; i++) {
-        html += `<li class="page-item ${i === data.current_page ? 'active' : ''}">
-          <a class="page-link" href="#" onclick="carregarReceitas(${i});return false;">${i}</a></li>`;
-      }
-      html += `<li class="page-item ${data.next_page_url ? '' : 'disabled'}">
-        <a class="page-link" href="#" onclick="carregarReceitas(${data.current_page + 1});return false;">»</a></li>`;
-      links.innerHTML = html;
-    }
-
-    /* Filtros Receitas */
-    document.getElementById('btnFiltrarReceitas').addEventListener('click', () => {
-      receitasFiltros.nome = document.getElementById('filtroReceitaNome').value;
-      receitasFiltros.estado = document.getElementById('filtroReceitaEstado').value;
-      carregarReceitas(1);
-    });
-
-    document.getElementById('btnLimparFiltrosReceitas').addEventListener('click', () => {
-      document.getElementById('filtroReceitaNome').value = '';
-      document.getElementById('filtroReceitaEstado').value = '';
-      receitasFiltros = { nome: '', estado: '' };
-      carregarReceitas(1);
-    });
-
-    /* Modal Receita - Registrar/Editar */
-    const modalReceita = new bootstrap.Modal(document.getElementById('modalNovaReceita'));
-
-    document.getElementById('btnNovaReceita').addEventListener('click', () => {
-      document.getElementById('receitaId').value = '';
-      document.getElementById('modalReceitaTitle').textContent = 'Registrar Receita';
-      document.getElementById('modalReceitaSub').textContent = 'Entrada financeira da cooperativa';
-      document.getElementById('btnReceitaLabel').textContent = 'Registrar';
-      fetch(`/api/cooperativa/${cooperativaId}/agricultores/associados`)
-        .then(res => res.json())
-        .then(data => {
-          const select = document.getElementById('receitaAgricultor');
-          select.innerHTML = '<option value="Cooperativa (Geral)">Cooperativa (Geral)</option>' +
-            data.data.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
-        });
-      document.getElementById('formNovaReceita').reset();
-      document.getElementById('receitaData').valueAsDate = new Date();
-      modalReceita.show();
-    });
-
-    function abrirModalEditarReceita(id) {
-      fetch(`/api/cooperativa/${cooperativaId}/receitas/${id}`)
-        .then(res => res.json())
-        .then(data => {
-          const r = data.data;
-          document.getElementById('receitaId').value = r.id;
-          document.getElementById('modalReceitaTitle').textContent = 'Editar Receita';
-          document.getElementById('modalReceitaSub').textContent = 'Atualizar dados da receita';
-          document.getElementById('btnReceitaLabel').textContent = 'Salvar';
-          document.getElementById('receitaDescricao').value = r.descricao || '';
-          document.getElementById('receitaOrigem').value = r.origem || 'Comercial';
-          document.getElementById('receitaData').value = r.data || '';
-          document.getElementById('receitaValor').value = r.valor || '';
-          document.getElementById('receitaEstado').value = r.estado || 'Pendente';
-
-          fetch(`/api/cooperativa/${cooperativaId}/agricultores/associados`)
-            .then(res => res.json())
-            .then(agData => {
-              const select = document.getElementById('receitaAgricultor');
-              select.innerHTML = '<option value="Cooperativa (Geral)">Cooperativa (Geral)</option>' +
-                agData.data.map(a =>
-                  `<option value="${a.id}" ${a.id == r.agricultor_id ? 'selected' : ''}>${a.nome}</option>`
-                ).join('');
-              modalReceita.show();
-            });
-        })
-        .catch(err => {
-          showToast('Erro', 'Falha ao carregar dados da receita.', 'danger');
-          console.error(err);
-        });
-    }
-
-    document.getElementById('btnSalvarReceita').addEventListener('click', () => {
-      const id = document.getElementById('receitaId').value;
-      const data = {
-        descricao: document.getElementById('receitaDescricao').value,
-        origem: document.getElementById('receitaOrigem').value,
-        agricultor_id: document.getElementById('receitaAgricultor').value,
-        data: document.getElementById('receitaData').value,
-        valor: document.getElementById('receitaValor').value,
-        estado: document.getElementById('receitaEstado').value
-      };
-
-      const url = id ? `/api/cooperativa/${cooperativaId}/receitas/${id}` :
-        `/api/cooperativa/${cooperativaId}/receitas`;
-      const method = id ? 'PUT' : 'POST';
-
-      fetch(url, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(data)
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            showToast('Sucesso', id ? 'Receita atualizada com sucesso!' : 'Receita registada com sucesso!');
-            modalReceita.hide();
-            carregarReceitas(receitasPage);
-          } else {
-            showToast('Erro', result.message || 'Falha ao salvar receita.', 'danger');
-          }
-        })
-        .catch(err => {
-          showToast('Erro', 'Erro ao processar requisição.', 'danger');
-          console.error(err);
-        });
-    });
-
-    /* Modal Delete Receita */
-    const modalDeleteReceita = new bootstrap.Modal(document.getElementById('modalDeleteReceita'));
-    let deleteReceitaId = null;
-    let deleteReceitaNome = '';
-
-    function abrirModalDeleteReceita(id, nome) {
-      deleteReceitaId = id;
-      deleteReceitaNome = nome;
-      document.getElementById('deleteReceitaNome').textContent = nome;
-      document.getElementById('deleteReceitaId').value = id;
-      modalDeleteReceita.show();
-    }
-
-    document.getElementById('btnConfirmDeleteReceita').addEventListener('click', () => {
-      const id = document.getElementById('deleteReceitaId').value;
-
-      fetch(`/api/cooperativa/${cooperativaId}/receitas/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        }
-      })
-        .then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            showToast('Sucesso', 'Receita excluída com sucesso!');
-            modalDeleteReceita.hide();
-            carregarReceitas(receitasPage);
-          } else {
-            showToast('Erro', result.message || 'Falha ao excluir receita.', 'danger');
-          }
-        })
-        .catch(err => {
-          showToast('Erro', 'Erro ao processar requisição.', 'danger');
-          console.error(err);
-        });
-    });
 
 
-
-
-
-
-
-
-    /* ══════════════════════════════════════
-       ─── CRUD VENDAS ─── ven
-    ══════════════════════════════════════ */
     let vendasPage = 1;
     let vendasFiltros = { nome: '', estado: '' };
 
@@ -4639,7 +4367,8 @@
         estado: vendasFiltros.estado
       });
 
-      fetch(`/api/cooperativa/${cooperativaId}/vendas?${params}`)
+      fetch(`/cooperativas/${cooperativaId}/vendas/list?${params}`)
+
         .then(res => res.json())
         .then(data => {
           renderTabelaVendas(data.data);
@@ -4654,30 +4383,44 @@
     function renderTabelaVendas(vendas) {
       const tbody = document.getElementById('corpoTabelaVendas');
       if (!vendas || vendas.length === 0) {
-        tbody.innerHTML =
-          `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
-      <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma venda registada.</td></tr>`;
+        tbody.innerHTML = `
+      <tr>
+        <td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
+          <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma venda registada.
+        </td>
+      </tr>`;
         return;
       }
 
-      tbody.innerHTML = vendas.map(v => `
-        <tr>
-          <td><i class="bi bi-basket-fill me-1" style="color:var(--primary);"></i>${v.produto || 'N/A'}</td>
-          <td>${v.agricultor_nome || '--'}</td>
-          <td>${v.comprador || '--'}</td>
-          <td>${v.data ? new Date(v.data).toLocaleDateString('pt-PT') : '--'}</td>
-          <td>${v.quantidade || '--'}</td>
-          <td><strong>${(v.valor || 0).toLocaleString('pt-AO')}</strong></td>
-          <td><span class="badge-status ${(v.estado || 'Pendente').toLowerCase()}"><span class="dot"></span>${v.estado || 'Pendente'}</span></td>
-          <td style="text-align:center;">
-            <div style="display:flex;gap:6px;justify-content:center;">
-              <button class="action-btn edit" title="Editar" onclick="abrirModalEditarVenda(${v.id})"><i class="bi bi-pencil-fill"></i></button>
-              <button class="action-btn delete" title="Apagar" onclick="abrirModalDeleteVenda(${v.id}, '${v.produto}')"><i class="bi bi-trash-fill"></i></button>
-            </div>
-          </td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = vendas.map(v => {
+        // 1. Extrair os nomes dos produtos da lista de itens e juntá-los com uma vírgula
+        const nomesProdutos = v.itens && v.itens.length > 0
+          ? v.itens.map(i => i.produto).join(', ')
+          : 'Sem produtos';
+
+        // 2. Garantir que o valor entregue é tratado como número para o toLocaleString funcionar bem
+        const valorEntregue = parseFloat(v.total_raw || 0);
+
+        return `
+      <tr>
+         <td>${v.numero || '--'}</td>
+        <td><i class="bi bi-basket-fill me-1" style="color:var(--primary);"></i>${nomesProdutos}</td>
+        <td>${v.cliente || '--'}</td>
+        <td>${v.data}</td>
+        <td>${v.itens_count || 0}</td>
+        <td><strong>${valorEntregue.toLocaleString('pt-AO', { style: 'currency', currency: 'AOA' })}</strong></td>
+        <td>
+          <span class="badge-status ${(v.status || 'pendente').toLowerCase()}">
+            <span class="dot"></span>${v.status_label || 'Pendente'}
+          </span>
+        </td>
+      </tr>
+    `;
+      }).join('');
     }
+
+
+
 
     function renderPaginacaoVendas(data) {
       const info = document.getElementById('infoVendas');
@@ -4701,13 +4444,13 @@
     /* Filtros Vendas */
     document.getElementById('btnFiltrarVendas').addEventListener('click', () => {
       vendasFiltros.nome = document.getElementById('filtroVendaNome').value;
-      vendasFiltros.estado = document.getElementById('filtroVendaEstado').value;
+    //  vendasFiltros.estado = document.getElementById('filtroVendaEstado').value;
       carregarVendas(1);
     });
 
     document.getElementById('btnLimparFiltrosVendas').addEventListener('click', () => {
       document.getElementById('filtroVendaNome').value = '';
-      document.getElementById('filtroVendaEstado').value = '';
+    //  document.getElementById('filtroVendaEstado').value = '';
       vendasFiltros = { nome: '', estado: '' };
       carregarVendas(1);
     });
@@ -4715,22 +4458,23 @@
     /* Modal Venda - Registrar/Editar */
     const modalVenda = new bootstrap.Modal(document.getElementById('modalNovaVenda'));
 
-    document.getElementById('btnNovaVenda').addEventListener('click', () => {
-      document.getElementById('vendaId').value = '';
-      document.getElementById('modalVendaTitle').textContent = 'Registrar Venda';
-      document.getElementById('modalVendaSub').textContent = 'Registo de venda de produtos';
-      document.getElementById('btnVendaLabel').textContent = 'Registrar';
-      fetch(`/api/cooperativa/${cooperativaId}/agricultores/associados`)
-        .then(res => res.json())
-        .then(data => {
-          const select = document.getElementById('vendaAgricultor');
-          select.innerHTML = '<option value="">Selecione um agricultor</option>' +
-            data.data.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
-        });
-      document.getElementById('formNovaVenda').reset();
-      document.getElementById('vendaData').valueAsDate = new Date();
-      modalVenda.show();
-    });
+    // document.getElementById('btnNovaVenda').addEventListener('click', () => {
+    //   document.getElementById('vendaId').value = '';
+    //   document.getElementById('modalVendaTitle').textContent = 'Registrar Venda';
+    //   document.getElementById('modalVendaSub').textContent = 'Registo de venda de produtos';
+    //   document.getElementById('btnVendaLabel').textContent = 'Registrar';
+    //   fetch(`/api/cooperativa/${cooperativaId}/agricultores/associados`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //       const select = document.getElementById('vendaAgricultor');
+    //       select.innerHTML = '<option value="">Selecione um agricultor</option>' +
+    //         data.data.map(a => `<option value="${a.id}">${a.nome}</option>`).join('');
+    //     });
+    //   document.getElementById('formNovaVenda').reset();
+    //   document.getElementById('vendaData').valueAsDate = new Date();
+    //   modalVenda.show();
+    // });
+
 
     function abrirModalEditarVenda(id) {
       fetch(`/api/cooperativa/${cooperativaId}/vendas/${id}`)
@@ -4885,6 +4629,8 @@
           console.error('Erro ao carregar estatísticas:', error);
         });
     }
+
+
     /* ══════════════════════════════════════
        INICIALIZAÇÃO
     ══════════════════════════════════════ */
@@ -4895,7 +4641,7 @@
       carregarTalhoes(1);
       carregarInsumos(1);
       carregarProdutos(1);
-      carregarReceitas(1);
+    //  carregarReceitas(1);
       carregarVendas(1);
       carregarEstatisticas();
     });

@@ -28,3 +28,184 @@ Schema::table('vendas', function (Blueprint $table) {
     $table->decimal('troco', 15, 2)->default(0);
 });
 
+
+
+// // Rotas para Vendas antiga da aquelas que funcionaram 
+// Route::prefix('vendas')->name('vendas.')->group(function () {
+//     // Página principal
+//     Route::get('/', [VendaController::class, 'index'])->name('index');
+
+//     // Store (criar nova venda)
+//     Route::post('/', [VendaController::class, 'store'])->name('store');
+
+//     // Show (detalhes da venda)
+//     Route::get('/{id}', [VendaController::class, 'show'])->name('show');
+
+//     // Update (editar venda)
+//     Route::put('/{id}', [VendaController::class, 'update'])->name('update');
+
+//     // Delete (remover venda)
+//     Route::delete('/{id}', [VendaController::class, 'destroy'])->name('destroy');
+
+//     // Detalhes para modal
+//     Route::get('/{id}/detalhes', [VendaController::class, 'getVendaDetails'])->name('detalhes');
+
+//     // Exportar
+//     Route::get('/exportar', [VendaController::class, 'exportar'])->name('exportar');
+
+//     // Estatísticas (AJAX)
+//     Route::get('/estatisticas', [VendaController::class, 'getEstatisticas'])->name('estatisticas');
+// });
+
+// // Rotas para Produtos (usadas no módulo de Vendas)
+// Route::prefix('produtos')->name('produtos.')->group(function () {
+//     // Listagem para AJAX
+//     Route::get('/list', [VendaController::class, 'getProdutos'])->name('list');
+
+//     // Página de produtos
+//     Route::get('/', [ProdutoController::class, 'index'])->name('index');
+
+//     // Store (criar novo produto)
+//     Route::post('/', [ProdutoController::class, 'store'])->name('store');
+
+//     // Show (detalhes do produto)
+//     Route::get('/{id}', [ProdutoController::class, 'show'])->name('show');
+
+//     // Update (editar produto)
+//     Route::put('/{id}', [ProdutoController::class, 'update'])->name('update');
+
+//     // Delete (remover produto)
+//     Route::delete('/{id}', [ProdutoController::class, 'destroy'])->name('destroy');
+// });
+
+
+
+
+public function index($cooperativaId)
+    {
+        //$cooperativa = Cooperativa::with('user')->findOrFail($cooperativaId);
+
+        $cooperativa = Cooperativa::findOrFail($cooperativaId);
+        
+        // Buscar produtos da cooperativa
+        $produtos = Produto::where('cooperativa_id', $cooperativaId)
+            ->where('estado', 'disponivel')
+            ->where('quantidade', '>', 0)
+            ->get();
+            
+        // Buscar vendas da cooperativa
+        $vendas = Venda::where('cooperativa_id', $cooperativaId)
+            ->with('itens.produto')
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
+            ->get();
+
+        return view('vendas.index', compact('produtos', 'vendas', 'cooperativa'));
+    }
+
+ // public function index(Request $request)
+    // {
+    //     // Buscar produtos disponíveis (com stock > 0)
+    //     $produtosQuery = Produto::where('quantidade', '>', 0)
+    //         ->where('estado', 'disponivel')
+    //         ->orderBy('nome');
+
+    //     // Filtro por categoria
+    //     if ($request->has('categoria') && $request->categoria) {
+    //         $produtosQuery->where('categoria', $request->categoria);
+    //     }
+
+    //     // Filtro por pesquisa
+    //     if ($request->has('search') && $request->search) {
+    //         $produtosQuery->where('nome', 'LIKE', '%'.$request->search.'%');
+    //     }
+
+    //     $produtos = $produtosQuery->paginate(10);
+
+    //     // Buscar vendas com paginação
+    //     $vendasQuery = Venda::with(['cooperativa', 'agricultor', 'itens'])
+    //         ->orderBy('created_at', 'desc');
+
+    //     // Filtro por status
+    //     if ($request->has('status') && $request->status) {
+    //         $vendasQuery->where('status', $request->status);
+    //     }
+
+    //     // Filtro por pesquisa (cliente)
+    //     if ($request->has('search_venda') && $request->search_venda) {
+    //         $vendasQuery->where('cliente', 'LIKE', '%'.$request->search_venda.'%');
+    //     }
+
+    //     $vendas = $vendasQuery->paginate(10);
+
+    //     // Estatísticas
+    //     $totalVendas = Venda::count();
+    //     $vendasPagas = Venda::where('estado', 'pago')->count();
+    //     $vendasPendentes = Venda::where('estado', 'pendente')->count();
+    //     $totalFaturado = Venda::where('estado', 'pago')->sum('valor_total');
+
+    //     // Cooperativas para filtros (opcional)
+    //     $cooperativas = Cooperativa::where('estado', 'activa')->get();
+
+    //     // Agricultores para filtros (opcional)
+    //     $agricultores = Agricultor::where('estado', 'activo')->get();
+
+    //     return view('vendas.index4', compact(
+    //         'produtos',
+    //         'vendas',
+    //         'totalVendas',
+    //         'vendasPagas',
+    //         'vendasPendentes',
+    //         'totalFaturado',
+    //         'cooperativas',
+    //         'agricultores'
+    //     ));
+    // }
+
+    // /**
+    //  * Show the form for creating a new resource.
+    //  */
+    // public function create()
+    // {
+    //     //
+    // }
+
+    // /**
+    //  * Store a newly created resource in storage.
+    //  */
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
+
+    // /**
+    //  * Display the specified resource.
+    //  */
+    // public function show(Venda $venda)
+    // {
+    //     //
+    // }
+
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  */
+    // public function edit(Venda $venda)
+    // {
+    //     //
+    // }
+
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(Request $request, Venda $venda)
+    // {
+    //     //
+    // }
+
+    // /**
+    //  * Remove the specified resource from storage.
+    //  */
+    // public function destroy(Venda $venda)
+    // {
+    //     //
+    // }

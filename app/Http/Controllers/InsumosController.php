@@ -131,15 +131,49 @@ class InsumosController extends Controller
 
 
 
-    public function estoqueCooperativa($id)
-    {
-        // Filtra pelo id da cooperativa e traz os insumos mais recentes com paginação
-        $insumos = Insumo::where('cooperativa_id', $id)
-            ->latest()
-            ->paginate(10);
+    // public function estoqueCooperativa($id)
+    // {
+    //     // Filtra pelo id da cooperativa e traz os insumos mais recentes com paginação
+    //     $insumos = Insumo::where('cooperativa_id', $id)
+    //         ->latest()
+    //         ->paginate(10);
 
-        return view('estoque.insumos', compact('insumos', 'id'));
-    }
+    //      $totalInsumos = Insumo::where('cooperativa_id', $id)->count();
+
+
+    //     return view('estoque.insumos', compact('insumos', 'id','totalInsumos'));
+    // }
+
+public function estoqueCooperativa($id)
+{
+    $insumos = Insumo::where('cooperativa_id', $id)
+        ->latest()
+        ->paginate(10);
+
+    $totalInsumos = Insumo::where('cooperativa_id', $id)->count();
+
+    $totalSementes = Insumo::where('cooperativa_id', $id)
+        ->where('tipo', 'semente')
+        ->count();
+
+    $totalFertilizantes = Insumo::where('cooperativa_id', $id)
+        ->where('tipo', 'fertilizante')
+        ->count();
+
+    $totalMecanicos = Insumo::where('cooperativa_id', $id)
+        ->where('tipo', 'mecanico')
+        ->count();
+
+    return view('estoque.insumos', compact(
+        'insumos',
+        'id',
+        'totalInsumos',
+        'totalSementes',
+        'totalFertilizantes',
+        'totalMecanicos'
+    ));
+}
+
 
     public function store(Request $request)
     {
@@ -184,35 +218,6 @@ class InsumosController extends Controller
             'insumo' => $insumo,
         ], 201);
     }
-
-    // public function update(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'nome' => 'required|string|max:255',
-    //         'tipo' => 'required|string',
-    //         'unidade' => 'required|string|max:50',
-    //         'preco_unitario' => 'required|numeric|min:0',
-    //         'stock_minimo' => 'required|numeric|min:0',
-    //         'descricao' => 'nullable|string',
-    //     ]);
-
-    //     $insumo = Insumo::findOrFail($id);
-    //     $insumo->nome = $request->nome;
-    //     $insumo->tipo = $request->tipo;
-    //     $insumo->unidade = $request->unidade;
-    //     $insumo->preco_unitario = $request->preco_unitario;
-    //     $insumo->stock_minimo = $request->stock_minimo;
-    //     $insumo->descricao = $request->descricao;
-
-    //     $insumo->save();
-
-        
-
-    //     return response()->json([
-    //         'message' => 'Insumo atualizado com sucesso!',
-    //         'insumo' => $insumo,
-    //     ], 200);
-    // }
 
 
     public function update(Request $request, $id)

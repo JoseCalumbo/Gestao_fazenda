@@ -1987,6 +1987,7 @@
           <h1>Gestão de Cooperativas</h1>
           <p>Registo e administração das cooperativas agrícolas da região de Viana</p>
         </div>
+        
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <a href="{{route('cooperativas.pdf', request()->all()) }}" class="btn-outline-green" id="btnExportar">
             <i class="bi bi-download"></i> Exportar PDF
@@ -2134,7 +2135,7 @@
                   </td>
                   <td>
                     <div style="font-size:13px;">{{ $cooperador->telefone }}</div>
-                    <div style="font-size:12px;color:var(--text-light);">{{ $cooperador->email }}</div>
+                    <div style="font-size:12px;color:var(--text-light);">{{ $cooperador->email }} </div>
                   </td>
                   <td>
                     <span

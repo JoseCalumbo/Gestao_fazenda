@@ -13,6 +13,9 @@ class Venda extends Model
         'cliente',
         'valor_total',
         'forma_pagamento',
+        'valor_entregue',
+        'troco',
+        'status',
         'observacoes'
     ];
 

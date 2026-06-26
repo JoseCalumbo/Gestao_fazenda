@@ -1816,11 +1816,6 @@
           <h1>Gestão de Estoque </h1>
           <p>Registo e administração do estoque da cooperativa</p>
         </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn-outline-green" id="btnExportarEstoque">
-            <i class="bi bi-download"></i> Exportar
-          </button>
-        </div>
       </div>
 
       <!-- Stat Cards -->
@@ -1829,8 +1824,8 @@
           <div class="stat-card">
             <div class="stat-icon green"><i class="bi bi-box-seam-fill"></i></div>
             <div class="stat-info">
-              <div class="s-label">Total em Estoque</div>
-              <div class="s-value" id="totalEstoque">0</div>
+              <div class="s-label">Total em Estoques</div>
+              <div class="s-value" id="totalEstoques">{{ $totalInsumos ?? 0 }}</div>
               <span class="stat-badge info"><i class="bi bi-info-circle"></i> Itens disponíveis</span>
             </div>
           </div>
@@ -1840,7 +1835,7 @@
             <div class="stat-icon blue"><i class="bi bi-droplet-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Fertilizantes</div>
-              <div class="s-value" id="totalFertilizantes">0</div>
+              <div class="s-value" id="totalFertilizantess">{{ $totalFertilizantes ?? 0 }}</div>
               <span class="stat-badge info"><i class="bi bi-box-arrow-in-down"></i> Em stock</span>
             </div>
           </div>
@@ -1850,7 +1845,7 @@
             <div class="stat-icon amber"><i class="bi bi-seedling-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Sementes</div>
-              <div class="s-value" id="totalSementes">0</div>
+              <div class="s-value" id="totalSementes">{{ $totalSementes ?? 0}}</div>
               <span class="stat-badge info"><i class="bi bi-flower2"></i> Em stock</span>
             </div>
           </div>
@@ -1860,7 +1855,7 @@
             <div class="stat-icon purple"><i class="bi bi-tools"></i></div>
             <div class="stat-info">
               <div class="s-label">Materiais Mecânicos</div>
-              <div class="s-value" id="totalMecanico">0</div>
+              <div class="s-value" id="totalMecanico">{{ $totalMecanicos ?? 0}}</div>
               <span class="stat-badge info"><i class="bi bi-gear"></i> Em stock</span>
             </div>
           </div>
@@ -1878,9 +1873,9 @@
           <button class="settings-nav-item" data-tab="saidas">
             <i class="bi bi-arrow-right-circle-fill"></i> Saídas <span class="nav-count" id="countSaidas">0</span>
           </button>
-          <button class="settings-nav-item" data-tab="historico">
+          {{-- <button class="settings-nav-item" data-tab="historico">
             <i class="bi bi-clock-history"></i> Histórico <span class="nav-count" id="countHistorico">0</span>
-          </button>
+          </button> --}}
         </nav>
 
         <!-- ── CONTENT PANELS ── -->
@@ -2032,74 +2027,7 @@
             </div>
           </div>
 
-          <!-- ════════════════════════
-             TAB 3 — HISTÓRICO
-        ════════════════════════ -->
-          <div class="settings-panel" id="tab-historico">
-            <div class="cfg-card anim">
-              <div class="cfg-card-header">
-                <div class="cfg-card-header-left">
-                  <div class="cfg-card-icon blue"><i class="bi bi-clock-history"></i></div>
-                  <div>
-                    <div class="cfg-card-title">Histórico de Movimentações</div>
-                    <div class="cfg-card-sub">Todas as entradas e saídas de insumos</div>
-                  </div>
-                </div>
-              </div>
 
-              <!-- Filtros Histórico -->
-              <div class="action-bar">
-                <div style="display:flex;gap:10px;flex-wrap:wrap;width:100%;align-items:center;">
-                  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-                    <label style="font-size:12.5px;color:var(--text-mid);">Data Inicial</label>
-                    <input type="date" class="search-input" id="filtroDataIni" style="width:160px;padding:8px 12px;">
-                    <label style="font-size:12.5px;color:var(--text-mid);">Data Final</label>
-                    <input type="date" class="search-input" id="filtroDataFim" style="width:160px;padding:8px 12px;">
-                  </div>
-                  <select class="filter-select" id="filtroMovTipo" style="width:150px;">
-                    <option value="">Todos os movimentos</option>
-                    <option value="Entrada">Entrada</option>
-                    <option value="Saída">Saída</option>
-                  </select>
-                  <select class="filter-select" id="filtroMovInsumo" style="width:180px;">
-                    <option value="">Todos os insumos</option>
-                  </select>
-                  <button class="btn-green" id="btnFiltrarHistorico" style="padding:8px 18px;"><i
-                      class="bi bi-search"></i> Filtrar</button>
-                  <button class="btn-outline-green" id="btnLimparFiltrosHistorico" style="padding:8px 18px;"><i
-                      class="bi bi-eraser"></i> Limpar</button>
-                </div>
-              </div>
-
-              <!-- Tabela Histórico -->
-              <div class="table-wrap">
-                <table class="estoque-table" id="tabelaHistorico">
-                  <thead>
-                    <tr>
-                      <th data-col="data">Data</th>
-                      <th data-col="insumo_nome">Insumo</th>
-                      <th data-col="tipo_movimento">Tipo Movimento</th>
-                      <th data-col="quantidade">Quantidade</th>
-                      <th data-col="stock_anterior">Stock Anterior</th>
-                      <th data-col="stock_atual">Stock Atual</th>
-                      <th data-col="utilizador">Utilizador</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tabelaHistoricoBody">
-                    <!-- Renderizado via JavaScript -->
-                  </tbody>
-                </table>
-              </div>
-
-              <!-- Paginação Histórico -->
-              <div class="table-footer">
-                <span id="infoHistorico">Mostrando 0 - 0 de 0 registos</span>
-                <div class="pagination-btns" id="paginacaoHistorico">
-                  <!-- Renderizado via JavaScript -->
-                </div>
-              </div>
-            </div>
-          </div>
 
         </div><!-- /settings-content -->
       </div><!-- /settings-wrap -->
@@ -2567,7 +2495,7 @@
 
         if (tab === 'disponiveis') renderInsumos();
         else if (tab === 'saidas') renderSaidas();
-        else if (tab === 'historico') renderHistorico();
+        
       });
     });
 
@@ -2695,15 +2623,16 @@
       pagContainer.innerHTML = pagHtml;
 
       // Atualizar cards e contagem
-      const totalItens = insumosData.reduce((acc, i) => acc + i.stock_atual, 0);
-      document.getElementById('totalEstoque').textContent = totalItens;
-      document.getElementById('totalFertilizantes').textContent = insumosData.filter(i => i.tipo === 'Fertilizante')
-        .reduce((acc, i) => acc + i.stock_atual, 0);
-      document.getElementById('totalSementes').textContent = insumosData.filter(i => i.tipo === 'Semente').reduce((acc,
-        i) => acc + i.stock_atual, 0);
-      document.getElementById('totalMecanico').textContent = insumosData.filter(i => i.tipo === 'Mecânico').reduce((acc,
-        i) => acc + i.stock_atual, 0);
-      document.getElementById('countInsumos').textContent = insumosData.length;
+      // const totalItens = insumosData.reduce((acc, i) => acc + i.stock_atual, 0);
+      // document.getElementById('totalEstoque').textContent = totalItens;
+      // document.getElementById('totalFertilizantes').textContent = insumosData.filter(i => i.tipo === 'Fertilizante')
+      //   .reduce((acc, i) => acc + i.stock_atual, 0);
+      // document.getElementById('totalSementes').textContent = insumosData.filter(i => i.tipo === 'Semente').reduce((acc,
+      //   i) => acc + i.stock_atual, 0);
+      // document.getElementById('totalMecanico').textContent = insumosData.filter(i => i.tipo === 'Mecânico').reduce((acc,
+      //   i) => acc + i.stock_atual, 0);
+      // document.getElementById('countInsumos').textContent = insumosData.length;
+
     }
 
     /* Ordenação das colunas */
@@ -2911,7 +2840,7 @@
 
           modalMovimentar.hide();
           renderInsumos();
-          if (typeof renderHistorico === 'function') renderHistorico();
+          
           if (typeof carregarSelectInsumos === 'function') carregarSelectInsumos();
 
           showToast('Sucesso', resultado.message || 'Movimentação registada com sucesso!');
@@ -3700,26 +3629,7 @@
       });
     });
 
-    /* Filtros histórico */
-    function carregarSelectHistorico() {
-      const select = document.getElementById('filtroMovInsumo');
-      if (!select) return;
-      select.innerHTML = '<option value="">Todos os insumos</option>' +
-        insumosData.map(i => `<option value="${i.id}">${i.nome}</option>`).join('');
-    }
 
-    document.getElementById('btnFiltrarHistorico').addEventListener('click', () => {
-      historicoPagina = 1;
-      renderHistorico();
-    });
-    document.getElementById('btnLimparFiltrosHistorico').addEventListener('click', () => {
-      document.getElementById('filtroDataIni').value = '';
-      document.getElementById('filtroDataFim').value = '';
-      document.getElementById('filtroMovTipo').value = '';
-      document.getElementById('filtroMovInsumo').value = '';
-      historicoPagina = 1;
-      renderHistorico();
-    });
 
     /* ══════════════════════════════════════
        NAV ACTIVE SIDEBAR
@@ -3742,13 +3652,12 @@
     ══════════════════════════════════════ */
     document.addEventListener('DOMContentLoaded', () => {
       carregarSelectInsumos();
-      carregarSelectHistorico();
       carregarSelectSaidas();
       carregarAgricultoresSaida();
       carregarSaidasDoServidor()
       renderInsumos();
       renderSaidas();
-      renderHistorico();
+    
     });
 
 

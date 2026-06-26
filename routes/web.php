@@ -34,7 +34,12 @@ Route::middleware('auth')->group(function () {
 
     // Configurações
     Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('configuracoes');
+
+    // Fluxo de caixa
     Route::get('/fluxo-caixa', [ConfiguracaoController::class, 'index'])->name('fluxo-caixa');
+
+    // historico d evendas
+    Route::get('/vendas-historico', [ConfiguracaoController::class, 'index'])->name('vendas.historico');
 
     // Usuários
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -147,6 +152,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/safras/{safra}', [SafraController::class, 'update'])->name('safras.update');
             Route::delete('/safras/{safra}', [SafraController::class, 'destroy'])->name('safras.destroy');
         });
+
     // safra geral
     Route::get('/safras', [SafraController::class, 'painel'])
         ->name('safras.painel');
@@ -168,84 +174,30 @@ Route::middleware('auth')->group(function () {
         Route::get('/{produto}', [ProdutoController::class, 'show']);
     });
 
-    // Vendas
-    // Route::get('/vendas', [VendaController::class, 'index'])->name('vendas.index');
+    // Vendas routas
+    //  Route::get('/vendas', [VendaController::class, 'index'])->name('vendas.index');
+    // Rota para listar vendas com filtros e paginação
+    // Route::get('/api/cooperativas/{cooperativaId}/vendas/list/', [VendaController::class, 'getVendas']);
+    // Route::get('/api/cooperativas/{cooperativaId}/receita', [VendaController::class, 'getVendas']);
 
-    // Route::prefix('cooperativas/{cooperativa}')
-    //     ->group(function () {
-    //         Route::get('/vendas', [VendaController::class, 'indexx'])
-    //             ->name('vendas.index');
-    //         Route::post('/vendas', [VendaController::class, 'store'])
-    //             ->name('vendas.store');
-    //         Route::put('/vendas/{venda}', [VendaController::class, 'update'])
-    //             ->name('vendas.update');
-    //         Route::delete('/vendas/{venda}', [VendaController::class, 'destroy'])
-    //             ->name('vendas.destroy');
-    //     });
+    Route::get('/cooperativas/{cooperativaId}/receitas', [VendaController::class, 'index22']);
+    Route::get('/cooperativas/{cooperativaId}/vendas/list', [VendaController::class, 'getVendas']);
+
+    // Vendas json
+    Route::prefix('cooperativas/{cooperativaId}')->group(function () {
+        Route::get('/vendas', [VendaController::class, 'indexPainel'])->name('vendas.index');
+        Route::get('/vendas/produtos', [VendaController::class, 'getProdutos'])->name('vendas.produtos');
+        Route::post('/vendas/store', [VendaController::class, 'storeVenda'])->name('vendas.store');
+        Route::get('/vendas/historico', [VendaController::class, 'historico'])->name('vendas.historico');
+        Route::get('/vendas/{id}', [VendaController::class, 'getVenda'])->name('vendas.show');
+        Route::post('/vendas/{id}/cancelar', [VendaController::class, 'cancelarVenda'])->name('vendas.cancelar');
+    });
 
 
-    // routes/web.php
-// Route::prefix('vendas')->group(function () {
-//     Route::get('/', [VendaController::class, 'index'])->name('vendas.index');
-//     Route::get('/produtos/{cooperativaId}', [VendaController::class, 'getProdutos'])->name('vendas.produtos');
-//     Route::post('/store', [VendaController::class, 'storeVenda'])->name('vendas.store');
-//     Route::get('/{id}', [VendaController::class, 'getVenda'])->name('vendas.show');
-// });
+    // Rota principal para seleção de cooperativa
+Route::get('/vendas', [VendaController::class, 'indexCooperativasVenda'])->name('vendas.index');
 
-Route::prefix('vendas')->group(function () {
-    Route::get('/', [VendaController::class, 'index'])->name('vendas.index');
-    Route::get('/produtos', [VendaController::class, 'getProdutos'])->name('vendas.produtos');
-    Route::post('/store', [VendaController::class, 'storeVenda'])->name('vendas.store');
-    Route::get('/{id}', [VendaController::class, 'getVenda'])->name('vendas.show');
-});
+// Rota para buscar cooperativas via AJAX
+Route::get('/vendas/cooperativas', [VendaController::class, 'getCooperativas'])->name('vendas.cooperativas.list');
 
 });
-
-
-// // Rotas para Vendas
-// Route::prefix('vendas')->name('vendas.')->group(function () {
-//     // Página principal
-//     Route::get('/', [VendaController::class, 'index'])->name('index');
-
-//     // Store (criar nova venda)
-//     Route::post('/', [VendaController::class, 'store'])->name('store');
-
-//     // Show (detalhes da venda)
-//     Route::get('/{id}', [VendaController::class, 'show'])->name('show');
-
-//     // Update (editar venda)
-//     Route::put('/{id}', [VendaController::class, 'update'])->name('update');
-
-//     // Delete (remover venda)
-//     Route::delete('/{id}', [VendaController::class, 'destroy'])->name('destroy');
-
-//     // Detalhes para modal
-//     Route::get('/{id}/detalhes', [VendaController::class, 'getVendaDetails'])->name('detalhes');
-
-//     // Exportar
-//     Route::get('/exportar', [VendaController::class, 'exportar'])->name('exportar');
-
-//     // Estatísticas (AJAX)
-//     Route::get('/estatisticas', [VendaController::class, 'getEstatisticas'])->name('estatisticas');
-// });
-
-// // Rotas para Produtos (usadas no módulo de Vendas)
-// Route::prefix('produtos')->name('produtos.')->group(function () {
-//     // Listagem para AJAX
-//     Route::get('/list', [VendaController::class, 'getProdutos'])->name('list');
-
-//     // Página de produtos
-//     Route::get('/', [ProdutoController::class, 'index'])->name('index');
-
-//     // Store (criar novo produto)
-//     Route::post('/', [ProdutoController::class, 'store'])->name('store');
-
-//     // Show (detalhes do produto)
-//     Route::get('/{id}', [ProdutoController::class, 'show'])->name('show');
-
-//     // Update (editar produto)
-//     Route::put('/{id}', [ProdutoController::class, 'update'])->name('update');
-
-//     // Delete (remover produto)
-//     Route::delete('/{id}', [ProdutoController::class, 'destroy'])->name('destroy');
-// });

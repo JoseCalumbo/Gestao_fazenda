@@ -1548,6 +1548,7 @@
                   </td>
                   <td style="text-align:center;">
                     <div style="display:flex;gap:6px;justify-content:center;">
+
                       <button class="action-btn view btn-ver-talhao" title="Ver detalhes" data-id="{{ $talhao->id }}"
                         data-designacao="{{ $talhao->designacao }}" data-area="{{ $talhao->area }}"
                         data-cultura="{{ $talhao->cultura_actual }}" data-localizacao="{{ $talhao->localizacao }}"
@@ -1555,6 +1556,7 @@
                         data-agricultor="{{ $talhao->agricultor->nome_completo ?? 'Sem agricultor' }}">
                         <i class="bi bi-eye-fill"></i>
                       </button>
+
                     </div>
                   </td>
                 </tr>
@@ -1617,6 +1619,7 @@
 ══════════════════════════════════════ -->
   <div class="modal fade modal-coop" id="modalVerTalhao" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
+
       <div class="modal-content">
         <div class="modal-header">
           <div style="display:flex;align-items:center;gap:14px;flex:1;">
@@ -1643,6 +1646,7 @@
           <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Fechar</button>
         </div>
       </div>
+      
     </div>
   </div>
 
@@ -1828,6 +1832,7 @@
         'preparacao': 'Preparação',
         'inactivo': 'Inactivo'
       };
+
       document.getElementById('verTalhaoEstado').textContent = estadoMap[btn.dataset.estado] || btn.dataset.estado || '—';
 
       const modalEl = document.getElementById('modalVerTalhao');
