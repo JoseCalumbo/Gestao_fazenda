@@ -45,6 +45,14 @@
       padding: 0;
     }
 
+    /* Suprime TODAS as transições enquanto a página está a carregar,
+       para que o estado inicial da sidebar (icons-only em ecrãs < 760px)
+       apareça directamente, sem qualquer animação/flash visível. */
+    body.no-transition,
+    body.no-transition * {
+      transition: none !important;
+    }
+
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--page-bg);
@@ -1712,6 +1720,16 @@
 </head>
 
 <body>
+  <!-- ─── ESTADO INICIAL DA SIDEBAR — aplicado ANTES de qualquer pintura ─── -->
+  <script>
+    (function() {
+      var isMobile = window.innerWidth < 760;
+      document.body.classList.add('no-transition');
+      if (isMobile) {
+        document.body.classList.add('icons-only');
+      }
+    })();
+  </script>
 
   <!-- ══════════════════════════════════════
      SIDEBAR
@@ -3374,10 +3392,17 @@
 
   <script>
     /* ══════════════════════════════════════
-       SIDEBAR TOGGLE (3 estados)
+       SIDEBAR TOGGLE (3 estados) + RESPONSIVO
     ══════════════════════════════════════ */
     const body = document.body;
-    let sideState = 0;
+
+    // ─── ESTADO INICIAL ───
+    // A classe icons-only (quando aplicável) já foi aplicada por um script
+    // síncrono logo a seguir à tag <body>, antes de qualquer pintura.
+    // Aqui apenas sincronizamos a variável de estado com o que já está no DOM.
+    let sideState = body.classList.contains('icons-only') ? 1
+      : body.classList.contains('sidebar-hidden') ? 2
+      : 0;
 
     function applyTooltips() {
       document.querySelectorAll('.nav-item-link').forEach(el => {
@@ -3396,6 +3421,44 @@
       }
     }
 
+    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA (resize) ───
+    function adjustSidebarForScreen() {
+      const width = window.innerWidth;
+      let novoEstado = (width < 760) ? 1 : 0; // < 760 → icons-only · ≥ 760 → normal
+
+      // Só atualiza se o estado for diferente do atual para evitar loops
+      if (novoEstado !== sideState) {
+        sideState = novoEstado;
+        body.classList.remove('icons-only', 'sidebar-hidden');
+        if (sideState === 1) body.classList.add('icons-only');
+        if (sideState === 2) body.classList.add('sidebar-hidden');
+        applyTooltips();
+      }
+    }
+
+    // Debounce para evitar chamadas excessivas no redimensionamento
+    let resizeTimeout;
+
+    function handleResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
+    }
+
+    // Ao carregar: activa os tooltips (se aplicável), liga o listener de
+    // resize e só depois "liberta" as transições, para que o estado
+    // inicial não seja animado mas as interacções seguintes sim.
+    document.addEventListener('DOMContentLoaded', () => {
+      applyTooltips();
+      window.addEventListener('resize', handleResize);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          body.classList.remove('no-transition');
+        });
+      });
+    });
+
+    // Mantém o clique do botão para alternar manualmente
     document.getElementById('sidebarToggle').addEventListener('click', () => {
       sideState = (sideState + 1) % 3;
       body.classList.remove('icons-only', 'sidebar-hidden');
@@ -3540,6 +3603,7 @@
     ══════════════════════════════════════ */
     document.querySelectorAll('.nav-item-link').forEach(link => {
       link.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
         if (!href || href === '#') {
           e.preventDefault();
         }

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -52,6 +51,14 @@
       color: var(--text-dark);
       min-height: 100vh;
       overflow-x: hidden;
+    }
+
+    /* Suprime TODAS as transições enquanto a página está a carregar,
+       para que o estado inicial da sidebar (icons-only em ecrãs < 760px)
+       apareça directamente, sem qualquer animação/flash visível. */
+    body.no-transition,
+    body.no-transition * {
+      transition: none !important;
     }
 
     /* ═══════════════════════════════════════════
@@ -1840,6 +1847,19 @@
 </head>
 
 <body>
+  <script>
+    // ─── ESTADO INICIAL DA SIDEBAR — aplicado ANTES de qualquer pintura ───
+    // Este script corre de forma síncrona logo à entrada do <body>, antes
+    // de o browser desenhar a sidebar, garantindo que não há transição
+    // visível (nem "flash") entre o estado normal e o icons-only no carregamento.
+    (function () {
+      var isMobile = window.innerWidth < 760;
+      document.body.classList.add('no-transition');
+      if (isMobile) {
+        document.body.classList.add('icons-only');
+      }
+    })();
+  </script>
 
   <!-- ══════════════════════════════════════
      SIDEBAR
@@ -2773,7 +2793,14 @@
        SIDEBAR TOGGLE (3 estados) + RESPONSIVO
     ══════════════════════════════════════ */
     const body = document.body;
-    let sideState = 0; // 0 = normal, 1 = icons-only, 2 = hidden
+
+    // ─── ESTADO INICIAL ───
+    // A classe icons-only (quando aplicável) já foi aplicada por um script
+    // síncrono logo a seguir à tag <body>, antes de qualquer pintura.
+    // Aqui apenas sincronizamos a variável de estado com o que já está no DOM.
+    let sideState = body.classList.contains('icons-only') ? 1
+                  : body.classList.contains('sidebar-hidden') ? 2
+                  : 0;
 
     function applyTooltips() {
       document.querySelectorAll('.nav-item-link').forEach(el => {
@@ -2792,16 +2819,10 @@
       }
     }
 
-    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA ───
+    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA (resize) ───
     function adjustSidebarForScreen() {
       const width = window.innerWidth;
-      let novoEstado = 0;
-
-      if (width < 768) {
-        novoEstado = 1; // icons-only
-      } else {
-        novoEstado = 0; // normal
-      }
+      let novoEstado = (width < 760) ? 1 : 0; // < 760 → icons-only · ≥ 760 → normal
 
       // Só atualiza se o estado for diferente do atual para evitar loops
       if (novoEstado !== sideState) {
@@ -2821,10 +2842,18 @@
       resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
     }
 
-    // Executa ao carregar e ao redimensionar
+    // Ao carregar: activa os tooltips (se aplicável), liga o listener de
+    // resize e só depois "liberta" as transições, para que o estado
+    // inicial não seja animado mas as interacções seguintes sim.
     document.addEventListener('DOMContentLoaded', () => {
-      adjustSidebarForScreen();
+      applyTooltips();
       window.addEventListener('resize', handleResize);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          body.classList.remove('no-transition');
+        });
+      });
     });
 
     // Mantém o clique do botão para alternar manualmente

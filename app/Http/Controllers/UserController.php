@@ -68,35 +68,7 @@ class UserController extends Controller
         ]);
     }
 
-    // public function store(Request $request)
-    // {
-    //     $foto = null;
 
-    //     if ($request->hasFile('foto')) {
-    //         // Mantemos a sua lógica de gerar um nome único
-    //         $nomeFoto = time().'_'.$request->file('foto')->getClientOriginalName();
-
-    //         // Isso vai salvar em: storage/app/public/uploads/users/
-    //         $request->file('foto')->storeAs('uploads/users', $nomeFoto, 'public');
-
-    //         $foto = $nomeFoto;
-    //     }
-
-    //     $user = User::create([
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'password' => Hash::make($request->password),
-    //         'telefone' => $request->telefone,
-    //         'foto' => $foto,
-    //         'nivel' => $request->nivel,
-    //         'estado' => $request->estado,
-    //     ]);
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'user' => $user,
-    //     ]);
-    // }
 
     // Apaga os dados do user
     public function destroy($id)
@@ -149,29 +121,4 @@ class UserController extends Controller
     }
 
 
-    // ...
-    // public function destroy($id)
-    // {
-    //     $user = User::find($id);
-
-    //     if (! $user) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Utilizador não encontrado',
-    //         ], 404);
-    //     }
-
-    //     // O PADRÃO LARAVEL: Se o utilizador tiver foto, removemos ela do disco público
-    //     if ($user->foto) {
-    //         Storage::disk('public')->delete('uploads/users/'.$user->foto);
-    //     }
-
-    //     // Agora sim, deletamos o registo do banco de dados seguro
-    //     $user->delete();
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => 'Utilizador eliminado com sucesso',
-    //     ]);
-    // }
 }

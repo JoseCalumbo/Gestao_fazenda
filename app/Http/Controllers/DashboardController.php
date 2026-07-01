@@ -9,7 +9,7 @@ class DashboardController extends Controller
     // Exibe a página principal com a listagem inicial
     public function index()
     {
-        return view('dashboard.dashboard');
+        return view('dashboard.dashboard1');
     }
     
 }

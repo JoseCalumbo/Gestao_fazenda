@@ -73,6 +73,6 @@ class SafraController extends Controller
         $safras = Safra::with('cooperativa')
             ->paginate(10);
 
-        return view('safras.painel', compact('safras'));
+        return view('safras.safras', compact('safras'));
     }
 }

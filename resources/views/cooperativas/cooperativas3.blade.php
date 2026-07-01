@@ -53,6 +53,14 @@
       overflow-x: hidden;
     }
 
+    /* Suprime TODAS as transições enquanto a página está a carregar,
+       para que o estado inicial da sidebar (icons-only em ecrãs < 760px)
+       apareça directamente, sem qualquer animação/flash visível. */
+    body.no-transition,
+    body.no-transition * {
+      transition: none !important;
+    }
+
     /* ═══════════════════════════════════════════
        SIDEBAR
     ═══════════════════════════════════════════ */
@@ -1839,6 +1847,19 @@
 </head>
 
 <body>
+  <script>
+    // ─── ESTADO INICIAL DA SIDEBAR — aplicado ANTES de qualquer pintura ───
+    // Este script corre de forma síncrona logo à entrada do <body>, antes
+    // de o browser desenhar a sidebar, garantindo que não há transição
+    // visível (nem "flash") entre o estado normal e o icons-only no carregamento.
+    (function () {
+      var isMobile = window.innerWidth < 760;
+      document.body.classList.add('no-transition');
+      if (isMobile) {
+        document.body.classList.add('icons-only');
+      }
+    })();
+  </script>
 
   <!-- ══════════════════════════════════════
      SIDEBAR
@@ -2773,14 +2794,13 @@
     ══════════════════════════════════════ */
     const body = document.body;
 
-    // ─── ESTADO INICIAL JÁ CALCULADO ANTES DE QUALQUER RENDER ───
-    // Evita o "flash" em que o sidebar aparece normal e só depois muda
-    // para icons-only: o estado é definido e a classe aplicada de imediato,
-    // assim que este script corre (o body já existe nesta altura).
-    let sideState = window.innerWidth < 760 ? 1 : 0; // 0 = normal, 1 = icons-only, 2 = hidden
-    body.classList.remove('icons-only', 'sidebar-hidden');
-    if (sideState === 1) body.classList.add('icons-only');
-    if (sideState === 2) body.classList.add('sidebar-hidden');
+    // ─── ESTADO INICIAL ───
+    // A classe icons-only (quando aplicável) já foi aplicada por um script
+    // síncrono logo a seguir à tag <body>, antes de qualquer pintura.
+    // Aqui apenas sincronizamos a variável de estado com o que já está no DOM.
+    let sideState = body.classList.contains('icons-only') ? 1
+                  : body.classList.contains('sidebar-hidden') ? 2
+                  : 0;
 
     function applyTooltips() {
       document.querySelectorAll('.nav-item-link').forEach(el => {
@@ -2822,11 +2842,18 @@
       resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
     }
 
-    // Ao carregar, apenas activa os tooltips (se aplicável) e liga o listener
-    // de resize — o estado inicial já foi aplicado acima, sem espera pelo DOMContentLoaded.
+    // Ao carregar: activa os tooltips (se aplicável), liga o listener de
+    // resize e só depois "liberta" as transições, para que o estado
+    // inicial não seja animado mas as interacções seguintes sim.
     document.addEventListener('DOMContentLoaded', () => {
       applyTooltips();
       window.addEventListener('resize', handleResize);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          body.classList.remove('no-transition');
+        });
+      });
     });
 
     // Mantém o clique do botão para alternar manualmente

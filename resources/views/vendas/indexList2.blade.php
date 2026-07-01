@@ -54,6 +54,14 @@
             overflow-x: hidden;
         }
 
+        /* Suprime TODAS as transições enquanto a página está a carregar,
+           para que o estado inicial da sidebar (icons-only em ecrãs < 760px)
+           apareça directamente, sem qualquer animação/flash visível. */
+        body.no-transition,
+        body.no-transition * {
+            transition: none !important;
+        }
+
         /* ===== SIDEBAR ===== */
         #sidebar {
             position: fixed;
@@ -1109,32 +1117,24 @@
                 grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
                 gap: 16px;
             }
-
-            /* ─── FORÇAR CARDS ESTATÍSTICOS EM COLUNA ÚNICA ─── */
-            .row.g-3.mb-4 {
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .row.g-3.mb-4 .col-6 {
-                width: 100%;
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-
-            .stat-card {
-                padding: 16px 18px;
-            }
-
-            .stat-info .s-value {
-                font-size: 18px;
-            }
         }
     </style>
 </head>
 
 <body>
+    <script>
+        // ─── ESTADO INICIAL DA SIDEBAR — aplicado ANTES de qualquer pintura ───
+        // Este script corre de forma síncrona logo à entrada do <body>, antes
+        // de o browser desenhar a sidebar, garantindo que não há transição
+        // visível (nem "flash") entre o estado normal e o icons-only no carregamento.
+        (function () {
+            var isMobile = window.innerWidth < 760;
+            document.body.classList.add('no-transition');
+            if (isMobile) {
+                document.body.classList.add('icons-only');
+            }
+        })();
+    </script>
 
     <!-- ===== SIDEBAR ===== -->
     <nav id="sidebar">
@@ -1284,7 +1284,7 @@
             <!-- Page Header -->
             <div class="page-header anim">
                 <div>
-                    <h1>Vendas de Produtos</h1>
+                    <h1>Cooperativas</h1>
                     <p>Selecione uma cooperativa para iniciar o painel de vendas</p>
                 </div>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;">
@@ -1419,10 +1419,17 @@
         const API_URL = '/vendas/cooperativas';
 
         /* ══════════════════════════════════════
-           SIDEBAR TOGGLE + INICIALIZAÇÃO EM MODO ÍCONE
+           SIDEBAR TOGGLE + AJUSTE AUTOMÁTICO
         ══════════════════════════════════════ */
         const body = document.body;
-        let sideState = 0;
+
+        // ─── ESTADO INICIAL ───
+        // A classe icons-only (quando aplicável) já foi aplicada por um script
+        // síncrono logo a seguir à tag <body>, antes de qualquer pintura.
+        // Aqui apenas sincronizamos a variável de estado com o que já está no DOM.
+        let sideState = body.classList.contains('icons-only') ? 1
+                      : body.classList.contains('sidebar-hidden') ? 2
+                      : 0;
 
         function applyTooltips() {
             document.querySelectorAll('.nav-item-link').forEach(el => {
@@ -1441,38 +1448,49 @@
             }
         }
 
-        // ─── VERIFICAR LARGURA INICIAL ───
-        function ajustarSidebarInicial() {
-            if (window.innerWidth < 768) {
-                body.classList.add('icons-only');
-                sideState = 1;
+        // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA (resize) ───
+        function adjustSidebarForScreen() {
+            const width = window.innerWidth;
+            let novoEstado = (width < 760) ? 1 : 0; // < 760 → icons-only · ≥ 760 → normal
+
+            // Só atualiza se o estado for diferente do atual para evitar loops
+            if (novoEstado !== sideState) {
+                sideState = novoEstado;
+                body.classList.remove('icons-only', 'sidebar-hidden');
+                if (sideState === 1) body.classList.add('icons-only');
+                if (sideState === 2) body.classList.add('sidebar-hidden');
                 applyTooltips();
-            } else {
-                body.classList.remove('icons-only');
-                sideState = 0;
             }
         }
 
-        // ─── TOGGLE MANUAL (3 estados) ───
+        // Debounce para evitar chamadas excessivas no redimensionamento
+        let resizeTimeout;
+
+        function handleResize() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
+        }
+
+        // Ao carregar: activa os tooltips (se aplicável), liga o listener de
+        // resize e só depois "liberta" as transições, para que o estado
+        // inicial não seja animado mas as interacções seguintes sim.
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTooltips();
+            window.addEventListener('resize', handleResize);
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    body.classList.remove('no-transition');
+                });
+            });
+        });
+
         document.getElementById('sidebarToggle').addEventListener('click', () => {
             sideState = (sideState + 1) % 3;
             body.classList.remove('icons-only', 'sidebar-hidden');
             if (sideState === 1) body.classList.add('icons-only');
             if (sideState === 2) body.classList.add('sidebar-hidden');
             applyTooltips();
-        });
-
-        // ─── AJUSTAR AO REDIMENSIONAR (opcional, para melhor experiência) ───
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                // Só ajusta automaticamente se o usuário não estiver em modo manual (sideState 0 ou 1)
-                // Para não interferir com o toggle manual, mantemos a lógica apenas no carregamento.
-                // Mas se quiser que o sidebar se adapte automaticamente ao redimensionar,
-                // pode descomentar a linha abaixo:
-                // ajustarSidebarInicial();
-            }, 200);
         });
 
         /* ══════════════════════════════════════
@@ -1737,10 +1755,6 @@
            INICIALIZAÇÃO
         ══════════════════════════════════════ */
         document.addEventListener('DOMContentLoaded', function () {
-            // 1. Ajustar sidebar para modo ícone se necessário
-            ajustarSidebarInicial();
-
-            // 2. Carregar dados
             loadCooperativas();
             loadVendasHoje();
         });

@@ -155,7 +155,7 @@ $totalInsumosRecebidos = \App\Models\HistoricoEstoque::where('agricultor_id', $i
         // Conta os agricultores ativos no sistema de forma geral
         $pedentes = Agricultor::where('estado', 'Pendente')->count();
 
-        return view('agricultores.agricultores', compact(
+        return view('agricultores.agricultores2', compact(
             'agricultores',
             'cooperativas',
             'totalAgricultores',

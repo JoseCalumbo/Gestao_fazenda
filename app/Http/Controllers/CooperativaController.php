@@ -74,7 +74,7 @@ class CooperativaController extends Controller
             ->appends($request->all());
 
         // Retorna tudo certinho para o Blade
-        return view('cooperativas.cooperativas3', compact(
+        return view('cooperativas.cooperativas', compact(
             'cooperativas',
             'totalInactivas',
             'totalPendentes',

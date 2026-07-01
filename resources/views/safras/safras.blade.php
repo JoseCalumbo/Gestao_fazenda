@@ -45,6 +45,14 @@
       padding: 0;
     }
 
+    /* Suprime TODAS as transições enquanto a página está a carregar,
+       para que o estado inicial da sidebar (icons-only em ecrãs < 760px)
+       apareça directamente, sem qualquer animação/flash visível. */
+    body.no-transition,
+    body.no-transition * {
+      transition: none !important;
+    }
+
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--page-bg);
@@ -345,6 +353,7 @@
       color: #fff;
     }
 
+    /* Ícones Bootstrap — cor verde primária por defeito */
     .bi {
       color: var(--primary);
     }
@@ -365,11 +374,13 @@
 
     .topbar-title .bi,
     .table-card-header .bi,
+    .cfg-card-title .bi,
     .modal-section-title .bi {
       color: var(--primary);
     }
 
     .badge-status .bi,
+    .badge-cargo .bi,
     .stat-badge .bi {
       color: inherit;
     }
@@ -734,6 +745,7 @@
       color: var(--text-dark);
     }
 
+    /* Search bar */
     .search-filter-bar {
       padding: 14px 24px;
       border-bottom: 1px solid var(--border);
@@ -839,50 +851,58 @@
       background: #F8FBF8;
     }
 
-    .safra-cell {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .safra-cell .safra-name {
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .safra-cell .safra-cultura {
-      font-size: 11.5px;
-      color: var(--text-light);
-      margin-top: 1px;
-    }
-
+    /* Badges */
     .badge-status {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 11px;
-      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 0;
+      background: none;
+      border-radius: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    .badge-status.planeada {
-      background: #FFF8E1;
-      color: #F57F17;
-    }
-
-    .badge-status.em_andamento {
-      background: #E3F2FD;
-      color: #1565C0;
-    }
-
-    .badge-status.concluida {
-      background: #E8F5E9;
+    .badge-status.activa {
       color: #2E7D32;
     }
 
-    .badge-status.cancelada {
-      background: #FFEBEE;
+    .badge-status.inactiva {
       color: #C62828;
     }
 
+    .badge-status.pendente {
+      color: #F57F17;
+    }
+
+    .badge-status.concluida {
+      color: #1565C0;
+    }
+
+    .badge-status .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .badge-status.activa .dot {
+      background: #2E7D32;
+    }
+
+    .badge-status.inactiva .dot {
+      background: #C62828;
+    }
+
+    .badge-status.pendente .dot {
+      background: #F57F17;
+    }
+
+    .badge-status.concluida .dot {
+      background: #1565C0;
+    }
+
+    /* Action buttons in table */
     .action-btn {
       width: 32px;
       height: 32px;
@@ -897,26 +917,6 @@
       text-decoration: none;
     }
 
-    .action-btn.edit {
-      background: var(--accent-lt);
-      color: var(--primary);
-    }
-
-    .action-btn.edit:hover {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .action-btn.delete {
-      background: #FFEBEE;
-      color: #C62828;
-    }
-
-    .action-btn.delete:hover {
-      background: #C62828;
-      color: #fff;
-    }
-
     .action-btn.view {
       background: #EDE7F6;
       color: #6A1B9A;
@@ -927,6 +927,7 @@
       color: #fff;
     }
 
+    /* Pagination */
     .table-footer {
       padding: 14px 24px;
       display: flex;
@@ -975,6 +976,9 @@
       border-color: var(--primary);
     }
 
+    /* ═══════════════════════════════════════════
+       EMPTY STATE
+    ═══════════════════════════════════════════ */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
@@ -1001,60 +1005,10 @@
     }
 
     /* ═══════════════════════════════════════════
-       MODAL
-    ═══════════════════════════════════════ */
+       MODAL — VISUALIZAR SAFRA
+    ═══════════════════════════════════════════ */
     .modal-coop {
-      max-width: 780px;
-    }
-
-    .modal-coop .modal-content {
-      height: 620px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .modal-coop .modal-body {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 0;
-      background: var(--page-bg);
-      scrollbar-width: thin;
-      scrollbar-color: rgba(0, 0, 0, .15) transparent;
-    }
-
-    .modal-coop .modal-body::-webkit-scrollbar {
-      width: 5px;
-    }
-
-    .modal-coop .modal-body::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .modal-coop .modal-body::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, .12);
-      border-radius: 10px;
-    }
-
-    .modal-coop .modal-body::-webkit-scrollbar-thumb:hover {
-      background: rgba(0, 0, 0, .22);
-    }
-
-    body.dark-mode .modal-coop .modal-body {
-      scrollbar-color: rgba(255, 255, 255, .15) transparent;
-    }
-
-    body.dark-mode .modal-coop .modal-body::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, .15);
-    }
-
-    .modal-tab-panel {
-      display: none;
-      padding: 22px;
-    }
-
-    .modal-tab-panel.active {
-      display: block;
+      max-width: 600px;
     }
 
     .modal-content {
@@ -1101,7 +1055,8 @@
     }
 
     .modal-body {
-      background: var(--page-bg);
+      background: #fff;
+      padding: 28px;
     }
 
     .modal-footer {
@@ -1109,168 +1064,6 @@
       border-top: 1px solid var(--border);
       background: #fff;
       flex-shrink: 0;
-    }
-
-    .modal-section-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .modal-section-title i {
-      font-size: 13px;
-      color: var(--primary);
-    }
-
-    .modal-form-card {
-      background: var(--card-bg);
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      padding: 20px 22px;
-      margin-bottom: 16px;
-    }
-
-    .cfg-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-mid);
-      margin-bottom: 5px;
-      letter-spacing: .2px;
-    }
-
-    .cfg-input {
-      width: 100%;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 13px;
-      font-size: 13.5px;
-      color: var(--text-dark);
-      background: #FAFAF9;
-      font-family: 'DM Sans', sans-serif;
-      outline: none;
-      transition: border-color .2s, box-shadow .2s;
-    }
-
-    .cfg-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
-      background: #fff;
-    }
-
-    .cfg-input::placeholder {
-      color: #C3B8B4;
-    }
-
-    .cfg-select {
-      width: 100%;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 32px 10px 13px;
-      font-size: 13.5px;
-      color: var(--text-dark);
-      background: #FAFAF9;
-      appearance: none;
-      cursor: pointer;
-      outline: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238FA894' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      transition: border-color .2s;
-      font-family: 'DM Sans', sans-serif;
-    }
-
-    .cfg-select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
-    }
-
-    .cfg-textarea {
-      width: 100%;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 13px;
-      font-size: 13.5px;
-      color: var(--text-dark);
-      background: #FAFAF9;
-      resize: vertical;
-      min-height: 80px;
-      outline: none;
-      font-family: 'DM Sans', sans-serif;
-      transition: border-color .2s;
-    }
-
-    .cfg-textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
-    }
-
-    .cfg-helper {
-      font-size: 11.5px;
-      color: var(--text-light);
-      margin-top: 4px;
-    }
-
-    .modal-tabs {
-      display: flex;
-      gap: 0;
-      border-bottom: 2px solid var(--border);
-      background: var(--page-bg);
-      padding: 0 24px;
-      overflow-x: auto;
-    }
-
-    .modal-tabs::-webkit-scrollbar {
-      height: 0;
-    }
-
-    .modal-tab-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 18px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-mid);
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      cursor: pointer;
-      transition: color .15s, border-color .15s;
-      white-space: nowrap;
-    }
-
-    .modal-tab-btn .bi {
-      color: var(--text-light);
-      transition: color .15s;
-      font-size: 15px;
-    }
-
-    .modal-tab-btn:hover {
-      color: var(--primary);
-    }
-
-    .modal-tab-btn:hover .bi {
-      color: var(--primary);
-    }
-
-    .modal-tab-btn.active {
-      color: var(--primary);
-      font-weight: 600;
-      border-bottom-color: var(--primary);
-    }
-
-    .modal-tab-btn.active .bi {
-      color: var(--primary);
     }
 
     /* Toast */
@@ -1336,6 +1129,7 @@
         opacity: 0;
         transform: translateY(14px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -1402,10 +1196,7 @@
     }
 
     body.dark-mode .search-input,
-    body.dark-mode .filter-select,
-    body.dark-mode .cfg-input,
-    body.dark-mode .cfg-select,
-    body.dark-mode .cfg-textarea {
+    body.dark-mode .filter-select {
       background: #172518;
       color: #e8f0e9;
       border-color: rgba(255, 255, 255, .1);
@@ -1413,11 +1204,6 @@
 
     body.dark-mode .modal-body {
       background: #1a2a1c;
-    }
-
-    body.dark-mode .modal-form-card {
-      background: #1e2a20;
-      border-color: rgba(255, 255, 255, .07);
     }
 
     body.dark-mode .modal-footer {
@@ -1451,6 +1237,11 @@
         padding: 16px;
       }
 
+      .modal-coop {
+        max-width: 100%;
+        margin: 10px;
+      }
+
       /* ─── FORÇAR CARDS EM COLUNA ÚNICA ─── */
       .row.g-3.mb-4 {
         display: flex;
@@ -1476,6 +1267,16 @@
 </head>
 
 <body>
+  <!-- ─── ESTADO INICIAL DA SIDEBAR — aplicado ANTES de qualquer pintura ─── -->
+  <script>
+    (function() {
+      var isMobile = window.innerWidth < 760;
+      document.body.classList.add('no-transition');
+      if (isMobile) {
+        document.body.classList.add('icons-only');
+      }
+    })();
+  </script>
 
   <!-- ══════════════════════════════════════
      SIDEBAR
@@ -1514,8 +1315,9 @@
           </g>
         </svg>
       </div>
-      <div class="logo-text-wrap">
-        <div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.1;">
+      <div class="logo-text-wrap" style="opacity:1;transition:opacity .2s;white-space:nowrap;">
+        <div
+          style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.1;">
           SIAG</div>
         <div style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.5px;">Agrícola Cooperativas</div>
       </div>
@@ -1523,20 +1325,28 @@
 
     <div class="sidebar-nav">
       <div class="nav-section-title">Principal</div>
-      <a href="{{ route('dashboard') }}" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
-      <a href="{{ route('cooperativas') }}" class="nav-item-link" data-label="Cooperativa"><i class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
-      <a href="{{ route('agricultores.index') }}" class="nav-item-link" data-label="Agricultores"><i class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
+      <a href="{{ route('dashboard') }}" class="nav-item-link" data-label="Dashboard"><i
+          class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
+      <a href="{{ route('cooperativas') }}" class="nav-item-link" data-label="Cooperativa"><i
+          class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
+      <a href="{{ route('agricultores.index') }}" class="nav-item-link" data-label="Agricultores"><i
+          class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
-      <a href="{{ route('safras.painel') }}" class="nav-item-link active" data-label="Safras"><i class="bi bi-flower2"></i><span class="nav-label">Safras</span></a>
-      <a href="{{ route('talhoes.index') }}" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span class="nav-label">Talhões</span></a>
-      <a href="{{ route('insumos.index') }}" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span class="nav-label">Insumos</span></a>
+      <a href="#" class="nav-item-link active" data-label="Safras"><i class="bi bi-flower2"></i><span
+          class="nav-label">Safras</span></a>
+      <a href="{{route('talhoes.index')}}" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
+          class="nav-label">Talhões</span></a>
+      <a href="{{ route('insumos.index')}}" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
+          class="nav-label">Insumos</span></a>
 
       <div class="nav-section-title">Comercial</div>
-      <a href="{{ route('vendas') }}" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span class="nav-label">Vendas</span></a>
+      <a href="{{route('vendas')}}"  class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
+          class="nav-label">Vendas</span></a>
 
       <div class="nav-section-title">Sistema</div>
-      <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
+      <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i
+          class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
     </div>
 
     <div class="sidebar-user">
@@ -1562,6 +1372,7 @@
       </ol>
     </nav>
     <div class="topbar-right">
+
       <div class="dropdown d-none d-sm-flex">
         <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
           <div class="t-avatar">
@@ -1569,17 +1380,30 @@
               src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
               alt="Foto-perfil" width="20" class="avatar-md">
           </div>
-          <span>{{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
+          <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
           <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
         </div>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
           <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#" id="themeToggle"><i class="bi bi-moon-stars-fill" id="themeIcon"></i><span id="themeLabel">Modo Escuro</span></a></li>
-          <li><hr class="dropdown-divider"></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a class="dropdown-item" href="#" id="themeToggle">
+              <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+              <span id="themeLabel">Modo Escuro</span>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
           <li>
             <div class="dropdown-item item-logout p-0">
-              <form method="POST" action="/logout">@csrf<button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button></form>
+              <form method="POST" action="/logout">
+                @csrf
+                <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
+              </form>
             </div>
           </li>
         </ul>
@@ -1597,12 +1421,12 @@
       <div class="page-header anim">
         <div>
           <h1>Gestão de Safras</h1>
-          <p>Planeamento e acompanhamento das épocas agrícolas e produções</p>
+          <p>Registo e administração das safras agrícolas da cooperativa</p>
         </div>
+
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn-outline-green" id="btnExportar"><i class="bi bi-download"></i> Exportar</button>
-          <button class="btn-green" id="btnNovaSafra" data-bs-toggle="modal" data-bs-target="#modalSafra">
-            <i class="bi bi-plus-lg"></i> Nova Safra
+          <button class="btn-outline-green" id="btnExportar" style="display: none;" >
+            <i class="bi bi-download"></i> Exportar
           </button>
         </div>
       </div>
@@ -1611,7 +1435,7 @@
       <div class="row g-3 mb-4 anim anim-d1">
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon green"><i class="bi bi-calendar-event-fill"></i></div>
+            <div class="stat-icon green"><i class="bi bi-flower2"></i></div>
             <div class="stat-info">
               <div class="s-label">Total de Safras</div>
               <div class="s-value">{{ $totalSafras ?? 0 }}</div>
@@ -1620,28 +1444,28 @@
         </div>
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon blue"><i class="bi bi-play-circle-fill"></i></div>
+            <div class="stat-icon blue"><i class="bi bi-check-circle-fill"></i></div>
             <div class="stat-info">
-              <div class="s-label">Em Andamento</div>
-              <div class="s-value">{{ $emAndamento ?? 0 }}</div>
+              <div class="s-label">Safras Activas</div>
+              <div class="s-value">{{ $safrasActivas ?? 0 }}</div>
             </div>
           </div>
         </div>
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon amber"><i class="bi bi-check-circle-fill"></i></div>
+            <div class="stat-icon amber"><i class="bi bi-clock-fill"></i></div>
+            <div class="stat-info">
+              <div class="s-label">Pendentes</div>
+              <div class="s-value">{{ $safrasPendentes ?? 0 }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-xl-3">
+          <div class="stat-card">
+            <div class="stat-icon purple"><i class="bi bi-check-all"></i></div>
             <div class="stat-info">
               <div class="s-label">Concluídas</div>
-              <div class="s-value">{{ $concluidas ?? 0 }}</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 col-xl-3">
-          <div class="stat-card">
-            <div class="stat-icon purple"><i class="bi bi-clock-fill"></i></div>
-            <div class="stat-info">
-              <div class="s-label">Planeadas</div>
-              <div class="s-value">{{ $planeadas ?? 0 }}</div>
+              <div class="s-value">{{ $safrasConcluidas ?? 0 }}</div>
             </div>
           </div>
         </div>
@@ -1650,234 +1474,180 @@
       <!-- Table Card -->
       <div class="table-card anim anim-d2">
 
+        <!-- Header -->
         <div class="table-card-header">
-          <h5><i class="bi bi-flower2 me-2" style="color:var(--primary);"></i>Lista de Safras</h5>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <h5><i class="bi bi-flower2 me-2" style="color:var(--primary);"></i>Lista de Safras</h5>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span style="font-size:12.5px;color:var(--text-light);">{{ $safras->total() ?? 0 }} registos</span>
+          </div>
         </div>
 
-        <form action="{{ route('safras.painel') }}" method="GET" class="search-filter-bar">
+        <div class="search-filter-bar">
           <div class="search-wrap">
             <i class="bi bi-search"></i>
-            <input type="text" name="search" class="search-input" placeholder="Pesquisar safra por nome ou cultura…" value="{{ request('search') }}">
+            <input type="text" class="search-input" id="searchSafra" placeholder="Pesquisar por nome da safra...">
           </div>
-
-          <select class="filter-select" name="estado" onchange="this.form.submit()">
+          <select class="filter-select" id="filterEstado">
             <option value="">Todos os estados</option>
-            <option value="planeada" {{ request('estado') == 'planeada' ? 'selected' : '' }}>Planeada</option>
-            <option value="em_andamento" {{ request('estado') == 'em_andamento' ? 'selected' : '' }}>Em Andamento</option>
-            <option value="concluida" {{ request('estado') == 'concluida' ? 'selected' : '' }}>Concluída</option>
-            <option value="cancelada" {{ request('estado') == 'cancelada' ? 'selected' : '' }}>Cancelada</option>
+            <option value="activa">Activa</option>
+            <option value="inactiva">Inactiva</option>
+            <option value="pendente">Pendente</option>
+            <option value="concluida">Concluída</option>
           </select>
-
-          <select class="filter-select" name="cultura" onchange="this.form.submit()">
-            <option value="">Todas as culturas</option>
-            <option value="Milho" {{ request('cultura') == 'Milho' ? 'selected' : '' }}>Milho</option>
-            <option value="Feijão" {{ request('cultura') == 'Feijão' ? 'selected' : '' }}>Feijão</option>
-            <option value="Mandioca" {{ request('cultura') == 'Mandioca' ? 'selected' : '' }}>Mandioca</option>
-            <option value="Batata-doce" {{ request('cultura') == 'Batata-doce' ? 'selected' : '' }}>Batata-doce</option>
-            <option value="Hortícolas" {{ request('cultura') == 'Hortícolas' ? 'selected' : '' }}>Hortícolas</option>
+          <select class="filter-select" id="filterCooperativa">
+            <option value="">Todas as cooperativas</option>
+            {{-- @foreach($cooperativas as $coop)
+              <option value="{{ $coop->id }}">{{ $coop->nome }}</option>
+            @endforeach --}}
           </select>
-        </form>
+          <button class="btn-green" id="btnFiltrar" style="padding:8px 18px;"><i class="bi bi-search"></i> Filtrar</button>
+          <button class="btn-outline-green" id="btnLimparFiltros" style="padding:8px 18px;"><i class="bi bi-eraser"></i> Limpar</button>
+        </div>
 
+        <!-- Table -->
         <div style="overflow-x:auto;">
-          <table class="safra-table">
+          <table class="safra-table" id="safraTable">
             <thead>
               <tr>
-                <th style="width:40px;"><input type="checkbox" id="selectAll" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></th>
-                <th>Safra / Cultura</th>
-                <th>Período</th>
-                <th>Área (ha)</th>
+                <th style="width:40px;">
+                  <input type="checkbox" id="selectAll"
+                    style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
+                </th>
+                <th>Nome</th>
+                <th>Ano</th>
+                <th>Data Início</th>
+                <th>Data Fim</th>
+                <th>Cooperativa</th>
                 <th>Estado</th>
                 <th style="text-align:center;">Acções</th>
               </tr>
             </thead>
-            <tbody>
-              @forelse($safras ?? [] as $safra)
-                <tr id="safra-row-{{ $safra->id }}">
-                  <td><input type="checkbox" class="row-check" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
+
+            <tbody id="safraTableBody">
+              @forelse($safras as $safra)
+                <tr id="safra-row-{{ $safra->id }}" data-estado="{{ $safra->estado }}"
+                  data-cooperativa="{{ $safra->cooperativa->nome ?? 'Sem cooperativa' }}">
                   <td>
-                    <div class="safra-cell">
-                      <div style="width:40px;height:40px;background:var(--accent-lt);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--primary);flex-shrink:0;">
-                        <i class="bi bi-flower2" style="font-size:20px;"></i>
-                      </div>
-                      <div>
-                        <div class="safra-name">{{ $safra->nome }}</div>
-                        <div class="safra-cultura"><i class="bi bi-tag"></i> {{ $safra->cultura }}</div>
-                      </div>
+                    <input type="checkbox" class="row-check"
+                      style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
+                  </td>
+                  <td>
+                    <div>
+                      <div style="font-weight:600;font-size:14px;">{{ $safra->nome }}</div>
+                      @if($safra->descricao)
+                        <div style="font-size:11.5px;color:var(--text-light);">{{ Str::limit($safra->descricao, 50) }}</div>
+                      @endif
                     </div>
                   </td>
-                  <td>
-                    <div style="font-size:13px;">{{ \Carbon\Carbon::parse($safra->data_inicio)->format('d/m/Y') }}</div>
-                    <div style="font-size:12px;color:var(--text-light);">até {{ \Carbon\Carbon::parse($safra->data_fim)->format('d/m/Y') }}</div>
+                  <td><strong>{{ $safra->ano }}</strong></td>
+                  <td>{{ isset($safra->data_inicio) ? \Carbon\Carbon::parse($safra->data_inicio)->format('d/m/Y') : '--' }}
                   </td>
-                  <td>{{ number_format($safra->area_plantada, 2, ',', '.') }}</td>
+                  <td>{{ isset($safra->data_fim) ? \Carbon\Carbon::parse($safra->data_fim)->format('d/m/Y') : '--' }}</td>
+                  <td>{{ $safra->cooperativa->nome ?? 'Sem cooperativa' }}</td>
                   <td>
                     <span class="badge-status {{ $safra->estado }}">
-                      {{ ucfirst(str_replace('_', ' ', $safra->estado)) }}
+                      <span class="dot"></span>
+                      {{ ucfirst($safra->estado) }}
                     </span>
                   </td>
                   <td style="text-align:center;">
                     <div style="display:flex;gap:6px;justify-content:center;">
-                      <a href="{{ route('safras.show', $safra->id) }}" class="action-btn view" title="Ver detalhes"><i class="bi bi-eye-fill"></i></a>
-                      <button class="action-btn edit btn-editar-safra" title="Editar" data-id="{{ $safra->id }}" data-nome="{{ $safra->nome }}" data-cultura="{{ $safra->cultura }}" data-inicio="{{ $safra->data_inicio }}" data-fim="{{ $safra->data_fim }}" data-area="{{ $safra->area_plantada }}" data-estado="{{ $safra->estado }}"><i class="bi bi-pencil-fill"></i></button>
-                      <button class="action-btn delete btn-eliminar-safra" title="Apagar" data-id="{{ $safra->id }}" data-nome="{{ $safra->nome }}"><i class="bi bi-trash-fill"></i></button>
+                      <button class="action-btn view btn-ver-safra" title="Ver detalhes"
+                        data-id="{{ $safra->id }}" data-nome="{{ $safra->nome }}"
+                        data-ano="{{ $safra->ano }}" data-data_inicio="{{ $safra->data_inicio }}"
+                        data-data_fim="{{ $safra->data_fim }}" data-estado="{{ $safra->estado }}"
+                        data-descricao="{{ $safra->descricao }}"
+                        data-cooperativa_nome="{{ $safra->cooperativa->nome ?? 'Sem cooperativa' }}">
+                        <i class="bi bi-eye-fill"></i>
+                      </button>
                     </div>
                   </td>
                 </tr>
               @empty
-                <tr><td colspan="6"><div class="empty-state"><i class="bi bi-flower2"></i><h6>Nenhuma safra encontrada</h6><p>Tente ajustar os filtros ou registe uma nova safra.</p></div></td></tr>
+                <tr>
+                  <td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
+                    <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>
+                    Nenhuma safra encontrada.
+                  </td>
+                </tr>
               @endforelse
             </tbody>
+
           </table>
         </div>
 
         <div class="table-footer">
-          <span>Mostrando {{ $safras->firstItem() ?? 0 }} até {{ $safras->lastItem() ?? 0 }} de {{ $safras->total() ?? 0 }} safras</span>
+          <span id="tableCount">
+            Mostrando {{ $safras->firstItem() ?? 0 }} até {{ $safras->lastItem() ?? 0 }} de
+            {{ $safras->total() }} safras
+          </span>
+
           <div class="pagination-btns">
-            @if(isset($safras) && method_exists($safras, 'links'))
-              {{ $safras->links('pagination::bootstrap-5') }}
+
+            {{-- Botão Anterior --}}
+            @if ($safras->onFirstPage())
+              <button class="page-btn" disabled><i class="bi bi-chevron-left"></i></button>
+            @else
+              <a href="{{ $safras->previousPageUrl() }}" class="page-btn"><i class="bi bi-chevron-left"></i></a>
             @endif
+
+            {{-- Números das Páginas --}}
+            @foreach ($safras->getUrlRange(1, $safras->lastPage()) as $page => $url)
+              @if ($page == $safras->currentPage())
+                <button class="page-btn active">{{ $page }}</button>
+              @else
+                <a href="{{ $url }}" class="page-btn">{{ $page }}</a>
+              @endif
+            @endforeach
+
+            {{-- Botão Próximo --}}
+            @if ($safras->hasMorePages())
+              <a href="{{ $safras->nextPageUrl() }}" class="page-btn"><i class="bi bi-chevron-right"></i></a>
+            @else
+              <button class="page-btn" disabled><i class="bi bi-chevron-right"></i></button>
+            @endif
+
           </div>
         </div>
 
       </div>
-    </div>
+      <!-- /table-card -->
+
+    </div><!-- /content-inner -->
   </main>
 
+
   <!-- ══════════════════════════════════════
-     MODAL — NOVA / EDITAR SAFRA
+     MODAL — VER SAFRA
 ══════════════════════════════════════ -->
-  <div class="modal fade" id="modalSafra" tabindex="-1" aria-labelledby="modalSafraLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-coop modal-dialog-centered">
+  <div class="modal fade modal-coop" id="modalVerSafra" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <div style="display:flex;align-items:center;gap:14px;flex:1;">
-            <div class="modal-header-icon"><i class="bi bi-flower2" id="modalHeaderIcon"></i></div>
-            <div><div class="modal-title" id="modalSafraLabel">Nova Safra</div></div>
+            <div class="modal-header-icon"><i class="bi bi-eye-fill"></i></div>
+            <div>
+              <div class="modal-title">Detalhes da Safra</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="verSafraNome">—</div>
+            </div>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
-
-        <div class="modal-tabs">
-          <button class="modal-tab-btn active" data-modal-tab="geral"><i class="bi bi-info-circle-fill"></i> Geral</button>
-          <button class="modal-tab-btn" data-modal-tab="periodo"><i class="bi bi-calendar-range-fill"></i> Período</button>
-          <button class="modal-tab-btn" data-modal-tab="status"><i class="bi bi-toggle-on"></i> Status</button>
-        </div>
-
         <div class="modal-body">
-          <form id="formSafra" novalidate>
-            @csrf
-            <input type="hidden" id="safraId" name="id" value="">
-
-            <!-- TAB 1: Geral -->
-            <div class="modal-tab-panel active" id="mtab-geral">
-              <div class="modal-form-card">
-                <div class="modal-section-title"><i class="bi bi-tag-fill"></i> Identificação da Safra</div>
-                <div class="row g-3">
-                  <div class="col-12 col-md-8">
-                    <label class="cfg-label" for="safraNome">Nome da Safra *</label>
-                    <input class="cfg-input" type="text" id="safraNome" name="nome" placeholder="Ex: Safra 2025/2026" required>
-                  </div>
-                  <div class="col-12 col-md-4">
-                    <label class="cfg-label" for="safraCultura">Cultura *</label>
-                    <select class="cfg-select" id="safraCultura" name="cultura" required>
-                      <option value="">Seleccione…</option>
-                      <option value="Milho">Milho</option>
-                      <option value="Feijão">Feijão</option>
-                      <option value="Mandioca">Mandioca</option>
-                      <option value="Batata-doce">Batata-doce</option>
-                      <option value="Hortícolas">Hortícolas</option>
-                      <option value="Frutas tropicais">Frutas tropicais</option>
-                      <option value="Café">Café</option>
-                    </select>
-                  </div>
-                  <div class="col-12">
-                    <label class="cfg-label" for="safraDescricao">Descrição</label>
-                    <textarea class="cfg-textarea" id="safraDescricao" name="descricao" rows="2" placeholder="Observações sobre esta safra…"></textarea>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- TAB 2: Período -->
-            <div class="modal-tab-panel" id="mtab-periodo">
-              <div class="modal-form-card">
-                <div class="modal-section-title"><i class="bi bi-calendar-range-fill"></i> Datas e Área</div>
-                <div class="row g-3">
-                  <div class="col-12 col-md-6">
-                    <label class="cfg-label" for="safraInicio">Data de Início *</label>
-                    <input class="cfg-input" type="date" id="safraInicio" name="data_inicio" required>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <label class="cfg-label" for="safraFim">Data de Fim *</label>
-                    <input class="cfg-input" type="date" id="safraFim" name="data_fim" required>
-                  </div>
-                  <div class="col-12">
-                    <label class="cfg-label" for="safraArea">Área Plantada (hectares) *</label>
-                    <input class="cfg-input" type="number" id="safraArea" name="area_plantada" placeholder="0.00" step="0.01" min="0" required>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- TAB 3: Status -->
-            <div class="modal-tab-panel" id="mtab-status">
-              <div class="modal-form-card">
-                <div class="modal-section-title"><i class="bi bi-toggle-on"></i> Estado da Safra</div>
-                <div class="row g-3">
-                  <div class="col-12">
-                    <label class="cfg-label" for="safraEstado">Estado *</label>
-                    <select class="cfg-select" id="safraEstado" name="estado" required>
-                      <option value="planeada">Planeada</option>
-                      <option value="em_andamento">Em Andamento</option>
-                      <option value="concluida">Concluída</option>
-                      <option value="cancelada">Cancelada</option>
-                    </select>
-                    <div class="cfg-helper">Define a fase actual da safra.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </form>
+          <div class="row g-3">
+            <div class="col-6"><strong>ID:</strong> <span id="verSafraId">—</span></div>
+            <div class="col-6"><strong>Ano:</strong> <span id="verSafraAno">—</span></div>
+            <div class="col-6"><strong>Data Início:</strong> <span id="verSafraDataInicio">—</span></div>
+            <div class="col-6"><strong>Data Fim:</strong> <span id="verSafraDataFim">—</span></div>
+            <div class="col-6"><strong>Estado:</strong> <span id="verSafraEstado">—</span></div>
+            <div class="col-6"><strong>Cooperativa:</strong> <span id="verSafraCooperativa">—</span></div>
+            <div class="col-12"><strong>Descrição:</strong> <span id="verSafraDescricao">—</span></div>
+          </div>
         </div>
-
         <div class="modal-footer">
-          <div style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
-            <div style="font-size:12px;color:var(--text-light);"><i class="bi bi-info-circle me-1"></i> Campos com * são obrigatórios.</div>
-            <div style="display:flex;gap:10px;">
-              <button type="button" class="btn-outline-green" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i> Cancelar</button>
-              <button type="button" class="btn-green" id="btnGuardarSafra"><i class="bi bi-check2-circle"></i> <span id="btnGuardarSafraLabel">Registar Safra</span></button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════
-     MODAL — CONFIRMAR ELIMINAÇÃO
-══════════════════════════════════════ -->
-  <div class="modal fade" id="modalDelete" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
-      <div class="modal-content">
-        <div class="modal-header" style="background:linear-gradient(135deg, #7f0000, #C62828);">
-          <div style="display:flex;align-items:center;gap:14px;flex:1;">
-            <div class="modal-header-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
-            <div><div class="modal-title">Confirmar Eliminação</div><div style="font-size:12px;color:rgba(255,255,255,.65);">Esta acção é irreversível</div></div>
-          </div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-        </div>
-        <div class="modal-body" style="background:#fff;padding:28px;">
-          <p style="font-size:13.5px;color:var(--text-mid);">Tem a certeza que deseja eliminar a safra:</p>
-          <div style="background:#FFF8F8;border:1px solid #FFCDD2;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
-            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:#C62828;" id="deleteSafraName">—</div>
-            <div style="font-size:12px;color:var(--text-light);">Todos os dados associados serão removidos permanentemente.</div>
-          </div>
-        </div>
-        <div class="modal-footer" style="border-top:1px solid #FFCDD2;">
-          <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn-green" id="btnConfirmDelete" style="background:#C62828;box-shadow:none;"><i class="bi bi-trash-fill"></i> Eliminar Definitivamente</button>
+          <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Fechar</button>
         </div>
       </div>
     </div>
@@ -1886,7 +1656,10 @@
   <!-- Toast -->
   <div class="save-toast" id="saveToast">
     <div class="toast-icon success" id="toastIcon"><i class="bi bi-check-lg" id="toastIconI"></i></div>
-    <div class="toast-text"><div class="t-title" id="toastTitle">Operação concluída</div><div class="t-sub" id="toastSub">Acção realizada com sucesso.</div></div>
+    <div class="toast-text">
+      <div class="t-title" id="toastTitle">Operação concluída</div>
+      <div class="t-sub" id="toastSub">Acção realizada com sucesso.</div>
+    </div>
   </div>
 
   <!-- Bootstrap JS -->
@@ -1894,10 +1667,17 @@
 
   <script>
     /* ══════════════════════════════════════
-       SIDEBAR TOGGLE (3 estados) + AJUSTE AUTOMÁTICO
+       SIDEBAR TOGGLE (3 estados) + RESPONSIVO
     ══════════════════════════════════════ */
     const body = document.body;
-    let sideState = 0;
+
+    // ─── ESTADO INICIAL ───
+    // A classe icons-only (quando aplicável) já foi aplicada por um script
+    // síncrono logo a seguir à tag <body>, antes de qualquer pintura.
+    // Aqui apenas sincronizamos a variável de estado com o que já está no DOM.
+    let sideState = body.classList.contains('icons-only') ? 1
+      : body.classList.contains('sidebar-hidden') ? 2
+      : 0;
 
     function applyTooltips() {
       document.querySelectorAll('.nav-item-link').forEach(el => {
@@ -1916,11 +1696,12 @@
       }
     }
 
+    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA (resize) ───
     function adjustSidebarForScreen() {
       const width = window.innerWidth;
-      let novoEstado = 0;
-      if (width < 768) novoEstado = 1;
-      else novoEstado = 0;
+      let novoEstado = (width < 760) ? 1 : 0; // < 760 → icons-only · ≥ 760 → normal
+
+      // Só atualiza se o estado for diferente do atual para evitar loops
       if (novoEstado !== sideState) {
         sideState = novoEstado;
         body.classList.remove('icons-only', 'sidebar-hidden');
@@ -1930,24 +1711,39 @@
       }
     }
 
+    // Debounce para evitar chamadas excessivas no redimensionamento
     let resizeTimeout;
+
     function handleResize() {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
     }
 
+    // Ao carregar: activa os tooltips (se aplicável), liga o listener de
+    // resize e só depois "liberta" as transições, para que o estado
+    // inicial não seja animado mas as interacções seguintes sim.
     document.addEventListener('DOMContentLoaded', () => {
-      adjustSidebarForScreen();
+      applyTooltips();
       window.addEventListener('resize', handleResize);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          body.classList.remove('no-transition');
+        });
+      });
     });
 
-    document.getElementById('sidebarToggle').addEventListener('click', () => {
-      sideState = (sideState + 1) % 3;
-      body.classList.remove('icons-only', 'sidebar-hidden');
-      if (sideState === 1) body.classList.add('icons-only');
-      if (sideState === 2) body.classList.add('sidebar-hidden');
-      applyTooltips();
-    });
+    // Mantém o clique do botão para alternar manualmente
+    const sidebarBtn = document.getElementById('sidebarToggle');
+    if (sidebarBtn) {
+      sidebarBtn.addEventListener('click', () => {
+        sideState = (sideState + 1) % 3;
+        body.classList.remove('icons-only', 'sidebar-hidden');
+        if (sideState === 1) body.classList.add('icons-only');
+        if (sideState === 2) body.classList.add('sidebar-hidden');
+        applyTooltips();
+      });
+    }
 
     /* ══════════════════════════════════════
        DARK MODE
@@ -1956,6 +1752,7 @@
     const themeIcon = document.getElementById('themeIcon');
     const themeLabel = document.getElementById('themeLabel');
     let darkMode = false;
+
     themeToggle.addEventListener('click', function(e) {
       e.preventDefault();
       darkMode = !darkMode;
@@ -1970,7 +1767,9 @@
     document.querySelectorAll('.nav-item-link').forEach(link => {
       link.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
-        if (!href || href === '#') e.preventDefault();
+        if (!href || href === '#') {
+          e.preventDefault();
+        }
         document.querySelectorAll('.nav-item-link').forEach(l => l.classList.remove('active'));
         this.classList.add('active');
         const label = this.dataset.label || this.querySelector('.nav-label')?.textContent || '';
@@ -1994,176 +1793,132 @@
     }
 
     /* ══════════════════════════════════════
-       MODAL TABS
+       FILTROS (apenas front-end)
     ══════════════════════════════════════ */
-    function switchModalTab(tabName) {
-      document.querySelectorAll('.modal-tab-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.modalTab === tabName);
-      });
-      document.querySelectorAll('.modal-tab-panel').forEach(panel => {
-        panel.classList.toggle('active', panel.id === 'mtab-' + tabName);
-      });
-    }
-    document.querySelectorAll('.modal-tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => switchModalTab(btn.dataset.modalTab));
-    });
+    document.getElementById('btnFiltrar').addEventListener('click', function() {
+      const search = document.getElementById('searchSafra').value.toLowerCase().trim();
+      const estado = document.getElementById('filterEstado').value;
+      const cooperativa = document.getElementById('filterCooperativa').value;
 
-    /* ══════════════════════════════════════
-       MODAL — NOVA SAFRA (reset)
-    ══════════════════════════════════════ */
-    document.getElementById('modalSafra').addEventListener('show.bs.modal', function(e) {
-      if (e.relatedTarget && e.relatedTarget.id === 'btnNovaSafra') {
-        document.getElementById('formSafra').reset();
-        document.getElementById('safraId').value = '';
-        document.getElementById('modalSafraLabel').textContent = 'Nova Safra';
-        document.getElementById('btnGuardarSafraLabel').textContent = 'Registar Safra';
-        document.getElementById('modalHeaderIcon').className = 'bi bi-flower2';
-        document.getElementById('safraEstado').value = 'planeada';
-        switchModalTab('geral');
+      const rows = document.querySelectorAll('#safraTableBody tr');
+      let visibleCount = 0;
+
+      rows.forEach(row => {
+        const nome = row.querySelector('td:nth-child(2) div div:first-child')?.textContent?.toLowerCase() || '';
+        const rowEstado = row.dataset.estado || '';
+        const rowCooperativa = row.dataset.cooperativa || '';
+
+        let show = true;
+
+        if (search && !nome.includes(search)) show = false;
+        if (estado && rowEstado !== estado) show = false;
+        if (cooperativa && rowCooperativa !== cooperativa) show = false;
+
+        row.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
+      });
+
+      // Atualizar contagem
+      const total = rows.length;
+      const info = document.getElementById('tableCount');
+      if (info) {
+        info.textContent = `Mostrando ${visibleCount} de ${total} safras`;
+      }
+
+      // Mostrar/ocultar mensagem vazia
+      const emptyMsg = document.querySelector('.empty-state');
+      if (visibleCount === 0 && rows.length > 0) {
+        if (!document.querySelector('.empty-state-visible')) {
+          const empty = document.createElement('tr');
+          empty.className = 'empty-state-visible';
+          empty.innerHTML = `
+            <td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
+              <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>
+              Nenhuma safra encontrada com os filtros aplicados.
+            </td>
+          `;
+          document.getElementById('safraTableBody').appendChild(empty);
+        }
+      } else {
+        const empty = document.querySelector('.empty-state-visible');
+        if (empty) empty.remove();
       }
     });
 
-    /* ══════════════════════════════════════
-       EDITAR SAFRA (carregar dados)
-    ══════════════════════════════════════ */
-    document.addEventListener('click', function(e) {
-      const btn = e.target.closest('.btn-editar-safra');
-      if (!btn) return;
+    document.getElementById('btnLimparFiltros').addEventListener('click', function() {
+      document.getElementById('searchSafra').value = '';
+      document.getElementById('filterEstado').value = '';
+      document.getElementById('filterCooperativa').value = '';
 
-      document.getElementById('safraId').value = btn.dataset.id;
-      document.getElementById('safraNome').value = btn.dataset.nome || '';
-      document.getElementById('safraCultura').value = btn.dataset.cultura || '';
-      document.getElementById('safraInicio').value = btn.dataset.inicio || '';
-      document.getElementById('safraFim').value = btn.dataset.fim || '';
-      document.getElementById('safraArea').value = btn.dataset.area || '';
-      document.getElementById('safraEstado').value = btn.dataset.estado || 'planeada';
+      const rows = document.querySelectorAll('#safraTableBody tr');
+      rows.forEach(row => {
+        row.style.display = '';
+      });
 
-      document.getElementById('modalSafraLabel').textContent = 'Editar Safra';
-      document.getElementById('btnGuardarSafraLabel').textContent = 'Guardar Alterações';
-      document.getElementById('modalHeaderIcon').className = 'bi bi-pencil-fill';
-
-      const modal = new bootstrap.Modal(document.getElementById('modalSafra'));
-      modal.show();
-      switchModalTab('geral');
-    });
-
-    /* ══════════════════════════════════════
-       GUARDAR SAFRA (criar/editar)
-    ══════════════════════════════════════ */
-    document.getElementById('btnGuardarSafra').addEventListener('click', function() {
-      const id = document.getElementById('safraId').value;
-      const nome = document.getElementById('safraNome').value.trim();
-      const cultura = document.getElementById('safraCultura').value;
-      const inicio = document.getElementById('safraInicio').value;
-      const fim = document.getElementById('safraFim').value;
-      const area = document.getElementById('safraArea').value;
-      const estado = document.getElementById('safraEstado').value;
-
-      if (!nome || !cultura || !inicio || !fim || !area) {
-        showToast('Campos obrigatórios em falta', 'Preencha todos os campos marcados com *.', 'danger');
-        return;
+      const info = document.getElementById('tableCount');
+      if (info) {
+        const total = document.querySelectorAll('#safraTableBody tr:not(.empty-state-visible)').length;
+        info.textContent = `Mostrando ${total} de ${total} safras`;
       }
 
-      const btn = this;
-      const orig = btn.innerHTML;
-      btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
-      btn.disabled = true;
-
-      const url = id ? `/safras/${id}` : '/safras';
-      const formData = new FormData();
-      if (id) formData.append('_method', 'PUT');
-      formData.append('nome', nome);
-      formData.append('cultura', cultura);
-      formData.append('data_inicio', inicio);
-      formData.append('data_fim', fim);
-      formData.append('area_plantada', area);
-      formData.append('estado', estado);
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-          'Accept': 'application/json'
-        },
-        body: formData
-      })
-      .then(r => r.json())
-      .then(data => {
-        btn.innerHTML = orig;
-        btn.disabled = false;
-        if (data.success) {
-          bootstrap.Modal.getInstance(document.getElementById('modalSafra')).hide();
-          showToast('Safra guardada', data.message || 'Operação realizada com sucesso.');
-          setTimeout(() => location.reload(), 800);
-        } else {
-          showToast('Erro', data.message || 'Verifique os dados.', 'danger');
-        }
-      })
-      .catch(() => {
-        btn.innerHTML = orig;
-        btn.disabled = false;
-        showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
-      });
+      const empty = document.querySelector('.empty-state-visible');
+      if (empty) empty.remove();
     });
 
     /* ══════════════════════════════════════
-       ELIMINAR SAFRA
+       SAFRA — botão ver (visualizar)
     ══════════════════════════════════════ */
-    let deleteTargetId = null;
-    let deleteTargetName = '';
-
     document.addEventListener('click', function(e) {
-      const btn = e.target.closest('.btn-eliminar-safra');
+      const btn = e.target.closest('.btn-ver-safra');
       if (!btn) return;
-      deleteTargetId = btn.dataset.id;
-      deleteTargetName = btn.dataset.nome;
-      document.getElementById('deleteSafraName').textContent = deleteTargetName;
-      new bootstrap.Modal(document.getElementById('modalDelete')).show();
-    });
 
-    document.getElementById('btnConfirmDelete').addEventListener('click', function() {
-      if (!deleteTargetId) return;
-      const btn = this;
-      const orig = btn.innerHTML;
-      btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A eliminar…';
-      btn.disabled = true;
+      document.getElementById('verSafraNome').textContent = btn.dataset.nome || '—';
+      document.getElementById('verSafraId').textContent = btn.dataset.id || '—';
+      document.getElementById('verSafraAno').textContent = btn.dataset.ano || '—';
+      document.getElementById('verSafraDataInicio').textContent = btn.dataset.data_inicio ?
+        new Date(btn.dataset.data_inicio).toLocaleDateString('pt-PT') : '—';
+      document.getElementById('verSafraDataFim').textContent = btn.dataset.data_fim ?
+        new Date(btn.dataset.data_fim).toLocaleDateString('pt-PT') : '—';
+      document.getElementById('verSafraEstado').textContent = btn.dataset.estado ?
+        btn.dataset.estado.charAt(0).toUpperCase() + btn.dataset.estado.slice(1) : '—';
+      document.getElementById('verSafraCooperativa').textContent = btn.dataset.cooperativa_nome || '—';
+      document.getElementById('verSafraDescricao').textContent = btn.dataset.descricao || '—';
 
-      fetch(`/safras/${deleteTargetId}`, {
-        method: 'DELETE',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-          'Accept': 'application/json'
-        }
-      })
-      .then(r => r.json())
-      .then(data => {
-        btn.innerHTML = orig;
-        btn.disabled = false;
-        bootstrap.Modal.getInstance(document.getElementById('modalDelete')).hide();
-        if (data.success) {
-          document.getElementById(`safra-row-${deleteTargetId}`)?.remove();
-          showToast('Safra eliminada', deleteTargetName + ' foi removida do sistema.', 'danger');
-        } else {
-          showToast('Erro', data.message || 'Não foi possível eliminar.', 'danger');
-        }
-      })
-      .catch(() => {
-        btn.innerHTML = orig;
-        btn.disabled = false;
-        showToast('Erro de ligação', 'Verifique a sua conexão.', 'danger');
-      });
+      const modalEl = document.getElementById('modalVerSafra');
+      const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+      modalInstance.show();
     });
 
     /* ══════════════════════════════════════
-       SELECT ALL & EXPORT
+       SELECT ALL CHECKBOXES
     ══════════════════════════════════════ */
-    document.getElementById('selectAll')?.addEventListener('change', function() {
+    document.getElementById('selectAll').addEventListener('change', function() {
       document.querySelectorAll('.row-check').forEach(cb => cb.checked = this.checked);
     });
 
-    document.getElementById('btnExportar')?.addEventListener('click', () => {
-      showToast('A exportar…', 'O ficheiro será gerado em breve.');
+    /* ══════════════════════════════════════
+       EXPORTAR
+    ══════════════════════════════════════ */
+    document.getElementById('btnExportar').addEventListener('click', () => {
+      showToast('A exportar…', 'O ficheiro será gerado e descarregado em breve.');
+    });
+
+    /* ══════════════════════════════════════
+       PESQUISA EM TEMPO REAL (filtro por digitação)
+    ══════════════════════════════════════ */
+    document.getElementById('searchSafra').addEventListener('input', function() {
+      document.getElementById('btnFiltrar').click();
+    });
+
+    document.getElementById('filterEstado').addEventListener('change', function() {
+      document.getElementById('btnFiltrar').click();
+    });
+
+    document.getElementById('filterCooperativa').addEventListener('change', function() {
+      document.getElementById('btnFiltrar').click();
     });
   </script>
+
 </body>
+
 </html>

@@ -8,12 +8,8 @@
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  {{-- <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"> --}}
-
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-  {{-- <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-icons.min.css') }}"> --}}
-
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap"
     rel="stylesheet" />
@@ -49,6 +45,14 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    /* Suprime TODAS as transições enquanto a página está a carregar,
+       para que o estado inicial da sidebar (icons-only em ecrãs < 760px)
+       apareça directamente, sem qualquer animação/flash visível. */
+    body.no-transition,
+    body.no-transition * {
+      transition: none !important;
     }
 
     body {
@@ -971,8 +975,6 @@
         box-shadow: 4px 0 20px rgba(0, 0, 0, .2);
       }
 
-      body {}
-
       body.default #sidebar {
         width: 0;
       }
@@ -984,11 +986,46 @@
       body.default #topbar {
         left: 0;
       }
+
+      .content-inner {
+        padding: 16px;
+      }
+
+      /* ─── FORÇAR CARDS ESTATÍSTICOS EM COLUNA ÚNICA ─── */
+      .row.g-3.mb-4 {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .row.g-3.mb-4 .col-6 {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+
+      .stat-card {
+        padding: 16px 18px;
+      }
+
+      .stat-info .s-value {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <!-- ─── ESTADO INICIAL DA SIDEBAR — aplicado ANTES de qualquer pintura ─── -->
+  <script>
+    (function() {
+      var isMobile = window.innerWidth < 760;
+      document.body.classList.add('no-transition');
+      if (isMobile) {
+        document.body.classList.add('icons-only');
+      }
+    })();
+  </script>
 
   <!-- ══ SIDEBAR ══════════════════════════════════════ -->
   <nav id="sidebar">
@@ -1418,12 +1455,18 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  {{-- <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script> --}}
 
   <script>
     /* ── Sidebar toggle (3 states: full → icons-only → hidden → full) ── */
     const body = document.body;
-    let state = 0; // 0=full, 1=icons-only, 2=hidden
+
+    // ─── ESTADO INICIAL ───
+    // A classe icons-only (quando aplicável) já foi aplicada por um script
+    // síncrono logo a seguir à tag <body>, antes de qualquer pintura.
+    // Aqui apenas sincronizamos a variável de estado com o que já está no DOM.
+    let state = body.classList.contains('icons-only') ? 1
+                : body.classList.contains('sidebar-hidden') ? 2
+                : 0;
 
     function applyTooltips() {
       // Destroy existing tooltips first
@@ -1444,6 +1487,44 @@
       }
     }
 
+    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA (resize) ───
+    function adjustSidebarForScreen() {
+      const width = window.innerWidth;
+      let novoEstado = (width < 760) ? 1 : 0; // < 760 → icons-only · ≥ 760 → normal
+
+      // Só atualiza se o estado for diferente do atual para evitar loops
+      if (novoEstado !== state) {
+        state = novoEstado;
+        body.classList.remove('icons-only', 'sidebar-hidden');
+        if (state === 1) body.classList.add('icons-only');
+        if (state === 2) body.classList.add('sidebar-hidden');
+        applyTooltips();
+      }
+    }
+
+    // Debounce para evitar chamadas excessivas no redimensionamento
+    let resizeTimeout;
+
+    function handleResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
+    }
+
+    // Ao carregar: activa os tooltips (se aplicável), liga o listener de
+    // resize e só depois "liberta" as transições, para que o estado
+    // inicial não seja animado mas as interacções seguintes sim.
+    document.addEventListener('DOMContentLoaded', () => {
+      applyTooltips();
+      window.addEventListener('resize', handleResize);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          body.classList.remove('no-transition');
+        });
+      });
+    });
+
+    // Mantém o clique do botão para alternar manualmente
     document.getElementById('sidebarToggle').addEventListener('click', () => {
       state = (state + 1) % 3;
       body.classList.remove('icons-only', 'sidebar-hidden');
@@ -1455,6 +1536,7 @@
     /* active nav */
     document.querySelectorAll('.nav-item-link').forEach(link => {
       link.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
         if (!href || href === '#') {
           e.preventDefault();
         }
