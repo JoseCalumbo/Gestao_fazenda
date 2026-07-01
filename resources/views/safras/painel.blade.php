@@ -1233,6 +1233,27 @@
         max-width: 100%;
         margin: 10px;
       }
+
+      /* ─── FORÇAR CARDS EM COLUNA ÚNICA ─── */
+      .row.g-3.mb-4 {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .row.g-3.mb-4 .col-6 {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+
+      .stat-card {
+        padding: 16px 18px;
+      }
+
+      .stat-info .s-value {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
@@ -1301,40 +1322,19 @@
       <a href="{{ route('insumos.index')}}" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
           class="nav-label">Insumos</span></a>
 
-      <div class="nav-section-title">Financeiro</div>
-      <a href="#" class="nav-item-link" data-label="Contas a Pagar"><i class="bi bi-arrow-down-circle-fill"></i><span
-          class="nav-label">Contas a Pagar</span></a>
-      <a href="#" class="nav-item-link" data-label="Contas a Receber"><i class="bi bi-arrow-up-circle-fill"></i><span
-          class="nav-label">Contas a Receber</span></a>
-      <a href="#" class="nav-item-link" data-label="Fluxo de Caixa"><i class="bi bi-cash-stack"></i><span
-          class="nav-label">Fluxo de Caixa</span></a>
-
       <div class="nav-section-title">Comercial</div>
-      <a href="#" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
+      <a href="{{route('vendas')}}"  class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
           class="nav-label">Vendas</span></a>
-      <a href="#" class="nav-item-link" data-label="Contratos"><i class="bi bi-file-earmark-text-fill"></i><span
-          class="nav-label">Contratos</span></a>
 
       <div class="nav-section-title">Sistema</div>
-      <a href="#" class="nav-item-link" data-label="Relatórios"><i class="bi bi-bar-chart-fill"></i><span
-          class="nav-label">Relatórios</span></a>
       <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i
           class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
     </div>
 
     <div class="sidebar-user">
-      <div class="avatar">
-        @if(!empty(Auth::user()->foto))
-          <img id="dropdownAvatarLarge"
-            src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}" alt="Foto-perfil"
-            width="20" class="avatar-md">
-        @else
-          <span style="color:#fff;font-weight:700;font-size:15px;">{{ substr(Auth::user()->name, 0, 1) }}</span>
-        @endif
-      </div>
       <div class="user-info">
-        <div class="u-name">{{ Auth::user()->name }}</div>
-        <div class="u-role">Minha Conta</div>
+        <div class="u-name">SIAG</div>
+        <div class="u-role">Sistema de Gestão de cooperativa @ 2026</div>
       </div>
     </div>
   </nav>
@@ -1354,16 +1354,7 @@
       </ol>
     </nav>
     <div class="topbar-right">
-      <span class="badge rounded-pill d-none d-md-inline-flex align-items-center gap-1"
-        style="background:var(--accent-lt);color:var(--primary);font-size:12px;padding:7px 13px;font-weight:600;">
-        <i class="bi bi-calendar3"></i> Safra {{ date('Y') }}
-      </span>
-      <button class="topbar-icon-btn" title="Notificações">
-        <i class="bi bi-bell-fill"></i><span class="notif-badge"></span>
-      </button>
-      <button class="topbar-icon-btn" title="Mensagens">
-        <i class="bi bi-chat-dots-fill"></i>
-      </button>
+
       <div class="dropdown d-none d-sm-flex">
         <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
           <div class="t-avatar">
@@ -1379,7 +1370,7 @@
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
+
           <li>
             <a class="dropdown-item" href="#" id="themeToggle">
               <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
@@ -1414,8 +1405,9 @@
           <h1>Gestão de Safras</h1>
           <p>Registo e administração das safras agrícolas da cooperativa</p>
         </div>
+
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn-outline-green" id="btnExportar">
+          <button class="btn-outline-green" id="btnExportar" style="display: none;" >
             <i class="bi bi-download"></i> Exportar
           </button>
         </div>
@@ -1657,7 +1649,7 @@
 
   <script>
     /* ══════════════════════════════════════
-       SIDEBAR TOGGLE (3 estados)
+       SIDEBAR TOGGLE (3 estados) + AJUSTE AUTOMÁTICO
     ══════════════════════════════════════ */
     const body = document.body;
     let sideState = 0;
@@ -1679,6 +1671,36 @@
       }
     }
 
+    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA ───
+    function adjustSidebarForScreen() {
+      const width = window.innerWidth;
+      let novoEstado = 0;
+      if (width < 768) {
+        novoEstado = 1; // icons-only
+      } else {
+        novoEstado = 0; // normal
+      }
+      if (novoEstado !== sideState) {
+        sideState = novoEstado;
+        body.classList.remove('icons-only', 'sidebar-hidden');
+        if (sideState === 1) body.classList.add('icons-only');
+        if (sideState === 2) body.classList.add('sidebar-hidden');
+        applyTooltips();
+      }
+    }
+
+    let resizeTimeout;
+    function handleResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      adjustSidebarForScreen();
+      window.addEventListener('resize', handleResize);
+    });
+
+    // Mantém o clique do botão para alternar manualmente
     document.getElementById('sidebarToggle').addEventListener('click', () => {
       sideState = (sideState + 1) % 3;
       body.classList.remove('icons-only', 'sidebar-hidden');

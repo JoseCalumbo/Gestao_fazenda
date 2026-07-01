@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>SIAG – Insumos</title>
+  <title>SIAG – Safras</title>
 
   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -115,6 +115,11 @@
     .sidebar-nav::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, .18);
       border-radius: 10px;
+    }
+
+    .sidebar-nav {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, .18) transparent;
     }
 
     .nav-section-title {
@@ -227,6 +232,13 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-user .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .sidebar-user .avatar i {
@@ -333,6 +345,39 @@
       color: #fff;
     }
 
+    .bi {
+      color: var(--primary);
+    }
+
+    .nav-item-link .bi,
+    .sidebar-logo .bi,
+    .sidebar-user .bi,
+    .modal-header .bi,
+    .modal-header-icon .bi,
+    .btn-green .bi,
+    .topbar-icon-btn:hover .bi,
+    .action-btn.edit:hover .bi,
+    .action-btn.print:hover .bi,
+    .action-btn.delete:hover .bi,
+    .action-btn.view:hover .bi {
+      color: inherit;
+    }
+
+    .topbar-title .bi,
+    .table-card-header .bi,
+    .modal-section-title .bi {
+      color: var(--primary);
+    }
+
+    .badge-status .bi,
+    .stat-badge .bi {
+      color: inherit;
+    }
+
+    .search-wrap .bi {
+      color: var(--text-light);
+    }
+
     .notif-badge {
       position: absolute;
       top: 6px;
@@ -367,6 +412,20 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+    }
+
+    .topbar-user .t-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-md {
+      width: 30px !important;
+      height: 30px;
+      object-fit: cover;
+      border-radius: 50%;
     }
 
     .topbar-user .t-avatar i {
@@ -613,11 +672,6 @@
       color: #6A1B9A;
     }
 
-    .stat-icon.teal {
-      background: #E0F2F1;
-      color: #00695C;
-    }
-
     .stat-info .s-label {
       font-size: 12.5px;
       color: var(--text-light);
@@ -651,16 +705,6 @@
     .stat-badge.info {
       background: #E3F2FD;
       color: #1565C0;
-    }
-
-    .stat-badge.warn {
-      background: #FFF8E1;
-      color: #F57F17;
-    }
-
-    .stat-badge.purple {
-      background: #EDE7F6;
-      color: #6A1B9A;
     }
 
     /* ═══════════════════════════════════════════
@@ -760,13 +804,13 @@
       box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
     }
 
-    /* Insumos Table */
-    .insumo-table {
+    /* Safras Table */
+    .safra-table {
       width: 100%;
       border-collapse: collapse;
     }
 
-    .insumo-table th {
+    .safra-table th {
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
@@ -779,7 +823,7 @@
       white-space: nowrap;
     }
 
-    .insumo-table td {
+    .safra-table td {
       font-size: 13.5px;
       color: var(--text-dark);
       padding: 14px 20px;
@@ -787,120 +831,58 @@
       vertical-align: middle;
     }
 
-    .insumo-table tr:last-child td {
+    .safra-table tr:last-child td {
       border-bottom: none;
     }
 
-    .insumo-table tbody tr:hover td {
+    .safra-table tbody tr:hover td {
       background: #F8FBF8;
     }
 
-    /* Insumo icon avatar */
-    .insumo-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .insumo-cell {
+    .safra-cell {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .insumo-cell .insumo-nome {
+    .safra-cell .safra-name {
       font-weight: 600;
       font-size: 14px;
     }
 
-    .insumo-cell .insumo-id {
+    .safra-cell .safra-cultura {
       font-size: 11.5px;
       color: var(--text-light);
       margin-top: 1px;
     }
 
-    /* Badges */
-    .badge-tipo {
+    .badge-status {
       font-size: 11px;
       font-weight: 600;
       padding: 4px 11px;
       border-radius: 30px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
     }
 
-    .badge-tipo.fertilizante {
-      background: var(--accent-lt);
-      color: var(--primary);
-    }
-
-    .badge-tipo.semente {
+    .badge-status.planeada {
       background: #FFF8E1;
       color: #F57F17;
     }
 
-    .badge-tipo.mecanico {
+    .badge-status.em_andamento {
       background: #E3F2FD;
       color: #1565C0;
     }
 
-    .badge-tipo.outro {
-      background: #EDE7F6;
-      color: #6A1B9A;
-    }
-
-    .badge-estado {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 11px;
-      border-radius: 30px;
-    }
-
-    .badge-estado.activo {
+    .badge-status.concluida {
       background: #E8F5E9;
       color: #2E7D32;
     }
 
-    .badge-estado.inactivo {
+    .badge-status.cancelada {
       background: #FFEBEE;
       color: #C62828;
     }
 
-    /* Stock indicator */
-    .stock-bar {
-      height: 5px;
-      border-radius: 5px;
-      background: var(--border);
-      overflow: hidden;
-      margin-top: 5px;
-      min-width: 80px;
-    }
-
-    .stock-fill {
-      height: 100%;
-      border-radius: 5px;
-      transition: width .3s;
-    }
-
-    .stock-fill.ok {
-      background: #66BB6A;
-    }
-
-    .stock-fill.warning {
-      background: #F57F17;
-    }
-
-    .stock-fill.critical {
-      background: #C62828;
-    }
-
-    /* Action buttons */
     .action-btn {
       width: 32px;
       height: 32px;
@@ -912,6 +894,7 @@
       font-size: 14px;
       cursor: pointer;
       transition: background .15s, color .15s;
+      text-decoration: none;
     }
 
     .action-btn.edit {
@@ -944,7 +927,6 @@
       color: #fff;
     }
 
-    /* Pagination */
     .table-footer {
       padding: 14px 24px;
       display: flex;
@@ -993,9 +975,6 @@
       border-color: var(--primary);
     }
 
-    /* ═══════════════════════════════════════════
-       EMPTY STATE
-    ═══════════════════════════════════════════ */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
@@ -1023,12 +1002,62 @@
 
     /* ═══════════════════════════════════════════
        MODAL
-    ═══════════════════════════════════════════ */
-    .modal-insumo {
-      max-width: 680px;
+    ═══════════════════════════════════════ */
+    .modal-coop {
+      max-width: 780px;
     }
 
-    .modal-insumo .modal-content {
+    .modal-coop .modal-content {
+      height: 620px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-coop .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0;
+      background: var(--page-bg);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, .15) transparent;
+    }
+
+    .modal-coop .modal-body::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .modal-coop .modal-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .modal-coop .modal-body::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, .12);
+      border-radius: 10px;
+    }
+
+    .modal-coop .modal-body::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, .22);
+    }
+
+    body.dark-mode .modal-coop .modal-body {
+      scrollbar-color: rgba(255, 255, 255, .15) transparent;
+    }
+
+    body.dark-mode .modal-coop .modal-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, .15);
+    }
+
+    .modal-tab-panel {
+      display: none;
+      padding: 22px;
+    }
+
+    .modal-tab-panel.active {
+      display: block;
+    }
+
+    .modal-content {
       border: none;
       border-radius: 18px;
       box-shadow: 0 24px 64px rgba(0, 0, 0, .15);
@@ -1036,9 +1065,10 @@
     }
 
     .modal-header {
-      padding: 14px 20px;
+      padding: 11px 20px;
       border-bottom: 1px solid var(--border);
       background: linear-gradient(135deg, var(--sidebar-bg) 0%, var(--primary) 100%);
+      flex-shrink: 0;
     }
 
     .modal-header .modal-title {
@@ -1072,35 +1102,16 @@
 
     .modal-body {
       background: var(--page-bg);
-      padding: 22px;
-      overflow-y: auto;
-      max-height: calc(100vh - 220px);
-    }
-
-    .modal-body::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .modal-body::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, .12);
-      border-radius: 4px;
     }
 
     .modal-footer {
       padding: 14px 20px;
       border-top: 1px solid var(--border);
       background: #fff;
+      flex-shrink: 0;
     }
 
-    .mf-card {
-      background: var(--card-bg);
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      padding: 20px 22px;
-      margin-bottom: 16px;
-    }
-
-    .mf-section-title {
+    .modal-section-title {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 1px;
@@ -1114,17 +1125,25 @@
       gap: 8px;
     }
 
-    .mf-section-title i {
+    .modal-section-title i {
       font-size: 13px;
       color: var(--primary);
     }
 
+    .modal-form-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 20px 22px;
+      margin-bottom: 16px;
+    }
+
     .cfg-label {
       display: block;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--text-mid);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       letter-spacing: .2px;
     }
 
@@ -1132,13 +1151,13 @@
       width: 100%;
       border: 1.5px solid var(--border);
       border-radius: 10px;
-      padding: 11px 14px;
+      padding: 10px 13px;
       font-size: 13.5px;
       color: var(--text-dark);
       background: #FAFAF9;
-      transition: border-color .2s, box-shadow .2s;
       font-family: 'DM Sans', sans-serif;
       outline: none;
+      transition: border-color .2s, box-shadow .2s;
     }
 
     .cfg-input:focus {
@@ -1151,17 +1170,11 @@
       color: #C3B8B4;
     }
 
-    .cfg-input[readonly] {
-      background: #F5F5F5;
-      color: var(--text-light);
-      cursor: not-allowed;
-    }
-
     .cfg-select {
       width: 100%;
       border: 1.5px solid var(--border);
       border-radius: 10px;
-      padding: 11px 32px 11px 14px;
+      padding: 10px 32px 10px 13px;
       font-size: 13.5px;
       color: var(--text-dark);
       background: #FAFAF9;
@@ -1170,7 +1183,7 @@
       outline: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238FA894' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 14px center;
+      background-position: right 12px center;
       transition: border-color .2s;
       font-family: 'DM Sans', sans-serif;
     }
@@ -1180,10 +1193,84 @@
       box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
     }
 
+    .cfg-textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 13px;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      background: #FAFAF9;
+      resize: vertical;
+      min-height: 80px;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color .2s;
+    }
+
+    .cfg-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
+    }
+
     .cfg-helper {
       font-size: 11.5px;
       color: var(--text-light);
-      margin-top: 5px;
+      margin-top: 4px;
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--border);
+      background: var(--page-bg);
+      padding: 0 24px;
+      overflow-x: auto;
+    }
+
+    .modal-tabs::-webkit-scrollbar {
+      height: 0;
+    }
+
+    .modal-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-mid);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      transition: color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+
+    .modal-tab-btn .bi {
+      color: var(--text-light);
+      transition: color .15s;
+      font-size: 15px;
+    }
+
+    .modal-tab-btn:hover {
+      color: var(--primary);
+    }
+
+    .modal-tab-btn:hover .bi {
+      color: var(--primary);
+    }
+
+    .modal-tab-btn.active {
+      color: var(--primary);
+      font-weight: 600;
+      border-bottom-color: var(--primary);
+    }
+
+    .modal-tab-btn.active .bi {
+      color: var(--primary);
     }
 
     /* Toast */
@@ -1249,7 +1336,6 @@
         opacity: 0;
         transform: translateY(14px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
@@ -1307,18 +1393,19 @@
       background: rgba(102, 187, 106, .12);
     }
 
-    body.dark-mode .insumo-table th {
+    body.dark-mode .safra-table th {
       background: #172518;
     }
 
-    body.dark-mode .insumo-table tbody tr:hover td {
+    body.dark-mode .safra-table tbody tr:hover td {
       background: #1a2a1c;
     }
 
     body.dark-mode .search-input,
     body.dark-mode .filter-select,
     body.dark-mode .cfg-input,
-    body.dark-mode .cfg-select {
+    body.dark-mode .cfg-select,
+    body.dark-mode .cfg-textarea {
       background: #172518;
       color: #e8f0e9;
       border-color: rgba(255, 255, 255, .1);
@@ -1328,7 +1415,7 @@
       background: #1a2a1c;
     }
 
-    body.dark-mode .mf-card {
+    body.dark-mode .modal-form-card {
       background: #1e2a20;
       border-color: rgba(255, 255, 255, .07);
     }
@@ -1398,26 +1485,37 @@
       <div class="logo-svg-wrap">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" width="38" height="38" style="flex-shrink:0;">
           <circle cx="170" cy="170" r="145" fill="#66BB6A" />
-          <g fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+          <g fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
             <circle cx="118" cy="188" r="48" fill="none" stroke-width="6" />
             <circle cx="118" cy="188" r="35" fill="none" stroke-width="4.5" />
-            <circle cx="118" cy="188" r="16" fill="#fff" />
+            <circle cx="118" cy="188" r="16" fill="#ffffff" />
             <path
-              d="M118 135L118 144M118 232L118 241M65 188L74 188M162 188L171 188M81 151L88 157M155 219L162 225M81 225L88 219M155 151L162 157"
+              d="M 118 135 L 118 144 M 118 232 L 118 241 M 65 188 L 74 188 M 162 188 L 171 188 M 81 151 L 88 157 M 155 219 L 162 225 M 81 225 L 88 219 M 155 151 L 162 157"
               stroke-width="6" />
-            <path d="M68 185C68 140,108 120,160 128C171 132,174 144,174 151" fill="none" stroke-width="6" />
+            <path d="M 68 185 C 68 140, 108 120, 160 128 C 171 132, 174 144, 174 151" fill="none" stroke-width="6" />
             <circle cx="231" cy="204" r="26" fill="none" stroke-width="5" />
-            <circle cx="231" cy="204" r="10" fill="#fff" />
-            <path d="M117 125L117 105C117 102,120 99,125 99L176 99C181 99,184 102,185 107L202 157L176 157" fill="none"
-              stroke-width="6" />
-            <path d="M144 99L144 128L187 128" fill="none" stroke-width="4" />
-            <path d="M174 151L246 156C252 156,254 159,254 165L254 197L202 197Z" fill="#fff" />
+            <circle cx="231" cy="204" r="10" fill="#ffffff" />
+            <path
+              d="M 231 174 L 231 180 M 231 228 L 231 234 M 201 204 L 207 204 M 255 204 L 261 204 M 210 183 L 214 187 M 248 221 L 252 225 M 210 225 L 214 221 M 248 183 L 252 187"
+              stroke-width="4" />
+            <path
+              d="M 117 125 L 117 105 C 117 102, 120 99, 125 99 L 176 99 C 181 99, 184 102, 185 107 L 202 157 L 176 157"
+              fill="none" stroke-width="6" />
+            <path d="M 144 99 L 144 128 L 187 128" fill="none" stroke-width="4" />
+            <path d="M 176 99 L 188 128" fill="none" stroke-width="4" />
+            <path d="M 174 151 L 246 156 C 252 156, 254 159, 254 165 L 254 197 L 202 197 Z" fill="#ffffff" />
+            <rect x="168" y="173" width="18" height="9" fill="none" stroke-width="4.5" />
+            <rect x="168" y="185" width="18" height="7" fill="none" stroke-width="4.5" />
+            <path d="M 223 156 L 223 125 C 223 119, 219 117, 219 113 L 220 107" fill="none" stroke-width="4.5" />
+            <ellipse cx="239" cy="171" rx="6" ry="4" fill="#66BB6A" stroke="none" />
+            <line x1="212" y1="170" x2="212" y2="188" stroke="#66BB6A" stroke-width="4" />
+            <line x1="220" y1="170" x2="220" y2="188" stroke="#66BB6A" stroke-width="4" />
+            <line x1="228" y1="170" x2="228" y2="188" stroke="#66BB6A" stroke-width="4" />
           </g>
         </svg>
       </div>
-      <div class="logo-text-wrap" style="opacity:1;transition:opacity .2s;white-space:nowrap;">
-        <div
-          style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.1;">
+      <div class="logo-text-wrap">
+        <div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.1;">
           SIAG</div>
         <div style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.5px;">Agrícola Cooperativas</div>
       </div>
@@ -1425,28 +1523,20 @@
 
     <div class="sidebar-nav">
       <div class="nav-section-title">Principal</div>
-      <a href="/dashboard" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span
-          class="nav-label">Dashboard</span></a>
-      <a href="{{ route('cooperativas') }}" class="nav-item-link" data-label="Cooperativa"><i
-          class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
-      <a href="{{ route('agricultores.index')}}" class="nav-item-link" data-label="Agricultores"><i
-          class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
+      <a href="{{ route('dashboard') }}" class="nav-item-link" data-label="Dashboard"><i class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
+      <a href="{{ route('cooperativas') }}" class="nav-item-link" data-label="Cooperativa"><i class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
+      <a href="{{ route('agricultores.index') }}" class="nav-item-link" data-label="Agricultores"><i class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
-      <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
-          class="nav-label">Safras</span></a>
-      <a href="{{route('talhoes.index')}}" class="nav-item-link" data-label="Talhões"><i
-          class="bi bi-map-fill"></i><span class="nav-label">Talhões</span></a>
-      <a href="{{ route('insumos.index')}}" class="nav-item-link active" data-label="Insumos"><i
-          class="bi bi-box-seam-fill"></i><span class="nav-label">Insumos</span></a>
+      <a href="{{ route('safras.painel') }}" class="nav-item-link active" data-label="Safras"><i class="bi bi-flower2"></i><span class="nav-label">Safras</span></a>
+      <a href="{{ route('talhoes.index') }}" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span class="nav-label">Talhões</span></a>
+      <a href="{{ route('insumos.index') }}" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span class="nav-label">Insumos</span></a>
 
       <div class="nav-section-title">Comercial</div>
-      <a href="{{route('vendas')}}"  class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
-          class="nav-label">Vendas</span></a>
+      <a href="{{ route('vendas') }}" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span class="nav-label">Vendas</span></a>
 
       <div class="nav-section-title">Sistema</div>
-      <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i
-          class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
+      <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
     </div>
 
     <div class="sidebar-user">
@@ -1454,6 +1544,7 @@
         <div class="u-name">SIAG</div>
         <div class="u-role">Sistema de Gestão de cooperativa @ 2026</div>
       </div>
+    </div>
   </nav>
 
   <!-- ══════════════════════════════════════
@@ -1463,45 +1554,32 @@
     <button class="topbar-toggle" id="sidebarToggle" title="Toggle Sidebar">
       <i class="bi bi-list"></i>
     </button>
-    <span class="topbar-title">Insumos</span>
+    <span class="topbar-title">Safras</span>
     <nav aria-label="breadcrumb" class="d-none d-md-flex ms-3">
       <ol class="breadcrumb mb-0" style="font-size:12.5px;">
         <li class="breadcrumb-item"><a href="#" style="color:var(--primary);text-decoration:none;">SIAG</a></li>
-        <li class="breadcrumb-item"><a href="#" style="color:var(--primary);text-decoration:none;">Agrícola</a></li>
-        <li class="breadcrumb-item active" style="color:var(--text-light);">Insumos</li>
+        <li class="breadcrumb-item active" style="color:var(--text-light);">Safras</li>
       </ol>
     </nav>
     <div class="topbar-right">
       <div class="dropdown d-none d-sm-flex">
         <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
           <div class="t-avatar">
-            <img src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
-              alt="Foto-perfil" width="20" style="border-radius:50%;">
+            <img id="dropdownAvatarLarge"
+              src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
+              alt="Foto-perfil" width="20" class="avatar-md">
           </div>
           <span>{{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
           <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
         </div>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-          <li><span class="dropdown-header">Nível: {{ Auth::check() ? Auth::user()->nivel : '—' }}</span></li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-         
-          <li>
-            <a class="dropdown-item" href="#" id="themeToggle">
-              <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
-              <span id="themeLabel">Modo Escuro</span>
-            </a>
-          </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+          <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" id="themeToggle"><i class="bi bi-moon-stars-fill" id="themeIcon"></i><span id="themeLabel">Modo Escuro</span></a></li>
+          <li><hr class="dropdown-divider"></li>
           <li>
             <div class="dropdown-item item-logout p-0">
-              <form method="POST" action="/logout">
-                @csrf
-                <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
-              </form>
+              <form method="POST" action="/logout">@csrf<button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button></form>
             </div>
           </li>
         </ul>
@@ -1518,16 +1596,14 @@
       <!-- Page Header -->
       <div class="page-header anim">
         <div>
-          <h1>Gestão de Insumos</h1>
-          <p>Controlo de entrada, saída e stock de insumos agrícolas</p>
+          <h1>Gestão de Safras</h1>
+          <p>Planeamento e acompanhamento das épocas agrícolas e produções</p>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn-outline-green" id="btnExportar" style="display: none;" >
-            <i class="bi bi-download"></i> Exportar
+          <button class="btn-outline-green" id="btnExportar"><i class="bi bi-download"></i> Exportar</button>
+          <button class="btn-green" id="btnNovaSafra" data-bs-toggle="modal" data-bs-target="#modalSafra">
+            <i class="bi bi-plus-lg"></i> Nova Safra
           </button>
-          {{-- <button class="btn-green" id="btnNovoInsumo" data-bs-toggle="modal" data-bs-target="#modalInsumo">
-            <i class="bi bi-plus-lg"></i> Novo Insumo
-          </button> --}}
         </div>
       </div>
 
@@ -1535,43 +1611,37 @@
       <div class="row g-3 mb-4 anim anim-d1">
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon green"><i class="bi bi-box-seam-fill"></i></div>
+            <div class="stat-icon green"><i class="bi bi-calendar-event-fill"></i></div>
             <div class="stat-info">
-              <div class="s-label">Total de Insumos</div>
-              <div class="s-value" id="statTotal">{{ $insumos->count() ?? 0 }}</div>
-              <span class="stat-badge info"><i class="bi bi-info-circle"></i> Registados</span>
+              <div class="s-label">Total de Safras</div>
+              <div class="s-value">{{ $totalSafras ?? 0 }}</div>
             </div>
           </div>
         </div>
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon green"><i class="bi bi-droplet-fill"></i></div>
+            <div class="stat-icon blue"><i class="bi bi-play-circle-fill"></i></div>
             <div class="stat-info">
-              <div class="s-label">Fertilizantes</div>
-              <div class="s-value" id="statFertilizante">{{ $insumos->where('tipo', 'fertilizante')->count() ?? 0 }}
-              </div>
-              <span class="stat-badge up"><i class="bi bi-check-circle"></i> Em stock</span>
+              <div class="s-label">Em Andamento</div>
+              <div class="s-value">{{ $emAndamento ?? 0 }}</div>
             </div>
           </div>
         </div>
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon amber"><i class="bi bi-flower2"></i></div>
+            <div class="stat-icon amber"><i class="bi bi-check-circle-fill"></i></div>
             <div class="stat-info">
-              <div class="s-label">Sementes</div>
-              <div class="s-value" id="statSemente">{{ $insumos->where('tipo', 'semente')->count() ?? 0 }}</div>
-              <span class="stat-badge warn"><i class="bi bi-calendar3"></i> Safra 24/25</span>
+              <div class="s-label">Concluídas</div>
+              <div class="s-value">{{ $concluidas ?? 0 }}</div>
             </div>
           </div>
         </div>
         <div class="col-6 col-xl-3">
           <div class="stat-card">
-            <div class="stat-icon blue"><i class="bi bi-tools"></i></div>
+            <div class="stat-icon purple"><i class="bi bi-clock-fill"></i></div>
             <div class="stat-info">
-              <div class="s-label">Mecânicos / Outros</div>
-              <div class="s-value" id="statOutros">{{ $insumos->whereIn('tipo', ['mecanico', 'outro'])->count() ?? 0 }}
-              </div>
-              <span class="stat-badge purple"><i class="bi bi-wrench"></i> Equipamentos</span>
+              <div class="s-label">Planeadas</div>
+              <div class="s-value">{{ $planeadas ?? 0 }}</div>
             </div>
           </div>
         </div>
@@ -1580,194 +1650,243 @@
       <!-- Table Card -->
       <div class="table-card anim anim-d2">
 
-        <!-- Header -->
         <div class="table-card-header">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <h5><i class="bi bi-box-seam-fill me-2" style="color:var(--primary);"></i>Lista de Insumos</h5>
-          </div>
-          <span id="tableCount" style="font-size:12.5px;color:var(--text-light);">0 registos</span>
+          <h5><i class="bi bi-flower2 me-2" style="color:var(--primary);"></i>Lista de Safras</h5>
         </div>
 
-        <!-- Search & Filters -->
-        <div class="search-filter-bar">
+        <form action="{{ route('safras.painel') }}" method="GET" class="search-filter-bar">
           <div class="search-wrap">
             <i class="bi bi-search"></i>
-            <input type="text" class="search-input" id="searchInsumo" placeholder="Pesquisar por nome ou tipo…">
+            <input type="text" name="search" class="search-input" placeholder="Pesquisar safra por nome ou cultura…" value="{{ request('search') }}">
           </div>
-          <select class="filter-select" id="filterTipo">
-            <option value="">Todos os tipos</option>
-            <option value="fertilizante">Fertilizante</option>
-            <option value="semente">Semente</option>
-            <option value="mecanico">Mecânico</option>
-            <option value="outro">Outro</option>
-          </select>
-          <select class="filter-select" id="filterEstado">
-            <option value="">Todos os estados</option>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-          </select>
-          <a href="/insumos" class="btn-green">
-            <i class="bi bi-eraser"></i> Limpar Filtro
-          </a>
-        </div>
 
-        <!-- Table -->
+          <select class="filter-select" name="estado" onchange="this.form.submit()">
+            <option value="">Todos os estados</option>
+            <option value="planeada" {{ request('estado') == 'planeada' ? 'selected' : '' }}>Planeada</option>
+            <option value="em_andamento" {{ request('estado') == 'em_andamento' ? 'selected' : '' }}>Em Andamento</option>
+            <option value="concluida" {{ request('estado') == 'concluida' ? 'selected' : '' }}>Concluída</option>
+            <option value="cancelada" {{ request('estado') == 'cancelada' ? 'selected' : '' }}>Cancelada</option>
+          </select>
+
+          <select class="filter-select" name="cultura" onchange="this.form.submit()">
+            <option value="">Todas as culturas</option>
+            <option value="Milho" {{ request('cultura') == 'Milho' ? 'selected' : '' }}>Milho</option>
+            <option value="Feijão" {{ request('cultura') == 'Feijão' ? 'selected' : '' }}>Feijão</option>
+            <option value="Mandioca" {{ request('cultura') == 'Mandioca' ? 'selected' : '' }}>Mandioca</option>
+            <option value="Batata-doce" {{ request('cultura') == 'Batata-doce' ? 'selected' : '' }}>Batata-doce</option>
+            <option value="Hortícolas" {{ request('cultura') == 'Hortícolas' ? 'selected' : '' }}>Hortícolas</option>
+          </select>
+        </form>
+
         <div style="overflow-x:auto;">
-          <table class="insumo-table" id="insumoTable">
+          <table class="safra-table">
             <thead>
               <tr>
-                <th>Insumo</th>
-                <th>Tipo</th>
-                <th>Quantidade / Stock</th>
-                <th>Unidade</th>
-                <th>Preço Unitário</th>
-                <th>Data de Entrada</th>
+                <th style="width:40px;"><input type="checkbox" id="selectAll" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></th>
+                <th>Safra / Cultura</th>
+                <th>Período</th>
+                <th>Área (ha)</th>
                 <th>Estado</th>
                 <th style="text-align:center;">Acções</th>
               </tr>
             </thead>
-            <tbody id="tabela-insumos">
-
-              @forelse($insumos as $insumo)
-                <tr id="insumo-row-{{ $insumo->id }}" data-tipo="{{ strtolower($insumo->tipo) }}"
-                  data-estado="{{ strtolower($insumo->estado) }}">
+            <tbody>
+              @forelse($safras ?? [] as $safra)
+                <tr id="safra-row-{{ $safra->id }}">
+                  <td><input type="checkbox" class="row-check" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"></td>
                   <td>
-                    <div class="insumo-cell">
-                      <div
-                        class="insumo-avatar {{ $insumo->tipo == 'fertilizante' ? 'bg-success bg-opacity-10 text-success' : ($insumo->tipo == 'semente' ? 'bg-warning bg-opacity-10 text-warning' : ($insumo->tipo == 'mecanico' ? 'bg-primary bg-opacity-10 text-primary' : 'bg-secondary bg-opacity-10 text-secondary')) }}">
-                        @if($insumo->tipo == 'fertilizante')
-                        @elseif($insumo->tipo == 'semente')
-                        @elseif($insumo->tipo == 'mecanico')
-                        @else @endif
+                    <div class="safra-cell">
+                      <div style="width:40px;height:40px;background:var(--accent-lt);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--primary);flex-shrink:0;">
+                        <i class="bi bi-flower2" style="font-size:20px;"></i>
                       </div>
                       <div>
-                        <div class="insumo-nome">{{ $insumo->nome }}</div>
-                        <div class="insumo-id">ID #{{ $insumo->id }}</div>
+                        <div class="safra-name">{{ $safra->nome }}</div>
+                        <div class="safra-cultura"><i class="bi bi-tag"></i> {{ $safra->cultura }}</div>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <span class="badge-tipo {{ strtolower($insumo->tipo) }}">
-                      {{ ucfirst($insumo->tipo) }}
-                    </span>
+                    <div style="font-size:13px;">{{ \Carbon\Carbon::parse($safra->data_inicio)->format('d/m/Y') }}</div>
+                    <div style="font-size:12px;color:var(--text-light);">até {{ \Carbon\Carbon::parse($safra->data_fim)->format('d/m/Y') }}</div>
                   </td>
+                  <td>{{ number_format($safra->area_plantada, 2, ',', '.') }}</td>
                   <td>
-                    <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:var(--text-dark);">
-                      {{ number_format($insumo->quantidade, 0, ',', '.') }}
-                    </div>
-                    @php
-                      $pct = min(100, ($insumo->quantidade / max(1, $insumo->quantidade_maxima ?? 500)) * 100);
-                      $cls = $pct > 50 ? 'ok' : ($pct > 20 ? 'warning' : 'critical');
-                    @endphp
-                    <div class="stock-bar">
-                      <div class="stock-fill {{ $cls }}" style="width:{{ $pct }}%;"></div>
-                    </div>
-                  </td>
-                  <td>{{ $insumo->unidade }}</td>
-                  <td>
-                    <span style="font-weight:600;color:var(--primary);">
-                      Kz {{ number_format($insumo->preco_unitario, 2, ',', '.') }}
-                    </span>
-                  </td>
-                  <td>{{ \Carbon\Carbon::parse($insumo->data_entrada)->format('d/m/Y') }}</td>
-                  <td>
-                    <span class="badge-estado {{ strtolower($insumo->estado) }}">
-                      {{ $insumo->estado == 'activo' ? 'Activo' : 'Inactivo' }}
+                    <span class="badge-status {{ $safra->estado }}">
+                      {{ ucfirst(str_replace('_', ' ', $safra->estado)) }}
                     </span>
                   </td>
                   <td style="text-align:center;">
                     <div style="display:flex;gap:6px;justify-content:center;">
-
-                      <button class="action-btn view btn-editar-insumo btn-ver-talhao" title="Ver detalhes"
-                        id="modalVerTalhao" data-id="{{ $insumo->id }}" data-nome="{{ $insumo->nome }}"
-                        data-tipo="{{ $insumo->tipo }}" data-quantidade="{{ $insumo->quantidade }}"
-                        data-unidade="{{ $insumo->unidade }}" data-preco="{{ $insumo->preco_unitario }}"
-                        data-entrada="{{ $insumo->data_entrada }}" data-estado="{{ $insumo->estado }}">
-                        <i class="bi bi-eye-fill"></i>
-                      </button>
+                      <a href="{{ route('safras.show', $safra->id) }}" class="action-btn view" title="Ver detalhes"><i class="bi bi-eye-fill"></i></a>
+                      <button class="action-btn edit btn-editar-safra" title="Editar" data-id="{{ $safra->id }}" data-nome="{{ $safra->nome }}" data-cultura="{{ $safra->cultura }}" data-inicio="{{ $safra->data_inicio }}" data-fim="{{ $safra->data_fim }}" data-area="{{ $safra->area_plantada }}" data-estado="{{ $safra->estado }}"><i class="bi bi-pencil-fill"></i></button>
+                      <button class="action-btn delete btn-eliminar-safra" title="Apagar" data-id="{{ $safra->id }}" data-nome="{{ $safra->nome }}"><i class="bi bi-trash-fill"></i></button>
                     </div>
                   </td>
                 </tr>
               @empty
-                <tr id="trEmpty">
-                  <td colspan="8">
-                    <div class="empty-state">
-                      <i class="bi bi-box-seam"></i>
-                      <h6>Nenhum insumo registado</h6>
-                      <p>Clique em "Novo Insumo" para adicionar o primeiro registo.</p>
-                    </div>
-                  </td>
-                </tr>
+                <tr><td colspan="6"><div class="empty-state"><i class="bi bi-flower2"></i><h6>Nenhuma safra encontrada</h6><p>Tente ajustar os filtros ou registe uma nova safra.</p></div></td></tr>
               @endforelse
-
             </tbody>
           </table>
         </div>
 
-        <!-- Empty state (hidden by default, shown via JS filter) -->
-        <div class="empty-state" id="emptyState" style="display:none;">
-          <i class="bi bi-box-seam"></i>
-          <h6>Nenhum insumo encontrado</h6>
-          <p>Tente ajustar os filtros ou adicione um novo insumo.</p>
-        </div>
-
-        <!-- Footer / Pagination -->
         <div class="table-footer">
-          <span id="tableCountBottom">Mostrando {{ $insumos->count() ?? 0 }} insumos</span>
+          <span>Mostrando {{ $safras->firstItem() ?? 0 }} até {{ $safras->lastItem() ?? 0 }} de {{ $safras->total() ?? 0 }} safras</span>
           <div class="pagination-btns">
-            {{ $insumos->links() ?? '' }}
+            @if(isset($safras) && method_exists($safras, 'links'))
+              {{ $safras->links('pagination::bootstrap-5') }}
+            @endif
           </div>
         </div>
 
       </div>
-      <!-- /table-card -->
-
-    </div><!-- /content-inner -->
+    </div>
   </main>
 
-
   <!-- ══════════════════════════════════════
-     MODAL — NOVO / EDITAR INSUMO
+     MODAL — NOVA / EDITAR SAFRA
 ══════════════════════════════════════ -->
-  <div class="modal fade" id="modalInsumo" tabindex="-1" aria-labelledby="modalInsumoLabel" aria-hidden="true"
-    data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-insumo modal-dialog-centered">
+  <div class="modal fade" id="modalSafra" tabindex="-1" aria-labelledby="modalSafraLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-coop modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <div style="display:flex;align-items:center;gap:14px;flex:1;">
-            <div class="modal-header-icon"><i class="bi bi-eye-fill"></i></div>
-            <div>
-              <div class="modal-title">Detalhes do Insumo</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="verTalhaoDesignacao">—</div>
-            </div>
+            <div class="modal-header-icon"><i class="bi bi-flower2" id="modalHeaderIcon"></i></div>
+            <div><div class="modal-title" id="modalSafraLabel">Nova Safra</div></div>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
-        <div class="modal-body">
-          <div class="row g-3">
-            <div class="col-6"><strong>ID:</strong> <span id="insumo_nome">—</span></div>
-            <div class="col-6"><strong>Tipo:</strong> <span id="insumo_tipo">—</span></div>
-            <div class="col-6"><strong>quantidade:</strong> <span id="insumo_quantidade">—</span></div>
 
+        <div class="modal-tabs">
+          <button class="modal-tab-btn active" data-modal-tab="geral"><i class="bi bi-info-circle-fill"></i> Geral</button>
+          <button class="modal-tab-btn" data-modal-tab="periodo"><i class="bi bi-calendar-range-fill"></i> Período</button>
+          <button class="modal-tab-btn" data-modal-tab="status"><i class="bi bi-toggle-on"></i> Status</button>
+        </div>
+
+        <div class="modal-body">
+          <form id="formSafra" novalidate>
+            @csrf
+            <input type="hidden" id="safraId" name="id" value="">
+
+            <!-- TAB 1: Geral -->
+            <div class="modal-tab-panel active" id="mtab-geral">
+              <div class="modal-form-card">
+                <div class="modal-section-title"><i class="bi bi-tag-fill"></i> Identificação da Safra</div>
+                <div class="row g-3">
+                  <div class="col-12 col-md-8">
+                    <label class="cfg-label" for="safraNome">Nome da Safra *</label>
+                    <input class="cfg-input" type="text" id="safraNome" name="nome" placeholder="Ex: Safra 2025/2026" required>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="cfg-label" for="safraCultura">Cultura *</label>
+                    <select class="cfg-select" id="safraCultura" name="cultura" required>
+                      <option value="">Seleccione…</option>
+                      <option value="Milho">Milho</option>
+                      <option value="Feijão">Feijão</option>
+                      <option value="Mandioca">Mandioca</option>
+                      <option value="Batata-doce">Batata-doce</option>
+                      <option value="Hortícolas">Hortícolas</option>
+                      <option value="Frutas tropicais">Frutas tropicais</option>
+                      <option value="Café">Café</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="cfg-label" for="safraDescricao">Descrição</label>
+                    <textarea class="cfg-textarea" id="safraDescricao" name="descricao" rows="2" placeholder="Observações sobre esta safra…"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: Período -->
+            <div class="modal-tab-panel" id="mtab-periodo">
+              <div class="modal-form-card">
+                <div class="modal-section-title"><i class="bi bi-calendar-range-fill"></i> Datas e Área</div>
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="safraInicio">Data de Início *</label>
+                    <input class="cfg-input" type="date" id="safraInicio" name="data_inicio" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="cfg-label" for="safraFim">Data de Fim *</label>
+                    <input class="cfg-input" type="date" id="safraFim" name="data_fim" required>
+                  </div>
+                  <div class="col-12">
+                    <label class="cfg-label" for="safraArea">Área Plantada (hectares) *</label>
+                    <input class="cfg-input" type="number" id="safraArea" name="area_plantada" placeholder="0.00" step="0.01" min="0" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 3: Status -->
+            <div class="modal-tab-panel" id="mtab-status">
+              <div class="modal-form-card">
+                <div class="modal-section-title"><i class="bi bi-toggle-on"></i> Estado da Safra</div>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="cfg-label" for="safraEstado">Estado *</label>
+                    <select class="cfg-select" id="safraEstado" name="estado" required>
+                      <option value="planeada">Planeada</option>
+                      <option value="em_andamento">Em Andamento</option>
+                      <option value="concluida">Concluída</option>
+                      <option value="cancelada">Cancelada</option>
+                    </select>
+                    <div class="cfg-helper">Define a fase actual da safra.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <div style="display:flex;align-items:center;gap:10px;width:100%;justify-content:space-between;flex-wrap:wrap;">
+            <div style="font-size:12px;color:var(--text-light);"><i class="bi bi-info-circle me-1"></i> Campos com * são obrigatórios.</div>
+            <div style="display:flex;gap:10px;">
+              <button type="button" class="btn-outline-green" data-bs-dismiss="modal"><i class="bi bi-x-lg"></i> Cancelar</button>
+              <button type="button" class="btn-green" id="btnGuardarSafra"><i class="bi bi-check2-circle"></i> <span id="btnGuardarSafraLabel">Registar Safra</span></button>
+            </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Fechar</button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+     MODAL — CONFIRMAR ELIMINAÇÃO
+══════════════════════════════════════ -->
+  <div class="modal fade" id="modalDelete" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
+      <div class="modal-content">
+        <div class="modal-header" style="background:linear-gradient(135deg, #7f0000, #C62828);">
+          <div style="display:flex;align-items:center;gap:14px;flex:1;">
+            <div class="modal-header-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <div><div class="modal-title">Confirmar Eliminação</div><div style="font-size:12px;color:rgba(255,255,255,.65);">Esta acção é irreversível</div></div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body" style="background:#fff;padding:28px;">
+          <p style="font-size:13.5px;color:var(--text-mid);">Tem a certeza que deseja eliminar a safra:</p>
+          <div style="background:#FFF8F8;border:1px solid #FFCDD2;border-radius:10px;padding:14px 18px;margin-bottom:16px;">
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:#C62828;" id="deleteSafraName">—</div>
+            <div style="font-size:12px;color:var(--text-light);">Todos os dados associados serão removidos permanentemente.</div>
+          </div>
+        </div>
+        <div class="modal-footer" style="border-top:1px solid #FFCDD2;">
+          <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn-green" id="btnConfirmDelete" style="background:#C62828;box-shadow:none;"><i class="bi bi-trash-fill"></i> Eliminar Definitivamente</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- /MODAL INSUMO -->
 
-
-
-  <!-- Toast Feedback -->
+  <!-- Toast -->
   <div class="save-toast" id="saveToast">
     <div class="toast-icon success" id="toastIcon"><i class="bi bi-check-lg" id="toastIconI"></i></div>
-    <div class="toast-text">
-      <div class="t-title" id="toastTitle">Operação concluída</div>
-      <div class="t-sub" id="toastSub">Acção realizada com sucesso.</div>
-    </div>
+    <div class="toast-text"><div class="t-title" id="toastTitle">Operação concluída</div><div class="t-sub" id="toastSub">Acção realizada com sucesso.</div></div>
   </div>
 
   <!-- Bootstrap JS -->
@@ -1797,15 +1916,11 @@
       }
     }
 
-    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA ───
     function adjustSidebarForScreen() {
       const width = window.innerWidth;
       let novoEstado = 0;
-      if (width < 768) {
-        novoEstado = 1; // icons-only
-      } else {
-        novoEstado = 0; // normal
-      }
+      if (width < 768) novoEstado = 1;
+      else novoEstado = 0;
       if (novoEstado !== sideState) {
         sideState = novoEstado;
         body.classList.remove('icons-only', 'sidebar-hidden');
@@ -1826,7 +1941,6 @@
       window.addEventListener('resize', handleResize);
     });
 
-    // Mantém o clique do botão para alternar manualmente
     document.getElementById('sidebarToggle').addEventListener('click', () => {
       sideState = (sideState + 1) % 3;
       body.classList.remove('icons-only', 'sidebar-hidden');
@@ -1842,8 +1956,7 @@
     const themeIcon = document.getElementById('themeIcon');
     const themeLabel = document.getElementById('themeLabel');
     let darkMode = false;
-
-    themeToggle.addEventListener('click', function (e) {
+    themeToggle.addEventListener('click', function(e) {
       e.preventDefault();
       darkMode = !darkMode;
       body.classList.toggle('dark-mode', darkMode);
@@ -1855,11 +1968,9 @@
        NAV ACTIVE SIDEBAR
     ══════════════════════════════════════ */
     document.querySelectorAll('.nav-item-link').forEach(link => {
-      link.addEventListener('click', function (e) {
+      link.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
-        if (!href || href === '#') {
-          e.preventDefault();
-        }
+        if (!href || href === '#') e.preventDefault();
         document.querySelectorAll('.nav-item-link').forEach(l => l.classList.remove('active'));
         this.classList.add('active');
         const label = this.dataset.label || this.querySelector('.nav-label')?.textContent || '';
@@ -1883,282 +1994,176 @@
     }
 
     /* ══════════════════════════════════════
-       SEARCH & FILTER
+       MODAL TABS
     ══════════════════════════════════════ */
-    function filtrarInsumos() {
-      const texto = document.getElementById('searchInsumo').value.toLowerCase();
-      const tipo = document.getElementById('filterTipo').value.toLowerCase();
-      const estado = document.getElementById('filterEstado').value.toLowerCase();
-      const linhas = document.querySelectorAll('#tabela-insumos tr[id^="insumo-row-"]');
-      let visible = 0;
-
-      linhas.forEach(linha => {
-        const conteudo = linha.textContent.toLowerCase();
-        const tipoLinha = linha.dataset.tipo || '';
-        const estadoLinha = linha.dataset.estado || '';
-
-        const ok = (!texto || conteudo.includes(texto))
-          && (!tipo || tipoLinha === tipo)
-          && (!estado || estadoLinha === estado);
-
-        linha.style.display = ok ? '' : 'none';
-        if (ok) visible++;
+    function switchModalTab(tabName) {
+      document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.modalTab === tabName);
       });
-
-      document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
-      document.getElementById('tableCount').textContent = visible + ' registo' + (visible !== 1 ? 's' : '');
-      document.getElementById('tableCountBottom').textContent = 'Mostrando ' + visible + ' insumo' + (visible !== 1 ? 's' : '');
+      document.querySelectorAll('.modal-tab-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === 'mtab-' + tabName);
+      });
     }
-
-    document.getElementById('searchInsumo').addEventListener('input', filtrarInsumos);
-    document.getElementById('filterTipo').addEventListener('change', filtrarInsumos);
-    document.getElementById('filterEstado').addEventListener('change', filtrarInsumos);
-
-    /* Conta inicial ao carregar */
-    document.addEventListener('DOMContentLoaded', () => {
-      const total = document.querySelectorAll('#tabela-insumos tr[id^="insumo-row-"]').length;
-      document.getElementById('tableCount').textContent = total + ' registo' + (total !== 1 ? 's' : '');
-      document.getElementById('tableCountBottom').textContent = 'Mostrando ' + total + ' insumo' + (total !== 1 ? 's' : '');
+    document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchModalTab(btn.dataset.modalTab));
     });
 
     /* ══════════════════════════════════════
-       MODAL — NOVO INSUMO (reset ao abrir)
+       MODAL — NOVA SAFRA (reset)
     ══════════════════════════════════════ */
-    let modoInsumo = 'create';
-
-
-
-    /* ══════════════════════════════════════
-       MODAL — EDITAR INSUMO
-    ══════════════════════════════════════ */
-    document.addEventListener('click', function (e) {
-      const btn = e.target.closest('.btn-editar-insumo');
-      if (!btn) return;
-
-      document.getElementById('insumo_nome').textContent = btn.dataset.nome || '—';
-      document.getElementById('insumo_quantidade').textContent = btn.dataset.quantidade || '—';
-      document.getElementById('insumo_tipo').textContent = btn.dataset.tipo || '—';
-
-      modoInsumo = 'edit';
-      new bootstrap.Modal(document.getElementById('modalInsumo')).show();
+    document.getElementById('modalSafra').addEventListener('show.bs.modal', function(e) {
+      if (e.relatedTarget && e.relatedTarget.id === 'btnNovaSafra') {
+        document.getElementById('formSafra').reset();
+        document.getElementById('safraId').value = '';
+        document.getElementById('modalSafraLabel').textContent = 'Nova Safra';
+        document.getElementById('btnGuardarSafraLabel').textContent = 'Registar Safra';
+        document.getElementById('modalHeaderIcon').className = 'bi bi-flower2';
+        document.getElementById('safraEstado').value = 'planeada';
+        switchModalTab('geral');
+      }
     });
 
-
-
     /* ══════════════════════════════════════
-       ELIMINAR INSUMO
+       EDITAR SAFRA (carregar dados)
     ══════════════════════════════════════ */
-
-    document.addEventListener('click', function (e) {
-      const btn = e.target.closest('.btn-eliminar-insumo');
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.btn-editar-safra');
       if (!btn) return;
 
-      const id = btn.dataset.id;
-      if (!confirm('Tem a certeza que deseja eliminar este insumo? Esta acção é irreversível.')) return;
+      document.getElementById('safraId').value = btn.dataset.id;
+      document.getElementById('safraNome').value = btn.dataset.nome || '';
+      document.getElementById('safraCultura').value = btn.dataset.cultura || '';
+      document.getElementById('safraInicio').value = btn.dataset.inicio || '';
+      document.getElementById('safraFim').value = btn.dataset.fim || '';
+      document.getElementById('safraArea').value = btn.dataset.area || '';
+      document.getElementById('safraEstado').value = btn.dataset.estado || 'planeada';
 
-      fetch(`/insumos/${id}`, {
+      document.getElementById('modalSafraLabel').textContent = 'Editar Safra';
+      document.getElementById('btnGuardarSafraLabel').textContent = 'Guardar Alterações';
+      document.getElementById('modalHeaderIcon').className = 'bi bi-pencil-fill';
+
+      const modal = new bootstrap.Modal(document.getElementById('modalSafra'));
+      modal.show();
+      switchModalTab('geral');
+    });
+
+    /* ══════════════════════════════════════
+       GUARDAR SAFRA (criar/editar)
+    ══════════════════════════════════════ */
+    document.getElementById('btnGuardarSafra').addEventListener('click', function() {
+      const id = document.getElementById('safraId').value;
+      const nome = document.getElementById('safraNome').value.trim();
+      const cultura = document.getElementById('safraCultura').value;
+      const inicio = document.getElementById('safraInicio').value;
+      const fim = document.getElementById('safraFim').value;
+      const area = document.getElementById('safraArea').value;
+      const estado = document.getElementById('safraEstado').value;
+
+      if (!nome || !cultura || !inicio || !fim || !area) {
+        showToast('Campos obrigatórios em falta', 'Preencha todos os campos marcados com *.', 'danger');
+        return;
+      }
+
+      const btn = this;
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A guardar…';
+      btn.disabled = true;
+
+      const url = id ? `/safras/${id}` : '/safras';
+      const formData = new FormData();
+      if (id) formData.append('_method', 'PUT');
+      formData.append('nome', nome);
+      formData.append('cultura', cultura);
+      formData.append('data_inicio', inicio);
+      formData.append('data_fim', fim);
+      formData.append('area_plantada', area);
+      formData.append('estado', estado);
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Accept': 'application/json'
+        },
+        body: formData
+      })
+      .then(r => r.json())
+      .then(data => {
+        btn.innerHTML = orig;
+        btn.disabled = false;
+        if (data.success) {
+          bootstrap.Modal.getInstance(document.getElementById('modalSafra')).hide();
+          showToast('Safra guardada', data.message || 'Operação realizada com sucesso.');
+          setTimeout(() => location.reload(), 800);
+        } else {
+          showToast('Erro', data.message || 'Verifique os dados.', 'danger');
+        }
+      })
+      .catch(() => {
+        btn.innerHTML = orig;
+        btn.disabled = false;
+        showToast('Erro de ligação', 'Não foi possível comunicar com o servidor.', 'danger');
+      });
+    });
+
+    /* ══════════════════════════════════════
+       ELIMINAR SAFRA
+    ══════════════════════════════════════ */
+    let deleteTargetId = null;
+    let deleteTargetName = '';
+
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.btn-eliminar-safra');
+      if (!btn) return;
+      deleteTargetId = btn.dataset.id;
+      deleteTargetName = btn.dataset.nome;
+      document.getElementById('deleteSafraName').textContent = deleteTargetName;
+      new bootstrap.Modal(document.getElementById('modalDelete')).show();
+    });
+
+    document.getElementById('btnConfirmDelete').addEventListener('click', function() {
+      if (!deleteTargetId) return;
+      const btn = this;
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i class="bi bi-hourglass-split"></i> A eliminar…';
+      btn.disabled = true;
+
+      fetch(`/safras/${deleteTargetId}`, {
         method: 'DELETE',
         headers: {
           'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
           'Accept': 'application/json'
         }
       })
-        .then(r => r.json())
-        .then(data => {
-          if (data.success) {
-            btn.closest('tr').remove();
-            showToast('Ano Agrícola eliminado', 'O registo foi removido do sistema.');
-          } else {
-            showToast('Erro', data.message || 'Não foi possível eliminar2.');
-          }
-        })
-        .catch(() => showToast('Erro de ligação', 'Verifique a sua conexão.'));
+      .then(r => r.json())
+      .then(data => {
+        btn.innerHTML = orig;
+        btn.disabled = false;
+        bootstrap.Modal.getInstance(document.getElementById('modalDelete')).hide();
+        if (data.success) {
+          document.getElementById(`safra-row-${deleteTargetId}`)?.remove();
+          showToast('Safra eliminada', deleteTargetName + ' foi removida do sistema.', 'danger');
+        } else {
+          showToast('Erro', data.message || 'Não foi possível eliminar.', 'danger');
+        }
+      })
+      .catch(() => {
+        btn.innerHTML = orig;
+        btn.disabled = false;
+        showToast('Erro de ligação', 'Verifique a sua conexão.', 'danger');
+      });
     });
 
     /* ══════════════════════════════════════
-       FUNÇÕES AUXILIARES
+       SELECT ALL & EXPORT
     ══════════════════════════════════════ */
-    function normalizarDataISO(dateStr) {
-      if (!dateStr) return '';
-      dateStr = String(dateStr).trim();
-      if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) return dateStr.substring(0, 10);
-      const m = dateStr.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
-      if (m) return `${m[3]}-${m[2]}-${m[1]}`;
-      return '';
-    }
+    document.getElementById('selectAll')?.addEventListener('change', function() {
+      document.querySelectorAll('.row-check').forEach(cb => cb.checked = this.checked);
+    });
 
-    function formatarData(dateStr) {
-      if (!dateStr) return '—';
-      dateStr = String(dateStr).trim();
-      const iso = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
-      if (iso) return `${iso[3]}/${iso[2]}/${iso[1]}`;
-      return dateStr;
-    }
-
-    function iconeInsumo(tipo) {
-      const icons = { fertilizante: '💧', semente: '🌱', mecanico: '🔧', outro: '📦' };
-      return icons[tipo] || '📦';
-    }
-
-    function badgeTipo(tipo) {
-      const map = {
-        fertilizante: ['fertilizante', 'Fertilizante'],
-        semente: ['semente', 'Semente'],
-        mecanico: ['mecanico', 'Mecânico'],
-        outro: ['outro', 'Outro'],
-      };
-      const [cls, label] = map[tipo] || ['outro', 'Outro'];
-      return `<span class="badge-tipo ${cls}">${label}</span>`;
-    }
-
-    function badgeEstado(estado) {
-      return estado === 'activo'
-        ? '<span class="badge-estado activo">Activo</span>'
-        : '<span class="badge-estado inactivo">Inactivo</span>';
-    }
-
-    function stockBar(qty) {
-      // Stock máx estimado: 500 por omissão para novos registos
-      const pct = Math.min(100, (qty / 500) * 100);
-      const cls = pct > 50 ? 'ok' : (pct > 20 ? 'warning' : 'critical');
-      return `<div class="stock-bar"><div class="stock-fill ${cls}" style="width:${pct}%;"></div></div>`;
-    }
-
-    function inserirLinhaTabela(insumo) {
-      // Remove linha "sem registos" se existir
-      const trEmpty = document.getElementById('trEmpty');
-      if (trEmpty) trEmpty.remove();
-
-      const tbody = document.getElementById('tabela-insumos');
-      const qty = parseFloat(insumo.quantidade) || 0;
-      const preco = parseFloat(insumo.preco_unitario) || 0;
-
-      const tr = document.createElement('tr');
-      tr.id = `insumo-row-${insumo.id}`;
-      tr.dataset.tipo = (insumo.tipo || '').toLowerCase();
-      tr.dataset.estado = (insumo.estado || '').toLowerCase();
-
-      tr.innerHTML = `
-    <td>
-      <div class="insumo-cell">
-        <div class="insumo-avatar">${iconeInsumo(insumo.tipo)}</div>
-        <div>
-          <div class="insumo-nome">${insumo.nome}</div>
-          <div class="insumo-id">ID #${insumo.id}</div>
-        </div>
-      </div>
-    </td>
-    <td>${badgeTipo(insumo.tipo)}</td>
-    <td>
-      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:var(--text-dark);">
-        ${qty.toLocaleString('pt-PT')}
-      </div>
-      ${stockBar(qty)}
-    </td>
-    <td>${insumo.unidade}</td>
-    <td><span style="font-weight:600;color:var(--primary);">Kz ${preco.toLocaleString('pt-PT', { minimumFractionDigits: 2 })}</span></td>
-    <td>${formatarData(insumo.data_entrada)}</td>
-    <td>${badgeEstado(insumo.estado)}</td>
-    <td style="text-align:center;">
-      <div style="display:flex;gap:6px;justify-content:center;">
-        <button class="action-btn edit btn-editar-insumo" title="Editar"
-          data-id="${insumo.id}"
-          data-nome="${insumo.nome}"
-          data-tipo="${insumo.tipo}"
-          data-quantidade="${insumo.quantidade}"
-          data-unidade="${insumo.unidade}"
-          data-preco="${insumo.preco_unitario}"
-          data-entrada="${normalizarDataISO(insumo.data_entrada)}"
-          data-estado="${insumo.estado}">
-          <i class="bi bi-pencil-fill"></i>
-        </button>
-        <button class="action-btn delete btn-eliminar-insumo" title="Eliminar" data-id="${insumo.id}">
-          <i class="bi bi-trash-fill"></i>
-        </button>
-      </div>
-    </td>
-  `;
-
-      tbody.insertAdjacentElement('afterbegin', tr);
-    }
-
-    function atualizarLinhaTabela(insumo) {
-      const tr = document.getElementById(`insumo-row-${insumo.id}`);
-      if (!tr) return;
-
-      const qty = parseFloat(insumo.quantidade) || 0;
-      const preco = parseFloat(insumo.preco_unitario) || 0;
-
-      tr.dataset.tipo = (insumo.tipo || '').toLowerCase();
-      tr.dataset.estado = (insumo.estado || '').toLowerCase();
-
-      tr.innerHTML = `
-    <td>
-      <div class="insumo-cell">
-        <div class="insumo-avatar">${iconeInsumo(insumo.tipo)}</div>
-        <div>
-          <div class="insumo-nome">${insumo.nome}</div>
-          <div class="insumo-id">ID #${insumo.id}</div>
-        </div>
-      </div>
-    </td>
-    <td>${badgeTipo(insumo.tipo)}</td>
-    <td>
-      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;color:var(--text-dark);">
-        ${qty.toLocaleString('pt-PT')}
-      </div>
-      ${stockBar(qty)}
-    </td>
-    <td>${insumo.unidade}</td>
-    <td><span style="font-weight:600;color:var(--primary);">Kz ${preco.toLocaleString('pt-PT', { minimumFractionDigits: 2 })}</span></td>
-    <td>${formatarData(insumo.data_entrada)}</td>
-    <td>${badgeEstado(insumo.estado)}</td>
-    <td style="text-align:center;">
-      <div style="display:flex;gap:6px;justify-content:center;">
-        <button class="action-btn edit btn-editar-insumo" title="Editar"
-          data-id="${insumo.id}"
-          data-nome="${insumo.nome}"
-          data-tipo="${insumo.tipo}"
-          data-quantidade="${insumo.quantidade}"
-          data-unidade="${insumo.unidade}"
-          data-preco="${insumo.preco_unitario}"
-          data-entrada="${normalizarDataISO(insumo.data_entrada)}"
-          data-estado="${insumo.estado}">
-          <i class="bi bi-pencil-fill"></i>
-        </button>
-        <button class="action-btn delete btn-eliminar-insumo" title="Eliminar" data-id="${insumo.id}">
-          <i class="bi bi-trash-fill"></i>
-        </button>
-      </div>
-    </td>
-  `;
-    }
-
-    function atualizarContadores() {
-      const rows = document.querySelectorAll('#tabela-insumos tr[id^="insumo-row-"]');
-      let total = 0, fert = 0, sem = 0, outros = 0;
-
-      rows.forEach(r => {
-        total++;
-        const t = r.dataset.tipo || '';
-        if (t === 'fertilizante') fert++;
-        else if (t === 'semente') sem++;
-        else outros++;
-      });
-
-      document.getElementById('statTotal').textContent = total;
-      document.getElementById('statFertilizante').textContent = fert;
-      document.getElementById('statSemente').textContent = sem;
-      document.getElementById('statOutros').textContent = outros;
-    }
-
-    /* ══════════════════════════════════════
-       EXPORTAR
-    ══════════════════════════════════════ */
-    document.getElementById('btnExportar').addEventListener('click', () => {
-      showToast('A exportar…', 'O ficheiro será gerado e descarregado em breve.');
+    document.getElementById('btnExportar')?.addEventListener('click', () => {
+      showToast('A exportar…', 'O ficheiro será gerado em breve.');
     });
   </script>
-
 </body>
 </html>

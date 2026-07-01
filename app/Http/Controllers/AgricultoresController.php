@@ -52,34 +52,6 @@ class AgricultoresController extends Controller
         }
     }
 
-    // public function show($id)
-    // {
-    //     // Busca o agricultor com a árvore de relações ativa carregada
-    //     $agricultor = Agricultor::with(['associacoes.cooperativa'])->findOrFail($id);
-
-    //     // Extrai os dados da associação para passar de forma amigável para a view
-    //     $vinculoAtivo = $agricultor->associacoes->where('activo', true)->first();
-    //     $cooperativaNome = $vinculoAtivo && $vinculoAtivo->cooperativa ? $vinculoAtivo->cooperativa->nome : 'Sem cooperativa';
-    //     $cargoCooperativa = $vinculoAtivo ? $vinculoAtivo->cargo : 'Nenhum';
-
-    //     // 2. CALCULAR O TOTAL GERAL RECEBIDO (Apenas saídas para o agricultor)
-    //     $totalInsumosRecebidos = HistoricoEstoque::where('agricultor_id', $id)
-    //         ->where('tipo_movimento', 'Saída')
-    //         ->sum('quantidade');
-
-    //     // ─── NOVA BUSCA: Histórico exclusivo deste Agricultor ───
-    //     $historicos = HistoricoEstoque::with(['insumo'])
-    //         ->where('agricultor_id', $id)
-    //         ->orderBy('created_at', 'desc')
-    //         ->take(10) // Traz os 10 movimentos mais recentes dele
-    //         ->get();
-
-    //     $stats = [];
-
-    //     // Passa a variável $historicos para a view
-    //     return view('agricultores.show', compact('agricultor', 'cooperativaNome', 'cargoCooperativa', 'stats', 'historicos'));
-    // }
-
    
    public function show($id)
 {
@@ -176,7 +148,7 @@ $totalInsumosRecebidos = \App\Models\HistoricoEstoque::where('agricultor_id', $i
             $q->where('cargo', 'Técnico')
                 ->where('activo', true);
         })->count();
-
+        
         // Conta os agricultores ativos no sistema de forma geral
         $activos = Agricultor::where('estado', 'activo')->count();
 

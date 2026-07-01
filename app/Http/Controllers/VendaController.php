@@ -29,21 +29,8 @@ class VendaController extends Controller
             ->limit(50)
             ->get();
 
-        return view('vendas.index6', compact('produtos', 'vendas', 'cooperativa'));
+        return view('vendas.index', compact('produtos', 'vendas', 'cooperativa'));
     }
-
-    // public function getProdutos()
-    // {
-    //     $produtos = Produto::select(
-    //         'id',
-    //         'nome',
-    //         'categoria',
-    //         'quantidade',
-    //         'unidade',
-    //         'preco_venda'
-    //     )->get();
-    //     return response()->json($produtos);
-    // }
 
     /**
      * Get products by cooperative (JSON)
@@ -59,83 +46,6 @@ class VendaController extends Controller
         return response()->json($produtos);
     }
 
-    /**
-     * Store a newly created sale.
-     */
-    // public function storeVenda(Request $request)
-    // {
-    //     $request->validate([
-    //         'cooperativa_id' => 'required|exists:cooperativas,id',
-    //         'cliente' => 'required|string|max:255',
-    //         'forma_pagamento' => 'required|in:dinheiro,transferencia,credito,cheque',
-    //         'status' => 'required|in:pago,pendente',
-    //         'valor_entregue' => 'nullable|numeric|min:0',
-    //         'itens' => 'required|array|min:1',
-    //         'itens.*.produto_id' => 'required|exists:produtos,id',
-    //         'itens.*.quantidade' => 'required|numeric|min:0.01',
-    //         'itens.*.preco_unitario' => 'required|numeric|min:0',
-    //     ]);
-
-    //     try {
-    //         DB::beginTransaction();
-
-    //         $total = 0;
-    //         $itensData = [];
-
-    //         foreach ($request->itens as $item) {
-    //             $subtotal = $item['quantidade'] * $item['preco_unitario'];
-    //             $total += $subtotal;
-
-    //             $itensData[] = [
-    //                 'produto_id' => $item['produto_id'],
-    //                 'quantidade' => $item['quantidade'],
-    //                 'preco_unitario' => $item['preco_unitario'],
-    //                 'subtotal' => $subtotal,
-    //             ];
-
-    //             // Atualizar stock do produto
-    //             $produto = Produto::find($item['produto_id']);
-    //             $produto->quantidade -= $item['quantidade'];
-    //             $produto->save();
-    //         }
-
-    //         // Criar venda
-    //         $venda = Venda::create([
-    //             'cooperativa_id' => $request->cooperativa_id,
-    //             'agricultor_id' => $request->agricultor_id ?? null,
-    //             'data_venda' => now(),
-    //             'cliente' => $request->cliente,
-    //             'valor_total' => $total,
-    //             'forma_pagamento' => $request->forma_pagamento,
-    //             'observacoes' => $request->observacoes ?? null,
-    //             'status' => $request->status,
-    //             'valor_entregue' => $request->valor_entregue ?? 0,
-    //             'troco' => $request->valor_entregue ? ($request->valor_entregue - $total) : 0,
-    //         ]);
-
-    //         // Criar itens da venda
-    //         foreach ($itensData as $item) {
-    //             $venda->itens()->create($item);
-    //         }
-
-    //         DB::commit();
-
-    //         return response()->json([
-    //             'success' => true,
-    //             'message' => 'Venda realizada com sucesso!',
-    //             'venda' => $venda->load('itens.produto'),
-    //             'venda_id' => $venda->id,
-    //             'numero' => str_pad($venda->id, 6, '0', STR_PAD_LEFT),
-    //         ]);
-
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Erro ao realizar venda: ' . $e->getMessage(),
-    //         ], 500);
-    //     }
-    // }
 
     // Salva venda
     public function storeVenda(Request $request)
@@ -144,7 +54,7 @@ class VendaController extends Controller
             'cooperativa_id' => 'required|exists:cooperativas,id',
             'cliente' => 'required|string|max:255',
             'forma_pagamento' => 'required|in:dinheiro,transferencia,credito,cheque',
-            'status' => 'required|in:pago,pendente',
+            // 'status' => 'required|in:pago,pendente',
             'valor_entregue' => 'nullable|numeric|min:0',
             'itens' => 'required|array|min:1',
             'itens.*.produto_id' => 'required|exists:produtos,id',
@@ -227,16 +137,6 @@ class VendaController extends Controller
         }
     }
 
-    /**
-     * Get sale details for viewing/printing
-     */
-    public function getVenda($id)
-    {
-        $venda = Venda::with('itens.produto')->findOrFail($id);
-
-        return response()->json($venda);
-    }
-
 
     /**
      * Get sales for a cooperative with pagination and filters
@@ -247,8 +147,8 @@ class VendaController extends Controller
             $query = Venda::where('cooperativa_id', $cooperativaId)
                 ->with(['itens' => function ($q) {
                     $q->with(['produto' => function ($p) {
-                      //  $p->withTrashed(); // Inclui produtos deletados
-                      
+                        //  $p->withTrashed(); // Inclui produtos deletados
+
                     }]);
                 }]);
 
@@ -332,7 +232,6 @@ class VendaController extends Controller
         }
     }
 
-
     /**
      * Get label for payment method
      */
@@ -348,102 +247,87 @@ class VendaController extends Controller
         return $labels[$forma] ?? $forma;
     }
 
-
-
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public function indexCooperativasVenda()
     {
-        return view('vendas.indexList');
+        return view('vendas.indexList2');
     }
 
-
-
-public function getCooperativas(Request $request)
-{
-    try {
-
-        $cooperativas = Cooperativa::withCount('produtos')
-            ->orderBy('nome')
-            ->get();
-
-        $data = $cooperativas->map(function ($coop) {
-            return [
-                'id' => $coop->id,
-                'nome' => $coop->nome,
-                'nif' => $coop->nif,
-                'municipio' => $coop->municipio,
-                'provincia' => $coop->provincia,
-                'logo' => $this->getLogoIniciais($coop->nome),
-                'total_produtos' => $coop->produtos_count,
-                'endereco' => $coop->endereco,
-                'telefone' => $coop->telefone,
-                'email' => $coop->email,
-                'cor' => $this->getCorCooperativa($coop->id),
-            ];
-        });
-
-        return response()->json([
-            'success' => true,
-            'data' => $data,
-            'total' => $data->count(),
-        ]);
-
-    } catch (\Exception $e) {
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Erro ao carregar cooperativas: ' . $e->getMessage(),
-        ], 500);
-
-    }
-}
-
-
- /**
+    /**
      * Get all cooperativas with product counts.
      */
-    // public function getCooperativas(Request $request)
-    // {
-    //     try {
-    //         $cooperativas = Cooperativa::withCount(['produtos' => function($query) {
-    //             $query->where('estado', 'disponivel')
-    //                   ->where('quantidade', '>', 0);
-    //         }])
+    public function getCooperativas(Request $request)
+    {
+        try {
+            $cooperativas = Cooperativa::withCount('produtos')
+                ->where('estado', 'Activa')
+                ->orderBy('nome')
+                ->get();
 
-    //         ->where('estado', 'disponivel')
-    //         ->orderBy('nome')
-    //         ->get();
+            // Buscar total de vendas de hoje
+            $vendasHoje = Venda::whereDate('created_at', today())
+                ->count();
 
-    //         // Formatar dados para o frontend
-    //         $data = $cooperativas->map(function($coop) {
-    //             return [
-    //                 'id' => $coop->id,
-    //                 'nome' => $coop->nome,
-    //                 'nif' => $coop->nif,
-    //                 'municipio' => $coop->municipio,
-    //                 'provincia' => $coop->provincia,
-    //                 'logo' => $this->getLogoIniciais($coop->nome),
-    //                 'total_produtos' => $coop->produtos_count,
-    //                 'endereco' => $coop->endereco,
-    //                 'telefone' => $coop->telefone,
-    //                 'email' => $coop->email,
-    //                 'cor' => $this->getCorCooperativa($coop->id),
-    //             ];
-    //         });
+            // Formatar dados para o frontend
+            $data = $cooperativas->map(function ($coop) {
+                return [
+                    'id' => $coop->id,
+                    'nome' => $coop->nome,
+                    'nif' => $coop->nif,
+                    'municipio' => $coop->municipio,
+                    'provincia' => $coop->provincia,
+                    'logo' => $this->getLogoIniciais($coop->nome),
+                    'total_produtos' => $coop->produtos_count,
+                    'endereco' => $coop->endereco,
+                    'telefone' => $coop->telefone,
+                    'email' => $coop->email,
+                    'cor' => $this->getCorCooperativa($coop->id),
+                ];
+            });
 
-    //         return response()->json([
-    //             'success' => true,
-    //             'data' => $data,
-    //             'total' => $data->count(),
-    //         ]);
+            return response()->json([
+                'success' => true,
+                'data' => $data,
+                'total' => $data->count(),
+                'vendas_hoje' => $vendasHoje,
+            ]);
 
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Erro ao carregar cooperativas: ' . $e->getMessage(),
-    //         ], 500);
-    //     }
-    // }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao carregar cooperativas: '.$e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Get sales count for today
+     */
+    public function getVendasHoje()
+    {
+        try {
+            $total = Venda::whereDate('created_at', today())->count();
+
+            // Vendas por cooperativa hoje
+            $porCooperativa = Venda::whereDate('created_at', today())
+                ->select('cooperativa_id', DB::raw('count(*) as total'))
+                ->groupBy('cooperativa_id')
+                ->with('cooperativa')
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'total' => $total,
+                'por_cooperativa' => $porCooperativa,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao carregar vendas de hoje: '.$e->getMessage(),
+            ], 500);
+        }
+    }
 
     /**
      * Get initials from cooperative name for logo
@@ -452,14 +336,13 @@ public function getCooperativas(Request $request)
     {
         $palavras = explode(' ', $nome);
         $iniciais = '';
-        
-        // Pega a primeira letra de cada palavra, máximo 3
+
         foreach ($palavras as $palavra) {
-            if (strlen($iniciais) < 3 && !empty($palavra)) {
+            if (strlen($iniciais) < 3 && ! empty($palavra)) {
                 $iniciais .= strtoupper($palavra[0]);
             }
         }
-        
+
         return $iniciais ?: 'CP';
     }
 
@@ -480,8 +363,71 @@ public function getCooperativas(Request $request)
             '#00695C', // Verde azulado
             '#BF360C', // Vermelho escuro
         ];
+
         return $cores[$id % count($cores)];
     }
 
+    /**
+     * Get sale details for viewing/printing
+     */
+    public function getVenda($cooperativaId, $id)
+    {
+        try {
+            $venda = Venda::where('cooperativa_id', $cooperativaId)
+                ->with(['itens' => function ($q) {
+                    $q->with(['produto' => function ($p) {
+                        $p->withTrashed();
+                    }]);
+                }])
+                ->findOrFail($id);
 
+            return response()->json([
+                'success' => true,
+                'venda' => [
+                    'id' => $venda->id,
+                    'numero' => str_pad($venda->id, 6, '0', STR_PAD_LEFT),
+                    'data' => $venda->created_at->format('d/m/Y H:i'),
+                    'data_original' => $venda->created_at,
+                    'cliente' => $venda->cliente,
+                    'valor_total' => $venda->valor_total,
+                    'forma_pagamento' => $this->getFormaPagamentoLabel($venda->forma_pagamento),
+                    'forma_pagamento_raw' => $venda->forma_pagamento,
+                    'valor_entregue' => $venda->valor_entregue ?? 0,
+                    'troco' => $venda->troco ?? 0,
+                    'observacoes' => $venda->observacoes,
+                    'itens' => $venda->itens->map(function ($item) {
+                        return [
+                            'id' => $item->id,
+                            'produto_id' => $item->produto_id,
+                            'produto_nome' => $item->produto ? $item->produto->nome : 'Produto removido',
+                            'quantidade' => $item->quantidade,
+                            'preco_unitario' => $item->preco_unitario,
+                            'subtotal' => $item->subtotal,
+                        ];
+                    }),
+                    'cooperativa_nome' => $venda->cooperativa ? $venda->cooperativa->nome : 'Cooperativa',
+                ],
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao carregar detalhes da venda: '.$e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Get label for payment method
+     */
+    // public function getFormaPagamentoLabel($forma)
+    // {
+    //     $labels = [
+    //         'dinheiro' => 'Dinheiro',
+    //         'transferencia' => 'Transferência',
+    //         'credito' => 'Crédito',
+    //         'cheque' => 'Cheque',
+    //     ];
+    //     return $labels[$forma] ?? $forma;
+    // }
 }

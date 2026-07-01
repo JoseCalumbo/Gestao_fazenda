@@ -1358,26 +1358,19 @@
       <div class="nav-section-title">Principal</div>
       <a href="{{ route('dashboard')}}" class="nav-item-link" data-label="Dashboard"><i
           class="bi bi-grid-1x2-fill"></i><span class="nav-label">Dashboard</span></a>
-      <a href="{{ route('cooperativas')}}" class="nav-item-link" data-label="Cooperativa"><i class="bi bi-building"></i><span
-          class="nav-label">Cooperativa</span></a>
-      <a href="{{ route('agricultores.index')}}" class="nav-item-link active" data-label="Agricultores"><i class="bi bi-person-badge-fill"></i><span
-          class="nav-label">Agricultores</span></a>
+      <a href="{{ route('cooperativas')}}" class="nav-item-link" data-label="Cooperativa"><i
+          class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
+      <a href="{{ route('agricultores.index')}}" class="nav-item-link active" data-label="Agricultores"><i
+          class="bi bi-person-badge-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
       <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
           class="nav-label">Safras</span></a>
       <a href="#" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
           class="nav-label">Talhões</span></a>
-      <a href="{{ route('insumos.index')}}" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
-          class="nav-label">Insumos</span></a>
+      <a href="{{ route('insumos.index')}}" class="nav-item-link" data-label="Insumos"><i
+          class="bi bi-box-seam-fill"></i><span class="nav-label">Insumoss</span></a>
 
-      <div class="nav-section-title">Financeiro</div>
-      <a href="#" class="nav-item-link" data-label="Contas a Pagar"><i class="bi bi-arrow-down-circle-fill"></i><span
-          class="nav-label">Contas a Pagar</span></a>
-      <a href="#" class="nav-item-link" data-label="Contas a Receber"><i class="bi bi-arrow-up-circle-fill"></i><span
-          class="nav-label">Contas a Receber</span></a>
-      <a href="#" class="nav-item-link" data-label="Fluxo de Caixa"><i class="bi bi-cash-stack"></i><span
-          class="nav-label">Fluxo de Caixa</span></a>
 
       <div class="nav-section-title">Comercial</div>
       <a href="#" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
@@ -1386,8 +1379,6 @@
           class="nav-label">Contratos</span></a>
 
       <div class="nav-section-title">Sistema</div>
-      <a href="#" class="nav-item-link" data-label="Relatórios"><i class="bi bi-bar-chart-fill"></i><span
-          class="nav-label">Relatórios</span></a>
       <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i
           class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
     </div>
@@ -1403,8 +1394,8 @@
 
       </div>
       <div class="user-info">
-        <div class="u-name">{{ Auth::user()->name }}</div>
-        <div class="u-role">{{ Auth::user()->nivel }} · Viana</div>
+        <div class="u-name">SIAG</div>
+        <div class="u-role">Sistema de Gestão de cooperativa @ 2026</div>
       </div>
     </div>
   </nav>
@@ -1525,7 +1516,8 @@
           </div>
           <div class="p-coop">
             <i class="bi bi-building" style="font-size:13px;"></i>
-            Associado à <a href="#" id="profileCoopLink">{{$cooperativaNome ?? 'Exmplo Coop. Agrícola de VianaErro' }}</a>
+            Associado à <a href="#"
+              id="profileCoopLink">{{$cooperativaNome ?? 'Exmplo Coop. Agrícola de VianaErro' }}</a>
           </div>
 
           <div class="profile-meta">
@@ -2215,7 +2207,8 @@
     style="position:fixed;bottom:28px;right:28px;z-index:9999;background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 20px;box-shadow:0 12px 36px rgba(0,0,0,.12);display:flex;align-items:center;gap:12px;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;">
     <div class="toast-icon success" id="toastIcon"
       style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;background:#E8F5E9;color:#2E7D32;">
-      <i class="bi bi-check-lg" id="toastIconI"></i></div>
+      <i class="bi bi-check-lg" id="toastIconI"></i>
+    </div>
     <div class="toast-text">
       <div class="t-title" id="toastTitle" style="font-size:13.5px;font-weight:600;color:var(--text-dark);">Operação
         concluída</div>

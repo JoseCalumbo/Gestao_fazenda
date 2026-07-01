@@ -1882,7 +1882,7 @@
       <a href="{{ route('cooperativas') }}" class="nav-item-link active" data-label="Cooperativa"><i
           class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
       <a href="{{ route('agricultores.index') }}" class="nav-item-link" data-label="Agricultores"><i
-          class="bi bi-person-badge-fill"></i><span class="nav-label">Agricultores</span></a>
+          class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
       <a href="{{ route('safras.painel') }}" class="nav-item-link" data-label="Safras"><i
@@ -1892,39 +1892,20 @@
       <a href="{{ route('insumos.index') }}" class="nav-item-link" data-label="Insumos"><i
           class="bi bi-box-seam-fill"></i><span class="nav-label">Insumos</span></a>
 
-      <div class="nav-section-title">Financeiro</div>
-      <a href="#" class="nav-item-link" data-label="Contas a Pagar"><i class="bi bi-arrow-down-circle-fill"></i><span
-          class="nav-label">Contas a Pagar</span></a>
-      <a href="#" class="nav-item-link" data-label="Contas a Receber"><i class="bi bi-arrow-up-circle-fill"></i><span
-          class="nav-label">Contas a Receber</span></a>
-      <a href="#" class="nav-item-link" data-label="Fluxo de Caixa"><i class="bi bi-cash-stack"></i><span
-          class="nav-label">Fluxo de Caixa</span></a>
-
       <div class="nav-section-title">Comercial</div>
-      <a href="#" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
+      <a href="{{route('vendas')}}" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
           class="nav-label">Vendas</span></a>
-      <a href="#" class="nav-item-link" data-label="Contratos"><i class="bi bi-file-earmark-text-fill"></i><span
-          class="nav-label">Contratos</span></a>
+
 
       <div class="nav-section-title">Sistema</div>
-      <a href="#" class="nav-item-link" data-label="Relatórios"><i class="bi bi-bar-chart-fill"></i><span
-          class="nav-label">Relatórios</span></a>
       <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i
           class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
     </div>
 
     <div class="sidebar-user">
-      <div class="avatar">
-        @if(!empty(Auth::user()->foto))
-          <img src="{{ asset('storage/users/' . Auth::user()->foto) }}" alt="Foto"
-            onerror="this.onerror=null;this.parentElement.innerHTML='{{ substr(Auth::user()->name, 0, 1) }}';this.parentElement.style.color='#fff';this.parentElement.style.fontWeight='700';this.parentElement.style.fontSize='15px';">
-        @else
-          <span style="color:#fff;font-weight:700;font-size:15px;">{{ substr(Auth::user()->name, 0, 1) }}</span>
-        @endif
-      </div>
       <div class="user-info">
-        <div class="u-name">{{ Auth::user()->name }}</div>
-        <div class="u-role">{{ Auth::user()->nivel }} · Viana</div>
+        <div class="u-name">SIAG</div>
+        <div class="u-role">Sistema de Gestão de cooperativa @ 2026</div>
       </div>
     </div>
   </nav>
@@ -4410,8 +4391,8 @@
         <td>${v.itens_count || 0}</td>
         <td><strong>${valorEntregue.toLocaleString('pt-AO', { style: 'currency', currency: 'AOA' })}</strong></td>
         <td>
-          <span class="badge-status ${(v.status || 'pendente').toLowerCase()}">
-            <span class="dot"></span>${v.status_label || 'Pendente'}
+          <span class="badge-status ${(v.status || 'Pago').toLowerCase()}">
+            <span class="dot"></span>${v.status_label || 'Pago'}
           </span>
         </td>
       </tr>

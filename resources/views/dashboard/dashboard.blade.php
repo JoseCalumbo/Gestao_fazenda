@@ -1066,38 +1066,15 @@
         <span class="nav-label">Insumos</span>
       </a>
 
-      <div class="nav-section-title">Financeiro</div>
-
-      <a href="#" class="nav-item-link" data-label="Contas a Pagar">
-        <i class="bi bi-arrow-down-circle-fill"></i>
-        <span class="nav-label">Contas a Pagar</span>
-      </a>
-      <a href="#" class="nav-item-link" data-label="Contas a Receber">
-        <i class="bi bi-arrow-up-circle-fill"></i>
-        <span class="nav-label">Contas a Receber</span>
-      </a>
-      <a href="#" class="nav-item-link" data-label="Fluxo de Caixa">
-        <i class="bi bi-cash-stack"></i>
-        <span class="nav-label">Fluxo de Caixa</span>
-      </a>
-
       <div class="nav-section-title">Comercial</div>
 
-      <a href="{{route('vendas.index')}}"  class="nav-item-link" data-label="Vendas">
+      <a href="{{route('vendas')}}"  class="nav-item-link" data-label="Vendas">
         <i class="bi bi-cart-fill"></i>
         <span class="nav-label">Vendas</span>
       </a>
-      <a href="#" class="nav-item-link" data-label="Contratos">
-        <i class="bi bi-file-earmark-text-fill"></i>
-        <span class="nav-label">Contratos</span>
-      </a>
 
       <div class="nav-section-title">Sistema</div>
-
-      <a href="#" class="nav-item-link" data-label="Relatórios">
-        <i class="bi bi-bar-chart-fill"></i>
-        <span class="nav-label">Relatórios</span>
-      </a>
+      
       <a href="{{route('configuracoes')}}" class="nav-item-link" data-label="Configurações">
         <i class="bi bi-gear-fill"></i>
         <span class="nav-label">Configurações</span>
@@ -1105,10 +1082,9 @@
     </div>
 
     <div class="sidebar-user">
-      <div class="avatar"><i class="bi bi-person-fill"></i></div>
       <div class="user-info">
-        <div class="u-name">Admin SIAG</div>
-        <div class="u-role">Gestor · Viana</div>
+        <div class="u-name">SIAG</div>
+        <div class="u-role">Sistema de Gestão de cooperativa @ 2026</div>
       </div>
     </div>
   </nav>
@@ -1131,19 +1107,6 @@
 
     <div class="topbar-right">
       <!-- safra badge -->
-      <span class="badge rounded-pill d-none d-md-inline-flex align-items-center gap-1"
-        style="background:var(--accent-lt);color:var(--primary);font-size:12px;padding:7px 13px;font-weight:600;">
-        <i class="bi bi-calendar3"></i> Safra 2024/25
-      </span>
-
-      <button class="topbar-icon-btn" title="Notificações">
-        <i class="bi bi-bell-fill"></i>
-        <span class="notif-badge"></span>
-      </button>
-
-      <button class="topbar-icon-btn" title="Mensagens">
-        <i class="bi bi-chat-dots-fill"></i>
-      </button>
 
       <div class="dropdown d-none d-sm-flex">
         <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
@@ -1161,7 +1124,7 @@
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
+         
           <li>
             <a class="dropdown-item" href="#" id="themeToggle">
               <i class="bi bi-moon-stars-fill" id="themeIcon"></i>

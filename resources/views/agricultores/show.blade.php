@@ -1190,7 +1190,7 @@
 
     /* ── MODAL ─── */
     .modal-coop {
-      max-width: 780px;
+      max-width: 2080px;
     }
 
     .modal-coop .modal-content {
@@ -1657,7 +1657,7 @@
       <a href="{{ route('cooperativas') }}" class="nav-item-link" data-label="Cooperativa"><i
           class="bi bi-building"></i><span class="nav-label">Cooperativa</span></a>
       <a href="{{ route('agricultores.index') }}" class="nav-item-link active" data-label="Agricultores"><i
-          class="bi bi-person-badge-fill"></i><span class="nav-label">Agricultores</span></a>
+          class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
       <div class="nav-section-title">Agrícola</div>
       <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras"><i class="bi bi-flower2"></i><span
@@ -1667,23 +1667,12 @@
       <a href="{{ route('insumos.index') }}" class="nav-item-link" data-label="Insumos"><i
           class="bi bi-box-seam-fill"></i><span class="nav-label">Insumos</span></a>
 
-      <div class="nav-section-title">Financeiro</div>
-      <a href="#" class="nav-item-link" data-label="Contas a Pagar"><i class="bi bi-arrow-down-circle-fill"></i><span
-          class="nav-label">Contas a Pagar</span></a>
-      <a href="#" class="nav-item-link" data-label="Contas a Receber"><i class="bi bi-arrow-up-circle-fill"></i><span
-          class="nav-label">Contas a Receber</span></a>
-      <a href="#" class="nav-item-link" data-label="Fluxo de Caixa"><i class="bi bi-cash-stack"></i><span
-          class="nav-label">Fluxo de Caixa</span></a>
-
       <div class="nav-section-title">Comercial</div>
-      <a href="#" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
+      <a  href="{{route('vendas')}}" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
           class="nav-label">Vendas</span></a>
-      <a href="#" class="nav-item-link" data-label="Contratos"><i class="bi bi-file-earmark-text-fill"></i><span
-          class="nav-label">Contratos</span></a>
+
 
       <div class="nav-section-title">Sistema</div>
-      <a href="#" class="nav-item-link" data-label="Relatórios"><i class="bi bi-bar-chart-fill"></i><span
-          class="nav-label">Relatórios</span></a>
       <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i
           class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
     </div>
@@ -1725,16 +1714,7 @@
       </ol>
     </nav>
     <div class="topbar-right">
-      <span class="badge rounded-pill d-none d-md-inline-flex align-items-center gap-1"
-        style="background:var(--accent-lt);color:var(--primary);font-size:12px;padding:7px 13px;font-weight:600;">
-        <i class="bi bi-calendar3"></i> Safra 2024/25
-      </span>
-      <button class="topbar-icon-btn" title="Notificações">
-        <i class="bi bi-bell-fill"></i><span class="notif-badge"></span>
-      </button>
-      <button class="topbar-icon-btn" title="Mensagens">
-        <i class="bi bi-chat-dots-fill"></i>
-      </button>
+
       <div class="dropdown d-none d-sm-flex">
         <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
           <div class="t-avatar">
@@ -1750,7 +1730,7 @@
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
+          
           <li>
             <a class="dropdown-item" href="#" id="themeToggle">
               <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
@@ -1792,9 +1772,9 @@
           <button class="btn-outline-green" id="btnImprimirPerfil">
             <i class="bi bi-printer-fill"></i> Imprimir Ficha
           </button>
-          <button class="btn-green" id="btnEditarAgricultor">
+          {{-- <button class="btn-green" id="btnEditarAgricultor">
             <i class="bi bi-pencil-fill"></i> Editar Agricultor
-          </button>
+          </button> --}}
         </div>
       </div>
 
@@ -1856,15 +1836,19 @@
           <button class="settings-nav-item" data-tab="insumos">
             <i class="bi bi-box-seam-fill"></i>Insumos Recebidos <span class="nav-count">{{ number_format($stats['total_geral'], 0, ',', '.') }}</span>
           </button>
-          <button class="settings-nav-item" data-tab="produtos">
+
+          {{-- <button class="settings-nav-item" data-tab="produtos">
             <i class="bi bi-basket-fill"></i> Produtos (Estoque) <span class="nav-count">4</span>
-          </button>
+          </button> --}}
+
           <button class="settings-nav-item" data-tab="talhoes">
             <i class="bi bi-map-fill"></i> Talhões <span class="nav-count">3</span>
           </button>
-          <button class="settings-nav-item" data-tab="receitas">
+
+          {{-- <button class="settings-nav-item" data-tab="receitas">
             <i class="bi bi-cash-coin"></i> Receitas <span class="nav-count">5</span>
-          </button>
+          </button> --}}
+
           <button class="settings-nav-item" data-tab="vendas">
             <i class="bi bi-cart-fill"></i> Vendas <span class="nav-count">4</span>
           </button>
@@ -2245,10 +2229,11 @@
           </div>
           <!-- /TAB TALHÕES -->
 
+
           <!-- ════════════════════════════
              TAB 6 — RECEITAS
         ════════════════════════════ -->
-          <div class="settings-panel" id="tab-receitas">
+          {{-- <div class="settings-panel" id="tab-receitas">
             <div class="cfg-card anim">
               <div class="cfg-card-header">
                 <div class="cfg-card-header-left">
@@ -2305,7 +2290,8 @@
                 </nav>
               </div>
             </div>
-          </div>
+          </div> --}}
+
           <!-- /TAB RECEITAS -->
 
           <!-- ════════════════════════════
@@ -3210,91 +3196,91 @@
     // ══════════════════════════════════════
     // CRUD PRODUTOS
     // ══════════════════════════════════════
-    let produtosPage = 1;
-    let produtosFiltros = { nome: '', estado: '' };
+    // let produtosPage = 1;
+    // let produtosFiltros = { nome: '', estado: '' };
 
-    function carregarProdutos(page = 1) {
-      produtosPage = page;
-      setTimeout(() => {
-        renderTabelaProdutos(mockProdutos);
-        renderPaginacaoProdutos({ total: mockProdutos.length });
-      }, 300);
-    }
+    // function carregarProdutos(page = 1) {
+    //   produtosPage = page;
+    //   setTimeout(() => {
+    //     renderTabelaProdutos(mockProdutos);
+    //     renderPaginacaoProdutos({ total: mockProdutos.length });
+    //   }, 300);
+    // }
 
-    function renderTabelaLocal() {
-      const tbody = document.getElementById('corpoTabelaInsumos');
-      const info = document.getElementById('infoInsumos');
-      if (!tbody) return;
+    // function renderTabelaLocal() {
+    //   const tbody = document.getElementById('corpoTabelaInsumos');
+    //   const info = document.getElementById('infoInsumos');
+    //   if (!tbody) return;
 
-      if (localHistoricoFiltrado.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px; color:gray;">
-            <i class="bi bi-box-seam" style="font-size:24px; display:block; margin-bottom:8px;"></i> Nenhum movimento encontrado.</td></tr>`;
-        if (info) info.textContent = "Mostrando 0 movimentos";
-        return;
-      }
+    //   if (localHistoricoFiltrado.length === 0) {
+    //     tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:30px; color:gray;">
+    //         <i class="bi bi-box-seam" style="font-size:24px; display:block; margin-bottom:8px;"></i> Nenhum movimento encontrado.</td></tr>`;
+    //     if (info) info.textContent = "Mostrando 0 movimentos";
+    //     return;
+    //   }
 
-      tbody.innerHTML = localHistoricoFiltrado.map(item => {
-        return `
-            <tr>
-                <td>
-                    <strong style="color: #000;">${item.insumo_nome}</strong><br>
-                    <small style="color: var(--text-light);">Ref #${item.id}</small>
-                </td>
-                <td>
-                    <span style="color: #000; font-weight: 500;">${item.insumo_tipo}</span>
-                </td>
-                <td>
-                    <span style="color: #000; font-weight: 600;">${item.tipo_movimento}</span>
-                </td>
-                <td>
-                    <strong style="color: #000;">${item.quantidade}</strong>
-                </td>
-                <td>
-                    <span style="font-weight: 500; color: #000;">${item.modalidade}</span>
-                </td>
-                <td>
-                    <small style="color: var(--text-muted);">${item.stock_anterior} → ${item.stock_atual}</small>
-                </td>
-                <td>
-                    <span style="font-size:13px; color: #000;"><i class="bi bi-person-workspace"></i> ${item.utilizador}</span><br>
-                    <small style="color: var(--text-light); font-size:11px;">${item.data}</small>
-                </td>
-            </tr>
-        `;
-      }).join('');
+    //   tbody.innerHTML = localHistoricoFiltrado.map(item => {
+    //     return `
+    //         <tr>
+    //             <td>
+    //                 <strong style="color: #000;">${item.insumo_nome}</strong><br>
+    //                 <small style="color: var(--text-light);">Ref #${item.id}</small>
+    //             </td>
+    //             <td>
+    //                 <span style="color: #000; font-weight: 500;">${item.insumo_tipo}</span>
+    //             </td>
+    //             <td>
+    //                 <span style="color: #000; font-weight: 600;">${item.tipo_movimento}</span>
+    //             </td>
+    //             <td>
+    //                 <strong style="color: #000;">${item.quantidade}</strong>
+    //             </td>
+    //             <td>
+    //                 <span style="font-weight: 500; color: #000;">${item.modalidade}</span>
+    //             </td>
+    //             <td>
+    //                 <small style="color: var(--text-muted);">${item.stock_anterior} → ${item.stock_atual}</small>
+    //             </td>
+    //             <td>
+    //                 <span style="font-size:13px; color: #000;"><i class="bi bi-person-workspace"></i> ${item.utilizador}</span><br>
+    //                 <small style="color: var(--text-light); font-size:11px;">${item.data}</small>
+    //             </td>
+    //         </tr>
+    //     `;
+    //   }).join('');
 
-      if (info) {
-        info.textContent = `Mostrando ${localHistoricoFiltrado.length} movimentos registados`;
-      }
-    }
+    //   if (info) {
+    //     info.textContent = `Mostrando ${localHistoricoFiltrado.length} movimentos registados`;
+    //   }
+    // }
 
-    function renderPaginacaoProdutos(data) {
-      document.getElementById('infoProdutos').textContent = `Mostrando ${data.total || 0} registos`;
-    }
+    // function renderPaginacaoProdutos(data) {
+    //   document.getElementById('infoProdutos').textContent = `Mostrando ${data.total || 0} registos`;
+    // }
 
-    document.getElementById('btnFiltrarProdutos').addEventListener('click', () => {
-      carregarProdutos(1);
-    });
-    document.getElementById('btnLimparFiltrosProdutos').addEventListener('click', () => {
-      document.getElementById('filtroProdutoNome').value = '';
-      document.getElementById('filtroProdutoEstado').value = '';
-      carregarProdutos(1);
-    });
+    // document.getElementById('btnFiltrarProdutos').addEventListener('click', () => {
+    //   carregarProdutos(1);
+    // });
+    // document.getElementById('btnLimparFiltrosProdutos').addEventListener('click', () => {
+    //   document.getElementById('filtroProdutoNome').value = '';
+    //   document.getElementById('filtroProdutoEstado').value = '';
+    //   carregarProdutos(1);
+    // });
 
-    const modalProduto = new bootstrap.Modal(document.getElementById('modalNovoProduto'));
-    document.getElementById('btnNovoProduto').addEventListener('click', () => {
-      const select = document.getElementById('produtoOrigem');
-      select.innerHTML = '<option value="">Selecione uma colheita</option>' +
-        mockColheitas.map(c => `<option value="${c.id}">${c.cultura} - ${new Date(c.data).toLocaleDateString('pt-PT')}</option>`)
-          .join('');
-      document.getElementById('formNovoProduto').reset();
-      modalProduto.show();
-    });
-    document.getElementById('btnSalvarProduto').addEventListener('click', () => {
-      showToast('Produto registado', 'O produto foi registado com sucesso!');
-      modalProduto.hide();
-      carregarProdutos();
-    });
+    // const modalProduto = new bootstrap.Modal(document.getElementById('modalNovoProduto'));
+    // document.getElementById('btnNovoProduto').addEventListener('click', () => {
+    //   const select = document.getElementById('produtoOrigem');
+    //   select.innerHTML = '<option value="">Selecione uma colheita</option>' +
+    //     mockColheitas.map(c => `<option value="${c.id}">${c.cultura} - ${new Date(c.data).toLocaleDateString('pt-PT')}</option>`)
+    //       .join('');
+    //   document.getElementById('formNovoProduto').reset();
+    //   modalProduto.show();
+    // });
+    // document.getElementById('btnSalvarProduto').addEventListener('click', () => {
+    //   showToast('Produto registado', 'O produto foi registado com sucesso!');
+    //   modalProduto.hide();
+    //   carregarProdutos();
+    // });
 
     // ══════════════════════════════════════
     // CRUD TALHÕES
@@ -3361,65 +3347,68 @@
     // ══════════════════════════════════════
     // CRUD RECEITAS
     // ══════════════════════════════════════
-    let receitasPage = 1;
-    let receitasFiltros = { descricao: '', estado: '' };
 
-    function carregarReceitas(page = 1) {
-      receitasPage = page;
-      setTimeout(() => {
-        renderTabelaReceitas(mockReceitas);
-        renderPaginacaoReceitas({ total: mockReceitas.length });
-      }, 300);
-    }
+    // let receitasPage = 1;
+    // let receitasFiltros = { descricao: '', estado: '' };
 
-    function renderTabelaReceitas(data) {
-      const tbody = document.getElementById('corpoTabelaReceitas');
-      if (!data || data.length === 0) {
-        tbody.innerHTML =
-          `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);"><i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma receita registada.</td></tr>`;
-        return;
-      }
-      tbody.innerHTML = data.map(r => `
-        <tr>
-          <td><i class="bi bi-cash-coin me-1" style="color:var(--primary);"></i> ${r.descricao}</td>
-          <td>${r.origem}</td>
-          <td>${new Date(r.data).toLocaleDateString('pt-PT')}</td>
-          <td><strong>${r.valor.toLocaleString('pt-AO')}</strong></td>
-          <td><span class="badge-status ${r.estado === 'Pago' ? 'pago' : 'pendente'}"><span class="dot"></span>${r.estado}</span></td>
-          <td style="text-align:center;">
-            <div style="display:flex;gap:6px;justify-content:center;">
-              <button class="action-btn edit" title="Editar" onclick="showToast('Editar Receita','Funcionalidade em desenvolvimento.')"><i class="bi bi-pencil-fill"></i></button>
-              <button class="action-btn delete" title="Excluir" onclick="abrirModalExcluir(${r.id}, '${r.descricao}', 'receitas')"><i class="bi bi-trash-fill"></i></button>
-            </div>
-          </td>
-        </tr>
-      `).join('');
-    }
+    // function carregarReceitas(page = 1) {
+    //   receitasPage = page;
+    //   setTimeout(() => {
+    //     renderTabelaReceitas(mockReceitas);
+    //     renderPaginacaoReceitas({ total: mockReceitas.length });
+    //   }, 300);
+    // }
 
-    function renderPaginacaoReceitas(data) {
-      document.getElementById('infoReceitas').textContent = `Mostrando ${data.total || 0} registos`;
-    }
+    // function renderTabelaReceitas(data) {
+    //   const tbody = document.getElementById('corpoTabelaReceitas');
+    //   if (!data || data.length === 0) {
+    //     tbody.innerHTML =
+    //       `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-light);"><i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>Nenhuma receita registada.</td></tr>`;
+    //     return;
+    //   }
+    //   tbody.innerHTML = data.map(r => `
+    //     <tr>
+    //       <td><i class="bi bi-cash-coin me-1" style="color:var(--primary);"></i> ${r.descricao}</td>
+    //       <td>${r.origem}</td>
+    //       <td>${new Date(r.data).toLocaleDateString('pt-PT')}</td>
+    //       <td><strong>${r.valor.toLocaleString('pt-AO')}</strong></td>
+    //       <td><span class="badge-status ${r.estado === 'Pago' ? 'pago' : 'pendente'}"><span class="dot"></span>${r.estado}</span></td>
+    //       <td style="text-align:center;">
+    //         <div style="display:flex;gap:6px;justify-content:center;">
+    //           <button class="action-btn edit" title="Editar" onclick="showToast('Editar Receita','Funcionalidade em desenvolvimento.')"><i class="bi bi-pencil-fill"></i></button>
+    //           <button class="action-btn delete" title="Excluir" onclick="abrirModalExcluir(${r.id}, '${r.descricao}', 'receitas')"><i class="bi bi-trash-fill"></i></button>
+    //         </div>
+    //       </td>
+    //     </tr>
+    //   `).join('');
+    // }
 
-    document.getElementById('btnFiltrarReceitas').addEventListener('click', () => {
-      carregarReceitas(1);
-    });
-    document.getElementById('btnLimparFiltrosReceitas').addEventListener('click', () => {
-      document.getElementById('filtroReceitaDescricao').value = '';
-      document.getElementById('filtroReceitaEstado').value = '';
-      carregarReceitas(1);
-    });
+    // function renderPaginacaoReceitas(data) {
+    //   document.getElementById('infoReceitas').textContent = `Mostrando ${data.total || 0} registos`;
+    // }
 
-    const modalReceita = new bootstrap.Modal(document.getElementById('modalNovaReceita'));
-    document.getElementById('btnNovaReceita').addEventListener('click', () => {
-      document.getElementById('formNovaReceita').reset();
-      document.getElementById('receitaData').valueAsDate = new Date();
-      modalReceita.show();
-    });
-    document.getElementById('btnSalvarReceita').addEventListener('click', () => {
-      showToast('Receita registada', 'A receita foi registada com sucesso!');
-      modalReceita.hide();
-      carregarReceitas();
-    });
+    // document.getElementById('btnFiltrarReceitas').addEventListener('click', () => {
+    //   carregarReceitas(1);
+    // });
+    // document.getElementById('btnLimparFiltrosReceitas').addEventListener('click', () => {
+    //   document.getElementById('filtroReceitaDescricao').value = '';
+    //   document.getElementById('filtroReceitaEstado').value = '';
+    //   carregarReceitas(1);
+    // });
+
+    // const modalReceita = new bootstrap.Modal(document.getElementById('modalNovaReceita'));
+    // document.getElementById('btnNovaReceita').addEventListener('click', () => {
+    //   document.getElementById('formNovaReceita').reset();
+    //   document.getElementById('receitaData').valueAsDate = new Date();
+    //   modalReceita.show();
+    // });
+    // document.getElementById('btnSalvarReceita').addEventListener('click', () => {
+    //   showToast('Receita registada', 'A receita foi registada com sucesso!');
+    //   modalReceita.hide();
+    //   carregarReceitas();
+    // });
+
+
 
     // ══════════════════════════════════════
     // CRUD VENDAS
@@ -3505,9 +3494,9 @@
       // Recarregar a tab correspondente
       if (tab === 'colheitas') carregarColheitas();
       //else if (tab === 'insumos') carregarInsumos();
-      else if (tab === 'produtos') carregarProdutos();
+     // else if (tab === 'produtos') carregarProdutos();
       else if (tab === 'talhoes') carregarTalhoes();
-      else if (tab === 'receitas') carregarReceitas();
+     // else if (tab === 'receitas') carregarReceitas();
       else if (tab === 'vendas') carregarVendas();
     });
 
@@ -3530,9 +3519,6 @@
     /* ══════════════════════════════════════
        BOTÕES DE TOPO (placeholders)
     ══════════════════════════════════════ */
-    document.getElementById('btnEditarAgricultor').addEventListener('click', () => {
-      showToast('Editar Agricultor', 'Abra a lista de Agricultores para editar os dados completos.');
-    });
     document.getElementById('btnImprimirPerfil').addEventListener('click', () => {
       showToast('Ficha do Agricultor', 'Geração de PDF será implementada na próxima sprint.');
     });
@@ -3542,10 +3528,10 @@
     ══════════════════════════════════════ */
     document.addEventListener('DOMContentLoaded', () => {
       carregarColheitas();
-      //  carregarInsumos();
-      carregarProdutos();
+    //  carregarInsumos();
+    //  carregarProdutos();
       carregarTalhoes();
-      carregarReceitas();
+    // carregarReceitas();
       carregarVendas();
     });
 

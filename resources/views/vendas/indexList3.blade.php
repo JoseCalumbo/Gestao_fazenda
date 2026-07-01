@@ -54,9 +54,7 @@
             overflow-x: hidden;
         }
 
-        /* ═══════════════════════════════════════════
-       SIDEBAR
-    ═══════════════════════════════════════════ */
+        /* ===== SIDEBAR ===== */
         #sidebar {
             position: fixed;
             top: 0;
@@ -264,9 +262,7 @@
             pointer-events: none;
         }
 
-        /* ═══════════════════════════════════════════
-       TOPBAR
-    ═══════════════════════════════════════════ */
+        /* ===== TOPBAR ===== */
         #topbar {
             position: fixed;
             top: 0;
@@ -527,9 +523,7 @@
             color: #C62828;
         }
 
-        /* ═══════════════════════════════════════════
-       MAIN CONTENT
-    ═══════════════════════════════════════════ */
+        /* ===== MAIN CONTENT ===== */
         #main {
             margin-left: var(--sidebar-w);
             padding-top: var(--topbar-h);
@@ -549,9 +543,7 @@
             padding: 28px;
         }
 
-        /* ═══════════════════════════════════════════
-       PAGE HEADER
-    ═══════════════════════════════════════════ */
+        /* ===== PAGE HEADER ===== */
         .page-header {
             display: flex;
             align-items: flex-start;
@@ -625,9 +617,143 @@
             color: var(--primary);
         }
 
-        /* ═══════════════════════════════════════════
-       COOPERATIVAS CARDS
-    ═══════════════════════════════════════════ */
+        /* ===== STAT CARDS ===== */
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 22px 20px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: box-shadow .2s, transform .2s;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 8px 28px rgba(46, 125, 50, .1);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 22px;
+        }
+
+        .stat-icon.green {
+            background: var(--accent-lt);
+            color: var(--primary);
+        }
+
+        .stat-icon.blue {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
+        .stat-icon.amber {
+            background: #FFF8E1;
+            color: #F57F17;
+        }
+
+        .stat-icon.purple {
+            background: #EDE7F6;
+            color: #6A1B9A;
+        }
+
+        .stat-info .s-label {
+            font-size: 12.5px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .stat-info .s-value {
+            font-family: 'Sora', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        /* ===== SEARCH FILTER BAR ===== */
+        .search-filter-bar {
+            padding: 14px 24px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .search-wrap {
+            flex: 1;
+            min-width: 220px;
+            position: relative;
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 14px 10px 36px;
+            font-size: 13.5px;
+            color: var(--text-dark);
+            background: #FAFAF9;
+            outline: none;
+            font-family: 'DM Sans', sans-serif;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
+            background: #fff;
+        }
+
+        .search-input::placeholder {
+            color: #C3B8B4;
+        }
+
+        .filter-select {
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 32px 10px 14px;
+            font-size: 13.5px;
+            color: var(--text-dark);
+            background: #FAFAF9;
+            appearance: none;
+            cursor: pointer;
+            outline: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238FA894' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            transition: border-color .2s;
+            min-width: 150px;
+        }
+
+        .filter-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
+        }
+
+        /* ===== COOPERATIVAS CARDS ===== */
         .cooperativa-card {
             background: var(--card-bg);
             border-radius: 16px;
@@ -663,6 +789,7 @@
             font-weight: 800;
             color: #fff;
             flex-shrink: 0;
+            text-transform: uppercase;
         }
 
         .cooperativa-card .card-info {
@@ -676,6 +803,9 @@
             font-weight: 700;
             color: var(--text-dark);
             margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .cooperativa-card .card-info .coop-local {
@@ -723,11 +853,13 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            padding: 4px 0;
         }
 
         .cooperativa-card .card-body .coop-contato i {
             color: var(--primary);
             width: 18px;
+            font-size: 14px;
         }
 
         .cooperativa-card .card-footer {
@@ -736,10 +868,7 @@
             border-top: 1px solid var(--border);
             display: flex;
             gap: 8px;
-        }
-
-        .cooperativa-card .card-footer .btn-painel {
-            flex: 1;
+            margin-top: auto;
         }
 
         .btn-painel {
@@ -755,44 +884,27 @@
             justify-content: center;
             gap: 6px;
             cursor: pointer;
-            transition: background .2s;
+            transition: background .2s, transform .1s;
             text-decoration: none;
         }
 
         .btn-painel:hover {
             background: var(--accent);
             color: #fff;
+            transform: translateY(-1px);
         }
 
-        .btn-painel-outline {
-            background: transparent;
-            color: var(--primary);
-            border: 1.5px solid var(--primary);
-            border-radius: 8px;
-            padding: 8px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: all .2s;
-            text-decoration: none;
+        .btn-painel:active {
+            transform: scale(.97);
         }
 
-        .btn-painel-outline:hover {
-            background: var(--accent-lt);
-        }
-
-        /* Grid Responsivo */
         .cooperativas-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
 
-        /* Empty State */
+        /* ===== EMPTY STATE ===== */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -821,7 +933,7 @@
             color: var(--text-light);
         }
 
-        /* Loading */
+        /* ===== LOADING ===== */
         .spinner-overlay {
             position: fixed;
             top: 0;
@@ -839,7 +951,7 @@
             display: flex;
         }
 
-        /* Toast */
+        /* ===== TOAST ===== */
         .save-toast {
             position: fixed;
             bottom: 28px;
@@ -896,7 +1008,7 @@
             color: var(--text-light);
         }
 
-        /* Animations */
+        /* ===== ANIMATIONS ===== */
         @keyframes fadeUp {
             from {
                 opacity: 0;
@@ -921,7 +1033,7 @@
             animation-delay: .10s;
         }
 
-        /* Dark mode */
+        /* ===== DARK MODE ===== */
         body.dark-mode {
             --card-bg: #1e2a20;
             --page-bg: #141d15;
@@ -960,19 +1072,14 @@
             background: rgba(102, 187, 106, .12);
         }
 
-        body.dark-mode .filter-btn {
-            background: #1e2a20;
-            border-color: rgba(255, 255, 255, .07);
-            color: var(--text-mid);
+        body.dark-mode .search-input,
+        body.dark-mode .filter-select {
+            background: #172518;
+            color: #e8f0e9;
+            border-color: rgba(255, 255, 255, .1);
         }
 
-        body.dark-mode .filter-btn.active {
-            background: #1a2a1c;
-            border-color: var(--primary);
-            color: var(--text-dark);
-        }
-
-        /* Responsive */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             :root {
                 --sidebar-w: 240px;
@@ -1008,9 +1115,7 @@
 
 <body>
 
-    <!-- ══════════════════════════════════════
-     SIDEBAR
-══════════════════════════════════════ -->
+    <!-- ===== SIDEBAR ===== -->
     <nav id="sidebar">
         <div class="sidebar-logo">
             <div class="logo-svg-wrap">
@@ -1050,14 +1155,13 @@
                     </g>
                 </svg>
             </div>
-            <div class="logo-text-wrap" style="opacity:1;transition:opacity .2s;white-space:nowrap;">
+            <div class="logo-text-wrap">
                 <div
                     style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.1;">
                     SIAG</div>
                 <div style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.5px;">Agrícola Cooperativas</div>
             </div>
         </div>
-
         <div class="sidebar-nav">
             <div class="nav-section-title">Principal</div>
             <a href="{{ route('dashboard') }}" class="nav-item-link" data-label="Dashboard"><i
@@ -1067,39 +1171,38 @@
             <a href="{{ route('agricultores.index') }}" class="nav-item-link" data-label="Agricultores"><i
                     class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
+            <div class="nav-section-title">Agrícola</div>
+
+            <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras">
+                <i class="bi bi-flower2"></i>
+                <span class="nav-label">Safras</span>
+            </a>
+            <a href="{{route('talhoes.index')}}" class="nav-item-link" data-label="Talhões">
+                <i class="bi bi-map-fill"></i>
+                <span class="nav-label">Talhões</span>
+            </a>
+            <a href="{{route('insumos.index')}}" class="nav-item-link" data-label="Insumos">
+                <i class="bi bi-box-seam-fill"></i>
+                <span class="nav-label">Insumos</span>
+            </a>
+
             <div class="nav-section-title">Comercial</div>
-            <a href="" class="nav-item-link active" data-label="Vendas"><i
+            <a href="{{route('vendas')}}" class="nav-item-link active" data-label="Vendas"><i
                     class="bi bi-cart-fill"></i><span class="nav-label">Vendas</span></a>
-            <a href="#" class="nav-item-link" data-label="Contratos"><i class="bi bi-file-earmark-text-fill"></i><span
-                    class="nav-label">Contratos</span></a>
 
             <div class="nav-section-title">Sistema</div>
-            <a href="#" class="nav-item-link" data-label="Relatórios"><i class="bi bi-bar-chart-fill"></i><span
-                    class="nav-label">Relatórios</span></a>
             <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i
                     class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
         </div>
-
         <div class="sidebar-user">
-            <div class="avatar">
-                @if(!empty(Auth::user()->foto))
-                    <img id="dropdownAvatarLarge"
-                        src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
-                        alt="Foto-perfil" width="20" class="avatar-md">
-                @else
-                    <span style="color:#fff;font-weight:700;font-size:15px;">{{ substr(Auth::user()->name, 0, 1) }}</span>
-                @endif
-            </div>
             <div class="user-info">
-                <div class="u-name">{{ Auth::user()->name }}</div>
-                <div class="u-role">Minha Conta</div>
+                <div class="u-name">SIAG</div>
+                <div class="u-role">Sistema de Gestão de cooperativa @ 2026</div>
             </div>
         </div>
     </nav>
 
-    <!-- ══════════════════════════════════════
-     TOPBAR
-══════════════════════════════════════ -->
+    <!-- ===== TOPBAR ===== -->
     <header id="topbar">
         <button class="topbar-toggle" id="sidebarToggle" title="Toggle Sidebar">
             <i class="bi bi-list"></i>
@@ -1125,34 +1228,27 @@
             <div class="dropdown d-none d-sm-flex">
                 <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
                     <div class="t-avatar">
-                        <img id="dropdownAvatarLarge"
-                            src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
+                        <img src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
                             alt="Foto-perfil" width="20" class="avatar-md">
                     </div>
-                    <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
+                    <span>{{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
                     <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
                 </div>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-                    <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
+                    <li><span class="dropdown-header">Nível: {{ Auth::user()->nivel }}</span></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
                     <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
-                    <li>
-                        <a class="dropdown-item" href="#" id="themeToggle">
-                            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
-                            <span id="themeLabel">Modo Escuro</span>
-                        </a>
-                    </li>
+                    <li><a class="dropdown-item" href="#" id="themeToggle"><i class="bi bi-moon-stars-fill"
+                                id="themeIcon"></i><span id="themeLabel">Modo Escuro</span></a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
                     <li>
                         <div class="dropdown-item item-logout p-0">
-                            <form method="POST" action="/logout">
-                                @csrf
-                                <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
-                            </form>
+                            <form method="POST" action="/logout">@csrf<button type="submit"><i
+                                        class="bi bi-box-arrow-right"></i> Sair</button></form>
                         </div>
                     </li>
                 </ul>
@@ -1160,9 +1256,7 @@
         </div>
     </header>
 
-    <!-- ══════════════════════════════════════
-     MAIN
-══════════════════════════════════════ -->
+    <!-- ===== MAIN ===== -->
     <main id="main">
         <div class="content-inner">
 
@@ -1220,8 +1314,8 @@
             </div>
 
             <!-- Search -->
-            <div class="search-filter-bar anim anim-d1 mb-4" style="border-radius:16px;border:1px solid var(--border);">
-                <div class="search-wrap" style="flex:1;min-width:220px;">
+            <div class="search-filter-bar anim anim-d1 mb-4">
+                <div class="search-wrap">
                     <i class="bi bi-search"></i>
                     <input type="text" class="search-input" id="searchCoop"
                         placeholder="Pesquisar cooperativa por nome ou local...">
@@ -1262,15 +1356,11 @@
                         <!-- Cards serão renderizados via JS -->
                     </div>
                 </div>
-
-                <!-- Empty State -->
                 <div class="empty-state" id="emptyState" style="display:none;">
                     <i class="bi bi-buildings"></i>
                     <h6>Nenhuma cooperativa encontrada</h6>
                     <p>Tente ajustar os filtros ou verifique se há cooperativas cadastradas.</p>
                 </div>
-
-                <!-- Loading -->
                 <div id="loadingCards" style="text-align:center;padding:40px;display:none;">
                     <div class="spinner-border text-success" role="status">
                         <span class="visually-hidden">Carregando...</span>
@@ -1308,7 +1398,7 @@
         const API_URL = '/vendas/cooperativas';
 
         /* ══════════════════════════════════════
-           SIDEBAR TOGGLE (3 estados)
+           SIDEBAR TOGGLE
         ══════════════════════════════════════ */
         const body = document.body;
         let sideState = 0;
@@ -1400,6 +1490,7 @@
            CARREGAR COOPERATIVAS
         ══════════════════════════════════════ */
         let cooperativasData = [];
+        let vendasHoje = 0;
 
         function loadCooperativas() {
             showLoadingCards(true);
@@ -1414,8 +1505,9 @@
                 .then(data => {
                     if (data.success) {
                         cooperativasData = data.data;
+                        vendasHoje = data.vendas_hoje || 0;
                         renderCooperativas(cooperativasData);
-                        updateStats(cooperativasData);
+                        updateStats(cooperativasData, vendasHoje);
                     } else {
                         showToast('Erro', data.message || 'Falha ao carregar cooperativas.', 'danger');
                         grid.innerHTML = '';
@@ -1430,6 +1522,25 @@
                 })
                 .finally(() => {
                     showLoadingCards(false);
+                });
+        }
+
+        /* ══════════════════════════════════════
+           CARREGAR VENDAS DE HOJE (separado)
+        ══════════════════════════════════════ */
+        function loadVendasHoje() {
+            fetch('/vendas/hoje')
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('vendasHoje').textContent = data.total || 0;
+                    }
+                })
+                .catch(err => {
+                    console.error('Erro ao carregar vendas de hoje:', err);
                 });
         }
 
@@ -1449,53 +1560,53 @@
             empty.style.display = 'none';
 
             grid.innerHTML = cooperativas.map(coop => `
-        <div class="cooperativa-card anim" data-id="${coop.id}" data-nome="${coop.nome}" data-provincia="${coop.provincia}">
-          <div class="card-header">
-            <div class="card-logo" style="background:${coop.cor || '#2E7D32'};">
-              ${coop.logo || 'CP'}
-            </div>
-            <div class="card-info">
-              <div class="coop-nome">${coop.nome}</div>
-              <div class="coop-local">
-                <i class="bi bi-geo-alt-fill" style="font-size:12px;color:var(--text-light);"></i>
-                ${coop.municipio || ''} ${coop.municipio && coop.provincia ? '·' : ''} ${coop.provincia || ''}
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="produtos-info">
-              <i class="bi bi-box-seam-fill"></i>
-              <div>
-                <div class="produtos-count">${coop.total_produtos || 0}</div>
-                <div class="produtos-label">Produtos Disponíveis</div>
-              </div>
-            </div>
-            ${coop.telefone ? `
-              <div class="coop-contato">
-                <i class="bi bi-telephone-fill"></i>
-                ${coop.telefone}
-              </div>
-            ` : ''}
-            ${coop.email ? `
-              <div class="coop-contato">
-                <i class="bi bi-envelope-fill"></i>
-                ${coop.email}
-              </div>
-            ` : ''}
-          </div>
-          <div class="card-footer">
-            <a href="/cooperativa/${coop.id}/vendas" class="btn-painel btn-painel w-100">
-              <i class="bi bi-cart-fill"></i> Painel de Venda
-            </a>
-          </div>
-        </div>
-      `).join('');
+                <div class="cooperativa-card anim" data-id="${coop.id}" data-nome="${coop.nome}" data-provincia="${coop.provincia}">
+                    <div class="card-header">
+                        <div class="card-logo" style="background:${coop.cor || '#2E7D32'};">
+                            ${coop.logo || 'CP'}
+                        </div>
+                        <div class="card-info">
+                            <div class="coop-nome">${coop.nome}</div>
+                            <div class="coop-local">
+                                <i class="bi bi-geo-alt-fill" style="font-size:12px;color:var(--text-light);"></i>
+                                ${coop.municipio || ''} ${coop.municipio && coop.provincia ? '·' : ''} ${coop.provincia || ''}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="produtos-info">
+                            <i class="bi bi-box-seam-fill"></i>
+                            <div>
+                                <div class="produtos-count">${coop.total_produtos || 0}</div>
+                                <div class="produtos-label">Produtos Disponíveis</div>
+                            </div>
+                        </div>
+                        ${coop.telefone ? `
+                            <div class="coop-contato">
+                                <i class="bi bi-telephone-fill"></i>
+                                ${coop.telefone}
+                            </div>
+                        ` : ''}
+                        ${coop.email ? `
+                            <div class="coop-contato">
+                                <i class="bi bi-envelope-fill"></i>
+                                ${coop.email}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="card-footer">
+                        <a href="/cooperativas/${coop.id}/vendas" class="btn-painel w-100">
+                            <i class="bi bi-cart-fill"></i> Painel de Venda
+                        </a>
+                    </div>
+                </div>
+            `).join('');
         }
 
         /* ══════════════════════════════════════
            ATUALIZAR ESTATÍSTICAS
         ══════════════════════════════════════ */
-        function updateStats(cooperativas) {
+        function updateStats(cooperativas, vendasHojeCount = 0) {
             const total = cooperativas.length;
             const totalProdutos = cooperativas.reduce((sum, c) => sum + (c.total_produtos || 0), 0);
             const provincias = new Set(cooperativas.map(c => c.provincia).filter(Boolean));
@@ -1503,9 +1614,7 @@
             document.getElementById('totalCooperativas').textContent = total;
             document.getElementById('totalProdutos').textContent = totalProdutos;
             document.getElementById('totalProvincias').textContent = provincias.size;
-
-            // Vendas hoje (mock - você pode implementar com API real)
-            document.getElementById('vendasHoje').textContent = Math.floor(Math.random() * 20) + 5;
+            document.getElementById('vendasHoje').textContent = vendasHojeCount || 0;
         }
 
         /* ══════════════════════════════════════
@@ -1520,8 +1629,8 @@
             if (search) {
                 filtered = filtered.filter(c =>
                     c.nome.toLowerCase().includes(search) ||
-                    c.municipio?.toLowerCase().includes(search) ||
-                    c.provincia?.toLowerCase().includes(search)
+                    (c.municipio && c.municipio.toLowerCase().includes(search)) ||
+                    (c.provincia && c.provincia.toLowerCase().includes(search))
                 );
             }
 
@@ -1530,7 +1639,7 @@
             }
 
             renderCooperativas(filtered);
-            updateStats(filtered);
+            updateStats(filtered, vendasHoje);
         }
 
         document.getElementById('btnFiltrar').addEventListener('click', aplicarFiltros);
@@ -1538,7 +1647,7 @@
             document.getElementById('searchCoop').value = '';
             document.getElementById('filterProvincia').value = '';
             renderCooperativas(cooperativasData);
-            updateStats(cooperativasData);
+            updateStats(cooperativasData, vendasHoje);
         });
 
         document.getElementById('searchCoop').addEventListener('keyup', (e) => {
@@ -1554,22 +1663,36 @@
         ══════════════════════════════════════ */
         document.getElementById('btnRefresh').addEventListener('click', () => {
             loadCooperativas();
+            loadVendasHoje();
             showToast('Atualizado', 'Lista de cooperativas atualizada.');
         });
+
+        /* ══════════════════════════════════════
+           ATUALIZAR EM TEMPO REAL
+        ══════════════════════════════════════ */
+        // Atualizar vendas de hoje a cada 30 segundos
+        setInterval(() => {
+            if (!document.hidden) {
+                loadVendasHoje();
+            }
+        }, 30000);
+
+        // Função para ser chamada de outros módulos após uma venda
+        function atualizarDashboardVendas() {
+            loadVendasHoje();
+            loadCooperativas();
+        }
+
+        // Expor função globalmente para ser chamada de outros scripts
+        window.atualizarDashboardVendas = atualizarDashboardVendas;
 
         /* ══════════════════════════════════════
            INICIALIZAÇÃO
         ══════════════════════════════════════ */
         document.addEventListener('DOMContentLoaded', function () {
             loadCooperativas();
+            loadVendasHoje();
         });
-
-        // Atualizar a cada 60 segundos (opcional)
-        setInterval(() => {
-            if (!document.hidden) {
-                loadCooperativas();
-            }
-        }, 60000);
     </script>
 
 </body>

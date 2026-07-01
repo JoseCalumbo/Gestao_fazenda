@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
 
     // Cooperativas (Web tradicionais e exportação)
     Route::get('/cooperativas/exportar-pdf', [CooperativaController::class, 'exportarPdf'])->name('cooperativas.pdf');
+    Route::get('/cooperativas/{id}/pdf', [CooperativaController::class, 'pdf'])->name('cooperativas.pdfItem');
     Route::get('/cooperativas', [CooperativaController::class, 'index'])->name('cooperativas');
     Route::post('/cooperativas', [CooperativaController::class, 'store'])->name('cooperativas.store');
     Route::get('/cooperativas/{id}', [CooperativaController::class, 'show'])->name('cooperativas.show');
@@ -195,7 +196,7 @@ Route::middleware('auth')->group(function () {
 
 
     // Rota principal para seleção de cooperativa
-Route::get('/vendas', [VendaController::class, 'indexCooperativasVenda'])->name('vendas.index');
+Route::get('/vendas', [VendaController::class, 'indexCooperativasVenda'])->name('vendas');
 
 // Rota para buscar cooperativas via AJAX
 Route::get('/vendas/cooperativas', [VendaController::class, 'getCooperativas'])->name('vendas.cooperativas.list');

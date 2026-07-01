@@ -1,3 +1,4 @@
+{{-- resources/views/vendas/cooperativas.blade.php --}}
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -5,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>SIAG – Talhões</title>
+    <title>SIAG – Cooperativas - Vendas</title>
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -53,9 +54,7 @@
             overflow-x: hidden;
         }
 
-        /* ═══════════════════════════════════════════
-       SIDEBAR
-    ═══════════════════════════════════════════ */
+        /* ===== SIDEBAR ===== */
         #sidebar {
             position: fixed;
             top: 0;
@@ -202,10 +201,6 @@
             box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
         }
 
-        .sidebar-tooltip.bs-tooltip-end .tooltip-arrow::before {
-            border-right-color: #0f3d14;
-        }
-
         .sidebar-user {
             padding: 14px 10px;
             border-top: 1px solid rgba(255, 255, 255, .1);
@@ -267,9 +262,7 @@
             pointer-events: none;
         }
 
-        /* ═══════════════════════════════════════════
-       TOPBAR
-    ═══════════════════════════════════════════ */
+        /* ===== TOPBAR ===== */
         #topbar {
             position: fixed;
             top: 0;
@@ -345,7 +338,6 @@
             color: #fff;
         }
 
-        /* Ícones Bootstrap — cor verde primária por defeito */
         .bi {
             color: var(--primary);
         }
@@ -372,7 +364,6 @@
         }
 
         .badge-status .bi,
-        .badge-cargo .bi,
         .stat-badge .bi {
             color: inherit;
         }
@@ -532,9 +523,7 @@
             color: #C62828;
         }
 
-        /* ═══════════════════════════════════════════
-       MAIN CONTENT
-    ═══════════════════════════════════════════ */
+        /* ===== MAIN CONTENT ===== */
         #main {
             margin-left: var(--sidebar-w);
             padding-top: var(--topbar-h);
@@ -554,9 +543,7 @@
             padding: 28px;
         }
 
-        /* ═══════════════════════════════════════════
-       PAGE HEADER
-    ═══════════════════════════════════════════ */
+        /* ===== PAGE HEADER ===== */
         .page-header {
             display: flex;
             align-items: flex-start;
@@ -604,6 +591,11 @@
             transform: scale(.97);
         }
 
+        .btn-green:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
         .btn-outline-green {
             background: transparent;
             color: var(--primary);
@@ -625,9 +617,7 @@
             color: var(--primary);
         }
 
-        /* ═══════════════════════════════════════════
-       STAT CARDS
-    ═══════════════════════════════════════════ */
+        /* ===== STAT CARDS ===== */
         .stat-card {
             background: var(--card-bg);
             border-radius: 16px;
@@ -690,61 +680,16 @@
             margin-bottom: 5px;
         }
 
-        .stat-badge {
-            font-size: 11.5px;
-            font-weight: 600;
-            padding: 3px 8px;
-            border-radius: 30px;
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .stat-badge.up {
-            background: #E8F5E9;
-            color: #2E7D32;
-        }
-
-        .stat-badge.info {
-            background: #E3F2FD;
-            color: #1565C0;
-        }
-
-        /* ═══════════════════════════════════════════
-       TABLE CARD
-    ═══════════════════════════════════════════ */
-        .table-card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-
-        .table-card-header {
-            padding: 18px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .table-card-header h5 {
-            font-family: 'Sora', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        /* Search bar */
+        /* ===== SEARCH FILTER BAR ===== */
         .search-filter-bar {
             padding: 14px 24px;
-            border-bottom: 1px solid var(--border);
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
             align-items: center;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
         }
 
         .search-wrap {
@@ -808,172 +753,164 @@
             box-shadow: 0 0 0 3px rgba(46, 125, 50, .1);
         }
 
-        /* Talhões Table */
-        .talhao-table {
-            width: 100%;
-            border-collapse: collapse;
+        /* ===== COOPERATIVAS CARDS ===== */
+        .cooperativa-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all .3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
-        .talhao-table th {
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: .8px;
-            color: var(--text-light);
-            padding: 12px 20px;
-            background: #FAFBFA;
-            border-bottom: 1px solid var(--border);
-            text-align: left;
-            white-space: nowrap;
+        .cooperativa-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(46, 125, 50, .12);
         }
 
-        .talhao-table td {
-            font-size: 13.5px;
-            color: var(--text-dark);
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border);
-            vertical-align: middle;
-        }
-
-        .talhao-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .talhao-table tbody tr:hover td {
-            background: #F8FBF8;
-        }
-
-        /* Badges */
-        .badge-status {
-            font-size: 12px;
-            font-weight: 500;
-            padding: 0;
-            background: none;
-            border-radius: 0;
-            display: inline-flex;
+        .cooperativa-card .card-header {
+            padding: 20px 20px 16px;
+            display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 16px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .badge-status.em_cultivo {
-            color: #2E7D32;
-        }
-
-        .badge-status.pousio {
-            color: #F57F17;
-        }
-
-        .badge-status.preparacao {
-            color: #1565C0;
-        }
-
-        .badge-status.inactivo {
-            color: #C62828;
-        }
-
-        .badge-status .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .badge-status.em_cultivo .dot {
-            background: #2E7D32;
-        }
-
-        .badge-status.pousio .dot {
-            background: #F57F17;
-        }
-
-        .badge-status.preparacao .dot {
-            background: #1565C0;
-        }
-
-        .badge-status.inactivo .dot {
-            background: #C62828;
-        }
-
-        /* Action buttons in table */
-        .action-btn {
-            width: 32px;
-            height: 32px;
-            border: none;
-            border-radius: 9px;
-            display: inline-flex;
+        .cooperativa-card .card-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background .15s, color .15s;
-            text-decoration: none;
-        }
-
-        .action-btn.view {
-            background: #EDE7F6;
-            color: #6A1B9A;
-        }
-
-        .action-btn.view:hover {
-            background: #6A1B9A;
+            font-size: 20px;
+            font-weight: 800;
             color: #fff;
+            flex-shrink: 0;
+            text-transform: uppercase;
         }
 
-        /* Pagination */
-        .table-footer {
-            padding: 14px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-top: 1px solid var(--border);
-            flex-wrap: wrap;
-            gap: 10px;
+        .cooperativa-card .card-info {
+            flex: 1;
+            min-width: 0;
         }
 
-        .table-footer span {
-            font-size: 12.5px;
+        .cooperativa-card .card-info .coop-nome {
+            font-family: 'Sora', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cooperativa-card .card-info .coop-local {
+            font-size: 13px;
             color: var(--text-light);
         }
 
-        .pagination-btns {
+        .cooperativa-card .card-body {
+            padding: 16px 20px 20px;
+            flex: 1;
             display: flex;
-            gap: 6px;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .page-btn {
-            min-width: 34px;
-            height: 34px;
-            padding: 0 10px;
-            border: 1.5px solid var(--border);
-            border-radius: 9px;
-            background: #fff;
-            font-size: 13px;
-            color: var(--text-mid);
-            cursor: pointer;
+        .cooperativa-card .card-body .produtos-info {
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: all .15s;
-            font-family: 'DM Sans', sans-serif;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--accent-lt);
+            border-radius: 10px;
         }
 
-        .page-btn:hover {
-            border-color: var(--primary);
+        .cooperativa-card .card-body .produtos-info i {
+            font-size: 24px;
             color: var(--primary);
         }
 
-        .page-btn.active {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
+        .cooperativa-card .card-body .produtos-info .produtos-count {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
         }
 
-        /* ═══════════════════════════════════════════
-       EMPTY STATE
-    ═══════════════════════════════════════════ */
+        .cooperativa-card .card-body .produtos-info .produtos-label {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .cooperativa-card .card-body .coop-contato {
+            font-size: 13px;
+            color: var(--text-mid);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+        }
+
+        .cooperativa-card .card-body .coop-contato i {
+            color: var(--primary);
+            width: 18px;
+            font-size: 14px;
+        }
+
+        .cooperativa-card .card-footer {
+            padding: 12px 20px;
+            background: #FAFBFA;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .btn-painel {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: background .2s, transform .1s;
+            text-decoration: none;
+        }
+
+        .btn-painel:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .btn-painel:active {
+            transform: scale(.97);
+        }
+
+        .cooperativas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* ===== EMPTY STATE ===== */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
         }
 
         .empty-state i {
@@ -996,69 +933,25 @@
             color: var(--text-light);
         }
 
-        /* ═══════════════════════════════════════════
-       MODAL — VISUALIZAR TALHÃO
-    ═══════════════════════════════════════════ */
-        .modal-coop {
-            max-width: 2000px;
-        }
-
-        .modal-content {
-            border: none;
-            border-radius: 18px;
-            box-shadow: 0 24px 64px rgba(0, 0, 0, .15);
-            overflow: hidden;
-        }
-
-        .modal-header {
-            padding: 11px 20px;
-            border-bottom: 1px solid var(--border);
-            background: linear-gradient(135deg, var(--sidebar-bg) 0%, var(--primary) 100%);
-            flex-shrink: 0;
-        }
-
-        .modal-header .modal-title {
-            font-family: 'Sora', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .modal-header .btn-close {
-            filter: brightness(0) invert(1);
-            opacity: .8;
-        }
-
-        .modal-header .btn-close:hover {
-            opacity: 1;
-        }
-
-        .modal-header-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, .2);
-            display: flex;
+        /* ===== LOADING ===== */
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .5);
+            display: none;
             align-items: center;
             justify-content: center;
-            font-size: 17px;
-            color: #fff;
-            flex-shrink: 0;
+            z-index: 99999;
         }
 
-        .modal-body {
-            background: #fff;
-            padding: 28px;
+        .spinner-overlay.show {
+            display: flex;
         }
 
-        .modal-footer {
-            padding: 14px 20px;
-            border-top: 1px solid var(--border);
-            background: #fff;
-            flex-shrink: 0;
-        }
-
-        /* Toast */
+        /* ===== TOAST ===== */
         .save-toast {
             position: fixed;
             bottom: 28px;
@@ -1115,7 +1008,7 @@
             color: var(--text-light);
         }
 
-        /* Animations */
+        /* ===== ANIMATIONS ===== */
         @keyframes fadeUp {
             from {
                 opacity: 0;
@@ -1140,15 +1033,7 @@
             animation-delay: .10s;
         }
 
-        .anim-d3 {
-            animation-delay: .15s;
-        }
-
-        .anim-d4 {
-            animation-delay: .20s;
-        }
-
-        /* Dark mode */
+        /* ===== DARK MODE ===== */
         body.dark-mode {
             --card-bg: #1e2a20;
             --page-bg: #141d15;
@@ -1179,12 +1064,12 @@
             background: rgba(102, 187, 106, .12);
         }
 
-        body.dark-mode .talhao-table th {
+        body.dark-mode .cooperativa-card .card-footer {
             background: #172518;
         }
 
-        body.dark-mode .talhao-table tbody tr:hover td {
-            background: #1a2a1c;
+        body.dark-mode .cooperativa-card .card-body .produtos-info {
+            background: rgba(102, 187, 106, .12);
         }
 
         body.dark-mode .search-input,
@@ -1194,16 +1079,7 @@
             border-color: rgba(255, 255, 255, .1);
         }
 
-        body.dark-mode .modal-body {
-            background: #1a2a1c;
-        }
-
-        body.dark-mode .modal-footer {
-            background: #1e2a20;
-            border-color: rgba(255, 255, 255, .07);
-        }
-
-        /* Responsive */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             :root {
                 --sidebar-w: 240px;
@@ -1229,12 +1105,12 @@
                 padding: 16px;
             }
 
-            .modal-coop {
-                max-width: 100%;
-                margin: 10px;
+            .cooperativas-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 16px;
             }
 
-            /* ─── FORÇAR CARDS EM COLUNA ÚNICA ─── */
+            /* ─── FORÇAR CARDS ESTATÍSTICOS EM COLUNA ÚNICA ─── */
             .row.g-3.mb-4 {
                 display: flex;
                 flex-direction: column;
@@ -1260,9 +1136,7 @@
 
 <body>
 
-    <!-- ══════════════════════════════════════
-     SIDEBAR
-══════════════════════════════════════ -->
+    <!-- ===== SIDEBAR ===== -->
     <nav id="sidebar">
         <div class="sidebar-logo">
             <div class="logo-svg-wrap">
@@ -1302,14 +1176,13 @@
                     </g>
                 </svg>
             </div>
-            <div class="logo-text-wrap" style="opacity:1;transition:opacity .2s;white-space:nowrap;">
+            <div class="logo-text-wrap">
                 <div
                     style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.1;">
                     SIAG</div>
                 <div style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.5px;">Agrícola Cooperativas</div>
             </div>
         </div>
-
         <div class="sidebar-nav">
             <div class="nav-section-title">Principal</div>
             <a href="{{ route('dashboard') }}" class="nav-item-link" data-label="Dashboard"><i
@@ -1320,24 +1193,28 @@
                     class="bi bi-people-fill"></i><span class="nav-label">Agricultores</span></a>
 
             <div class="nav-section-title">Agrícola</div>
-            <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras"><i
-                    class="bi bi-flower2"></i><span class="nav-label">Safras</span></a>
-            <a href="#" class="nav-item-link active" data-label="Talhões"><i class="bi bi-map-fill"></i><span
-                    class="nav-label">Talhões</span></a>
-            <a href="{{route('insumos.index')}}" class="nav-item-link" data-label="Insumos"><i
-                    class="bi bi-box-seam-fill"></i><span class="nav-label">Insumos</span></a>
 
+            <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras">
+                <i class="bi bi-flower2"></i>
+                <span class="nav-label">Safras</span>
+            </a>
+            <a href="{{route('talhoes.index')}}" class="nav-item-link" data-label="Talhões">
+                <i class="bi bi-map-fill"></i>
+                <span class="nav-label">Talhões</span>
+            </a>
+            <a href="{{route('insumos.index')}}" class="nav-item-link" data-label="Insumos">
+                <i class="bi bi-box-seam-fill"></i>
+                <span class="nav-label">Insumos</span>
+            </a>
 
             <div class="nav-section-title">Comercial</div>
-            <a href="{{route('vendas')}}" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
-                    class="nav-label">Vendas</span></a>
+            <a href="{{route('vendas')}}" class="nav-item-link active" data-label="Vendas"><i
+                    class="bi bi-cart-fill"></i><span class="nav-label">Vendas</span></a>
 
             <div class="nav-section-title">Sistema</div>
-
             <a href="{{ route('configuracoes') }}" class="nav-item-link" data-label="Configurações"><i
                     class="bi bi-gear-fill"></i><span class="nav-label">Configurações</span></a>
         </div>
-
         <div class="sidebar-user">
             <div class="user-info">
                 <div class="u-name">SIAG</div>
@@ -1346,53 +1223,53 @@
         </div>
     </nav>
 
-    <!-- ══════════════════════════════════════
-     TOPBAR
-══════════════════════════════════════ -->
+    <!-- ===== TOPBAR ===== -->
     <header id="topbar">
         <button class="topbar-toggle" id="sidebarToggle" title="Toggle Sidebar">
             <i class="bi bi-list"></i>
         </button>
-        <span class="topbar-title">Talhões</span>
+        <span class="topbar-title">Selecionar Cooperativa</span>
         <nav aria-label="breadcrumb" class="d-none d-md-flex ms-3">
             <ol class="breadcrumb mb-0" style="font-size:12.5px;">
                 <li class="breadcrumb-item"><a href="#" style="color:var(--primary);text-decoration:none;">SIAG</a></li>
-                <li class="breadcrumb-item active" style="color:var(--text-light);">Talhões</li>
+                <li class="breadcrumb-item active" style="color:var(--text-light);">Vendas</li>
             </ol>
         </nav>
         <div class="topbar-right">
-
+            <span class="badge rounded-pill d-none d-md-inline-flex align-items-center gap-1"
+                style="background:var(--accent-lt);color:var(--primary);font-size:12px;padding:7px 13px;font-weight:600;">
+                <i class="bi bi-building"></i> Cooperativas
+            </span>
+            <button class="topbar-icon-btn" title="Notificações">
+                <i class="bi bi-bell-fill"></i><span class="notif-badge"></span>
+            </button>
+            <button class="topbar-icon-btn" title="Mensagens">
+                <i class="bi bi-chat-dots-fill"></i>
+            </button>
             <div class="dropdown d-none d-sm-flex">
                 <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
                     <div class="t-avatar">
-                        <img id="dropdownAvatarLarge"
-                            src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
+                        <img src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
                             alt="Foto-perfil" width="20" class="avatar-md">
                     </div>
-                    <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
+                    <span>{{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
                     <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
                 </div>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-                    <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
+                    <li><span class="dropdown-header">Nível: {{ Auth::user()->nivel }}</span></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-
-                    <li>
-                        <a class="dropdown-item" href="#" id="themeToggle">
-                            <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
-                            <span id="themeLabel">Modo Escuro</span>
-                        </a>
-                    </li>
+                    <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
+                    <li><a class="dropdown-item" href="#" id="themeToggle"><i class="bi bi-moon-stars-fill"
+                                id="themeIcon"></i><span id="themeLabel">Modo Escuro</span></a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
                     <li>
                         <div class="dropdown-item item-logout p-0">
-                            <form method="POST" action="/logout">
-                                @csrf
-                                <button type="submit"><i class="bi bi-box-arrow-right"></i> Sair</button>
-                            </form>
+                            <form method="POST" action="/logout">@csrf<button type="submit"><i
+                                        class="bi bi-box-arrow-right"></i> Sair</button></form>
                         </div>
                     </li>
                 </ul>
@@ -1400,260 +1277,121 @@
         </div>
     </header>
 
-    <!-- ══════════════════════════════════════
-     MAIN
-══════════════════════════════════════ -->
+    <!-- ===== MAIN ===== -->
     <main id="main">
         <div class="content-inner">
 
             <!-- Page Header -->
             <div class="page-header anim">
                 <div>
-                    <h1>Gestão de Talhões</h1>
-                    <p>Registo e administração das parcelas de terra cultivadas</p>
+                    <h1>Vendas de Produtos</h1>
+                    <p>Selecione uma cooperativa para iniciar o painel de vendas</p>
                 </div>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                    <button class="btn-outline-green" id="btnExportar" style="display: none;">
-                        <i class="bi bi-download"></i> Exportar
+                    <button class="btn-outline-green" id="btnRefresh">
+                        <i class="bi bi-arrow-clockwise"></i> Atualizar
                     </button>
                 </div>
             </div>
 
-            <!-- Stat Cards -->
+            <!-- Estatísticas -->
             <div class="row g-3 mb-4 anim anim-d1">
-                <div class="col-6 col-xl-3">
+                <div class="col-6 col-md-3">
                     <div class="stat-card">
-                        <div class="stat-icon green"><i class="bi bi-map-fill"></i></div>
+                        <div class="stat-icon green"><i class="bi bi-building"></i></div>
                         <div class="stat-info">
-                            <div class="s-label">Total de Talhões</div>
-                            <div class="s-value">{{ $stats['total'] ?? 0}}</div>
+                            <div class="s-label">Total Cooperativas</div>
+                            <div class="s-value" id="totalCooperativas">0</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-xl-3">
+                <div class="col-6 col-md-3">
                     <div class="stat-card">
-                        <div class="stat-icon blue"><i class="bi bi-check-circle-fill"></i></div>
+                        <div class="stat-icon blue"><i class="bi bi-box-seam-fill"></i></div>
                         <div class="stat-info">
-                            <div class="s-label">Em Cultivo</div>
-                            <div class="s-value">{{ $stats['em_cultivo'] ?? 0}}</div>
+                            <div class="s-label">Total Produtos</div>
+                            <div class="s-value" id="totalProdutos">0</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-xl-3">
+                <div class="col-6 col-md-3">
                     <div class="stat-card">
-                        <div class="stat-icon amber"><i class="bi bi-clock-fill"></i></div>
+                        <div class="stat-icon amber"><i class="bi bi-geo-alt-fill"></i></div>
                         <div class="stat-info">
-                            <div class="s-label">Pousio</div>
-                            <div class="s-value">{{ $stats['pousio'] ?? 0}}</div>
+                            <div class="s-label">Províncias</div>
+                            <div class="s-value" id="totalProvincias">0</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-xl-3">
+                <div class="col-6 col-md-3">
                     <div class="stat-card">
-                        <div class="stat-icon purple"><i class="bi bi-tools"></i></div>
+                        <div class="stat-icon purple"><i class="bi bi-cart-fill"></i></div>
                         <div class="stat-info">
-                            <div class="s-label">Colhido</div>
-                            <div class="s-value">{{ $stats['colhido'] }}</div>
+                            <div class="s-label">Vendas Hoje</div>
+                            <div class="s-value" id="vendasHoje">0</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Table Card -->
-            <div class="table-card anim anim-d2">
-
-                <!-- Header -->
-                <div class="table-card-header">
-                    <div style="display:flex;align-items:center;gap:12px;">
-                        <h5><i class="bi bi-map-fill me-2" style="color:var(--primary);"></i>Lista de Talhões</h5>
-                    </div>
-                    <div style="display:flex;gap:8px;align-items:center;">
-                        <span style="font-size:12.5px;color:var(--text-light);">{{ $talhoes->total() ?? 0 }}
-                            registos</span>
-                    </div>
+            <!-- Search -->
+            <div class="search-filter-bar anim anim-d1 mb-4">
+                <div class="search-wrap">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="search-input" id="searchCoop"
+                        placeholder="Pesquisar cooperativa por nome ou local...">
                 </div>
-
-                <div class="search-filter-bar">
-                    <div class="search-wrap">
-                        <i class="bi bi-search"></i>
-                        <input type="text" class="search-input" id="searchTalhao"
-                            placeholder="Pesquisar por designação...">
-                    </div>
-                    <select class="filter-select" id="filterEstado">
-                        <option value="">Todos os estados</option>
-                        <option value="Em cultivo">Em Cultivo</option>
-                        <option value="Pousio">Pousio</option>
-                        <option value="Colhido">Colhido</option>
-                        <option value="activo">Activo</option>
-                        <option value="inactivo">Inactivo</option>
-                    </select>
-                    <select class="filter-select" id="filterAgricultor">
-                        <option value="">Todos os agricultores</option>
-                        @foreach($agricultores as $ag)
-                            <option value="{{ $ag->id }}" {{ request('filterAgricultor') == $ag->id ? 'selected' : '' }}>
-                                {{ $ag->nome_completo }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <button class="btn-green" id="btnFiltrar" style="padding:8px 18px;"><i class="bi bi-search"></i>
-                        Filtrar</button>
-                    <button class="btn-outline-green" id="btnLimparFiltros" ><i
-                            class="bi bi-eraser"></i>
-                        Limpar</button>
-                </div>
-
-                <!-- Table -->
-                <div style="overflow-x:auto;">
-                    <table class="talhao-table" id="talhaoTable">
-                        <thead>
-                            <tr>
-                                <th style="width:40px;">
-                                    <input type="checkbox" id="selectAll"
-                                        style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
-                                </th>
-                                <th>Designação</th>
-                                <th>Agricultor</th>
-                                <th>Área (ha)</th>
-                                <th>Cultura Actual</th>
-                                <th>Localização</th>
-                                <th>Estado</th>
-                                <th style="text-align:center;">Acções</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="talhaoTableBody">
-                            @forelse($talhoes as $talhao)
-                                <tr id="talhao-row-{{ $talhao->id }}" data-estado="{{ $talhao->estado }}"
-                                    data-agricultor="{{ $talhao->agricultor->nome_completo ?? 'Sem agricultor' }}">
-                                    <td>
-                                        <input type="checkbox" class="row-check"
-                                            style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;">
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <div style="font-weight:600;font-size:14px;">
-                                                {{ $talhao->designacao }}
-                                                <p style="color: #16a34a; font-size: 12px; font-weight: 500;">
-                                                    {{ $talhao->cooperativa->nome }}</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{{ $talhao->agricultor->nome_completo ?? 'Sem agricultor' }}</td>
-                                    <td><strong>{{ number_format($talhao->area, 1) }}</strong></td>
-                                    <td>{{ $talhao->cultura_actual ?? '—' }}</td>
-                                    <td>{{ $talhao->localizacao ?? '—' }}</td>
-                                    <td>
-                                        <span class="badge-status {{ $talhao->estado }}">
-                                            <span class="dot"></span>
-                                            {{ ucfirst(str_replace('_', ' ', $talhao->estado)) }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align:center;">
-                                        <div style="display:flex;gap:6px;justify-content:center;">
-
-                                            <button class="action-btn view btn-ver-talhao" title="Ver detalhes"
-                                                data-id="{{ $talhao->id }}" data-designacao="{{ $talhao->designacao }}"
-                                                data-area="{{ $talhao->area }}" data-cultura="{{ $talhao->cultura_actual }}"
-                                                data-localizacao="{{ $talhao->localizacao }}"
-                                                data-estado="{{ $talhao->estado }}"
-                                                data-agricultor="{{ $talhao->agricultor->nome_completo ?? 'Sem agricultor' }}">
-                                                <i class="bi bi-eye-fill"></i>
-                                            </button>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
-                                        <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>
-                                        Nenhum talhão encontrado.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-
-                    </table>
-                </div>
-
-                <div class="table-footer">
-                    <span id="tableCount">
-                        Mostrando {{ $talhoes->firstItem() ?? 0 }} até {{ $talhoes->lastItem() ?? 0 }} de
-                        {{ $talhoes->total() }} talhões
-                    </span>
-
-                    <div class="pagination-btns">
-
-                        {{-- Botão Anterior --}}
-                        @if ($talhoes->onFirstPage())
-                            <button class="page-btn" disabled><i class="bi bi-chevron-left"></i></button>
-                        @else
-                            <a href="{{ $talhoes->previousPageUrl() }}" class="page-btn"><i
-                                    class="bi bi-chevron-left"></i></a>
-                        @endif
-
-                        {{-- Números das Páginas --}}
-                        @foreach ($talhoes->getUrlRange(1, $talhoes->lastPage()) as $page => $url)
-                            @if ($page == $talhoes->currentPage())
-                                <button class="page-btn active">{{ $page }}</button>
-                            @else
-                                <a href="{{ $url }}" class="page-btn">{{ $page }}</a>
-                            @endif
-                        @endforeach
-
-                        {{-- Botão Próximo --}}
-                        @if ($talhoes->hasMorePages())
-                            <a href="{{ $talhoes->nextPageUrl() }}" class="page-btn"><i class="bi bi-chevron-right"></i></a>
-                        @else
-                            <button class="page-btn" disabled><i class="bi bi-chevron-right"></i></button>
-                        @endif
-
-                    </div>
-                </div>
-
+                <select class="filter-select" id="filterProvincia">
+                    <option value="">Todas as províncias</option>
+                    <option value="Luanda">Luanda</option>
+                    <option value="Bengo">Bengo</option>
+                    <option value="Malanje">Malanje</option>
+                    <option value="Huíla">Huíla</option>
+                    <option value="Bié">Bié</option>
+                    <option value="Huambo">Huambo</option>
+                    <option value="Cabinda">Cabinda</option>
+                    <option value="Zaire">Zaire</option>
+                    <option value="Uíge">Uíge</option>
+                    <option value="Cuanza Norte">Cuanza Norte</option>
+                    <option value="Cuanza Sul">Cuanza Sul</option>
+                    <option value="Lunda Norte">Lunda Norte</option>
+                    <option value="Lunda Sul">Lunda Sul</option>
+                    <option value="Moxico">Moxico</option>
+                    <option value="Cuando Cubango">Cuando Cubango</option>
+                    <option value="Cunene">Cunene</option>
+                    <option value="Namibe">Namibe</option>
+                    <option value="Benguela">Benguela</option>
+                </select>
+                <button class="btn-green" id="btnFiltrar" style="padding:8px 18px;">
+                    <i class="bi bi-search"></i> Filtrar
+                </button>
+                <button class="btn-outline-green" id="btnLimparFiltros" style="padding:8px 18px;">
+                    <i class="bi bi-eraser"></i> Limpar
+                </button>
             </div>
-            <!-- /table-card -->
+
+            <!-- Cards das Cooperativas -->
+            <div class="anim anim-d2">
+                <div id="cooperativasContainer">
+                    <div id="cooperativasGrid" class="cooperativas-grid">
+                        <!-- Cards serão renderizados via JS -->
+                    </div>
+                </div>
+                <div class="empty-state" id="emptyState" style="display:none;">
+                    <i class="bi bi-buildings"></i>
+                    <h6>Nenhuma cooperativa encontrada</h6>
+                    <p>Tente ajustar os filtros ou verifique se há cooperativas cadastradas.</p>
+                </div>
+                <div id="loadingCards" style="text-align:center;padding:40px;display:none;">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Carregando cooperativas...</p>
+                </div>
+            </div>
 
         </div><!-- /content-inner -->
     </main>
-
-
-    <!-- ══════════════════════════════════════
-     MODAL — VER TALHÃO
-══════════════════════════════════════ -->
-    <div class="modal fade modal-coop" id="modalVerTalhao" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div style="display:flex;align-items:center;gap:14px;flex:1;">
-                        <div class="modal-header-icon"><i class="bi bi-eye-fill"></i></div>
-                        <div>
-                            <div class="modal-title">Detalhes do Talhão</div>
-                            <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;"
-                                id="verTalhaoDesignacao">—</div>
-                        </div>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-3">
-                        <div class="col-6"><strong>ID:</strong> <span id="verTalhaoId">—</span></div>
-                        <div class="col-6"><strong>Designação:</strong> <span id="verTalhaoDesignacao2">—</span></div>
-                        <div class="col-6"><strong>Agricultor:</strong> <span id="verTalhaoAgricultor">—</span></div>
-                        <div class="col-6"><strong>Área (ha):</strong> <span id="verTalhaoArea">—</span></div>
-                        <div class="col-6"><strong>Cultura Actual:</strong> <span id="verTalhaoCultura">—</span></div>
-                        <div class="col-6"><strong>Localização:</strong> <span id="verTalhaoLocalizacao">—</span></div>
-                        <div class="col-12"><strong>Estado:</strong> <span id="verTalhaoEstado">—</span></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn-outline-green" data-bs-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
 
     <!-- Toast -->
     <div class="save-toast" id="saveToast">
@@ -1664,12 +1402,24 @@
         </div>
     </div>
 
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="loadingSpinner">
+        <div class="spinner-border text-light" style="width: 4rem; height: 4rem;" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         /* ══════════════════════════════════════
-           SIDEBAR TOGGLE (3 estados) + AJUSTE AUTOMÁTICO
+           CONFIGURAÇÕES
+        ══════════════════════════════════════ */
+        const API_URL = '/vendas/cooperativas';
+
+        /* ══════════════════════════════════════
+           SIDEBAR TOGGLE + INICIALIZAÇÃO EM MODO ÍCONE
         ══════════════════════════════════════ */
         const body = document.body;
         let sideState = 0;
@@ -1691,42 +1441,38 @@
             }
         }
 
-        // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA ───
-        function adjustSidebarForScreen() {
-            const width = window.innerWidth;
-            let novoEstado = 0;
-            if (width < 768) {
-                novoEstado = 1; // icons-only
-            } else {
-                novoEstado = 0; // normal
-            }
-            if (novoEstado !== sideState) {
-                sideState = novoEstado;
-                body.classList.remove('icons-only', 'sidebar-hidden');
-                if (sideState === 1) body.classList.add('icons-only');
-                if (sideState === 2) body.classList.add('sidebar-hidden');
+        // ─── VERIFICAR LARGURA INICIAL ───
+        function ajustarSidebarInicial() {
+            if (window.innerWidth < 768) {
+                body.classList.add('icons-only');
+                sideState = 1;
                 applyTooltips();
+            } else {
+                body.classList.remove('icons-only');
+                sideState = 0;
             }
         }
 
-        let resizeTimeout;
-        function handleResize() {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            adjustSidebarForScreen();
-            window.addEventListener('resize', handleResize);
-        });
-
-        // Mantém o clique do botão para alternar manualmente
+        // ─── TOGGLE MANUAL (3 estados) ───
         document.getElementById('sidebarToggle').addEventListener('click', () => {
             sideState = (sideState + 1) % 3;
             body.classList.remove('icons-only', 'sidebar-hidden');
             if (sideState === 1) body.classList.add('icons-only');
             if (sideState === 2) body.classList.add('sidebar-hidden');
             applyTooltips();
+        });
+
+        // ─── AJUSTAR AO REDIMENSIONAR (opcional, para melhor experiência) ───
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Só ajusta automaticamente se o usuário não estiver em modo manual (sideState 0 ou 1)
+                // Para não interferir com o toggle manual, mantemos a lógica apenas no carregamento.
+                // Mas se quiser que o sidebar se adapte automaticamente ao redimensionar,
+                // pode descomentar a linha abaixo:
+                // ajustarSidebarInicial();
+            }, 200);
         });
 
         /* ══════════════════════════════════════
@@ -1777,131 +1523,226 @@
         }
 
         /* ══════════════════════════════════════
-           FILTROS (apenas front-end)
+           LOADING
         ══════════════════════════════════════ */
-        document.getElementById('btnFiltrar').addEventListener('click', function () {
-            const search = document.getElementById('searchTalhao').value.toLowerCase().trim();
-            const estado = document.getElementById('filterEstado').value;
-            const agricultorId = document.getElementById('filterAgricultor').value;
+        function showLoading(show = true) {
+            document.getElementById('loadingSpinner').classList.toggle('show', show);
+        }
 
-            const rows = document.querySelectorAll('#talhaoTableBody tr');
-            let visibleCount = 0;
+        function showLoadingCards(show = true) {
+            document.getElementById('loadingCards').style.display = show ? 'block' : 'none';
+        }
 
-            rows.forEach(row => {
-                const designacao = row.querySelector('td:nth-child(2) div div:first-child')?.textContent?.toLowerCase() || '';
-                const rowEstado = row.dataset.estado || '';
-                const rowAgricultor = row.dataset.agricultor || '';
+        /* ══════════════════════════════════════
+           CARREGAR COOPERATIVAS
+        ══════════════════════════════════════ */
+        let cooperativasData = [];
+        let vendasHoje = 0;
 
-                let show = true;
+        function loadCooperativas() {
+            showLoadingCards(true);
+            const grid = document.getElementById('cooperativasGrid');
+            const empty = document.getElementById('emptyState');
 
-                if (search && !designacao.includes(search)) show = false;
-                if (estado && rowEstado !== estado) show = false;
-                if (agricultorId && rowAgricultor !== agricultorId) show = false;
+            fetch(API_URL)
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        cooperativasData = data.data;
+                        vendasHoje = data.vendas_hoje || 0;
+                        renderCooperativas(cooperativasData);
+                        updateStats(cooperativasData, vendasHoje);
+                    } else {
+                        showToast('Erro', data.message || 'Falha ao carregar cooperativas.', 'danger');
+                        grid.innerHTML = '';
+                        empty.style.display = 'block';
+                    }
+                })
+                .catch(err => {
+                    console.error('Erro ao carregar cooperativas:', err);
+                    showToast('Erro', 'Falha ao carregar cooperativas.', 'danger');
+                    grid.innerHTML = '';
+                    empty.style.display = 'block';
+                })
+                .finally(() => {
+                    showLoadingCards(false);
+                });
+        }
 
-                row.style.display = show ? '' : 'none';
-                if (show) visibleCount++;
-            });
+        /* ══════════════════════════════════════
+           CARREGAR VENDAS DE HOJE (separado)
+        ══════════════════════════════════════ */
+        function loadVendasHoje() {
+            fetch('/vendas/hoje')
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('vendasHoje').textContent = data.total || 0;
+                    }
+                })
+                .catch(err => {
+                    console.error('Erro ao carregar vendas de hoje:', err);
+                });
+        }
 
-            // Atualizar contagem
-            const total = rows.length;
-            const info = document.getElementById('tableCount');
-            if (info) {
-                info.textContent = `Mostrando ${visibleCount} de ${total} talhões`;
+        /* ══════════════════════════════════════
+           RENDERIZAR CARDS
+        ══════════════════════════════════════ */
+        function renderCooperativas(cooperativas) {
+            const grid = document.getElementById('cooperativasGrid');
+            const empty = document.getElementById('emptyState');
+
+            if (!cooperativas || cooperativas.length === 0) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+                return;
             }
 
-            // Mostrar/ocultar mensagem vazia
-            const empty = document.querySelector('.empty-state-visible');
-            if (empty) empty.remove();
+            empty.style.display = 'none';
 
-            if (visibleCount === 0 && rows.length > 0) {
-                const emptyRow = document.createElement('tr');
-                emptyRow.className = 'empty-state-visible';
-                emptyRow.innerHTML = `
-          <td colspan="8" style="text-align:center;padding:40px;color:var(--text-light);">
-            <i class="bi bi-inbox" style="font-size:28px;display:block;margin-bottom:8px;"></i>
-            Nenhum talhão encontrado com os filtros aplicados.
-          </td>
-        `;
-                document.getElementById('talhaoTableBody').appendChild(emptyRow);
+            grid.innerHTML = cooperativas.map(coop => `
+                <div class="cooperativa-card anim" data-id="${coop.id}" data-nome="${coop.nome}" data-provincia="${coop.provincia}">
+                    <div class="card-header">
+                        <div class="card-logo" style="background:${coop.cor || '#2E7D32'};">
+                            ${coop.logo || 'CP'}
+                        </div>
+                        <div class="card-info">
+                            <div class="coop-nome">${coop.nome}</div>
+                            <div class="coop-local">
+                                <i class="bi bi-geo-alt-fill" style="font-size:12px;color:var(--text-light);"></i>
+                                ${coop.municipio || ''} ${coop.municipio && coop.provincia ? '·' : ''} ${coop.provincia || ''}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="produtos-info">
+                            <i class="bi bi-box-seam-fill"></i>
+                            <div>
+                                <div class="produtos-count">${coop.total_produtos || 0}</div>
+                                <div class="produtos-label">Produtos Disponíveis</div>
+                            </div>
+                        </div>
+                        ${coop.telefone ? `
+                            <div class="coop-contato">
+                                <i class="bi bi-telephone-fill"></i>
+                                ${coop.telefone}
+                            </div>
+                        ` : ''}
+                        ${coop.email ? `
+                            <div class="coop-contato">
+                                <i class="bi bi-envelope-fill"></i>
+                                ${coop.email}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="card-footer">
+                        <a href="/cooperativas/${coop.id}/vendas" class="btn-painel w-100">
+                            <i class="bi bi-cart-fill"></i> Painel de Venda
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* ══════════════════════════════════════
+           ATUALIZAR ESTATÍSTICAS
+        ══════════════════════════════════════ */
+        function updateStats(cooperativas, vendasHojeCount = 0) {
+            const total = cooperativas.length;
+            const totalProdutos = cooperativas.reduce((sum, c) => sum + (c.total_produtos || 0), 0);
+            const provincias = new Set(cooperativas.map(c => c.provincia).filter(Boolean));
+
+            document.getElementById('totalCooperativas').textContent = total;
+            document.getElementById('totalProdutos').textContent = totalProdutos;
+            document.getElementById('totalProvincias').textContent = provincias.size;
+            document.getElementById('vendasHoje').textContent = vendasHojeCount || 0;
+        }
+
+        /* ══════════════════════════════════════
+           FILTROS
+        ══════════════════════════════════════ */
+        function aplicarFiltros() {
+            const search = document.getElementById('searchCoop').value.toLowerCase().trim();
+            const provincia = document.getElementById('filterProvincia').value;
+
+            let filtered = cooperativasData;
+
+            if (search) {
+                filtered = filtered.filter(c =>
+                    c.nome.toLowerCase().includes(search) ||
+                    (c.municipio && c.municipio.toLowerCase().includes(search)) ||
+                    (c.provincia && c.provincia.toLowerCase().includes(search))
+                );
+            }
+
+            if (provincia) {
+                filtered = filtered.filter(c => c.provincia === provincia);
+            }
+
+            renderCooperativas(filtered);
+            updateStats(filtered, vendasHoje);
+        }
+
+        document.getElementById('btnFiltrar').addEventListener('click', aplicarFiltros);
+        document.getElementById('btnLimparFiltros').addEventListener('click', () => {
+            document.getElementById('searchCoop').value = '';
+            document.getElementById('filterProvincia').value = '';
+            renderCooperativas(cooperativasData);
+            updateStats(cooperativasData, vendasHoje);
+        });
+
+        document.getElementById('searchCoop').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                aplicarFiltros();
             }
         });
 
-        document.getElementById('btnLimparFiltros').addEventListener('click', function () {
-            document.getElementById('searchTalhao').value = '';
-            document.getElementById('filterEstado').value = '';
-            document.getElementById('filterAgricultor').value = '';
+        document.getElementById('filterProvincia').addEventListener('change', aplicarFiltros);
 
-            const rows = document.querySelectorAll('#talhaoTableBody tr');
-            rows.forEach(row => {
-                row.style.display = '';
-            });
+        /* ══════════════════════════════════════
+           REFRESH
+        ══════════════════════════════════════ */
+        document.getElementById('btnRefresh').addEventListener('click', () => {
+            loadCooperativas();
+            loadVendasHoje();
+            showToast('Atualizado', 'Lista de cooperativas atualizada.');
+        });
 
-            const info = document.getElementById('tableCount');
-            if (info) {
-                const total = document.querySelectorAll('#talhaoTableBody tr:not(.empty-state-visible)').length;
-                info.textContent = `Mostrando ${total} de ${total} talhões`;
+        /* ══════════════════════════════════════
+           ATUALIZAR EM TEMPO REAL
+        ══════════════════════════════════════ */
+        // Atualizar vendas de hoje a cada 30 segundos
+        setInterval(() => {
+            if (!document.hidden) {
+                loadVendasHoje();
             }
+        }, 30000);
 
-            const empty = document.querySelector('.empty-state-visible');
-            if (empty) empty.remove();
-        });
+        // Função para ser chamada de outros módulos após uma venda
+        function atualizarDashboardVendas() {
+            loadVendasHoje();
+            loadCooperativas();
+        }
 
-        /* ══════════════════════════════════════
-           TALHÃO — botão ver (visualizar)
-        ══════════════════════════════════════ */
-        document.addEventListener('click', function (e) {
-            const btn = e.target.closest('.btn-ver-talhao');
-            if (!btn) return;
-
-            document.getElementById('verTalhaoDesignacao').textContent = btn.dataset.designacao || '—';
-            document.getElementById('verTalhaoDesignacao2').textContent = btn.dataset.designacao || '—';
-            document.getElementById('verTalhaoId').textContent = btn.dataset.id || '—';
-            document.getElementById('verTalhaoAgricultor').textContent = btn.dataset.agricultor || '—';
-            document.getElementById('verTalhaoArea').textContent = btn.dataset.area ? Number(btn.dataset.area).toFixed(1) + ' ha' : '—';
-            document.getElementById('verTalhaoCultura').textContent = btn.dataset.cultura || '—';
-            document.getElementById('verTalhaoLocalizacao').textContent = btn.dataset.localizacao || '—';
-
-            const estadoMap = {
-                'em_cultivo': 'Em Cultivo',
-                'pousio': 'Pousio',
-                'preparacao': 'Preparação',
-                'inactivo': 'Inactivo'
-            };
-
-            document.getElementById('verTalhaoEstado').textContent = estadoMap[btn.dataset.estado] || btn.dataset.estado || '—';
-
-            const modalEl = document.getElementById('modalVerTalhao');
-            const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
-            modalInstance.show();
-        });
+        // Expor função globalmente para ser chamada de outros scripts
+        window.atualizarDashboardVendas = atualizarDashboardVendas;
 
         /* ══════════════════════════════════════
-           SELECT ALL CHECKBOXES
+           INICIALIZAÇÃO
         ══════════════════════════════════════ */
-        document.getElementById('selectAll').addEventListener('change', function () {
-            document.querySelectorAll('.row-check').forEach(cb => cb.checked = this.checked);
-        });
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Ajustar sidebar para modo ícone se necessário
+            ajustarSidebarInicial();
 
-        /* ══════════════════════════════════════
-           EXPORTAR
-        ══════════════════════════════════════ */
-        document.getElementById('btnExportar').addEventListener('click', () => {
-            showToast('A exportar…', 'O ficheiro será gerado e descarregado em breve.');
-        });
-
-        /* ══════════════════════════════════════
-           PESQUISA EM TEMPO REAL (filtro por digitação)
-        ══════════════════════════════════════ */
-        document.getElementById('searchTalhao').addEventListener('input', function () {
-            document.getElementById('btnFiltrar').click();
-        });
-
-        document.getElementById('filterEstado').addEventListener('change', function () {
-            document.getElementById('btnFiltrar').click();
-        });
-
-        document.getElementById('filterAgricultor').addEventListener('change', function () {
-            document.getElementById('btnFiltrar').click();
+            // 2. Carregar dados
+            loadCooperativas();
+            loadVendasHoje();
         });
     </script>
 

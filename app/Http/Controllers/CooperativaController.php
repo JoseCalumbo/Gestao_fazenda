@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CooperativaController extends Controller
 {
+
     public function index(Request $request)
     {
         // 1. Contagens de apoio e estatísticas para os cartões (Fixas)
@@ -73,7 +74,7 @@ class CooperativaController extends Controller
             ->appends($request->all());
 
         // Retorna tudo certinho para o Blade
-        return view('cooperativas.cooperativas', compact(
+        return view('cooperativas.cooperativas3', compact(
             'cooperativas',
             'totalInactivas',
             'totalPendentes',
@@ -150,7 +151,7 @@ class CooperativaController extends Controller
             'nif' => 'required|string|max:50|unique:cooperativas,nif',
             'provincia' => 'required|string|max:255',
             'municipio' => 'required|string|max:255',
-            'estado' => 'required|in:activa,inactiva,Activo,Inactivo,ACTIVO,INACTIVA,activo',
+            'estado' => 'nullable|in:Activa,Inactiva,Pendente,activa,inactiva,pendente',
             'foto' => 'nullable|image|max:2048',
             'agricultores' => 'nullable|array',
             'cargos' => 'nullable|array',
@@ -236,7 +237,7 @@ class CooperativaController extends Controller
             'safra' => 'nullable|string|max:100',
             'inicio_safra' => 'nullable|date',
             'fim_previsto_safra' => 'nullable|date',
-            'estado' => 'required|in:activa,inactiva,Activo,Inactivo,pendente,Pendente,activo',
+            'estado' => 'required|in:activa,inactiva,Activa,Inactiva,pendente,Pendente,activo',
             'foto' => 'nullable|image|max:2048',
             'agricultores' => 'nullable|array',
             'cargos' => 'nullable|array',
@@ -543,5 +544,19 @@ class CooperativaController extends Controller
 
         // 3. Fazer o download automático do ficheiro
         return $pdf->download('relatorio-cooperativas.pdf');
+    }
+
+
+    /**
+     * Gera e baixa o PDF da ficha da cooperativa.
+     */
+    public function pdf($id)
+    {
+        $cooperativa = Cooperativa::with('agricultores')->findOrFail($id);
+
+        $pdf = Pdf::loadView('cooperativas.pdfItem', compact('cooperativa'));
+        $pdf->setPaper('a4', 'portrait');
+
+        return $pdf->download('ficha_cooperativa_' . $cooperativa->id . '.pdf');
     }
 }

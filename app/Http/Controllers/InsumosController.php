@@ -129,21 +129,6 @@ class InsumosController extends Controller
 
 
 
-
-
-    // public function estoqueCooperativa($id)
-    // {
-    //     // Filtra pelo id da cooperativa e traz os insumos mais recentes com paginação
-    //     $insumos = Insumo::where('cooperativa_id', $id)
-    //         ->latest()
-    //         ->paginate(10);
-
-    //      $totalInsumos = Insumo::where('cooperativa_id', $id)->count();
-
-
-    //     return view('estoque.insumos', compact('insumos', 'id','totalInsumos'));
-    // }
-
 public function estoqueCooperativa($id)
 {
     $insumos = Insumo::where('cooperativa_id', $id)

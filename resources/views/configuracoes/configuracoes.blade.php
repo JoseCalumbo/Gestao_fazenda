@@ -1760,35 +1760,22 @@
           class="nav-label">Safras</span></a>
       <a href="{{route('talhoes.index')}}" class="nav-item-link" data-label="Talhões"><i class="bi bi-map-fill"></i><span
           class="nav-label">Talhões</span></a>
-      <a href="#" class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
+      <a href="{{route('insumos.index')}}"  class="nav-item-link" data-label="Insumos"><i class="bi bi-box-seam-fill"></i><span
           class="nav-label">Insumos</span></a>
 
-      <div class="nav-section-title">Financeiro</div>
-      <a href="#" class="nav-item-link" data-label="Contas a Pagar"><i class="bi bi-arrow-down-circle-fill"></i><span
-          class="nav-label">Contas a Pagar</span></a>
-      <a href="#" class="nav-item-link" data-label="Contas a Receber"><i class="bi bi-arrow-up-circle-fill"></i><span
-          class="nav-label">Contas a Receber</span></a>
-      <a href="#" class="nav-item-link" data-label="Fluxo de Caixa"><i class="bi bi-cash-stack"></i><span
-          class="nav-label">Fluxo de Caixa</span></a>
-
       <div class="nav-section-title">Comercial</div>
-      <a href="#" class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
+      <a  href="{{route('vendas')}}"  class="nav-item-link" data-label="Vendas"><i class="bi bi-cart-fill"></i><span
           class="nav-label">Vendas</span></a>
-      <a href="#" class="nav-item-link" data-label="Contratos"><i class="bi bi-file-earmark-text-fill"></i><span
-          class="nav-label">Contratos</span></a>
 
       <div class="nav-section-title">Sistema</div>
-      <a href="#" class="nav-item-link" data-label="Relatórios"><i class="bi bi-bar-chart-fill"></i><span
-          class="nav-label">Relatórios</span></a>
       <a href="#" class="nav-item-link active" data-label="Configurações"><i class="bi bi-gear-fill"></i><span
           class="nav-label">Configurações</span></a>
     </div>
 
     <div class="sidebar-user">
-      <div class="avatar"><i class="bi bi-person-fill"></i></div>
       <div class="user-info">
-        <div class="u-name">Admin SIAG</div>
-        <div class="u-role">Gestor · Viana</div>
+        <div class="u-name">SIAG</div>
+        <div class="u-role">Sistema de Gestão de cooperativa @ 2026</div>
       </div>
     </div>
   </nav>
@@ -1808,16 +1795,6 @@
       </ol>
     </nav>
     <div class="topbar-right">
-      <span class="badge rounded-pill d-none d-md-inline-flex align-items-center gap-1"
-        style="background:var(--accent-lt);color:var(--primary);font-size:12px;padding:7px 13px;font-weight:600;">
-        <i class="bi bi-calendar3"></i> Safra 2024/25
-      </span>
-      <button class="topbar-icon-btn" title="Notificações">
-        <i class="bi bi-bell-fill"></i><span class="notif-badge"></span>
-      </button>
-      <button class="topbar-icon-btn" title="Mensagens">
-        <i class="bi bi-chat-dots-fill"></i>
-      </button>
 
       <div class="dropdown d-none d-sm-flex">
         <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
@@ -1835,7 +1812,7 @@
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="#"><i class="bi bi-person-gear"></i> Minha Conta</a></li>
+        
           <li>
             <a class="dropdown-item" href="#" id="themeToggle">
               <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
@@ -1871,9 +1848,11 @@
           <h1>Configurações do Sistema</h1>
           <p>Gerencie as preferências, utilizadores e parâmetros do SIAG</p>
         </div>
-        <button class="btn-green" id="btnSalvarGlobal">
+
+        {{-- <button class="btn-green" id="btnSalvarGlobal">
           <i class="bi bi-check2-circle"></i> Guardar Alterações
-        </button>
+        </button> --}}
+
       </div>
 
       <!-- Settings Layout -->
@@ -1884,12 +1863,15 @@
           <button class="settings-nav-item active" data-tab="aparencia">
             <i class="bi bi-palette-fill"></i> Aparência
           </button>
-          <button class="settings-nav-item" data-tab="notificacoes">
+
+          {{-- <button class="settings-nav-item" data-tab="notificacoes">
             <i class="bi bi-bell-fill"></i> Notificações
-          </button>
-          <button class="settings-nav-item" data-tab="seguranca">
+          </button> --}}
+
+          {{-- <button class="settings-nav-item" data-tab="seguranca">
             <i class="bi bi-shield-lock-fill"></i> Segurança
-          </button>
+          </button> --}}
+
           <div class="settings-nav-divider"></div>
           <button class="settings-nav-item" data-tab="utilizadores">
             <i class="bi bi-people-fill"></i> Utilizadores
@@ -1899,7 +1881,7 @@
           </button>
           <div class="settings-nav-divider"></div>
           <button class="settings-nav-item" data-tab="empresa">
-            <i class="bi bi-pc-display-horizontal"></i> Sistema
+            <i class="bi bi-flower2"></i> Ano Agrícola
           </button>
         </nav>
 
@@ -1925,6 +1907,7 @@
               <div class="cfg-card-body">
                 <div class="row g-3">
                   <div class="col-4">
+
                     <div class="theme-option selected" data-theme="claro">
                       <div class="theme-preview" style="background:#F4F6F4;">
                         <div
@@ -1943,6 +1926,7 @@
                       <div class="theme-label">Claro</div>
                     </div>
                   </div>
+
                   <div class="col-4">
                     <div class="theme-option" data-theme="escuro">
                       <div class="theme-preview" style="background:#141d15;">
@@ -1959,10 +1943,12 @@
                           </div>
                         </div>
                       </div>
+
                       <div class="theme-label">Escuro</div>
                     </div>
                   </div>
-                  <div class="col-4">
+
+                  {{-- <div class="col-4">
                     <div class="theme-option" data-theme="sistema">
                       <div class="theme-preview" style="background:linear-gradient(135deg,#F4F6F4 50%,#141d15 50%);">
                         <div
@@ -1978,7 +1964,8 @@
                       </div>
                       <div class="theme-label">Sistema</div>
                     </div>
-                  </div>
+                  </div> --}}
+
                 </div>
               </div>
             </div>
@@ -2003,15 +1990,12 @@
                   <div class="color-swatch" style="background:#E65100;" title="Laranja" data-color="#E65100"></div>
                   <div class="color-swatch" style="background:#00695C;" title="Verde Azulado" data-color="#00695C">
                   </div>
-                  <div class="color-swatch" style="background:#C62828;" title="Vermelho" data-color="#C62828"></div>
-                  <div class="color-swatch" style="background:#F57F17;" title="Âmbar" data-color="#F57F17"></div>
-                  <div class="color-swatch" style="background:#37474F;" title="Cinzento" data-color="#37474F"></div>
                 </div>
               </div>
             </div>
 
             <!-- Tipografia & Densidade -->
-            <div class="cfg-card anim anim-d2">
+            {{-- <div class="cfg-card anim anim-d2">
               <div class="cfg-card-header">
                 <div class="cfg-card-header-left">
                   <div class="cfg-card-icon blue"><i class="bi bi-fonts"></i></div>
@@ -2064,10 +2048,10 @@
                       id="densityLabel">Normal</span><span>Espaçosa</span></div>
                 </div>
               </div>
-            </div>
+            </div> --}}
 
             <!-- Sidebar -->
-            <div class="cfg-card anim anim-d3">
+            {{-- <div class="cfg-card anim anim-d3">
               <div class="cfg-card-header">
                 <div class="cfg-card-header-left">
                   <div class="cfg-card-icon green"><i class="bi bi-layout-sidebar-fill"></i></div>
@@ -2103,7 +2087,8 @@
                       class="toggle-slider"></span></label>
                 </div>
               </div>
-            </div>
+            </div> --}}
+
           </div>
           <!-- /TAB APARÊNCIA -->
 
@@ -2111,7 +2096,7 @@
           <!-- ════════════════════════════
              TAB 2 — NOTIFICAÇÕES
         ════════════════════════════ -->
-          <div class="settings-panel" id="tab-notificacoes">
+          {{-- <div class="settings-panel" id="tab-notificacoes">
 
             <!-- Canais -->
             <div class="cfg-card anim">
@@ -2292,7 +2277,7 @@
               </div>
             </div>
           </div>
-          <!-- /TAB NOTIFICAÇÕES -->
+          <!-- /TAB NOTIFICAÇÕES --> --}}
 
 
           <!-- ════════════════════════════
@@ -2814,7 +2799,7 @@
           <div class="settings-panel" id="tab-empresa">
 
             <!-- Identidade do Sistema SIAG -->
-            <div class="cfg-card anim">
+            {{-- <div class="cfg-card anim">
               <div class="cfg-card-header">
                 <div class="cfg-card-header-left">
                   <div class="cfg-card-icon green"><i class="bi bi-pc-display-horizontal"></i></div>
@@ -2856,10 +2841,10 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
 
             <!-- Parâmetros Globais -->
-            <div class="cfg-card anim anim-d1">
+            {{-- <div class="cfg-card anim anim-d1">
               <div class="cfg-card-header">
                 <div class="cfg-card-header-left">
                   <div class="cfg-card-icon teal"><i class="bi bi-sliders"></i></div>
@@ -2916,7 +2901,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
 
             <!-- Ano Agrícola -->
             <div class="cfg-card anim anim-d2">
@@ -3032,7 +3017,7 @@
             </div>
 
             <!-- Zona de Perigo -->
-            <div class="cfg-card anim anim-d3" style="border-color:#FFCDD2;">
+            {{-- <div class="cfg-card anim anim-d3" style="border-color:#FFCDD2;">
               <div class="cfg-card-header"
                 style="border-bottom-color:#FFCDD2;background:#FFF8F8;border-radius:16px 16px 0 0;">
                 <div class="cfg-card-header-left">
@@ -3075,7 +3060,8 @@
                   </button>
                 </div>
               </div>
-            </div>
+            </div> --}}
+
           </div>
           <!-- /TAB SISTEMA -->
 
@@ -3520,9 +3506,6 @@
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    document.getElementById('btnSalvarGlobal').addEventListener('click', () => {
-      showToast('Configurações guardadas', 'As alterações foram aplicadas com sucesso.');
-    });
 
     /* ══════════════════════════════════════
        TESTAR E-MAIL

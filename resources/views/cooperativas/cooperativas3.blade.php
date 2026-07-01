@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -2773,7 +2772,15 @@
        SIDEBAR TOGGLE (3 estados) + RESPONSIVO
     ══════════════════════════════════════ */
     const body = document.body;
-    let sideState = 0; // 0 = normal, 1 = icons-only, 2 = hidden
+
+    // ─── ESTADO INICIAL JÁ CALCULADO ANTES DE QUALQUER RENDER ───
+    // Evita o "flash" em que o sidebar aparece normal e só depois muda
+    // para icons-only: o estado é definido e a classe aplicada de imediato,
+    // assim que este script corre (o body já existe nesta altura).
+    let sideState = window.innerWidth < 760 ? 1 : 0; // 0 = normal, 1 = icons-only, 2 = hidden
+    body.classList.remove('icons-only', 'sidebar-hidden');
+    if (sideState === 1) body.classList.add('icons-only');
+    if (sideState === 2) body.classList.add('sidebar-hidden');
 
     function applyTooltips() {
       document.querySelectorAll('.nav-item-link').forEach(el => {
@@ -2792,16 +2799,10 @@
       }
     }
 
-    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA ───
+    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA (resize) ───
     function adjustSidebarForScreen() {
       const width = window.innerWidth;
-      let novoEstado = 0;
-
-      if (width < 768) {
-        novoEstado = 1; // icons-only
-      } else {
-        novoEstado = 0; // normal
-      }
+      let novoEstado = (width < 760) ? 1 : 0; // < 760 → icons-only · ≥ 760 → normal
 
       // Só atualiza se o estado for diferente do atual para evitar loops
       if (novoEstado !== sideState) {
@@ -2821,9 +2822,10 @@
       resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
     }
 
-    // Executa ao carregar e ao redimensionar
+    // Ao carregar, apenas activa os tooltips (se aplicável) e liga o listener
+    // de resize — o estado inicial já foi aplicado acima, sem espera pelo DOMContentLoaded.
     document.addEventListener('DOMContentLoaded', () => {
-      adjustSidebarForScreen();
+      applyTooltips();
       window.addEventListener('resize', handleResize);
     });
 
