@@ -42,6 +42,14 @@
       padding: 0;
     }
 
+    /* Suprime TODAS as transições enquanto a página está a carregar,
+       para que o estado inicial da sidebar (icons-only em ecrãs < 760px)
+       apareça directamente, sem qualquer animação/flash visível. */
+    body.no-transition,
+    body.no-transition * {
+      transition: none !important;
+    }
+
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--page-bg);
@@ -1641,6 +1649,27 @@
         max-width: 100%;
         margin: 10px;
       }
+
+      /* ─── FORÇAR CARDS ESTATÍSTICOS EM COLUNA ÚNICA ─── */
+      .row.g-3.mb-4 {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .row.g-3.mb-4 .col-6 {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+
+      .stat-card {
+        padding: 16px 18px;
+      }
+
+      .stat-info .s-value {
+        font-size: 18px;
+      }
     }
 
     /* Toast */
@@ -1829,6 +1858,16 @@
 </head>
 
 <body>
+  <!-- ─── ESTADO INICIAL DA SIDEBAR — aplicado ANTES de qualquer pintura ─── -->
+  <script>
+    (function() {
+      var isMobile = window.innerWidth < 760;
+      document.body.classList.add('no-transition');
+      if (isMobile) {
+        document.body.classList.add('icons-only');
+      }
+    })();
+  </script>
 
   <!-- ══════════════════════════════════════
      SIDEBAR
@@ -2075,10 +2114,6 @@
           <button class="settings-nav-item" data-tab="produtos">
             <i class="bi bi-basket-fill"></i> Produtos <span class="nav-count">0</span>
           </button>
-{{-- 
-          <button class="settings-nav-item" data-tab="receitas">
-            <i class="bi bi-cash-coin"></i> Receitas <span class="nav-count">38</span>
-          </button> --}}
 
           <button class="settings-nav-item" data-tab="vendas">
             <i class="bi bi-cart-fill"></i> Vendas <span class="nav-count">{{ $totalRegistroVenda ?? 0 }}</span>
@@ -3284,10 +3319,17 @@
 ══════════════════════════════════════ -->
   <script>
     /* ══════════════════════════════════════
-       SIDEBAR TOGGLE (3 estados)
+       SIDEBAR TOGGLE (3 estados) + RESPONSIVO
     ══════════════════════════════════════ */
     const body = document.body;
-    let sideState = 0;
+
+    // ─── ESTADO INICIAL ───
+    // A classe icons-only (quando aplicável) já foi aplicada por um script
+    // síncrono logo a seguir à tag <body>, antes de qualquer pintura.
+    // Aqui apenas sincronizamos a variável de estado com o que já está no DOM.
+    let sideState = body.classList.contains('icons-only') ? 1
+      : body.classList.contains('sidebar-hidden') ? 2
+      : 0;
 
     function applyTooltips() {
       document.querySelectorAll('.nav-item-link').forEach(el => {
@@ -3306,6 +3348,44 @@
       }
     }
 
+    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA (resize) ───
+    function adjustSidebarForScreen() {
+      const width = window.innerWidth;
+      let novoEstado = (width < 760) ? 1 : 0; // < 760 → icons-only · ≥ 760 → normal
+
+      // Só atualiza se o estado for diferente do atual para evitar loops
+      if (novoEstado !== sideState) {
+        sideState = novoEstado;
+        body.classList.remove('icons-only', 'sidebar-hidden');
+        if (sideState === 1) body.classList.add('icons-only');
+        if (sideState === 2) body.classList.add('sidebar-hidden');
+        applyTooltips();
+      }
+    }
+
+    // Debounce para evitar chamadas excessivas no redimensionamento
+    let resizeTimeout;
+
+    function handleResize() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
+    }
+
+    // Ao carregar: activa os tooltips (se aplicável), liga o listener de
+    // resize e só depois "liberta" as transições, para que o estado
+    // inicial não seja animado mas as interacções seguintes sim.
+    document.addEventListener('DOMContentLoaded', () => {
+      applyTooltips();
+      window.addEventListener('resize', handleResize);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          body.classList.remove('no-transition');
+        });
+      });
+    });
+
+    // Mantém o clique do botão para alternar manualmente
     document.getElementById('sidebarToggle').addEventListener('click', () => {
       sideState = (sideState + 1) % 3;
       body.classList.remove('icons-only', 'sidebar-hidden');
@@ -3374,7 +3454,6 @@
         else if (tab === 'talhoes') carregarTalhoes();
         else if (tab === 'insumos') carregarInsumos();
         else if (tab === 'produtos') carregarProdutos();
-       // else if (tab === 'receitas') carregarReceitas();
         else if (tab === 'vendas') carregarVendas();
       });
     });
@@ -3598,7 +3677,6 @@
           console.error(err);
         });
     });
-
 
 
 

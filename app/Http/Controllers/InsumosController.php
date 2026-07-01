@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoricoEstoque;
 use App\Models\Insumo;
 use Illuminate\Http\Request;
 
@@ -127,38 +128,35 @@ class InsumosController extends Controller
         ], 200);
     }
 
+    public function estoqueCooperativa($id)
+    {
+        $insumos = Insumo::where('cooperativa_id', $id)
+            ->latest()
+            ->paginate(10);
 
+        $totalInsumos = Insumo::where('cooperativa_id', $id)->count();
 
-public function estoqueCooperativa($id)
-{
-    $insumos = Insumo::where('cooperativa_id', $id)
-        ->latest()
-        ->paginate(10);
+        $totalSementes = Insumo::where('cooperativa_id', $id)
+            ->where('tipo', 'semente')
+            ->count();
 
-    $totalInsumos = Insumo::where('cooperativa_id', $id)->count();
+        $totalFertilizantes = Insumo::where('cooperativa_id', $id)
+            ->where('tipo', 'fertilizante')
+            ->count();
 
-    $totalSementes = Insumo::where('cooperativa_id', $id)
-        ->where('tipo', 'semente')
-        ->count();
+        $totalMecanicos = Insumo::where('cooperativa_id', $id)
+            ->where('tipo', 'mecanico')
+            ->count();
 
-    $totalFertilizantes = Insumo::where('cooperativa_id', $id)
-        ->where('tipo', 'fertilizante')
-        ->count();
-
-    $totalMecanicos = Insumo::where('cooperativa_id', $id)
-        ->where('tipo', 'mecanico')
-        ->count();
-
-    return view('estoque.insumos', compact(
-        'insumos',
-        'id',
-        'totalInsumos',
-        'totalSementes',
-        'totalFertilizantes',
-        'totalMecanicos'
-    ));
-}
-
+        return view('estoque.insumos', compact(
+            'insumos',
+            'id',
+            'totalInsumos',
+            'totalSementes',
+            'totalFertilizantes',
+            'totalMecanicos'
+        ));
+    }
 
     public function store(Request $request)
     {
@@ -185,17 +183,17 @@ public function estoqueCooperativa($id)
 
         $insumo->save();
 
-        \App\Models\HistoricoEstoque::create([
+        HistoricoEstoque::create([
             'cooperativa_id' => $insumo->cooperativa_id,
-            'insumo_id'      => $insumo->id,
-            'agricultor_id'  => null, // Sem agricultor no cadastro inicial
-            'movimento_id'   => null, // Sem movimento de distribuição associado
+            'insumo_id' => $insumo->id,
+            'agricultor_id' => null, // Sem agricultor no cadastro inicial
+            'movimento_id' => null, // Sem movimento de distribuição associado
             'tipo_movimento' => 'Entrada', // Registrado como entrada/balanço inicial
-            'quantidade'     => $request->quantidade,
+            'quantidade' => $request->quantidade,
             'stock_anterior' => 0,
-            'stock_atual'    => $request->quantidade,
-            'utilizador'     => auth()->user()->name ?? 'Sistema',
-            'observacao'     => "Cadastro inicial do insumo no sistema com estoque zerado."
+            'stock_atual' => $request->quantidade,
+            'utilizador' => auth()->user()->name ?? 'Sistema',
+            'observacao' => 'Cadastro inicial do insumo no sistema com estoque zerado.',
         ]);
 
         return response()->json([
@@ -203,7 +201,6 @@ public function estoqueCooperativa($id)
             'insumo' => $insumo,
         ], 201);
     }
-
 
     public function update(Request $request, $id)
     {
@@ -217,7 +214,7 @@ public function estoqueCooperativa($id)
         ]);
 
         $insumo = Insumo::findOrFail($id);
-        
+
         // Guarda o stock atual do insumo antes de salvar para a auditoria
         $stockAtual = $insumo->quantidade;
 
@@ -231,17 +228,17 @@ public function estoqueCooperativa($id)
         $insumo->save();
 
         // ─── HISTÓRICO DE ESTOQUE (ATUALIZAÇÃO DE DADOS) ───
-        \App\Models\HistoricoEstoque::create([
+        HistoricoEstoque::create([
             'cooperativa_id' => $insumo->cooperativa_id,
-            'insumo_id'      => $insumo->id,
-            'agricultor_id'  => null,
-            'movimento_id'   => null,
+            'insumo_id' => $insumo->id,
+            'agricultor_id' => null,
+            'movimento_id' => null,
             'tipo_movimento' => 'Atualização', // Define o tipo como atualização cadastral
-            'quantidade'     => 0,             // Nenhuma quantidade foi fisicamente movida
+            'quantidade' => 0,             // Nenhuma quantidade foi fisicamente movida
             'stock_anterior' => $stockAtual,
-            'stock_atual'    => $stockAtual,   // O stock permanece idêntico
-            'utilizador'     => auth()->user()->name ?? 'Sistema',
-            'observacao'     => "Dados cadastrais do insumo atualizados no sistema."
+            'stock_atual' => $stockAtual,   // O stock permanece idêntico
+            'utilizador' => auth()->user()->name ?? 'Sistema',
+            'observacao' => 'Dados cadastrais do insumo atualizados no sistema.',
         ]);
 
         return response()->json([
@@ -250,7 +247,6 @@ public function estoqueCooperativa($id)
         ], 200);
     }
 
-
     public function destroy($id)
     {
         try {
@@ -258,17 +254,17 @@ public function estoqueCooperativa($id)
 
             // ─── HISTÓRICO DE ESTOQUE (REGISTO DE REMOÇÃO) ───
             // Criamos o registo antes do delete() para capturar os dados do insumo
-            \App\Models\HistoricoEstoque::create([
+            HistoricoEstoque::create([
                 'cooperativa_id' => $insumo->cooperativa_id,
-                'insumo_id'      => $insumo->id,
-                'agricultor_id'  => null,
-                'movimento_id'   => null,
+                'insumo_id' => $insumo->id,
+                'agricultor_id' => null,
+                'movimento_id' => null,
                 'tipo_movimento' => 'Remoção', // Identifica que o produto foi apagado
-                'quantidade'     => 0,
+                'quantidade' => 0,
                 'stock_anterior' => $insumo->quantidade,
-                'stock_atual'    => 0, // O stock deixa de existir no sistema
-                'utilizador'     => auth()->user()->name ?? 'Sistema',
-                'observacao'     => "Insumo '{$insumo->nome}' removido do sistema com saldo final de {$insumo->quantidade}."
+                'stock_atual' => 0, // O stock deixa de existir no sistema
+                'utilizador' => auth()->user()->name ?? 'Sistema',
+                'observacao' => "Insumo '{$insumo->nome}' removido do sistema com saldo final de {$insumo->quantidade}.",
             ]);
 
             // Agora sim, remove o registo de forma definitiva
@@ -281,10 +277,11 @@ public function estoqueCooperativa($id)
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Ocorreu um erro ao tentar eliminar o insumo da base de dados.',
-                'error'   => $e->getMessage() // Opcional: ajuda a debugar se algo falhar
+                'error' => $e->getMessage(), // Opcional: ajuda a debugar se algo falhar
             ], 500);
         }
     }
+
     // ── ENTRADA DE STOCK ──
     public function registrarEntrada(Request $request, $cooperativa_id)
     {
@@ -342,25 +339,19 @@ public function estoqueCooperativa($id)
         ]);
     }
 
-
-
-    
     public function historicoPorAgricultor($cooperativaId, $agricultorId)
-{
-    // 1. Procura os insumos associados ou mantém a listagem padrão da cooperativa
-    $insumos = \App\Models\Insumo::where('cooperativa_id', $cooperativaId)->paginate(10);
+    {
+        // 1. Procura os insumos associados ou mantém a listagem padrão da cooperativa
+        $insumos = Insumo::where('cooperativa_id', $cooperativaId)->paginate(10);
 
-    // 2. FILTRO ESTRITO: Puxa apenas o histórico onde o agricultor_id corresponde ao selecionado
-    $historicos = \App\Models\HistoricoEstoque::with(['insumo', 'agricultor'])
-        ->where('cooperativa_id', $cooperativaId)
-        ->where('agricultor_id', $agricultorId) // <-- Filtra apenas este agricultor
-        ->orderBy('created_at', 'desc')
-        ->get();
+        // 2. FILTRO ESTRITO: Puxa apenas o histórico onde o agricultor_id corresponde ao selecionado
+        $historicos = HistoricoEstoque::with(['insumo', 'agricultor'])
+            ->where('cooperativa_id', $cooperativaId)
+            ->where('agricultor_id', $agricultorId) // <-- Filtra apenas este agricultor
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-    // 3. Envia para a View
-    return view('cooperativas.insumos', compact('insumos', 'historicos'));
-}
-
-   
-
+        // 3. Envia para a View
+        return view('cooperativas.insumos', compact('insumos', 'historicos'));
+    }
 }
