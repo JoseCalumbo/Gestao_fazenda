@@ -47,9 +47,6 @@
       padding: 0;
     }
 
-    /* Suprime TODAS as transições enquanto a página está a carregar,
-       para que o estado inicial da sidebar (icons-only em ecrãs < 760px)
-       apareça directamente, sem qualquer animação/flash visível. */
     body.no-transition,
     body.no-transition * {
       transition: none !important;
@@ -63,7 +60,6 @@
       overflow-x: hidden;
     }
 
-    /* ── SIDEBAR ─────────────────────────────── */
     #sidebar {
       position: fixed;
       top: 0;
@@ -110,7 +106,6 @@
       overflow: hidden;
     }
 
-    /* nav items */
     .sidebar-nav {
       flex: 1;
       padding: 12px 0;
@@ -121,21 +116,16 @@
     .sidebar-nav::-webkit-scrollbar {
       width: 4px;
     }
-
     .sidebar-nav::-webkit-scrollbar-track {
       background: transparent;
     }
-
     .sidebar-nav::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, .18);
       border-radius: 10px;
     }
-
     .sidebar-nav::-webkit-scrollbar-thumb:hover {
       background: rgba(255, 255, 255, .35);
     }
-
-    /* Firefox */
     .sidebar-nav {
       scrollbar-width: thin;
       scrollbar-color: rgba(255, 255, 255, .18) transparent;
@@ -194,7 +184,6 @@
       overflow: hidden;
     }
 
-    /* centrar ícone quando sidebar está em modo só-ícones */
     body.icons-only .nav-item-link {
       justify-content: center;
       padding: 11px 0;
@@ -212,7 +201,6 @@
       box-shadow: 0 4px 14px rgba(102, 187, 106, .35);
     }
 
-    /* sidebar bottom / user */
     .sidebar-user {
       padding: 14px 10px;
       border-top: 1px solid rgba(255, 255, 255, .1);
@@ -267,7 +255,6 @@
       pointer-events: none;
     }
 
-    /* ── TOPBAR ──────────────────────────────── */
     #topbar {
       position: fixed;
       top: 0;
@@ -390,7 +377,6 @@
       color: var(--primary);
     }
 
-    /* ── MAIN CONTENT ────────────────────────── */
     #main {
       margin-left: var(--sidebar-w);
       padding-top: var(--topbar-h);
@@ -410,7 +396,6 @@
       padding: 28px;
     }
 
-    /* ── PAGE HEADER ─────────────────────────── */
     .page-header {
       display: flex;
       align-items: flex-start;
@@ -456,7 +441,6 @@
       transform: scale(.97);
     }
 
-    /* ── STAT CARDS ──────────────────────────── */
     .stat-card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -539,7 +523,6 @@
       color: #C62828;
     }
 
-    /* ── CHART CARDS ─────────────────────────── */
     .chart-card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -566,7 +549,6 @@
       color: var(--text-light);
     }
 
-    /* ── TABS ────────────────────────────────── */
     .area-tabs .nav-link {
       font-size: 13.5px;
       font-weight: 500;
@@ -583,7 +565,6 @@
       color: var(--primary);
     }
 
-    /* ── TABLE CARD ──────────────────────────── */
     .table-card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -655,7 +636,6 @@
       color: #C62828;
     }
 
-    /* ── QUICK ACTIONS ───────────────────────── */
     .quick-card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -686,7 +666,6 @@
       color: var(--text-mid);
     }
 
-    /* ── WEATHER MINI CARD ───────────────────── */
     .weather-card {
       background: linear-gradient(135deg, #2E7D32, #66BB6A);
       border-radius: 16px;
@@ -726,7 +705,6 @@
       gap: 5px;
     }
 
-    /* ── CALENDAR MINI ───────────────────────── */
     .calendar-card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -772,48 +750,19 @@
       color: var(--text-light);
     }
 
-    /* ── Animations ──────────────────────────── */
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .anim {
-      animation: fadeUp .45s ease both;
-    }
+    .anim { animation: fadeUp .45s ease both; }
+    .anim-d1 { animation-delay: .05s; }
+    .anim-d2 { animation-delay: .10s; }
+    .anim-d3 { animation-delay: .15s; }
+    .anim-d4 { animation-delay: .20s; }
+    .anim-d5 { animation-delay: .25s; }
+    .anim-d6 { animation-delay: .30s; }
 
-    .anim-d1 {
-      animation-delay: .05s;
-    }
-
-    .anim-d2 {
-      animation-delay: .10s;
-    }
-
-    .anim-d3 {
-      animation-delay: .15s;
-    }
-
-    .anim-d4 {
-      animation-delay: .20s;
-    }
-
-    .anim-d5 {
-      animation-delay: .25s;
-    }
-
-    .anim-d6 {
-      animation-delay: .30s;
-    }
-
-    /* ── BOOTSTRAP TOOLTIP CUSTOMIZADO ──────── */
     .sidebar-tooltip .tooltip-inner {
       background: #0f3d14;
       color: #fff;
@@ -828,7 +777,6 @@
       border-right-color: #0f3d14;
     }
 
-    /* ── DARK MODE ───────────────────────────── */
     body.dark-mode {
       --card-bg: #1e2a20;
       --page-bg: #141d15;
@@ -871,7 +819,6 @@
       color: #6a8a6e !important;
     }
 
-    /* ── TOPBAR USER DROPDOWN ────────────────── */
     .topbar-user {
       position: relative;
     }
@@ -978,11 +925,9 @@
       body.default #sidebar {
         width: 0;
       }
-
       body.default #main {
         margin-left: 0;
       }
-
       body.default #topbar {
         left: 0;
       }
@@ -991,7 +936,6 @@
         padding: 16px;
       }
 
-      /* ─── FORÇAR CARDS ESTATÍSTICOS EM COLUNA ÚNICA ─── */
       .row.g-3.mb-4 {
         display: flex;
         flex-direction: column;
@@ -1016,9 +960,9 @@
 </head>
 
 <body>
-  <!-- ─── ESTADO INICIAL DA SIDEBAR — aplicado ANTES de qualquer pintura ─── -->
+  <!-- ESTADO INICIAL DA SIDEBAR -->
   <script>
-    (function () {
+    (function() {
       var isMobile = window.innerWidth < 760;
       document.body.classList.add('no-transition');
       if (isMobile) {
@@ -1031,25 +975,18 @@
   <nav id="sidebar">
     <div class="sidebar-logo">
       <div class="logo-svg-wrap">
-
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" width="38" height="38" style="flex-shrink:0;">
           <circle cx="170" cy="170" r="145" fill="#66BB6A" />
           <g fill="#ffffff" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
             <circle cx="118" cy="188" r="48" fill="none" stroke-width="6" />
             <circle cx="118" cy="188" r="35" fill="none" stroke-width="4.5" />
             <circle cx="118" cy="188" r="16" fill="#ffffff" />
-            <path
-              d="M 118 135 L 118 144 M 118 232 L 118 241 M 65 188 L 74 188 M 162 188 L 171 188 M 81 151 L 88 157 M 155 219 L 162 225 M 81 225 L 88 219 M 155 151 L 162 157"
-              stroke-width="6" />
+            <path d="M 118 135 L 118 144 M 118 232 L 118 241 M 65 188 L 74 188 M 162 188 L 171 188 M 81 151 L 88 157 M 155 219 L 162 225 M 81 225 L 88 219 M 155 151 L 162 157" stroke-width="6" />
             <path d="M 68 185 C 68 140, 108 120, 160 128 C 171 132, 174 144, 174 151" fill="none" stroke-width="6" />
             <circle cx="231" cy="204" r="26" fill="none" stroke-width="5" />
             <circle cx="231" cy="204" r="10" fill="#ffffff" />
-            <path
-              d="M 231 174 L 231 180 M 231 228 L 231 234 M 201 204 L 207 204 M 255 204 L 261 204 M 210 183 L 214 187 M 248 221 L 252 225 M 210 225 L 214 221 M 248 183 L 252 187"
-              stroke-width="4" />
-            <path
-              d="M 117 125 L 117 105 C 117 102, 120 99, 125 99 L 176 99 C 181 99, 184 102, 185 107 L 202 157 L 176 157"
-              fill="none" stroke-width="6" />
+            <path d="M 231 174 L 231 180 M 231 228 L 231 234 M 201 204 L 207 204 M 255 204 L 261 204 M 210 183 L 214 187 M 248 221 L 252 225 M 210 225 L 214 221 M 248 183 L 252 187" stroke-width="4" />
+            <path d="M 117 125 L 117 105 C 117 102, 120 99, 125 99 L 176 99 C 181 99, 184 102, 185 107 L 202 157 L 176 157" fill="none" stroke-width="6" />
             <path d="M 144 99 L 144 128 L 187 128" fill="none" stroke-width="4" />
             <path d="M 176 99 L 188 128" fill="none" stroke-width="4" />
             <path d="M 174 151 L 246 156 C 252 156, 254 159, 254 165 L 254 197 L 202 197 Z" fill="#ffffff" />
@@ -1062,19 +999,15 @@
             <line x1="228" y1="170" x2="228" y2="188" stroke="#66BB6A" stroke-width="4" />
           </g>
         </svg>
-
       </div>
       <div class="logo-text-wrap" style="opacity:1;transition:opacity .2s;white-space:nowrap;">
-        <div
-          style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.1;">
-          SIAG</div>
+        <div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.1;">SIAG</div>
         <div style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.5px;">Agrícola Cooperativas</div>
       </div>
     </div>
 
     <div class="sidebar-nav">
       <div class="nav-section-title">Principal</div>
-
       <a href="#" class="nav-item-link active" data-label="Dashboard">
         <i class="bi bi-grid-1x2-fill"></i>
         <span class="nav-label">Dashboard</span>
@@ -1089,7 +1022,6 @@
       </a>
 
       <div class="nav-section-title">Agrícola</div>
-
       <a href="{{route('safras.painel')}}" class="nav-item-link" data-label="Safras">
         <i class="bi bi-flower2"></i>
         <span class="nav-label">Safras</span>
@@ -1104,14 +1036,12 @@
       </a>
 
       <div class="nav-section-title">Comercial</div>
-
       <a href="{{route('vendas')}}" class="nav-item-link" data-label="Vendas">
         <i class="bi bi-cart-fill"></i>
         <span class="nav-label">Vendas</span>
       </a>
 
       <div class="nav-section-title">Sistema</div>
-
       <a href="{{route('configuracoes')}}" class="nav-item-link" data-label="Configurações">
         <i class="bi bi-gear-fill"></i>
         <span class="nav-label">Configurações</span>
@@ -1131,10 +1061,7 @@
     <button class="topbar-toggle" id="sidebarToggle" title="Toggle Sidebar">
       <i class="bi bi-list"></i>
     </button>
-
     <span class="topbar-title">Dashboard</span>
-
-    <!-- breadcrumb -->
     <nav aria-label="breadcrumb" class="d-none d-md-flex ms-3">
       <ol class="breadcrumb mb-0" style="font-size:12.5px;">
         <li class="breadcrumb-item"><a href="#" style="color:var(--primary);text-decoration:none;">SIAG</a></li>
@@ -1143,8 +1070,6 @@
     </nav>
 
     <div class="topbar-right">
-      <!-- safra badge -->
-
       <div class="dropdown d-none d-sm-flex">
         <div class="topbar-user" data-bs-toggle="dropdown" data-bs-offset="0,4" role="button">
           <div class="t-avatar">
@@ -1152,25 +1077,19 @@
               src="{{ Auth::check() ? Auth::user()->foto_url : asset('uploads/users/default-user.png') }}"
               alt="Foto-perfil" width="20" class="avatar-md">
           </div>
-
-          <span> {{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
+          <span>{{ Auth::check() ? Auth::user()->name : 'Utilizador' }}</span>
           <i class="bi bi-chevron-down" style="font-size:11px;color:var(--primary);"></i>
         </div>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user">
-          <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-
+          <li><span class="dropdown-header"> Nível: {{ Auth::user()->nivel }}</span></li>
+          <li><hr class="dropdown-divider"></li>
           <li>
             <a class="dropdown-item" href="#" id="themeToggle">
               <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
               <span id="themeLabel">Modo Escuro</span>
             </a>
           </li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
+          <li><hr class="dropdown-divider"></li>
           <li>
             <div class="dropdown-item item-logout p-0">
               <form method="POST" action="/logout">
@@ -1181,7 +1100,6 @@
           </li>
         </ul>
       </div>
-
     </div>
   </header>
 
@@ -1200,19 +1118,13 @@
       <!-- area tabs -->
       <ul class="nav area-tabs mb-4 anim anim-d1">
         <li class="nav-item">
-          <a class="nav-link active" href="#">
-            <i class="bi bi-currency-dollar me-1"></i> Financeiro
-          </a>
+          <a class="nav-link active" href="#"><i class="bi bi-currency-dollar me-1"></i> Financeiro</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-shop me-1"></i> Comercial
-          </a>
+          <a class="nav-link" href="#"><i class="bi bi-shop me-1"></i> Comercial</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-tree me-1"></i> Agrícola
-          </a>
+          <a class="nav-link" href="#"><i class="bi bi-tree me-1"></i> Agrícola</a>
         </li>
       </ul>
 
@@ -1223,7 +1135,7 @@
             <div class="stat-icon green"><i class="bi bi-currency-dollar"></i></div>
             <div class="stat-info">
               <div class="s-label">Receita Total</div>
-              <div class="s-value"> {{ number_format($totalReceita, 2, ',', '.') }} Kz</div>
+              <div class="s-value">{{ number_format($totalReceita, 2, ',', '.') }} Kz</div>
               <span class="stat-badge up"><i class="bi bi-arrow-up"></i> 12.4%</span>
             </div>
           </div>
@@ -1233,7 +1145,7 @@
             <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Agricultores Activos</div>
-              <div class="s-value">{{ $agricultoresAtivos ?? 0}}</div>
+              <div class="s-value">{{ $agricultoresAtivos ?? 0 }}</div>
               <span class="stat-badge up"><i class="bi bi-arrow-up"></i> 2 novos</span>
             </div>
           </div>
@@ -1248,25 +1160,20 @@
             </div>
           </div>
         </div>
-
         <div class="col-6 col-xl-3">
           <div class="stat-card">
             <div class="stat-icon blue"><i class="bi bi-box-seam-fill"></i></div>
             <div class="stat-info">
               <div class="s-label">Valor em Insumos</div>
-              <div class="s-value">{{ number_format($totalInsumos, 1, ',', '.') }}Kz </div>
-              <span class="stat-badge up"><i class="bi bi-box"></i> {{ number_format($quantidadeInsumos, 0, ',', '.') }}
-                unidades</span>
+              <div class="s-value">{{ number_format($totalInsumos, 1, ',', '.') }} Kz</div>
+              <span class="stat-badge up"><i class="bi bi-box"></i> {{ number_format($quantidadeInsumos, 0, ',', '.') }} unidades</span>
             </div>
           </div>
         </div>
-
       </div>
 
       <!-- charts row -->
       <div class="row g-3 mb-4 anim anim-d3">
-
-        <!-- line chart -->
         <div class="col-12 col-lg-8">
           <div class="chart-card">
             <div class="chart-card-header">
@@ -1276,8 +1183,6 @@
             <div id="chart-cashflow"></div>
           </div>
         </div>
-
-        <!-- donut chart -->
         <div class="col-12 col-lg-4">
           <div class="chart-card">
             <div class="chart-card-header">
@@ -1287,7 +1192,6 @@
             <div id="chart-donut"></div>
           </div>
         </div>
-
       </div>
 
       <!-- bottom row -->
@@ -1298,7 +1202,6 @@
           <div class="table-card">
             <div class="table-card-header">
               <h5><i class="bi bi-receipt me-2" style="color:var(--primary)"></i>Últimas Transacções</h5>
-
             </div>
             <div class="table-responsive">
               <table class="table mb-0">
@@ -1307,81 +1210,31 @@
                     <th>Descrição</th>
                     <th>Agricultores</th>
                     <th>Valor</th>
-                    <th>Status</th>
+                    <th>Modalidade</th>
                   </tr>
                 </thead>
-                {{-- <tbody>
-                  <tr>
-                    <td><i class="bi bi-flower2 text-success me-1"></i> Sementes Milho</td>
-                    <td>João Ferreira</td>
-                    <td class="fw-600">Kz 120.000</td>
-                    <td><span class="badge-status pago">Pago</span></td>
-                  </tr>
-                  <tr>
-                    <td><i class="bi bi-droplet-fill text-primary me-1"></i> Fertilizantes</td>
-                    <td>Maria Silva</td>
-                    <td class="fw-600">Kz 85.400</td>
-                    <td><span class="badge-status pendente">Pendente</span></td>
-                  </tr>
-                  <tr>
-                    <td><i class="bi bi-truck-fill text-warning me-1"></i> Transporte</td>
-                    <td>António Costa</td>
-                    <td class="fw-600">Kz 45.000</td>
-                    <td><span class="badge-status pago">Pago</span></td>
-                  </tr>
-                  <tr>
-                    <td><i class="bi bi-bug-fill text-danger me-1"></i> Defensivos</td>
-                    <td>Rosa Neto</td>
-                    <td class="fw-600">Kz 62.800</td>
-                    <td><span class="badge-status atraso">Atraso</span></td>
-                  </tr>
-                  <tr>
-                    <td><i class="bi bi-gear-fill text-secondary me-1"></i> Maquinaria</td>
-                    <td>Paulo Dias</td>
-                    <td class="fw-600">Kz 195.000</td>
-                    <td><span class="badge-status pago">Pago</span></td>
-                  </tr>
-                  <tr>
-                    <td><i class="bi bi-archive-fill me-1" style="color:var(--primary)"></i> Armazenagem</td>
-                    <td>Inês Lemos</td>
-                    <td class="fw-600">Kz 33.200</td>
-                    <td><span class="badge-status pendente">Pendente</span></td>
-                  </tr>
-                </tbody> --}}
-
                 <tbody>
                   @forelse($ultimosMovimentos as $movimento)
                     <tr>
                       <td>
-                        {{-- Ícone conforme o tipo de insumo (opcional) --}}
                         @php
                           $tipo = $movimento->insumo->tipo ?? 'outro';
-                          $icone = match ($tipo) {
-                            'semente' => 'bi-flower2',
-                            'fertilizante' => 'bi-droplet-fill',
-                            'defensivo' => 'bi-bug-fill',
-                            default => 'bi-box-seam-fill'
-                          };
+                          $icone = $iconesPorTipo[$tipo] ?? 'bi-box-seam-fill';
                         @endphp
                         <i class="bi {{ $icone }} text-success me-1"></i>
                         {{ $movimento->insumo->nome ?? 'Insumo' }}
                       </td>
                       <td>{{ $movimento->agricultor->nome_completo ?? 'Cooperativa' }}</td>
                       <td class="fw-600">
-                        Kz
-                        {{ number_format(($movimento->quantidade * ($movimento->insumo->preco_unitario ?? 0)), 2, ',', '.') }}
+                        Kz {{ number_format(($movimento->quantidade * ($movimento->insumo->preco_unitario ?? 0)), 2, ',', '.') }}
                       </td>
                       <td>
                         @php
-                          $statusClass = match ($movimento->estado) {
-                            'concluido', 'entregue' => 'pago',
-                            'pendente' => 'pendente',
-                            'cancelado', 'atraso' => 'atraso',
-                            default => 'pago'
-                          };
-                          $statusLabel = ucfirst($movimento->estado ?? 'Concluído');
+                          $modalidade = $movimento->modalidade ?? 'outro';
+                          $badgeClass = $coresModalidade[$modalidade] ?? 'pendente';
+                          $label = ucfirst($modalidade);
                         @endphp
-                        <span class="badge-status {{ $statusClass }}">{{ $statusLabel }}</span>
+                        <span class="badge-status {{ $badgeClass }}">{{ $label }}</span>
                       </td>
                     </tr>
                   @empty
@@ -1392,14 +1245,12 @@
                 </tbody>
               </table>
             </div>
-
           </div>
         </div>
 
         <!-- right column: weather + events + quick actions -->
         <div class="col-12 col-xl-5">
           <div class="row g-3">
-
             <!-- weather -->
             <div class="col-12">
               <div class="weather-card">
@@ -1484,38 +1335,26 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
       </div><!-- /bottom row -->
-
     </div><!-- /content-inner -->
   </main>
-
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    /* ── Sidebar toggle (3 states: full → icons-only → hidden → full) ── */
+    // Sidebar toggle
     const body = document.body;
-
-    // ─── ESTADO INICIAL ───
-    // A classe icons-only (quando aplicável) já foi aplicada por um script
-    // síncrono logo a seguir à tag <body>, antes de qualquer pintura.
-    // Aqui apenas sincronizamos a variável de estado com o que já está no DOM.
     let state = body.classList.contains('icons-only') ? 1
-      : body.classList.contains('sidebar-hidden') ? 2
-        : 0;
+      : body.classList.contains('sidebar-hidden') ? 2 : 0;
 
     function applyTooltips() {
-      // Destroy existing tooltips first
       document.querySelectorAll('.nav-item-link').forEach(el => {
         const tip = bootstrap.Tooltip.getInstance(el);
         if (tip) tip.dispose();
       });
-
       if (body.classList.contains('icons-only')) {
         document.querySelectorAll('.nav-item-link').forEach(el => {
           new bootstrap.Tooltip(el, {
@@ -1528,12 +1367,9 @@
       }
     }
 
-    // ─── AJUSTE AUTOMÁTICO DO SIDEBAR SEGUNDO A LARGURA DA TELA (resize) ───
     function adjustSidebarForScreen() {
       const width = window.innerWidth;
-      let novoEstado = (width < 760) ? 1 : 0; // < 760 → icons-only · ≥ 760 → normal
-
-      // Só atualiza se o estado for diferente do atual para evitar loops
+      let novoEstado = (width < 760) ? 1 : 0;
       if (novoEstado !== state) {
         state = novoEstado;
         body.classList.remove('icons-only', 'sidebar-hidden');
@@ -1543,21 +1379,15 @@
       }
     }
 
-    // Debounce para evitar chamadas excessivas no redimensionamento
     let resizeTimeout;
-
     function handleResize() {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(adjustSidebarForScreen, 200);
     }
 
-    // Ao carregar: activa os tooltips (se aplicável), liga o listener de
-    // resize e só depois "liberta" as transições, para que o estado
-    // inicial não seja animado mas as interacções seguintes sim.
     document.addEventListener('DOMContentLoaded', () => {
       applyTooltips();
       window.addEventListener('resize', handleResize);
-
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           body.classList.remove('no-transition');
@@ -1565,7 +1395,6 @@
       });
     });
 
-    // Mantém o clique do botão para alternar manualmente
     document.getElementById('sidebarToggle').addEventListener('click', () => {
       state = (state + 1) % 3;
       body.classList.remove('icons-only', 'sidebar-hidden');
@@ -1574,9 +1403,9 @@
       applyTooltips();
     });
 
-    /* active nav */
+    // Active nav
     document.querySelectorAll('.nav-item-link').forEach(link => {
-      link.addEventListener('click', function (e) {
+      link.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
         if (!href || href === '#') {
           e.preventDefault();
@@ -1588,13 +1417,12 @@
       });
     });
 
-    /* ── Dark / Light Mode Toggle ─────────────────────────────── */
+    // Dark mode toggle
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const themeLabel = document.getElementById('themeLabel');
     let darkMode = false;
-
-    themeToggle.addEventListener('click', function (e) {
+    themeToggle.addEventListener('click', function(e) {
       e.preventDefault();
       darkMode = !darkMode;
       body.classList.toggle('dark-mode', darkMode);
@@ -1607,9 +1435,7 @@
       }
     });
 
-    /* ── ApexCharts ───────────────────────────────────────────── */
-
-    /* cashflow line chart */
+    // ApexCharts
     const cashflowOptions = {
       chart: {
         type: 'area', height: 250, toolbar: { show: false }, sparkline: { enabled: false },
@@ -1645,10 +1471,8 @@
       },
       dataLabels: { enabled: false }
     };
-
     new ApexCharts(document.querySelector('#chart-cashflow'), cashflowOptions).render();
 
-    /* donut chart */
     const donutOptions = {
       chart: { type: 'donut', height: 250, fontFamily: 'DM Sans, sans-serif' },
       series: [28.6, 22.3, 13.3, 8.9, 4.3, 3.8, 3.5, 3.4, 3.0, 2.2, 1.3, 1.1, 1.0],
@@ -1676,10 +1500,8 @@
       legend: { position: 'bottom', fontSize: '11px', labels: { colors: '#4A6350' } },
       tooltip: { y: { formatter: v => v.toFixed(1) + '%' } }
     };
-
     new ApexCharts(document.querySelector('#chart-donut'), donutOptions).render();
   </script>
 
 </body>
-
 </html>

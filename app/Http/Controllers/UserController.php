@@ -16,9 +16,46 @@ class UserController extends Controller
     //     return response()->json($users);
     // }
 
+    // public function index()
+    // {
+    //     $users = User::orderBy('name')->paginate(5);
+
+    //     // Se for requisição AJAX, retorna JSON com informações de paginação
+    //     if (request()->expectsJson()) {
+    //         return response()->json([
+    //             'data' => $users->items(),
+    //             'current_page' => $users->currentPage(),
+    //             'last_page' => $users->lastPage(),
+    //             'per_page' => $users->perPage(),
+    //             'total' => $users->total(),
+    //             'from' => $users->firstItem(),
+    //             'to' => $users->lastItem(),
+    //         ]);
+    //     }
+
+    //     return view('users.index', compact('users'));
+    // }
+
+    
+    // mostra os dados do user
     public function index()
     {
-        $users = User::orderBy('name')->paginate(5);
+        $query = User::query();
+
+        // Aplicar filtros
+        if (request()->filled('nome')) {
+            $query->where('name', 'like', '%'.request('nome').'%');
+        }
+
+        if (request()->filled('nivel')) {
+            $query->where('nivel', request('nivel'));
+        }
+
+        if (request()->filled('estado')) {
+            $query->where('estado', request('estado'));
+        }
+
+        $users = $query->orderBy('name')->paginate(10);
 
         // Se for requisição AJAX, retorna JSON com informações de paginação
         if (request()->expectsJson()) {
@@ -30,12 +67,15 @@ class UserController extends Controller
                 'total' => $users->total(),
                 'from' => $users->firstItem(),
                 'to' => $users->lastItem(),
+                'prev_page_url' => $users->previousPageUrl(),
+                'next_page_url' => $users->nextPageUrl(),
             ]);
         }
 
         return view('users.index', compact('users'));
     }
 
+    // salva os dados do user
     public function store(Request $request)
     {
         $foto = null;
@@ -68,8 +108,6 @@ class UserController extends Controller
         ]);
     }
 
-
-
     // Apaga os dados do user
     public function destroy($id)
     {
@@ -98,6 +136,7 @@ class UserController extends Controller
         );
     }
 
+    // apaga os dados do user
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
@@ -119,6 +158,4 @@ class UserController extends Controller
             'user' => $user,
         ]);
     }
-
-
 }

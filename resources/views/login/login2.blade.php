@@ -559,25 +559,8 @@
 
 
   <script>
-    // ── Alternar visibilidade da senha ──────────────────────────────
-    $('#togglePwd').click(function () {
-      const input = $('#senha');
-      const eyeOpen = $('#eyeOpen');
-      const eyeClosed = $('#eyeClosed');
-
-      if (input.attr('type') === 'password') {
-        input.attr('type', 'text');
-        eyeOpen.hide();
-        eyeClosed.show();
-      } else {
-        input.attr('type', 'password');
-        eyeOpen.show();
-        eyeClosed.hide();
-      }
-    });
-
-    // ── Login via AJAX ──────────────────────────────────────────────
     $('#btnAcessar').click(function () {
+
       const email = $('#email').val();
       const password = $('#senha').val();
 
@@ -595,14 +578,17 @@
           _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function (res) {
+
           if (res.status) {
             window.location.href = res.redirect;
           } else {
             alert(res.message);
           }
+
           btn.text('Acessar Sistema');
           btn.prop('disabled', false);
         },
+
         error: function () {
           alert("Erro no servidor");
           btn.text('Acessar Sistema');

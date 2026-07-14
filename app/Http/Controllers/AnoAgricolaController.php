@@ -7,16 +7,22 @@ use Illuminate\Http\Request;
 
 class AnoAgricolaController extends Controller
 {
-    public function index()
-    {
-        $anos = AnoAgricola::orderBy('data_inicio', 'desc')
-            ->paginate(10);
+    // public function index()
+    // {
+    //     $anos = AnoAgricola::orderBy('data_inicio', 'desc')
+    //         ->paginate(10);
 
-        return view(
-            'configuracoes',
-            compact('anos')
-        );
-    }
+    //     return view(
+    //         'configuracoes',
+    //         compact('anos')
+    //     );
+    // }
+
+    public function index(Request $request)
+{
+    $anos = AnoAgricola::paginate(10);
+    return response()->json($anos);
+}
 
     public function store(Request $request)
     {
