@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Agricultor;
 use App\Models\Cooperativa;
 use App\Models\CooperativaMembro;
+use App\Models\Insumo;
+use App\Models\Produto;
 use App\Models\Talhao;
 use App\Models\Venda;
-use App\Models\Insumo;
-use App\Models\Produto;    ;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Storage;
 
 class CooperativaController extends Controller
 {
-
     public function index(Request $request)
     {
         // 1. Contagens de apoio e estatísticas para os cartões (Fixas)
@@ -358,10 +357,10 @@ class CooperativaController extends Controller
         // $cooperativa = Cooperativa::with('agricultores')->findOrFail($id);
         $cooperativa = Cooperativa::find($id);
         $totalTalhoes = Talhao::where('cooperativa_id', $cooperativa->id)->count();
-        $totalVendas = Venda::where('cooperativa_id', $cooperativa->id) ->sum('valor_total');
+        $totalVendas = Venda::where('cooperativa_id', $cooperativa->id)->sum('valor_total');
         $totalRegistroVenda = Venda::where('cooperativa_id', $cooperativa->id)->count();
         $totalInsumos = Insumo::where('cooperativa_id', $cooperativa->id)->count();
-        $totalProduzido = Produto::where('cooperativa_id', $cooperativa->id) ->sum('quantidade');
+        $totalProduzido = Produto::where('cooperativa_id', $cooperativa->id)->sum('quantidade');
 
         // Dados agregados
         // $totalColheitas = Colheita::whereIn('agricultor_id', $cooperativa->agricultores->pluck('id'))->count();
@@ -374,7 +373,7 @@ class CooperativaController extends Controller
             'totalVendas',
             'totalRegistroVenda',
             'totalInsumos',
-             'totalProduzido',
+            'totalProduzido',
             // 'produtos',
             // 'talhoes',
             // 'receitas',
@@ -439,31 +438,31 @@ class CooperativaController extends Controller
 
     // Busca os agricultores SEM cooperativa (não associados a nenhuma cooperativa)
     public function agricultoresSemCooperativa($cooperativa)
-{
-    // TODOS os agricultores que estão em qualquer cooperativa
-    $idsAssociados = CooperativaMembro::pluck('agricultor_id')
-        ->unique();
+    {
+        // TODOS os agricultores que estão em qualquer cooperativa
+        $idsAssociados = CooperativaMembro::pluck('agricultor_id')
+            ->unique();
 
-    // Apenas os que NÃO estão em nenhuma cooperativa
-    $agricultores = Agricultor::whereNotIn('id', $idsAssociados)
-        ->orderBy('nome_completo')
-        ->get()
-        ->map(function ($a) {
-            return [
-                'id' => $a->id,
-                'nome_completo' => $a->nome_completo,
-                'telefone' => $a->telefone_principal,
-                'bi' => $a->bilhete,
-                'estado' => $a->estado,
-                'foto_url' => $a->foto_url,
-            ];
-        });
+        // Apenas os que NÃO estão em nenhuma cooperativa
+        $agricultores = Agricultor::whereNotIn('id', $idsAssociados)
+            ->orderBy('nome_completo')
+            ->get()
+            ->map(function ($a) {
+                return [
+                    'id' => $a->id,
+                    'nome_completo' => $a->nome_completo,
+                    'telefone' => $a->telefone_principal,
+                    'bi' => $a->bilhete,
+                    'estado' => $a->estado,
+                    'foto_url' => $a->foto_url,
+                ];
+            });
 
-    return response()->json([
-        'success' => true,
-        'data' => $agricultores
-    ]);
-}
+        return response()->json([
+            'success' => true,
+            'data' => $agricultores,
+        ]);
+    }
 
     // Busca os agricultores associados a uma cooperativa específica que estão activos
     public function agricultoresActivos(Cooperativa $cooperativa)
@@ -482,6 +481,21 @@ class CooperativaController extends Controller
         return response()->json([
             'success' => true,
             'data' => $agricultores,
+        ]);
+    }
+
+    /**
+     * Lista simplificada de cooperativas para selects (AJAX)
+     */
+    public function listCooperativa(Request $request)
+    {
+        $cooperativas = Cooperativa::orderBy('nome')
+            ->select('id', 'nome')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $cooperativas,
         ]);
     }
 
@@ -546,7 +560,6 @@ class CooperativaController extends Controller
         return $pdf->download('relatorio-cooperativas.pdf');
     }
 
-
     /**
      * Gera e baixa o PDF da ficha da cooperativa.
      */
@@ -557,6 +570,6 @@ class CooperativaController extends Controller
         $pdf = Pdf::loadView('cooperativas.pdfItem', compact('cooperativa'));
         $pdf->setPaper('a4', 'portrait');
 
-        return $pdf->download('ficha_cooperativa_' . $cooperativa->id . '.pdf');
+        return $pdf->download('ficha_cooperativa_'.$cooperativa->id.'.pdf');
     }
 }

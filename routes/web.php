@@ -144,11 +144,11 @@ Route::middleware('auth')->group(function () {
     });
 
     // safras
-    Route::prefix('cooperativas/{cooperativa}')
+    Route::prefix('api')
         ->group(function () {
-
-            Route::get('/safras', [SafraController::class, 'index'])->name('safras.index');
-            Route::get('/safras', [SafraController::class, 'index'])->name('safras.index');
+            Route::get('/cooperativas/list', [CooperativaController::class, 'listCooperativa'])->name('cooperativas.list');
+            Route::get('/safras/list', [SafraController::class, 'list'])->name('safras.index');
+            Route::get('/safras/{safra}', [SafraController::class, 'show'])->name('safras.show');
             Route::post('/safras', [SafraController::class, 'store'])->name('safras.store');
             Route::put('/safras/{safra}', [SafraController::class, 'update'])->name('safras.update');
             Route::delete('/safras/{safra}', [SafraController::class, 'destroy'])->name('safras.destroy');
@@ -194,11 +194,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/vendas/{id}/cancelar', [VendaController::class, 'cancelarVenda'])->name('vendas.cancelar');
     });
 
-
     // Rota principal para seleção de cooperativa
-Route::get('/vendas', [VendaController::class, 'indexCooperativasVenda'])->name('vendas');
+    Route::get('/vendas', [VendaController::class, 'indexCooperativasVenda'])->name('vendas');
 
-// Rota para buscar cooperativas via AJAX
-Route::get('/vendas/cooperativas', [VendaController::class, 'getCooperativas'])->name('vendas.cooperativas.list');
+    // Rota para buscar cooperativas via AJAX
+    Route::get('/vendas/cooperativas', [VendaController::class, 'getCooperativas'])->name('vendas.cooperativas.list');
 
 });

@@ -854,16 +854,16 @@
             color: #2E7D32;
         }
 
+        .badge-status.inactiva {
+            color: #C62828;
+        }
+
+        .badge-status.pendente {
+            color: #F57F17;
+        }
+
         .badge-status.concluida {
             color: #1565C0;
-        }
-
-                .badge-status.encerrada {
-            color: #c03d15;
-        }
-
-        .badge-status.planeada {
-            color: #F57F17;
         }
 
         .badge-status .dot {
@@ -877,12 +877,16 @@
             background: #2E7D32;
         }
 
-        .badge-status.concluida .dot {
-            background: #1565C0;
+        .badge-status.inactiva .dot {
+            background: #C62828;
         }
 
         .badge-status.pendente .dot {
             background: #F57F17;
+        }
+
+        .badge-status.concluida .dot {
+            background: #1565C0;
         }
 
         .action-btn {
@@ -984,7 +988,7 @@
 
         /* ── MODAL SAFRA ── */
         .modal-coop {
-            max-width: 600px;
+            max-width: 2000px;
         }
 
         .modal-coop .modal-content {
@@ -1616,7 +1620,9 @@
                     <p>Registo e administração das safras agrícolas da cooperativa</p>
                 </div>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;">
-
+                    <button class="btn-outline-green" id="btnExportar">
+                        <i class="bi bi-download"></i> Exportar
+                    </button>
                     <button class="btn-green" id="btnNovaSafra">
                         <i class="bi bi-plus-lg"></i> Nova Safra
                     </button>
@@ -1647,7 +1653,7 @@
                     <div class="stat-card">
                         <div class="stat-icon amber"><i class="bi bi-clock-fill"></i></div>
                         <div class="stat-info">
-                            <div class="s-label">Planeadas</div>
+                            <div class="s-label">Pendentes</div>
                             <div class="s-value" id="safrasPendentes">0</div>
                         </div>
                     </div>
@@ -1683,8 +1689,8 @@
                     <select class="filter-select" id="filterEstado">
                         <option value="">Todos os estados</option>
                         <option value="activa">Activa</option>
-                        <option value="Encerrada">Encerrada</option>
-                        <option value="Planeada">Planeada</option>
+                        <option value="inactiva">Encerrada</option>
+                        <option value="pendente">Planeada</option>
                     </select>
                     <select class="filter-select" id="filterCooperativa">
                         <option value="">Todas as cooperativas</option>
@@ -1778,9 +1784,9 @@
                                 <div class="col-12 col-md-6">
                                     <label class="cfg-label" for="safraEstado">Estado *</label>
                                     <select class="cfg-select" id="safraEstado" name="estado" required>
-                                        <option value="Planeada">Planeada</option>
+                                        <option value="pendente">Planeada</option>
                                         <option value="activa" selected>Activa</option>
-                                        <option value="Encerrada">Encerrada</option>
+                                        <option value="concluida">Encerrada</option>
                                     </select>
                                 </div>
 
@@ -2020,16 +2026,6 @@
             return '';
         }
 
-        /* Mapeamento de estados para exibição */
-        function getEstadoLabel(estado) {
-            const map = {
-                'activa': 'Activa',
-                'concluida': 'Encerrada',
-                'pendente': 'Planeada'
-            };
-            return map[estado] || estado;
-        }
-
         /* ══════════════════════════════════════
            CARREGAR COOPERATIVAS (rota já existente)
         ══════════════════════════════════════ */
@@ -2037,6 +2033,7 @@
             const selectModal = document.getElementById('safraCooperativa');
             const selectFiltro = document.getElementById('filterCooperativa');
 
+            // Se ambos os selects já tiverem opções, não recarregar
             if (selectModal && selectModal.options.length > 1 && selectFiltro && selectFiltro.options.length > 1) {
                 return;
             }
@@ -2048,6 +2045,7 @@
             .then(data => {
                 const cooperativas = data.data || [];
 
+                // Preencher select do modal
                 if (selectModal) {
                     selectModal.innerHTML = '<option value="">Seleccione uma cooperativa</option>';
                     cooperativas.forEach(coop => {
@@ -2055,6 +2053,7 @@
                     });
                 }
 
+                // Preencher select do filtro
                 if (selectFiltro) {
                     selectFiltro.innerHTML = '<option value="">Todas as cooperativas</option>';
                     cooperativas.forEach(coop => {
@@ -2071,6 +2070,7 @@
         let safrasPage = 1;
         let safrasFiltros = { nome: '', estado: '', cooperativa_id: '' };
 
+        // Carregar safras
         function carregarSafras(page = 1) {
             safrasPage = page;
             const params = new URLSearchParams({
@@ -2091,9 +2091,9 @@
                 renderTabelaSafras(data.data);
                 renderPaginacaoSafras(data);
                 document.getElementById('totalSafras').textContent = data.total || 0;
-                const ativas = data.data?.filter(s => s.estado === 'Activa').length || 0;
-                const pendentes = data.data?.filter(s => s.estado === 'Planeada').length || 0;
-                const concluidas = data.data?.filter(s => s.estado === 'Encerrada').length || 0;
+                const ativas = data.data?.filter(s => s.estado === 'activa').length || 0;
+                const pendentes = data.data?.filter(s => s.estado === 'pendente').length || 0;
+                const concluidas = data.data?.filter(s => s.estado === 'concluida').length || 0;
                 document.getElementById('safrasActivas').textContent = ativas;
                 document.getElementById('safrasPendentes').textContent = pendentes;
                 document.getElementById('safrasConcluidas').textContent = concluidas;
@@ -2104,6 +2104,7 @@
             });
         }
 
+        // Renderizar tabela
         function renderTabelaSafras(safras) {
             const tbody = document.getElementById('safraTableBody');
             if (!tbody) return;
@@ -2122,7 +2123,6 @@
 
             tbody.innerHTML = safras.map(s => {
                 const estadoLower = s.estado?.toLowerCase() || 'pendente';
-                const estadoLabel = getEstadoLabel(estadoLower);
                 return `
                     <tr id="safra-row-${s.id}" data-estado="${estadoLower}" data-cooperativa="${s.cooperativa?.id || ''}">
                         <td>
@@ -2139,7 +2139,7 @@
                         <td>
                             <span class="badge-status ${estadoLower}">
                                 <span class="dot"></span>
-                                ${estadoLabel}
+                                ${estadoLower.charAt(0).toUpperCase() + estadoLower.slice(1)}
                             </span>
                         </td>
                         <td style="text-align:center;">
@@ -2172,6 +2172,7 @@
             }
         }
 
+        // Renderizar paginação
         function renderPaginacaoSafras(data) {
             const container = document.getElementById('paginacaoSafras');
             if (!container) return;
@@ -2226,9 +2227,11 @@
             }
         }
 
+        // Abrir modal para criar/editar
         function abrirModalSafra(id = null) {
             const modal = new bootstrap.Modal(document.getElementById('modalSafra'));
 
+            // Garantir que as cooperativas estão carregadas
             carregarCooperativasSelect();
 
             if (id) {
@@ -2239,9 +2242,7 @@
                         document.getElementById('safraId').value = s.id;
                         document.getElementById('safraNome').value = s.nome || '';
                         document.getElementById('safraAno').value = s.ano || '';
-                        // Corrigir o estado: mapear se vier com nome diferente
-                        const estadoVal = s.estado?.toLowerCase() || 'activa';
-                        document.getElementById('safraEstado').value = estadoVal;
+                        document.getElementById('safraEstado').value = s.estado || 'Activa';
                         document.getElementById('safraDataInicio').value = normalizarDataInput(s.data_inicio);
                         document.getElementById('safraDataFim').value = normalizarDataInput(s.data_fim);
                         document.getElementById('safraDescricao').value = s.descricao || '';
@@ -2271,6 +2272,7 @@
             }
         }
 
+        // Handlers
         function handleEditSafra(e) {
             const id = e.currentTarget.dataset.id;
             abrirModalSafra(id);
@@ -2285,6 +2287,7 @@
             modal.show();
         }
 
+        // Guardar safra
         document.getElementById('btnSalvarSafra').addEventListener('click', function() {
             const id = document.getElementById('safraId').value;
             const nome = document.getElementById('safraNome').value.trim();
@@ -2345,6 +2348,7 @@
             });
         });
 
+        // Eliminar safra
         document.getElementById('btnConfirmDeleteSafra').addEventListener('click', function() {
             const id = document.getElementById('deleteSafraId').value;
 
